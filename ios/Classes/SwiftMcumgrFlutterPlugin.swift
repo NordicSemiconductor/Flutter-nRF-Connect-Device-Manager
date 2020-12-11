@@ -3,7 +3,7 @@ import UIKit
 import CoreBluetooth
 
 public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
-    private var updateManagers: [CBPeripheral : UpdateManager] = [:]
+    private var updateManagers: [String : UpdateManager] = [:]
     private let centralManager = CBCentralManager()
     
     public static func register(with registrar: FlutterPluginRegistrar) {
@@ -49,15 +49,25 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
             throw FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can't retreive preipheral with provided UUID", details: call)
         }
         
-        guard case .none = updateManagers[peripheral] else {
+        guard case .none = updateManagers[uuidString] else {
             throw FlutterError(code: ErrorCode.updateManagerExists.rawValue, message: "Updated manager for provided peripheral already exists", details: call)
         }
         
         let um = UpdateManager(peripheral: peripheral)
-        updateManagers[peripheral] = um
+        updateManagers[uuidString] = um
     }
     
     private func update(call: FlutterMethodCall) throws {
+        guard let data = call.arguments as? FlutterStandardTypedData else {
+            throw FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can not parse provided arguments", details: call)
+        }
         
+        let args = try UpdateCallArgument(serializedData: data.data)
+        
+        guard let manager = updateManagers[args.deviceUuid] else {
+            throw FlutterError(code: ErrorCode.updateManagerExists.rawValue, message: "Update manager does not exist", details: call)
+        }
+        
+        try manager.update(data: args.firmwareData)
     }
 }

@@ -5,7 +5,9 @@ PODS:
   - mcumgr_flutter (0.0.1):
     - Flutter
     - McuManager
+    - SwiftProtobuf
   - SwiftCBOR (0.4.3)
+  - SwiftProtobuf (1.14.0)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
@@ -15,6 +17,7 @@ SPEC REPOS:
   trunk:
     - McuManager
     - SwiftCBOR
+    - SwiftProtobuf
 
 EXTERNAL SOURCES:
   Flutter:
@@ -25,8 +28,9 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   McuManager: a734d3ef5cbf2fb6021388c79f8c7895b3281e38
-  mcumgr_flutter: 9c2884c5b66238a4a7050284942e4f6f9326d876
+  mcumgr_flutter: b510e6767929b8a75d52644a0384001cf1405c65
   SwiftCBOR: c7d740966575e0fd5d971466de2b6776db3f10c3
+  SwiftProtobuf: ed465ed18402f998fd117f631da27e0168e6b59c
 
 PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
 

@@ -11,4 +11,5 @@ public enum ErrorCode: String {
     case platformError = "Error"
     case wrongArguments = "WrongArguments"
     case updateManagerExists = "UpdateManagerExists"
+    case updateManagerDoesNotExist = "UpdateManagerDoesNotExist"
 }

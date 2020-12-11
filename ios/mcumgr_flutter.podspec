@@ -16,6 +16,7 @@ A new flutter plugin project.
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
   s.dependency 'McuManager'
+  s.dependency 'SwiftProtobuf'
   s.platform = :ios, '13.0'
 
   # Flutter.framework does not contain a i386 slice.
