@@ -46,3 +46,12 @@ const UpdateStateChanges_FirmwareUpgradeState$json = const {
   ],
 };
 
+const ProgressUpdate$json = const {
+  '1': 'ProgressUpdate',
+  '2': const [
+    const {'1': 'bytesSent', '3': 1, '4': 1, '5': 4, '10': 'bytesSent'},
+    const {'1': 'imageSize', '3': 2, '4': 1, '5': 4, '10': 'imageSize'},
+    const {'1': 'timestamp', '3': 3, '4': 1, '5': 1, '10': 'timestamp'},
+  ],
+};
+

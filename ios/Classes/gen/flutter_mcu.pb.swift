@@ -138,6 +138,22 @@ extension UpdateStateChanges.FirmwareUpgradeState: CaseIterable {
 
 #endif  // swift(>=4.2)
 
+struct ProgressUpdate {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var bytesSent: UInt64 = 0
+
+  var imageSize: UInt64 = 0
+
+  var timestamp: Double = 0
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+}
+
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
 
 extension UpdateCallArgument: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
@@ -282,4 +298,48 @@ extension UpdateStateChanges.FirmwareUpgradeState: SwiftProtobuf._ProtoNameProvi
     5: .same(proto: "CONFIRM"),
     6: .same(proto: "SUCCESS"),
   ]
+}
+
+extension ProgressUpdate: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = "ProgressUpdate"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "bytesSent"),
+    2: .same(proto: "imageSize"),
+    3: .same(proto: "timestamp"),
+  ]
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularUInt64Field(value: &self.bytesSent) }()
+      case 2: try { try decoder.decodeSingularUInt64Field(value: &self.imageSize) }()
+      case 3: try { try decoder.decodeSingularDoubleField(value: &self.timestamp) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if self.bytesSent != 0 {
+      try visitor.visitSingularUInt64Field(value: self.bytesSent, fieldNumber: 1)
+    }
+    if self.imageSize != 0 {
+      try visitor.visitSingularUInt64Field(value: self.imageSize, fieldNumber: 2)
+    }
+    if self.timestamp != 0 {
+      try visitor.visitSingularDoubleField(value: self.timestamp, fieldNumber: 3)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: ProgressUpdate, rhs: ProgressUpdate) -> Bool {
+    if lhs.bytesSent != rhs.bytesSent {return false}
+    if lhs.imageSize != rhs.imageSize {return false}
+    if lhs.timestamp != rhs.timestamp {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
 }

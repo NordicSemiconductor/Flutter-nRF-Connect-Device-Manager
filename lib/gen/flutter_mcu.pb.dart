@@ -7,6 +7,7 @@
 
 import 'dart:core' as $core;
 
+import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 import 'flutter_mcu.pbenum.dart';
@@ -190,5 +191,64 @@ class UpdateStateChanges extends $pb.GeneratedMessage {
   $core.bool hasCompleted() => $_has(5);
   @$pb.TagNumber(6)
   void clearCompleted() => clearField(6);
+}
+
+class ProgressUpdate extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ProgressUpdate', createEmptyInstance: create)
+    ..a<$fixnum.Int64>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'bytesSent', $pb.PbFieldType.OU6, protoName: 'bytesSent', defaultOrMaker: $fixnum.Int64.ZERO)
+    ..a<$fixnum.Int64>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'imageSize', $pb.PbFieldType.OU6, protoName: 'imageSize', defaultOrMaker: $fixnum.Int64.ZERO)
+    ..a<$core.double>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'timestamp', $pb.PbFieldType.OD)
+    ..hasRequiredFields = false
+  ;
+
+  ProgressUpdate._() : super();
+  factory ProgressUpdate() => create();
+  factory ProgressUpdate.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ProgressUpdate.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  ProgressUpdate clone() => ProgressUpdate()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  ProgressUpdate copyWith(void Function(ProgressUpdate) updates) => super.copyWith((message) => updates(message as ProgressUpdate)); // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static ProgressUpdate create() => ProgressUpdate._();
+  ProgressUpdate createEmptyInstance() => create();
+  static $pb.PbList<ProgressUpdate> createRepeated() => $pb.PbList<ProgressUpdate>();
+  @$core.pragma('dart2js:noInline')
+  static ProgressUpdate getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ProgressUpdate>(create);
+  static ProgressUpdate _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $fixnum.Int64 get bytesSent => $_getI64(0);
+  @$pb.TagNumber(1)
+  set bytesSent($fixnum.Int64 v) { $_setInt64(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasBytesSent() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearBytesSent() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $fixnum.Int64 get imageSize => $_getI64(1);
+  @$pb.TagNumber(2)
+  set imageSize($fixnum.Int64 v) { $_setInt64(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasImageSize() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearImageSize() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.double get timestamp => $_getN(2);
+  @$pb.TagNumber(3)
+  set timestamp($core.double v) { $_setDouble(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasTimestamp() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearTimestamp() => clearField(3);
 }
 

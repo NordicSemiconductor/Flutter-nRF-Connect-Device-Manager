@@ -88,7 +88,16 @@ extension UpdateManager: FirmwareUpgradeDelegate {
     }
     
     func uploadProgressDidChange(bytesSent: Int, imageSize: Int, timestamp: Date) {
-        
+        do {
+            var progressUpdate = ProgressUpdate()
+            progressUpdate.bytesSent = UInt64(Int64(bytesSent))
+            progressUpdate.imageSize = UInt64(Int64(imageSize))
+            progressUpdate.timestamp = timestamp.timeIntervalSince1970
+            stateStreamHandler.sink?(FlutterStandardTypedData(bytes: try progressUpdate.serializedData()))
+        } catch let e {
+            let error = FlutterError(error: e, code: ErrorCode.flutterTypeError)
+            stateStreamHandler.sink?(error)
+        }
     }
     
     

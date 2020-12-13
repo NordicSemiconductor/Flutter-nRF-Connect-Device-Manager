@@ -9,19 +9,23 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
     private let centralManager = CBCentralManager()
     
     private let updateStateEventChannel: FlutterEventChannel
-    
     private let updateProgressEventChannel: FlutterEventChannel
+    private let logEventChannel: FlutterEventChannel
+    
     private let updateStateStreamHandler = StreamHandler()
     private let updateProgressStreamHandler = StreamHandler()
+    private let logStreamHandler = StreamHandler()
     
-    public init(updateStateEventChannel: FlutterEventChannel, updateProgressEventChannel: FlutterEventChannel) {
+    public init(updateStateEventChannel: FlutterEventChannel, updateProgressEventChannel: FlutterEventChannel, logEventChannel: FlutterEventChannel) {
         self.updateStateEventChannel = updateStateEventChannel
         self.updateProgressEventChannel = updateProgressEventChannel
+        self.logEventChannel = logEventChannel
         
         super.init()
         
         updateStateEventChannel.setStreamHandler(updateStateStreamHandler)
         updateProgressEventChannel.setStreamHandler(updateProgressStreamHandler)
+        logEventChannel.setStreamHandler(logStreamHandler)
     }
     
     public static func register(with registrar: FlutterPluginRegistrar) {
@@ -29,8 +33,9 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
         
         let updateStateEventChannel = FlutterEventChannel(name: namespace + "/update_state_event_channel", binaryMessenger: registrar.messenger())
         let updateProgressEventChannel = FlutterEventChannel(name: namespace + "/update_progress_event_channel", binaryMessenger: registrar.messenger())
+        let logEventChannel = FlutterEventChannel(name: namespace + "/log_event_channel", binaryMessenger: registrar.messenger())
         
-        let instance = SwiftMcumgrFlutterPlugin(updateStateEventChannel: updateStateEventChannel, updateProgressEventChannel: updateProgressEventChannel)
+        let instance = SwiftMcumgrFlutterPlugin(updateStateEventChannel: updateStateEventChannel, updateProgressEventChannel: updateProgressEventChannel, logEventChannel: logEventChannel)
         registrar.addMethodCallDelegate(instance, channel: channel)
     }
     
@@ -75,7 +80,7 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
             throw FlutterError(code: ErrorCode.updateManagerExists.rawValue, message: "Updated manager for provided peripheral already exists", details: call)
         }
         
-        let um = UpdateManager(peripheral: peripheral)
+        let um = UpdateManager(peripheral: peripheral, progressStreamHandler: updateProgressStreamHandler, stateStreamHandler: updateStateStreamHandler, logStreamhandler: logStreamHandler)
         updateManagers[uuidString] = um
     }
     

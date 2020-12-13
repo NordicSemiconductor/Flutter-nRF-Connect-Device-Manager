@@ -28,3 +28,9 @@ message UpdateStateChanges {
     ProtoError error = 5;
     bool completed = 6;
 }
+
+message ProgressUpdate {
+    uint64 bytesSent = 1;
+    uint64 imageSize = 2;
+    double timestamp = 3;
+}
