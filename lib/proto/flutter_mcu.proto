@@ -30,7 +30,7 @@ message UpdateStateChanges {
     FirmwareUpgradeState newState = 2;
     bool canceled = 3;
     bool hasError = 4;
-    ProtoError error = 5;
+    ProtoError protoError = 5;
     bool completed = 6;
 }
 

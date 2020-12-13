@@ -29,7 +29,7 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
     }
     
     public static func register(with registrar: FlutterPluginRegistrar) {
-        let channel = FlutterMethodChannel(name: "mcumgr_flutter", binaryMessenger: registrar.messenger())
+        let channel = FlutterMethodChannel(name: namespace + "/method_chonnel", binaryMessenger: registrar.messenger())
         
         let updateStateEventChannel = FlutterEventChannel(name: namespace + "/update_state_event_channel", binaryMessenger: registrar.messenger())
         let updateProgressEventChannel = FlutterEventChannel(name: namespace + "/update_progress_event_channel", binaryMessenger: registrar.messenger())

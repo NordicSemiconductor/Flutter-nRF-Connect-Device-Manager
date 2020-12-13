@@ -67,8 +67,9 @@ extension UpdateManager: FirmwareUpgradeDelegate {
         do {
             var changes = UpdateStateChanges()
             let protoError = ProtoError(localizedDescription: error.localizedDescription)
-            changes.error = protoError
+            changes.protoError = protoError
             changes.oldState = state.toProto()
+            changes.newState = state.toProto()
             stateStreamHandler.sink?(FlutterStandardTypedData(bytes: try changes.serializedData()))
         } catch let e {
             let error = FlutterError(error: e, code: ErrorCode.flutterTypeError)
@@ -81,6 +82,7 @@ extension UpdateManager: FirmwareUpgradeDelegate {
             var changes = UpdateStateChanges()
             changes.canceled = true
             changes.oldState = state.toProto()
+            changes.newState = state.toProto()
             
             let arg = UpdateStateChangesStreamArg(updateStateChanges: changes, peripheral: peripheral)
             stateStreamHandler.sink?(FlutterStandardTypedData(bytes: try arg.serializedData()))

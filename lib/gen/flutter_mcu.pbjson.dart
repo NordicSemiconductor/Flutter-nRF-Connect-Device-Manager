@@ -35,7 +35,7 @@ const UpdateStateChanges$json = const {
     const {'1': 'newState', '3': 2, '4': 1, '5': 14, '6': '.UpdateStateChanges.FirmwareUpgradeState', '10': 'newState'},
     const {'1': 'canceled', '3': 3, '4': 1, '5': 8, '10': 'canceled'},
     const {'1': 'hasError', '3': 4, '4': 1, '5': 8, '10': 'hasError'},
-    const {'1': 'error', '3': 5, '4': 1, '5': 11, '6': '.ProtoError', '10': 'error'},
+    const {'1': 'protoError', '3': 5, '4': 1, '5': 11, '6': '.ProtoError', '10': 'protoError'},
     const {'1': 'completed', '3': 6, '4': 1, '5': 8, '10': 'completed'},
   ],
   '4': const [UpdateStateChanges_FirmwareUpgradeState$json],

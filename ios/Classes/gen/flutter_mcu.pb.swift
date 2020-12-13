@@ -83,14 +83,14 @@ struct UpdateStateChanges {
 
   var hasError_p: Bool = false
 
-  var error: ProtoError {
-    get {return _error ?? ProtoError()}
-    set {_error = newValue}
+  var protoError: ProtoError {
+    get {return _protoError ?? ProtoError()}
+    set {_protoError = newValue}
   }
-  /// Returns true if `error` has been explicitly set.
-  var hasError: Bool {return self._error != nil}
-  /// Clears the value of `error`. Subsequent reads from it will return its default value.
-  mutating func clearError() {self._error = nil}
+  /// Returns true if `protoError` has been explicitly set.
+  var hasProtoError: Bool {return self._protoError != nil}
+  /// Clears the value of `protoError`. Subsequent reads from it will return its default value.
+  mutating func clearProtoError() {self._protoError = nil}
 
   var completed: Bool = false
 
@@ -141,7 +141,7 @@ struct UpdateStateChanges {
 
   init() {}
 
-  fileprivate var _error: ProtoError? = nil
+  fileprivate var _protoError: ProtoError? = nil
 }
 
 #if swift(>=4.2)
@@ -317,7 +317,7 @@ extension UpdateStateChanges: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
     2: .same(proto: "newState"),
     3: .same(proto: "canceled"),
     4: .same(proto: "hasError"),
-    5: .same(proto: "error"),
+    5: .same(proto: "protoError"),
     6: .same(proto: "completed"),
   ]
 
@@ -331,7 +331,7 @@ extension UpdateStateChanges: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
       case 2: try { try decoder.decodeSingularEnumField(value: &self.newState) }()
       case 3: try { try decoder.decodeSingularBoolField(value: &self.canceled) }()
       case 4: try { try decoder.decodeSingularBoolField(value: &self.hasError_p) }()
-      case 5: try { try decoder.decodeSingularMessageField(value: &self._error) }()
+      case 5: try { try decoder.decodeSingularMessageField(value: &self._protoError) }()
       case 6: try { try decoder.decodeSingularBoolField(value: &self.completed) }()
       default: break
       }
@@ -351,7 +351,7 @@ extension UpdateStateChanges: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
     if self.hasError_p != false {
       try visitor.visitSingularBoolField(value: self.hasError_p, fieldNumber: 4)
     }
-    if let v = self._error {
+    if let v = self._protoError {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 5)
     }
     if self.completed != false {
@@ -365,7 +365,7 @@ extension UpdateStateChanges: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
     if lhs.newState != rhs.newState {return false}
     if lhs.canceled != rhs.canceled {return false}
     if lhs.hasError_p != rhs.hasError_p {return false}
-    if lhs._error != rhs._error {return false}
+    if lhs._protoError != rhs._protoError {return false}
     if lhs.completed != rhs.completed {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true

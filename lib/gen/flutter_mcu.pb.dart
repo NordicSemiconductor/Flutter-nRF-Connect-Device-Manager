@@ -159,7 +159,7 @@ class UpdateStateChanges extends $pb.GeneratedMessage {
     ..e<UpdateStateChanges_FirmwareUpgradeState>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'newState', $pb.PbFieldType.OE, protoName: 'newState', defaultOrMaker: UpdateStateChanges_FirmwareUpgradeState.NONE, valueOf: UpdateStateChanges_FirmwareUpgradeState.valueOf, enumValues: UpdateStateChanges_FirmwareUpgradeState.values)
     ..aOB(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'canceled')
     ..aOB(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'hasError', protoName: 'hasError')
-    ..aOM<ProtoError>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'error', subBuilder: ProtoError.create)
+    ..aOM<ProtoError>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'protoError', protoName: 'protoError', subBuilder: ProtoError.create)
     ..aOB(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'completed')
     ..hasRequiredFields = false
   ;
@@ -224,15 +224,15 @@ class UpdateStateChanges extends $pb.GeneratedMessage {
   void clearHasError() => clearField(4);
 
   @$pb.TagNumber(5)
-  ProtoError get error_5 => $_getN(4);
+  ProtoError get protoError => $_getN(4);
   @$pb.TagNumber(5)
-  set error_5(ProtoError v) { setField(5, v); }
+  set protoError(ProtoError v) { setField(5, v); }
   @$pb.TagNumber(5)
-  $core.bool hasError_5() => $_has(4);
+  $core.bool hasProtoError() => $_has(4);
   @$pb.TagNumber(5)
-  void clearError_5() => clearField(5);
+  void clearProtoError() => clearField(5);
   @$pb.TagNumber(5)
-  ProtoError ensureError_5() => $_ensure(4);
+  ProtoError ensureProtoError() => $_ensure(4);
 
   @$pb.TagNumber(6)
   $core.bool get completed => $_getBF(5);

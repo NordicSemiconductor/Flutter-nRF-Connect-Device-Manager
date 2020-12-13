@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mcumgr_flutter/mcumgr_flutter.dart';
+import 'package:mcumgr_flutter/src/mcumgr_flutter.dart';
 
 void main() {
   const MethodChannel channel = MethodChannel('mcumgr_flutter');
