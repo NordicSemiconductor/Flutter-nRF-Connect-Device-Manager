@@ -10,6 +10,11 @@ message ProtoError {
     string localizedDescription = 1;
 }
 
+message UpdateStateChangesStreamArg {
+    string uuid = 1;
+    UpdateStateChanges updateStateChanges = 2;
+}
+
 message UpdateStateChanges {
     enum FirmwareUpgradeState {
         NONE = 0;
@@ -27,6 +32,11 @@ message UpdateStateChanges {
     bool hasError = 4;
     ProtoError error = 5;
     bool completed = 6;
+}
+
+message ProgressUpdateStreamArg {
+    string uuid = 1;
+    ProgressUpdate progressUpdate = 2;
 }
 
 message ProgressUpdate {

@@ -47,6 +47,29 @@ struct ProtoError {
   init() {}
 }
 
+struct UpdateStateChangesStreamArg {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var uuid: String = String()
+
+  var updateStateChanges: UpdateStateChanges {
+    get {return _updateStateChanges ?? UpdateStateChanges()}
+    set {_updateStateChanges = newValue}
+  }
+  /// Returns true if `updateStateChanges` has been explicitly set.
+  var hasUpdateStateChanges: Bool {return self._updateStateChanges != nil}
+  /// Clears the value of `updateStateChanges`. Subsequent reads from it will return its default value.
+  mutating func clearUpdateStateChanges() {self._updateStateChanges = nil}
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+
+  fileprivate var _updateStateChanges: UpdateStateChanges? = nil
+}
+
 struct UpdateStateChanges {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
@@ -138,6 +161,29 @@ extension UpdateStateChanges.FirmwareUpgradeState: CaseIterable {
 
 #endif  // swift(>=4.2)
 
+struct ProgressUpdateStreamArg {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var uuid: String = String()
+
+  var progressUpdate: ProgressUpdate {
+    get {return _progressUpdate ?? ProgressUpdate()}
+    set {_progressUpdate = newValue}
+  }
+  /// Returns true if `progressUpdate` has been explicitly set.
+  var hasProgressUpdate: Bool {return self._progressUpdate != nil}
+  /// Clears the value of `progressUpdate`. Subsequent reads from it will return its default value.
+  mutating func clearProgressUpdate() {self._progressUpdate = nil}
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+
+  fileprivate var _progressUpdate: ProgressUpdate? = nil
+}
+
 struct ProgressUpdate {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
@@ -226,6 +272,44 @@ extension ProtoError: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementatio
   }
 }
 
+extension UpdateStateChangesStreamArg: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = "UpdateStateChangesStreamArg"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "uuid"),
+    2: .same(proto: "updateStateChanges"),
+  ]
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.uuid) }()
+      case 2: try { try decoder.decodeSingularMessageField(value: &self._updateStateChanges) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.uuid.isEmpty {
+      try visitor.visitSingularStringField(value: self.uuid, fieldNumber: 1)
+    }
+    if let v = self._updateStateChanges {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 2)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: UpdateStateChangesStreamArg, rhs: UpdateStateChangesStreamArg) -> Bool {
+    if lhs.uuid != rhs.uuid {return false}
+    if lhs._updateStateChanges != rhs._updateStateChanges {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
 extension UpdateStateChanges: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = "UpdateStateChanges"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
@@ -298,6 +382,44 @@ extension UpdateStateChanges.FirmwareUpgradeState: SwiftProtobuf._ProtoNameProvi
     5: .same(proto: "CONFIRM"),
     6: .same(proto: "SUCCESS"),
   ]
+}
+
+extension ProgressUpdateStreamArg: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = "ProgressUpdateStreamArg"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "uuid"),
+    2: .same(proto: "progressUpdate"),
+  ]
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.uuid) }()
+      case 2: try { try decoder.decodeSingularMessageField(value: &self._progressUpdate) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.uuid.isEmpty {
+      try visitor.visitSingularStringField(value: self.uuid, fieldNumber: 1)
+    }
+    if let v = self._progressUpdate {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 2)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: ProgressUpdateStreamArg, rhs: ProgressUpdateStreamArg) -> Bool {
+    if lhs.uuid != rhs.uuid {return false}
+    if lhs._progressUpdate != rhs._progressUpdate {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
 }
 
 extension ProgressUpdate: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {

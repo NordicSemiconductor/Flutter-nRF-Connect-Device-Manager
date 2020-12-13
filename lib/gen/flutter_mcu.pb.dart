@@ -102,6 +102,57 @@ class ProtoError extends $pb.GeneratedMessage {
   void clearLocalizedDescription() => clearField(1);
 }
 
+class UpdateStateChangesStreamArg extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'UpdateStateChangesStreamArg', createEmptyInstance: create)
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'uuid')
+    ..aOM<UpdateStateChanges>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'updateStateChanges', protoName: 'updateStateChanges', subBuilder: UpdateStateChanges.create)
+    ..hasRequiredFields = false
+  ;
+
+  UpdateStateChangesStreamArg._() : super();
+  factory UpdateStateChangesStreamArg() => create();
+  factory UpdateStateChangesStreamArg.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory UpdateStateChangesStreamArg.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  UpdateStateChangesStreamArg clone() => UpdateStateChangesStreamArg()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  UpdateStateChangesStreamArg copyWith(void Function(UpdateStateChangesStreamArg) updates) => super.copyWith((message) => updates(message as UpdateStateChangesStreamArg)); // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static UpdateStateChangesStreamArg create() => UpdateStateChangesStreamArg._();
+  UpdateStateChangesStreamArg createEmptyInstance() => create();
+  static $pb.PbList<UpdateStateChangesStreamArg> createRepeated() => $pb.PbList<UpdateStateChangesStreamArg>();
+  @$core.pragma('dart2js:noInline')
+  static UpdateStateChangesStreamArg getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<UpdateStateChangesStreamArg>(create);
+  static UpdateStateChangesStreamArg _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get uuid => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set uuid($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasUuid() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearUuid() => clearField(1);
+
+  @$pb.TagNumber(2)
+  UpdateStateChanges get updateStateChanges => $_getN(1);
+  @$pb.TagNumber(2)
+  set updateStateChanges(UpdateStateChanges v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasUpdateStateChanges() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearUpdateStateChanges() => clearField(2);
+  @$pb.TagNumber(2)
+  UpdateStateChanges ensureUpdateStateChanges() => $_ensure(1);
+}
+
 class UpdateStateChanges extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'UpdateStateChanges', createEmptyInstance: create)
     ..e<UpdateStateChanges_FirmwareUpgradeState>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'oldState', $pb.PbFieldType.OE, protoName: 'oldState', defaultOrMaker: UpdateStateChanges_FirmwareUpgradeState.NONE, valueOf: UpdateStateChanges_FirmwareUpgradeState.valueOf, enumValues: UpdateStateChanges_FirmwareUpgradeState.values)
@@ -191,6 +242,57 @@ class UpdateStateChanges extends $pb.GeneratedMessage {
   $core.bool hasCompleted() => $_has(5);
   @$pb.TagNumber(6)
   void clearCompleted() => clearField(6);
+}
+
+class ProgressUpdateStreamArg extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ProgressUpdateStreamArg', createEmptyInstance: create)
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'uuid')
+    ..aOM<ProgressUpdate>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'progressUpdate', protoName: 'progressUpdate', subBuilder: ProgressUpdate.create)
+    ..hasRequiredFields = false
+  ;
+
+  ProgressUpdateStreamArg._() : super();
+  factory ProgressUpdateStreamArg() => create();
+  factory ProgressUpdateStreamArg.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ProgressUpdateStreamArg.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  ProgressUpdateStreamArg clone() => ProgressUpdateStreamArg()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  ProgressUpdateStreamArg copyWith(void Function(ProgressUpdateStreamArg) updates) => super.copyWith((message) => updates(message as ProgressUpdateStreamArg)); // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static ProgressUpdateStreamArg create() => ProgressUpdateStreamArg._();
+  ProgressUpdateStreamArg createEmptyInstance() => create();
+  static $pb.PbList<ProgressUpdateStreamArg> createRepeated() => $pb.PbList<ProgressUpdateStreamArg>();
+  @$core.pragma('dart2js:noInline')
+  static ProgressUpdateStreamArg getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ProgressUpdateStreamArg>(create);
+  static ProgressUpdateStreamArg _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get uuid => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set uuid($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasUuid() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearUuid() => clearField(1);
+
+  @$pb.TagNumber(2)
+  ProgressUpdate get progressUpdate => $_getN(1);
+  @$pb.TagNumber(2)
+  set progressUpdate(ProgressUpdate v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasProgressUpdate() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearProgressUpdate() => clearField(2);
+  @$pb.TagNumber(2)
+  ProgressUpdate ensureProgressUpdate() => $_ensure(1);
 }
 
 class ProgressUpdate extends $pb.GeneratedMessage {

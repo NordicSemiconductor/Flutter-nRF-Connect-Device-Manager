@@ -14,10 +14,12 @@ class UpdateManager {
     let progressStreamHandler: StreamHandler
     let stateStreamHandler: StreamHandler
     let logStreamhandler: StreamHandler
+    let peripheral: CBPeripheral
     
     private (set) lazy var dfuManager: FirmwareUpgradeManager = FirmwareUpgradeManager(transporter: self.transport, delegate: self)
     
     init(peripheral: CBPeripheral, progressStreamHandler: StreamHandler, stateStreamHandler: StreamHandler, logStreamhandler: StreamHandler) {
+        self.peripheral = peripheral
         self.transport = McuMgrBleTransport(peripheral)
         self.progressStreamHandler = progressStreamHandler
         self.stateStreamHandler = stateStreamHandler
@@ -79,7 +81,9 @@ extension UpdateManager: FirmwareUpgradeDelegate {
             var changes = UpdateStateChanges()
             changes.canceled = true
             changes.oldState = state.toProto()
-            stateStreamHandler.sink?(FlutterStandardTypedData(bytes: try changes.serializedData()))
+            
+            let arg = UpdateStateChangesStreamArg(updateStateChanges: changes, peripheral: peripheral)
+            stateStreamHandler.sink?(FlutterStandardTypedData(bytes: try arg.serializedData()))
         } catch let e {
             let error = FlutterError(error: e, code: ErrorCode.flutterTypeError)
             stateStreamHandler.sink?(error)
@@ -93,7 +97,9 @@ extension UpdateManager: FirmwareUpgradeDelegate {
             progressUpdate.bytesSent = UInt64(Int64(bytesSent))
             progressUpdate.imageSize = UInt64(Int64(imageSize))
             progressUpdate.timestamp = timestamp.timeIntervalSince1970
-            stateStreamHandler.sink?(FlutterStandardTypedData(bytes: try progressUpdate.serializedData()))
+            
+            let arg = ProgressUpdateStreamArg(progressUpdate: progressUpdate, peripheral: peripheral)
+            stateStreamHandler.sink?(FlutterStandardTypedData(bytes: try arg.serializedData()))
         } catch let e {
             let error = FlutterError(error: e, code: ErrorCode.flutterTypeError)
             stateStreamHandler.sink?(error)

@@ -20,6 +20,14 @@ const ProtoError$json = const {
   ],
 };
 
+const UpdateStateChangesStreamArg$json = const {
+  '1': 'UpdateStateChangesStreamArg',
+  '2': const [
+    const {'1': 'uuid', '3': 1, '4': 1, '5': 9, '10': 'uuid'},
+    const {'1': 'updateStateChanges', '3': 2, '4': 1, '5': 11, '6': '.UpdateStateChanges', '10': 'updateStateChanges'},
+  ],
+};
+
 const UpdateStateChanges$json = const {
   '1': 'UpdateStateChanges',
   '2': const [
@@ -43,6 +51,14 @@ const UpdateStateChanges_FirmwareUpgradeState$json = const {
     const {'1': 'RESET', '2': 4},
     const {'1': 'CONFIRM', '2': 5},
     const {'1': 'SUCCESS', '2': 6},
+  ],
+};
+
+const ProgressUpdateStreamArg$json = const {
+  '1': 'ProgressUpdateStreamArg',
+  '2': const [
+    const {'1': 'uuid', '3': 1, '4': 1, '5': 9, '10': 'uuid'},
+    const {'1': 'progressUpdate', '3': 2, '4': 1, '5': 11, '6': '.ProgressUpdate', '10': 'progressUpdate'},
   ],
 };
 
