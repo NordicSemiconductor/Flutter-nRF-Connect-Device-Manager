@@ -3,12 +3,34 @@ import UIKit
 import CoreBluetooth
 
 public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
+    static let namespace = "mcumgr_flutter"
+    
     private var updateManagers: [String : UpdateManager] = [:]
     private let centralManager = CBCentralManager()
     
+    private let updateStateEventChannel: FlutterEventChannel
+    
+    private let updateProgressEventChannel: FlutterEventChannel
+    private let updateStateStreamHandler = StreamHandler()
+    private let updateProgressStreamHandler = StreamHandler()
+    
+    public init(updateStateEventChannel: FlutterEventChannel, updateProgressEventChannel: FlutterEventChannel) {
+        self.updateStateEventChannel = updateStateEventChannel
+        self.updateProgressEventChannel = updateProgressEventChannel
+        
+        super.init()
+        
+        updateStateEventChannel.setStreamHandler(updateStateStreamHandler)
+        updateProgressEventChannel.setStreamHandler(updateProgressStreamHandler)
+    }
+    
     public static func register(with registrar: FlutterPluginRegistrar) {
         let channel = FlutterMethodChannel(name: "mcumgr_flutter", binaryMessenger: registrar.messenger())
-        let instance = SwiftMcumgrFlutterPlugin()
+        
+        let updateStateEventChannel = FlutterEventChannel(name: namespace + "/update_state_event_channel", binaryMessenger: registrar.messenger())
+        let updateProgressEventChannel = FlutterEventChannel(name: namespace + "/update_progress_event_channel", binaryMessenger: registrar.messenger())
+        
+        let instance = SwiftMcumgrFlutterPlugin(updateStateEventChannel: updateStateEventChannel, updateProgressEventChannel: updateProgressEventChannel)
         registrar.addMethodCallDelegate(instance, channel: channel)
     }
     

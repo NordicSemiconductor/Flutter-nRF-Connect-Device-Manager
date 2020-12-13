@@ -12,4 +12,6 @@ public enum ErrorCode: String {
     case wrongArguments = "WrongArguments"
     case updateManagerExists = "UpdateManagerExists"
     case updateManagerDoesNotExist = "UpdateManagerDoesNotExist"
+    case flutterTypeError = "FlutterTypeError"
+    case updateError = "UpdateError"
 }

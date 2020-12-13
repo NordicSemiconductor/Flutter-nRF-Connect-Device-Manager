@@ -6,3 +6,25 @@ message UpdateCallArgument {
   bytes firmware_data = 2;
 }
 
+message ProtoError {
+    string localizedDescription = 1;
+}
+
+message UpdateStateChanges {
+    enum FirmwareUpgradeState {
+        NONE = 0;
+        VALIDATE = 1;
+        UPLOAD = 2;
+        TEST = 3;
+        RESET = 4;
+        CONFIRM = 5;
+        SUCCESS = 6;
+    }
+
+    FirmwareUpgradeState oldState = 1;
+    FirmwareUpgradeState newState = 2;
+    bool canceled = 3;
+    bool hasError = 4;
+    ProtoError error = 5;
+    bool completed = 6;
+}

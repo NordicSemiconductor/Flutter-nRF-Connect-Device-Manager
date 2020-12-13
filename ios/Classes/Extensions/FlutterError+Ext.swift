@@ -8,7 +8,7 @@
 import Foundation
 
 extension FlutterError: Error {
-    convenience init(error: Error, code: ErrorCode = .platformError, call: FlutterMethodCall) {
+    convenience init(error: Error, code: ErrorCode = .platformError, call: FlutterMethodCall? = nil) {
         self.init(code: code.rawValue, message: error.localizedDescription, details: call)
     }
 }
