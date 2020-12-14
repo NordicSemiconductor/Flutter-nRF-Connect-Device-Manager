@@ -20,7 +20,7 @@ class UpdateManager {
   // STREAM CONTROLLERS
   final StreamController<ProgressUpdate> _progressStreamController =
       StreamController();
-  final StreamController<ProtoUpdateStateChanges_FirmwareUpgradeState>
+  final StreamController<FirmwareUpgradeState>
       _updateStateStreamController = StreamController();
 
   // STREAM LISTENERS
@@ -32,7 +32,7 @@ class UpdateManager {
     return _progressStreamController.stream;
   }
 
-  Stream<ProtoUpdateStateChanges_FirmwareUpgradeState> get updateStateStream {
+  Stream<FirmwareUpgradeState> get updateStateStream {
     return _updateStateStreamController.stream;
   }
 
@@ -90,7 +90,7 @@ class UpdateManager {
         return;
       }
 
-      _updateStateStreamController.add(data.newState);
+      _updateStateStreamController.add(data.newState.convert());
     });
   }
 }
