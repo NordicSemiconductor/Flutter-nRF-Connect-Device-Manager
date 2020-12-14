@@ -1,9 +1,4 @@
-import 'dart:async';
-import 'dart:typed_data';
-
-import 'package:flutter/services.dart';
-import 'package:mcumgr_flutter/gen/flutter_mcu.pb.dart';
-import 'package:rxdart/rxdart.dart';
+part of mcumgr_flutter;
 
 class _McumgrFlutter {
   static const _namespace = "mcumgr_flutter";
@@ -25,19 +20,19 @@ class UpdateManager {
   // STREAM CONTROLLERS
   final StreamController<ProgressUpdate> _progressStreamController =
       StreamController();
-  final StreamController<UpdateStateChanges_FirmwareUpgradeState>
+  final StreamController<ProtoUpdateStateChanges_FirmwareUpgradeState>
       _updateStateStreamController = StreamController();
 
   // STREAM LISTENERS
-  StreamSubscription<ProgressUpdate> _progressListener;
-  StreamSubscription<UpdateStateChanges> _updateStateListener;
+  StreamSubscription<ProtoProgressUpdate> _progressListener;
+  StreamSubscription<ProtoUpdateStateChanges> _updateStateListener;
 
   // STREAMS
   Stream<ProgressUpdate> get progressStream {
     return _progressStreamController.stream;
   }
 
-  Stream<UpdateStateChanges_FirmwareUpgradeState> get updateStateStream {
+  Stream<ProtoUpdateStateChanges_FirmwareUpgradeState> get updateStateStream {
     return _updateStateStreamController.stream;
   }
 
@@ -53,7 +48,7 @@ class UpdateManager {
   }
 
   Future<void> update(Uint8List data) async {
-    final arg = UpdateCallArgument();
+    final arg = ProtoUpdateCallArgument();
     arg.deviceUuid = _deviceId;
     arg.firmwareData = data.toList();
 
@@ -63,17 +58,17 @@ class UpdateManager {
   void _setupStreams() {
     _progressListener = _McumgrFlutter._progressStream
         .receiveBroadcastStream()
-        .map((event) => ProgressUpdateStreamArg.fromBuffer(event))
+        .map((event) => ProtoProgressUpdateStreamArg.fromBuffer(event))
         .where((event) => event.uuid == _deviceId)
         .map((event) => event.progressUpdate)
         .listen((event) {});
 
-    _progressListener.onData((data) => _progressStreamController.add(data));
+    _progressListener.onData((data) => _progressStreamController.add(data.convert()));
     _progressListener.onError(_progressStreamController.addError);
 
     _updateStateListener = _McumgrFlutter._updateStateStream
         .receiveBroadcastStream()
-        .map((event) => UpdateStateChangesStreamArg.fromBuffer(event))
+        .map((event) => ProtoUpdateStateChangesStreamArg.fromBuffer(event))
         .where((event) => event.uuid == _deviceId)
         .map((event) => event.updateStateChanges)
         .listen((event) {});

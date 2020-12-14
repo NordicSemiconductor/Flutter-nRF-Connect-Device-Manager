@@ -10,7 +10,7 @@ import McuManager
 import Flutter
 
 extension FirmwareUpgradeState {
-    func toProto() -> UpdateStateChanges.FirmwareUpgradeState {
+    func toProto() -> ProtoUpdateStateChanges.FirmwareUpgradeState {
         switch self {
         case .confirm: return .confirm
         case .none: return .none

@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 // Flutter call arguments
-message UpdateCallArgument {
+message ProtoUpdateCallArgument {
   string device_uuid = 1;
   bytes firmware_data = 2;
 }
@@ -10,12 +10,12 @@ message ProtoError {
     string localizedDescription = 1;
 }
 
-message UpdateStateChangesStreamArg {
+message ProtoUpdateStateChangesStreamArg {
     string uuid = 1;
-    UpdateStateChanges updateStateChanges = 2;
+    ProtoUpdateStateChanges updateStateChanges = 2;
 }
 
-message UpdateStateChanges {
+message ProtoUpdateStateChanges {
     enum FirmwareUpgradeState {
         NONE = 0;
         VALIDATE = 1;
@@ -34,13 +34,42 @@ message UpdateStateChanges {
     bool completed = 6;
 }
 
-message ProgressUpdateStreamArg {
+message ProtoProgressUpdateStreamArg {
     string uuid = 1;
-    ProgressUpdate progressUpdate = 2;
+    ProtoProgressUpdate progressUpdate = 2;
 }
 
-message ProgressUpdate {
+message ProtoProgressUpdate {
     uint64 bytesSent = 1;
     uint64 imageSize = 2;
     double timestamp = 3;
+}
+
+// LOGS
+message ProtoLogMessage {
+    enum LogCategory {
+        TRANSPORT = 0;
+        CONFIG = 1;
+        CRASH = 2;
+        DEFAULT = 3;
+        FS = 4;
+        IMAGE = 5;
+        LOG = 6;
+        RUN_TEST = 7;
+        STATS = 8;
+        DFU = 9;
+    }
+
+    enum LogLevel {
+        DEBUG = 0;
+        VERBOSE = 1;
+        INFO = 2;
+        APPLICATION = 3;
+        WARNING = 4;
+        ERROR = 5;
+    }
+
+    string message = 1;
+    LogCategory logCategory = 2;
+    LogLevel logLevel = 3;
 }

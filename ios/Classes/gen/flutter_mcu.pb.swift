@@ -21,7 +21,7 @@ fileprivate struct _GeneratedWithProtocGenSwiftVersion: SwiftProtobuf.ProtobufAP
 }
 
 /// Flutter call arguments
-struct UpdateCallArgument {
+struct ProtoUpdateCallArgument {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
@@ -47,15 +47,15 @@ struct ProtoError {
   init() {}
 }
 
-struct UpdateStateChangesStreamArg {
+struct ProtoUpdateStateChangesStreamArg {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
   var uuid: String = String()
 
-  var updateStateChanges: UpdateStateChanges {
-    get {return _updateStateChanges ?? UpdateStateChanges()}
+  var updateStateChanges: ProtoUpdateStateChanges {
+    get {return _updateStateChanges ?? ProtoUpdateStateChanges()}
     set {_updateStateChanges = newValue}
   }
   /// Returns true if `updateStateChanges` has been explicitly set.
@@ -67,17 +67,17 @@ struct UpdateStateChangesStreamArg {
 
   init() {}
 
-  fileprivate var _updateStateChanges: UpdateStateChanges? = nil
+  fileprivate var _updateStateChanges: ProtoUpdateStateChanges? = nil
 }
 
-struct UpdateStateChanges {
+struct ProtoUpdateStateChanges {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  var oldState: UpdateStateChanges.FirmwareUpgradeState = .none
+  var oldState: ProtoUpdateStateChanges.FirmwareUpgradeState = .none
 
-  var newState: UpdateStateChanges.FirmwareUpgradeState = .none
+  var newState: ProtoUpdateStateChanges.FirmwareUpgradeState = .none
 
   var canceled: Bool = false
 
@@ -146,9 +146,9 @@ struct UpdateStateChanges {
 
 #if swift(>=4.2)
 
-extension UpdateStateChanges.FirmwareUpgradeState: CaseIterable {
+extension ProtoUpdateStateChanges.FirmwareUpgradeState: CaseIterable {
   // The compiler won't synthesize support with the UNRECOGNIZED case.
-  static var allCases: [UpdateStateChanges.FirmwareUpgradeState] = [
+  static var allCases: [ProtoUpdateStateChanges.FirmwareUpgradeState] = [
     .none,
     .validate,
     .upload,
@@ -161,15 +161,15 @@ extension UpdateStateChanges.FirmwareUpgradeState: CaseIterable {
 
 #endif  // swift(>=4.2)
 
-struct ProgressUpdateStreamArg {
+struct ProtoProgressUpdateStreamArg {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
   var uuid: String = String()
 
-  var progressUpdate: ProgressUpdate {
-    get {return _progressUpdate ?? ProgressUpdate()}
+  var progressUpdate: ProtoProgressUpdate {
+    get {return _progressUpdate ?? ProtoProgressUpdate()}
     set {_progressUpdate = newValue}
   }
   /// Returns true if `progressUpdate` has been explicitly set.
@@ -181,10 +181,10 @@ struct ProgressUpdateStreamArg {
 
   init() {}
 
-  fileprivate var _progressUpdate: ProgressUpdate? = nil
+  fileprivate var _progressUpdate: ProtoProgressUpdate? = nil
 }
 
-struct ProgressUpdate {
+struct ProtoProgressUpdate {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
@@ -200,10 +200,151 @@ struct ProgressUpdate {
   init() {}
 }
 
+/// LOGS
+struct ProtoLogMessage {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var message: String = String()
+
+  var logCategory: ProtoLogMessage.LogCategory = .transport
+
+  var logLevel: ProtoLogMessage.LogLevel = .debug
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  enum LogCategory: SwiftProtobuf.Enum {
+    typealias RawValue = Int
+    case transport // = 0
+    case config // = 1
+    case crash // = 2
+    case `default` // = 3
+    case fs // = 4
+    case image // = 5
+    case log // = 6
+    case runTest // = 7
+    case stats // = 8
+    case dfu // = 9
+    case UNRECOGNIZED(Int)
+
+    init() {
+      self = .transport
+    }
+
+    init?(rawValue: Int) {
+      switch rawValue {
+      case 0: self = .transport
+      case 1: self = .config
+      case 2: self = .crash
+      case 3: self = .default
+      case 4: self = .fs
+      case 5: self = .image
+      case 6: self = .log
+      case 7: self = .runTest
+      case 8: self = .stats
+      case 9: self = .dfu
+      default: self = .UNRECOGNIZED(rawValue)
+      }
+    }
+
+    var rawValue: Int {
+      switch self {
+      case .transport: return 0
+      case .config: return 1
+      case .crash: return 2
+      case .default: return 3
+      case .fs: return 4
+      case .image: return 5
+      case .log: return 6
+      case .runTest: return 7
+      case .stats: return 8
+      case .dfu: return 9
+      case .UNRECOGNIZED(let i): return i
+      }
+    }
+
+  }
+
+  enum LogLevel: SwiftProtobuf.Enum {
+    typealias RawValue = Int
+    case debug // = 0
+    case verbose // = 1
+    case info // = 2
+    case application // = 3
+    case warning // = 4
+    case error // = 5
+    case UNRECOGNIZED(Int)
+
+    init() {
+      self = .debug
+    }
+
+    init?(rawValue: Int) {
+      switch rawValue {
+      case 0: self = .debug
+      case 1: self = .verbose
+      case 2: self = .info
+      case 3: self = .application
+      case 4: self = .warning
+      case 5: self = .error
+      default: self = .UNRECOGNIZED(rawValue)
+      }
+    }
+
+    var rawValue: Int {
+      switch self {
+      case .debug: return 0
+      case .verbose: return 1
+      case .info: return 2
+      case .application: return 3
+      case .warning: return 4
+      case .error: return 5
+      case .UNRECOGNIZED(let i): return i
+      }
+    }
+
+  }
+
+  init() {}
+}
+
+#if swift(>=4.2)
+
+extension ProtoLogMessage.LogCategory: CaseIterable {
+  // The compiler won't synthesize support with the UNRECOGNIZED case.
+  static var allCases: [ProtoLogMessage.LogCategory] = [
+    .transport,
+    .config,
+    .crash,
+    .default,
+    .fs,
+    .image,
+    .log,
+    .runTest,
+    .stats,
+    .dfu,
+  ]
+}
+
+extension ProtoLogMessage.LogLevel: CaseIterable {
+  // The compiler won't synthesize support with the UNRECOGNIZED case.
+  static var allCases: [ProtoLogMessage.LogLevel] = [
+    .debug,
+    .verbose,
+    .info,
+    .application,
+    .warning,
+    .error,
+  ]
+}
+
+#endif  // swift(>=4.2)
+
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
 
-extension UpdateCallArgument: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = "UpdateCallArgument"
+extension ProtoUpdateCallArgument: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = "ProtoUpdateCallArgument"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "device_uuid"),
     2: .standard(proto: "firmware_data"),
@@ -232,7 +373,7 @@ extension UpdateCallArgument: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: UpdateCallArgument, rhs: UpdateCallArgument) -> Bool {
+  static func ==(lhs: ProtoUpdateCallArgument, rhs: ProtoUpdateCallArgument) -> Bool {
     if lhs.deviceUuid != rhs.deviceUuid {return false}
     if lhs.firmwareData != rhs.firmwareData {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
@@ -272,8 +413,8 @@ extension ProtoError: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementatio
   }
 }
 
-extension UpdateStateChangesStreamArg: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = "UpdateStateChangesStreamArg"
+extension ProtoUpdateStateChangesStreamArg: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = "ProtoUpdateStateChangesStreamArg"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "uuid"),
     2: .same(proto: "updateStateChanges"),
@@ -302,7 +443,7 @@ extension UpdateStateChangesStreamArg: SwiftProtobuf.Message, SwiftProtobuf._Mes
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: UpdateStateChangesStreamArg, rhs: UpdateStateChangesStreamArg) -> Bool {
+  static func ==(lhs: ProtoUpdateStateChangesStreamArg, rhs: ProtoUpdateStateChangesStreamArg) -> Bool {
     if lhs.uuid != rhs.uuid {return false}
     if lhs._updateStateChanges != rhs._updateStateChanges {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
@@ -310,8 +451,8 @@ extension UpdateStateChangesStreamArg: SwiftProtobuf.Message, SwiftProtobuf._Mes
   }
 }
 
-extension UpdateStateChanges: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = "UpdateStateChanges"
+extension ProtoUpdateStateChanges: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = "ProtoUpdateStateChanges"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "oldState"),
     2: .same(proto: "newState"),
@@ -360,7 +501,7 @@ extension UpdateStateChanges: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: UpdateStateChanges, rhs: UpdateStateChanges) -> Bool {
+  static func ==(lhs: ProtoUpdateStateChanges, rhs: ProtoUpdateStateChanges) -> Bool {
     if lhs.oldState != rhs.oldState {return false}
     if lhs.newState != rhs.newState {return false}
     if lhs.canceled != rhs.canceled {return false}
@@ -372,7 +513,7 @@ extension UpdateStateChanges: SwiftProtobuf.Message, SwiftProtobuf._MessageImple
   }
 }
 
-extension UpdateStateChanges.FirmwareUpgradeState: SwiftProtobuf._ProtoNameProviding {
+extension ProtoUpdateStateChanges.FirmwareUpgradeState: SwiftProtobuf._ProtoNameProviding {
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     0: .same(proto: "NONE"),
     1: .same(proto: "VALIDATE"),
@@ -384,8 +525,8 @@ extension UpdateStateChanges.FirmwareUpgradeState: SwiftProtobuf._ProtoNameProvi
   ]
 }
 
-extension ProgressUpdateStreamArg: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = "ProgressUpdateStreamArg"
+extension ProtoProgressUpdateStreamArg: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = "ProtoProgressUpdateStreamArg"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "uuid"),
     2: .same(proto: "progressUpdate"),
@@ -414,7 +555,7 @@ extension ProgressUpdateStreamArg: SwiftProtobuf.Message, SwiftProtobuf._Message
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: ProgressUpdateStreamArg, rhs: ProgressUpdateStreamArg) -> Bool {
+  static func ==(lhs: ProtoProgressUpdateStreamArg, rhs: ProtoProgressUpdateStreamArg) -> Bool {
     if lhs.uuid != rhs.uuid {return false}
     if lhs._progressUpdate != rhs._progressUpdate {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
@@ -422,8 +563,8 @@ extension ProgressUpdateStreamArg: SwiftProtobuf.Message, SwiftProtobuf._Message
   }
 }
 
-extension ProgressUpdate: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = "ProgressUpdate"
+extension ProtoProgressUpdate: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = "ProtoProgressUpdate"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "bytesSent"),
     2: .same(proto: "imageSize"),
@@ -457,11 +598,81 @@ extension ProgressUpdate: SwiftProtobuf.Message, SwiftProtobuf._MessageImplement
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: ProgressUpdate, rhs: ProgressUpdate) -> Bool {
+  static func ==(lhs: ProtoProgressUpdate, rhs: ProtoProgressUpdate) -> Bool {
     if lhs.bytesSent != rhs.bytesSent {return false}
     if lhs.imageSize != rhs.imageSize {return false}
     if lhs.timestamp != rhs.timestamp {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
+}
+
+extension ProtoLogMessage: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = "ProtoLogMessage"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "message"),
+    2: .same(proto: "logCategory"),
+    3: .same(proto: "logLevel"),
+  ]
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.message) }()
+      case 2: try { try decoder.decodeSingularEnumField(value: &self.logCategory) }()
+      case 3: try { try decoder.decodeSingularEnumField(value: &self.logLevel) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.message.isEmpty {
+      try visitor.visitSingularStringField(value: self.message, fieldNumber: 1)
+    }
+    if self.logCategory != .transport {
+      try visitor.visitSingularEnumField(value: self.logCategory, fieldNumber: 2)
+    }
+    if self.logLevel != .debug {
+      try visitor.visitSingularEnumField(value: self.logLevel, fieldNumber: 3)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: ProtoLogMessage, rhs: ProtoLogMessage) -> Bool {
+    if lhs.message != rhs.message {return false}
+    if lhs.logCategory != rhs.logCategory {return false}
+    if lhs.logLevel != rhs.logLevel {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension ProtoLogMessage.LogCategory: SwiftProtobuf._ProtoNameProviding {
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    0: .same(proto: "TRANSPORT"),
+    1: .same(proto: "CONFIG"),
+    2: .same(proto: "CRASH"),
+    3: .same(proto: "DEFAULT"),
+    4: .same(proto: "FS"),
+    5: .same(proto: "IMAGE"),
+    6: .same(proto: "LOG"),
+    7: .same(proto: "RUN_TEST"),
+    8: .same(proto: "STATS"),
+    9: .same(proto: "DFU"),
+  ]
+}
+
+extension ProtoLogMessage.LogLevel: SwiftProtobuf._ProtoNameProviding {
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    0: .same(proto: "DEBUG"),
+    1: .same(proto: "VERBOSE"),
+    2: .same(proto: "INFO"),
+    3: .same(proto: "APPLICATION"),
+    4: .same(proto: "WARNING"),
+    5: .same(proto: "ERROR"),
+  ]
 }

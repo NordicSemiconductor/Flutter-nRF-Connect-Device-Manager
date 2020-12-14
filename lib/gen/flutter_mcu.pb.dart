@@ -14,35 +14,35 @@ import 'flutter_mcu.pbenum.dart';
 
 export 'flutter_mcu.pbenum.dart';
 
-class UpdateCallArgument extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'UpdateCallArgument', createEmptyInstance: create)
+class ProtoUpdateCallArgument extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ProtoUpdateCallArgument', createEmptyInstance: create)
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'deviceUuid')
     ..a<$core.List<$core.int>>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'firmwareData', $pb.PbFieldType.OY)
     ..hasRequiredFields = false
   ;
 
-  UpdateCallArgument._() : super();
-  factory UpdateCallArgument() => create();
-  factory UpdateCallArgument.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory UpdateCallArgument.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  ProtoUpdateCallArgument._() : super();
+  factory ProtoUpdateCallArgument() => create();
+  factory ProtoUpdateCallArgument.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ProtoUpdateCallArgument.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  UpdateCallArgument clone() => UpdateCallArgument()..mergeFromMessage(this);
+  ProtoUpdateCallArgument clone() => ProtoUpdateCallArgument()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  UpdateCallArgument copyWith(void Function(UpdateCallArgument) updates) => super.copyWith((message) => updates(message as UpdateCallArgument)); // ignore: deprecated_member_use
+  ProtoUpdateCallArgument copyWith(void Function(ProtoUpdateCallArgument) updates) => super.copyWith((message) => updates(message as ProtoUpdateCallArgument)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
-  static UpdateCallArgument create() => UpdateCallArgument._();
-  UpdateCallArgument createEmptyInstance() => create();
-  static $pb.PbList<UpdateCallArgument> createRepeated() => $pb.PbList<UpdateCallArgument>();
+  static ProtoUpdateCallArgument create() => ProtoUpdateCallArgument._();
+  ProtoUpdateCallArgument createEmptyInstance() => create();
+  static $pb.PbList<ProtoUpdateCallArgument> createRepeated() => $pb.PbList<ProtoUpdateCallArgument>();
   @$core.pragma('dart2js:noInline')
-  static UpdateCallArgument getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<UpdateCallArgument>(create);
-  static UpdateCallArgument _defaultInstance;
+  static ProtoUpdateCallArgument getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ProtoUpdateCallArgument>(create);
+  static ProtoUpdateCallArgument _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get deviceUuid => $_getSZ(0);
@@ -102,35 +102,35 @@ class ProtoError extends $pb.GeneratedMessage {
   void clearLocalizedDescription() => clearField(1);
 }
 
-class UpdateStateChangesStreamArg extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'UpdateStateChangesStreamArg', createEmptyInstance: create)
+class ProtoUpdateStateChangesStreamArg extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ProtoUpdateStateChangesStreamArg', createEmptyInstance: create)
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'uuid')
-    ..aOM<UpdateStateChanges>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'updateStateChanges', protoName: 'updateStateChanges', subBuilder: UpdateStateChanges.create)
+    ..aOM<ProtoUpdateStateChanges>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'updateStateChanges', protoName: 'updateStateChanges', subBuilder: ProtoUpdateStateChanges.create)
     ..hasRequiredFields = false
   ;
 
-  UpdateStateChangesStreamArg._() : super();
-  factory UpdateStateChangesStreamArg() => create();
-  factory UpdateStateChangesStreamArg.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory UpdateStateChangesStreamArg.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  ProtoUpdateStateChangesStreamArg._() : super();
+  factory ProtoUpdateStateChangesStreamArg() => create();
+  factory ProtoUpdateStateChangesStreamArg.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ProtoUpdateStateChangesStreamArg.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  UpdateStateChangesStreamArg clone() => UpdateStateChangesStreamArg()..mergeFromMessage(this);
+  ProtoUpdateStateChangesStreamArg clone() => ProtoUpdateStateChangesStreamArg()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  UpdateStateChangesStreamArg copyWith(void Function(UpdateStateChangesStreamArg) updates) => super.copyWith((message) => updates(message as UpdateStateChangesStreamArg)); // ignore: deprecated_member_use
+  ProtoUpdateStateChangesStreamArg copyWith(void Function(ProtoUpdateStateChangesStreamArg) updates) => super.copyWith((message) => updates(message as ProtoUpdateStateChangesStreamArg)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
-  static UpdateStateChangesStreamArg create() => UpdateStateChangesStreamArg._();
-  UpdateStateChangesStreamArg createEmptyInstance() => create();
-  static $pb.PbList<UpdateStateChangesStreamArg> createRepeated() => $pb.PbList<UpdateStateChangesStreamArg>();
+  static ProtoUpdateStateChangesStreamArg create() => ProtoUpdateStateChangesStreamArg._();
+  ProtoUpdateStateChangesStreamArg createEmptyInstance() => create();
+  static $pb.PbList<ProtoUpdateStateChangesStreamArg> createRepeated() => $pb.PbList<ProtoUpdateStateChangesStreamArg>();
   @$core.pragma('dart2js:noInline')
-  static UpdateStateChangesStreamArg getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<UpdateStateChangesStreamArg>(create);
-  static UpdateStateChangesStreamArg _defaultInstance;
+  static ProtoUpdateStateChangesStreamArg getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ProtoUpdateStateChangesStreamArg>(create);
+  static ProtoUpdateStateChangesStreamArg _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get uuid => $_getSZ(0);
@@ -142,21 +142,21 @@ class UpdateStateChangesStreamArg extends $pb.GeneratedMessage {
   void clearUuid() => clearField(1);
 
   @$pb.TagNumber(2)
-  UpdateStateChanges get updateStateChanges => $_getN(1);
+  ProtoUpdateStateChanges get updateStateChanges => $_getN(1);
   @$pb.TagNumber(2)
-  set updateStateChanges(UpdateStateChanges v) { setField(2, v); }
+  set updateStateChanges(ProtoUpdateStateChanges v) { setField(2, v); }
   @$pb.TagNumber(2)
   $core.bool hasUpdateStateChanges() => $_has(1);
   @$pb.TagNumber(2)
   void clearUpdateStateChanges() => clearField(2);
   @$pb.TagNumber(2)
-  UpdateStateChanges ensureUpdateStateChanges() => $_ensure(1);
+  ProtoUpdateStateChanges ensureUpdateStateChanges() => $_ensure(1);
 }
 
-class UpdateStateChanges extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'UpdateStateChanges', createEmptyInstance: create)
-    ..e<UpdateStateChanges_FirmwareUpgradeState>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'oldState', $pb.PbFieldType.OE, protoName: 'oldState', defaultOrMaker: UpdateStateChanges_FirmwareUpgradeState.NONE, valueOf: UpdateStateChanges_FirmwareUpgradeState.valueOf, enumValues: UpdateStateChanges_FirmwareUpgradeState.values)
-    ..e<UpdateStateChanges_FirmwareUpgradeState>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'newState', $pb.PbFieldType.OE, protoName: 'newState', defaultOrMaker: UpdateStateChanges_FirmwareUpgradeState.NONE, valueOf: UpdateStateChanges_FirmwareUpgradeState.valueOf, enumValues: UpdateStateChanges_FirmwareUpgradeState.values)
+class ProtoUpdateStateChanges extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ProtoUpdateStateChanges', createEmptyInstance: create)
+    ..e<ProtoUpdateStateChanges_FirmwareUpgradeState>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'oldState', $pb.PbFieldType.OE, protoName: 'oldState', defaultOrMaker: ProtoUpdateStateChanges_FirmwareUpgradeState.NONE, valueOf: ProtoUpdateStateChanges_FirmwareUpgradeState.valueOf, enumValues: ProtoUpdateStateChanges_FirmwareUpgradeState.values)
+    ..e<ProtoUpdateStateChanges_FirmwareUpgradeState>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'newState', $pb.PbFieldType.OE, protoName: 'newState', defaultOrMaker: ProtoUpdateStateChanges_FirmwareUpgradeState.NONE, valueOf: ProtoUpdateStateChanges_FirmwareUpgradeState.valueOf, enumValues: ProtoUpdateStateChanges_FirmwareUpgradeState.values)
     ..aOB(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'canceled')
     ..aOB(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'hasError', protoName: 'hasError')
     ..aOM<ProtoError>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'protoError', protoName: 'protoError', subBuilder: ProtoError.create)
@@ -164,42 +164,42 @@ class UpdateStateChanges extends $pb.GeneratedMessage {
     ..hasRequiredFields = false
   ;
 
-  UpdateStateChanges._() : super();
-  factory UpdateStateChanges() => create();
-  factory UpdateStateChanges.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory UpdateStateChanges.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  ProtoUpdateStateChanges._() : super();
+  factory ProtoUpdateStateChanges() => create();
+  factory ProtoUpdateStateChanges.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ProtoUpdateStateChanges.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  UpdateStateChanges clone() => UpdateStateChanges()..mergeFromMessage(this);
+  ProtoUpdateStateChanges clone() => ProtoUpdateStateChanges()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  UpdateStateChanges copyWith(void Function(UpdateStateChanges) updates) => super.copyWith((message) => updates(message as UpdateStateChanges)); // ignore: deprecated_member_use
+  ProtoUpdateStateChanges copyWith(void Function(ProtoUpdateStateChanges) updates) => super.copyWith((message) => updates(message as ProtoUpdateStateChanges)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
-  static UpdateStateChanges create() => UpdateStateChanges._();
-  UpdateStateChanges createEmptyInstance() => create();
-  static $pb.PbList<UpdateStateChanges> createRepeated() => $pb.PbList<UpdateStateChanges>();
+  static ProtoUpdateStateChanges create() => ProtoUpdateStateChanges._();
+  ProtoUpdateStateChanges createEmptyInstance() => create();
+  static $pb.PbList<ProtoUpdateStateChanges> createRepeated() => $pb.PbList<ProtoUpdateStateChanges>();
   @$core.pragma('dart2js:noInline')
-  static UpdateStateChanges getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<UpdateStateChanges>(create);
-  static UpdateStateChanges _defaultInstance;
+  static ProtoUpdateStateChanges getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ProtoUpdateStateChanges>(create);
+  static ProtoUpdateStateChanges _defaultInstance;
 
   @$pb.TagNumber(1)
-  UpdateStateChanges_FirmwareUpgradeState get oldState => $_getN(0);
+  ProtoUpdateStateChanges_FirmwareUpgradeState get oldState => $_getN(0);
   @$pb.TagNumber(1)
-  set oldState(UpdateStateChanges_FirmwareUpgradeState v) { setField(1, v); }
+  set oldState(ProtoUpdateStateChanges_FirmwareUpgradeState v) { setField(1, v); }
   @$pb.TagNumber(1)
   $core.bool hasOldState() => $_has(0);
   @$pb.TagNumber(1)
   void clearOldState() => clearField(1);
 
   @$pb.TagNumber(2)
-  UpdateStateChanges_FirmwareUpgradeState get newState => $_getN(1);
+  ProtoUpdateStateChanges_FirmwareUpgradeState get newState => $_getN(1);
   @$pb.TagNumber(2)
-  set newState(UpdateStateChanges_FirmwareUpgradeState v) { setField(2, v); }
+  set newState(ProtoUpdateStateChanges_FirmwareUpgradeState v) { setField(2, v); }
   @$pb.TagNumber(2)
   $core.bool hasNewState() => $_has(1);
   @$pb.TagNumber(2)
@@ -244,35 +244,35 @@ class UpdateStateChanges extends $pb.GeneratedMessage {
   void clearCompleted() => clearField(6);
 }
 
-class ProgressUpdateStreamArg extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ProgressUpdateStreamArg', createEmptyInstance: create)
+class ProtoProgressUpdateStreamArg extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ProtoProgressUpdateStreamArg', createEmptyInstance: create)
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'uuid')
-    ..aOM<ProgressUpdate>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'progressUpdate', protoName: 'progressUpdate', subBuilder: ProgressUpdate.create)
+    ..aOM<ProtoProgressUpdate>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'progressUpdate', protoName: 'progressUpdate', subBuilder: ProtoProgressUpdate.create)
     ..hasRequiredFields = false
   ;
 
-  ProgressUpdateStreamArg._() : super();
-  factory ProgressUpdateStreamArg() => create();
-  factory ProgressUpdateStreamArg.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory ProgressUpdateStreamArg.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  ProtoProgressUpdateStreamArg._() : super();
+  factory ProtoProgressUpdateStreamArg() => create();
+  factory ProtoProgressUpdateStreamArg.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ProtoProgressUpdateStreamArg.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  ProgressUpdateStreamArg clone() => ProgressUpdateStreamArg()..mergeFromMessage(this);
+  ProtoProgressUpdateStreamArg clone() => ProtoProgressUpdateStreamArg()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  ProgressUpdateStreamArg copyWith(void Function(ProgressUpdateStreamArg) updates) => super.copyWith((message) => updates(message as ProgressUpdateStreamArg)); // ignore: deprecated_member_use
+  ProtoProgressUpdateStreamArg copyWith(void Function(ProtoProgressUpdateStreamArg) updates) => super.copyWith((message) => updates(message as ProtoProgressUpdateStreamArg)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
-  static ProgressUpdateStreamArg create() => ProgressUpdateStreamArg._();
-  ProgressUpdateStreamArg createEmptyInstance() => create();
-  static $pb.PbList<ProgressUpdateStreamArg> createRepeated() => $pb.PbList<ProgressUpdateStreamArg>();
+  static ProtoProgressUpdateStreamArg create() => ProtoProgressUpdateStreamArg._();
+  ProtoProgressUpdateStreamArg createEmptyInstance() => create();
+  static $pb.PbList<ProtoProgressUpdateStreamArg> createRepeated() => $pb.PbList<ProtoProgressUpdateStreamArg>();
   @$core.pragma('dart2js:noInline')
-  static ProgressUpdateStreamArg getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ProgressUpdateStreamArg>(create);
-  static ProgressUpdateStreamArg _defaultInstance;
+  static ProtoProgressUpdateStreamArg getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ProtoProgressUpdateStreamArg>(create);
+  static ProtoProgressUpdateStreamArg _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get uuid => $_getSZ(0);
@@ -284,47 +284,47 @@ class ProgressUpdateStreamArg extends $pb.GeneratedMessage {
   void clearUuid() => clearField(1);
 
   @$pb.TagNumber(2)
-  ProgressUpdate get progressUpdate => $_getN(1);
+  ProtoProgressUpdate get progressUpdate => $_getN(1);
   @$pb.TagNumber(2)
-  set progressUpdate(ProgressUpdate v) { setField(2, v); }
+  set progressUpdate(ProtoProgressUpdate v) { setField(2, v); }
   @$pb.TagNumber(2)
   $core.bool hasProgressUpdate() => $_has(1);
   @$pb.TagNumber(2)
   void clearProgressUpdate() => clearField(2);
   @$pb.TagNumber(2)
-  ProgressUpdate ensureProgressUpdate() => $_ensure(1);
+  ProtoProgressUpdate ensureProgressUpdate() => $_ensure(1);
 }
 
-class ProgressUpdate extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ProgressUpdate', createEmptyInstance: create)
+class ProtoProgressUpdate extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ProtoProgressUpdate', createEmptyInstance: create)
     ..a<$fixnum.Int64>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'bytesSent', $pb.PbFieldType.OU6, protoName: 'bytesSent', defaultOrMaker: $fixnum.Int64.ZERO)
     ..a<$fixnum.Int64>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'imageSize', $pb.PbFieldType.OU6, protoName: 'imageSize', defaultOrMaker: $fixnum.Int64.ZERO)
     ..a<$core.double>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'timestamp', $pb.PbFieldType.OD)
     ..hasRequiredFields = false
   ;
 
-  ProgressUpdate._() : super();
-  factory ProgressUpdate() => create();
-  factory ProgressUpdate.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory ProgressUpdate.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  ProtoProgressUpdate._() : super();
+  factory ProtoProgressUpdate() => create();
+  factory ProtoProgressUpdate.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ProtoProgressUpdate.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  ProgressUpdate clone() => ProgressUpdate()..mergeFromMessage(this);
+  ProtoProgressUpdate clone() => ProtoProgressUpdate()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  ProgressUpdate copyWith(void Function(ProgressUpdate) updates) => super.copyWith((message) => updates(message as ProgressUpdate)); // ignore: deprecated_member_use
+  ProtoProgressUpdate copyWith(void Function(ProtoProgressUpdate) updates) => super.copyWith((message) => updates(message as ProtoProgressUpdate)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
-  static ProgressUpdate create() => ProgressUpdate._();
-  ProgressUpdate createEmptyInstance() => create();
-  static $pb.PbList<ProgressUpdate> createRepeated() => $pb.PbList<ProgressUpdate>();
+  static ProtoProgressUpdate create() => ProtoProgressUpdate._();
+  ProtoProgressUpdate createEmptyInstance() => create();
+  static $pb.PbList<ProtoProgressUpdate> createRepeated() => $pb.PbList<ProtoProgressUpdate>();
   @$core.pragma('dart2js:noInline')
-  static ProgressUpdate getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ProgressUpdate>(create);
-  static ProgressUpdate _defaultInstance;
+  static ProtoProgressUpdate getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ProtoProgressUpdate>(create);
+  static ProtoProgressUpdate _defaultInstance;
 
   @$pb.TagNumber(1)
   $fixnum.Int64 get bytesSent => $_getI64(0);
@@ -352,5 +352,64 @@ class ProgressUpdate extends $pb.GeneratedMessage {
   $core.bool hasTimestamp() => $_has(2);
   @$pb.TagNumber(3)
   void clearTimestamp() => clearField(3);
+}
+
+class ProtoLogMessage extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ProtoLogMessage', createEmptyInstance: create)
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'message')
+    ..e<ProtoLogMessage_LogCategory>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'logCategory', $pb.PbFieldType.OE, protoName: 'logCategory', defaultOrMaker: ProtoLogMessage_LogCategory.TRANSPORT, valueOf: ProtoLogMessage_LogCategory.valueOf, enumValues: ProtoLogMessage_LogCategory.values)
+    ..e<ProtoLogMessage_LogLevel>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'logLevel', $pb.PbFieldType.OE, protoName: 'logLevel', defaultOrMaker: ProtoLogMessage_LogLevel.DEBUG, valueOf: ProtoLogMessage_LogLevel.valueOf, enumValues: ProtoLogMessage_LogLevel.values)
+    ..hasRequiredFields = false
+  ;
+
+  ProtoLogMessage._() : super();
+  factory ProtoLogMessage() => create();
+  factory ProtoLogMessage.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ProtoLogMessage.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  ProtoLogMessage clone() => ProtoLogMessage()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  ProtoLogMessage copyWith(void Function(ProtoLogMessage) updates) => super.copyWith((message) => updates(message as ProtoLogMessage)); // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static ProtoLogMessage create() => ProtoLogMessage._();
+  ProtoLogMessage createEmptyInstance() => create();
+  static $pb.PbList<ProtoLogMessage> createRepeated() => $pb.PbList<ProtoLogMessage>();
+  @$core.pragma('dart2js:noInline')
+  static ProtoLogMessage getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ProtoLogMessage>(create);
+  static ProtoLogMessage _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get message => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set message($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasMessage() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearMessage() => clearField(1);
+
+  @$pb.TagNumber(2)
+  ProtoLogMessage_LogCategory get logCategory => $_getN(1);
+  @$pb.TagNumber(2)
+  set logCategory(ProtoLogMessage_LogCategory v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasLogCategory() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearLogCategory() => clearField(2);
+
+  @$pb.TagNumber(3)
+  ProtoLogMessage_LogLevel get logLevel => $_getN(2);
+  @$pb.TagNumber(3)
+  set logLevel(ProtoLogMessage_LogLevel v) { setField(3, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasLogLevel() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearLogLevel() => clearField(3);
 }
 

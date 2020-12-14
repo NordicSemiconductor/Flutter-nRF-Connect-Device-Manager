@@ -40,7 +40,7 @@ extension UpdateManager: FirmwareUpgradeDelegate {
         do {
             let oldProtoState = previousState.toProto()
             let newProtoState = newState.toProto()
-            var changes = UpdateStateChanges()
+            var changes = ProtoUpdateStateChanges()
             changes.oldState = oldProtoState
             changes.newState = newProtoState
             let data = try changes.serializedData()
@@ -53,7 +53,7 @@ extension UpdateManager: FirmwareUpgradeDelegate {
     
     func upgradeDidComplete() {
         do {
-            var changes = UpdateStateChanges()
+            var changes = ProtoUpdateStateChanges()
             changes.completed = true
             let data = try changes.serializedData()
             stateStreamHandler.sink?(FlutterStandardTypedData(bytes: data))
@@ -65,7 +65,7 @@ extension UpdateManager: FirmwareUpgradeDelegate {
     
     func upgradeDidFail(inState state: FirmwareUpgradeState, with error: Error) {
         do {
-            var changes = UpdateStateChanges()
+            var changes = ProtoUpdateStateChanges()
             let protoError = ProtoError(localizedDescription: error.localizedDescription)
             changes.protoError = protoError
             changes.oldState = state.toProto()
@@ -79,12 +79,12 @@ extension UpdateManager: FirmwareUpgradeDelegate {
     
     func upgradeDidCancel(state: FirmwareUpgradeState) {
         do {
-            var changes = UpdateStateChanges()
+            var changes = ProtoUpdateStateChanges()
             changes.canceled = true
             changes.oldState = state.toProto()
             changes.newState = state.toProto()
             
-            let arg = UpdateStateChangesStreamArg(updateStateChanges: changes, peripheral: peripheral)
+            let arg = ProtoUpdateStateChangesStreamArg(updateStateChanges: changes, peripheral: peripheral)
             stateStreamHandler.sink?(FlutterStandardTypedData(bytes: try arg.serializedData()))
         } catch let e {
             let error = FlutterError(error: e, code: ErrorCode.flutterTypeError)
@@ -95,17 +95,23 @@ extension UpdateManager: FirmwareUpgradeDelegate {
     
     func uploadProgressDidChange(bytesSent: Int, imageSize: Int, timestamp: Date) {
         do {
-            var progressUpdate = ProgressUpdate()
+            var progressUpdate = ProtoProgressUpdate()
             progressUpdate.bytesSent = UInt64(Int64(bytesSent))
             progressUpdate.imageSize = UInt64(Int64(imageSize))
             progressUpdate.timestamp = timestamp.timeIntervalSince1970
             
-            let arg = ProgressUpdateStreamArg(progressUpdate: progressUpdate, peripheral: peripheral)
+            let arg = ProtoProgressUpdateStreamArg(progressUpdate: progressUpdate, peripheral: peripheral)
             stateStreamHandler.sink?(FlutterStandardTypedData(bytes: try arg.serializedData()))
         } catch let e {
             let error = FlutterError(error: e, code: ErrorCode.flutterTypeError)
             stateStreamHandler.sink?(error)
         }
+    }
+}
+
+extension UpdateManager: McuMgrLogDelegate {
+    func log(_ msg: String, ofCategory category: McuMgrLogCategory, atLevel level: McuMgrLogLevel) {
+        
     }
     
     
