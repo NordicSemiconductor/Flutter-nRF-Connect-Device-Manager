@@ -71,6 +71,14 @@ const ProtoProgressUpdate$json = const {
   ],
 };
 
+const ProtoLogMessageStreamArg$json = const {
+  '1': 'ProtoLogMessageStreamArg',
+  '2': const [
+    const {'1': 'uuid', '3': 1, '4': 1, '5': 9, '10': 'uuid'},
+    const {'1': 'protoLogMessage', '3': 2, '4': 1, '5': 11, '6': '.ProtoLogMessage', '10': 'protoLogMessage'},
+  ],
+};
+
 const ProtoLogMessage$json = const {
   '1': 'ProtoLogMessage',
   '2': const [

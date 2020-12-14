@@ -201,6 +201,29 @@ struct ProtoProgressUpdate {
 }
 
 /// LOGS
+struct ProtoLogMessageStreamArg {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var uuid: String = String()
+
+  var protoLogMessage: ProtoLogMessage {
+    get {return _protoLogMessage ?? ProtoLogMessage()}
+    set {_protoLogMessage = newValue}
+  }
+  /// Returns true if `protoLogMessage` has been explicitly set.
+  var hasProtoLogMessage: Bool {return self._protoLogMessage != nil}
+  /// Clears the value of `protoLogMessage`. Subsequent reads from it will return its default value.
+  mutating func clearProtoLogMessage() {self._protoLogMessage = nil}
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+
+  fileprivate var _protoLogMessage: ProtoLogMessage? = nil
+}
+
 struct ProtoLogMessage {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
@@ -602,6 +625,44 @@ extension ProtoProgressUpdate: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
     if lhs.bytesSent != rhs.bytesSent {return false}
     if lhs.imageSize != rhs.imageSize {return false}
     if lhs.timestamp != rhs.timestamp {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension ProtoLogMessageStreamArg: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = "ProtoLogMessageStreamArg"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "uuid"),
+    2: .same(proto: "protoLogMessage"),
+  ]
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.uuid) }()
+      case 2: try { try decoder.decodeSingularMessageField(value: &self._protoLogMessage) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.uuid.isEmpty {
+      try visitor.visitSingularStringField(value: self.uuid, fieldNumber: 1)
+    }
+    if let v = self._protoLogMessage {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 2)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: ProtoLogMessageStreamArg, rhs: ProtoLogMessageStreamArg) -> Bool {
+    if lhs.uuid != rhs.uuid {return false}
+    if lhs._protoLogMessage != rhs._protoLogMessage {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }

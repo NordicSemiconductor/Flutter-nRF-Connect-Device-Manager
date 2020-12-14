@@ -20,12 +20,15 @@ class UpdateManager {
   // STREAM CONTROLLERS
   final StreamController<ProgressUpdate> _progressStreamController =
       StreamController();
-  final StreamController<FirmwareUpgradeState>
-      _updateStateStreamController = StreamController();
+  final StreamController<FirmwareUpgradeState> _updateStateStreamController =
+      StreamController();
+  final StreamController<McuLogMessage> _logMessageStreamController =
+      StreamController();
 
   // STREAM LISTENERS
   StreamSubscription<ProtoProgressUpdate> _progressListener;
   StreamSubscription<ProtoUpdateStateChanges> _updateStateListener;
+  StreamSubscription<ProtoLogMessage> _logMessageListener;
 
   // STREAMS
   Stream<ProgressUpdate> get progressStream {
@@ -36,6 +39,10 @@ class UpdateManager {
     return _updateStateStreamController.stream;
   }
 
+  Stream<McuLogMessage> get logMessageStream {
+    return _logMessageStreamController.stream;
+  }
+
   // Stream<ProgressUpdate> get
 
   static Future<UpdateManager> newManager(String deviceId) async {
@@ -43,7 +50,9 @@ class UpdateManager {
         .invokeMethod("initializeUpdateManager", deviceId);
 
     final um = UpdateManager._deviceIdentifier(deviceId);
-    um._setupStreams();
+    um._setupProgressUpdateStream();
+    um._setupUpdateStateStream();
+    um._setupLogStream();
     return um;
   }
 
@@ -55,7 +64,7 @@ class UpdateManager {
     await _McumgrFlutter._channel.invokeMethod("update", arg.writeToBuffer());
   }
 
-  void _setupStreams() {
+  void _setupProgressUpdateStream() {
     _progressListener = _McumgrFlutter._progressStream
         .receiveBroadcastStream()
         .map((event) => ProtoProgressUpdateStreamArg.fromBuffer(event))
@@ -63,9 +72,12 @@ class UpdateManager {
         .map((event) => event.progressUpdate)
         .listen((event) {});
 
-    _progressListener.onData((data) => _progressStreamController.add(data.convert()));
+    _progressListener
+        .onData((data) => _progressStreamController.add(data.convert()));
     _progressListener.onError(_progressStreamController.addError);
+  }
 
+  void _setupUpdateStateStream() {
     _updateStateListener = _McumgrFlutter._updateStateStream
         .receiveBroadcastStream()
         .map((event) => ProtoUpdateStateChangesStreamArg.fromBuffer(event))
@@ -92,5 +104,22 @@ class UpdateManager {
 
       _updateStateStreamController.add(data.newState.convert());
     });
+
+    _updateStateListener.onError(_updateStateStreamController.addError);
+  }
+
+  void _setupLogStream() {
+    _logMessageListener = _McumgrFlutter._logEventChannel
+        .receiveBroadcastStream()
+        .map((event) => ProtoLogMessageStreamArg.fromBuffer(event))
+        .where((event) => event.uuid == _deviceId)
+        .map((event) => event.protoLogMessage)
+        .listen((event) {});
+
+    _logMessageListener.onData((data) {
+      _logMessageStreamController.add(data.convent());
+    });
+
+    _logMessageListener.onError(_logMessageStreamController.addError);
   }
 }

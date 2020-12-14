@@ -354,6 +354,57 @@ class ProtoProgressUpdate extends $pb.GeneratedMessage {
   void clearTimestamp() => clearField(3);
 }
 
+class ProtoLogMessageStreamArg extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ProtoLogMessageStreamArg', createEmptyInstance: create)
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'uuid')
+    ..aOM<ProtoLogMessage>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'protoLogMessage', protoName: 'protoLogMessage', subBuilder: ProtoLogMessage.create)
+    ..hasRequiredFields = false
+  ;
+
+  ProtoLogMessageStreamArg._() : super();
+  factory ProtoLogMessageStreamArg() => create();
+  factory ProtoLogMessageStreamArg.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ProtoLogMessageStreamArg.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  ProtoLogMessageStreamArg clone() => ProtoLogMessageStreamArg()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  ProtoLogMessageStreamArg copyWith(void Function(ProtoLogMessageStreamArg) updates) => super.copyWith((message) => updates(message as ProtoLogMessageStreamArg)); // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static ProtoLogMessageStreamArg create() => ProtoLogMessageStreamArg._();
+  ProtoLogMessageStreamArg createEmptyInstance() => create();
+  static $pb.PbList<ProtoLogMessageStreamArg> createRepeated() => $pb.PbList<ProtoLogMessageStreamArg>();
+  @$core.pragma('dart2js:noInline')
+  static ProtoLogMessageStreamArg getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ProtoLogMessageStreamArg>(create);
+  static ProtoLogMessageStreamArg _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get uuid => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set uuid($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasUuid() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearUuid() => clearField(1);
+
+  @$pb.TagNumber(2)
+  ProtoLogMessage get protoLogMessage => $_getN(1);
+  @$pb.TagNumber(2)
+  set protoLogMessage(ProtoLogMessage v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasProtoLogMessage() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearProtoLogMessage() => clearField(2);
+  @$pb.TagNumber(2)
+  ProtoLogMessage ensureProtoLogMessage() => $_ensure(1);
+}
+
 class ProtoLogMessage extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ProtoLogMessage', createEmptyInstance: create)
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'message')

@@ -111,7 +111,15 @@ extension UpdateManager: FirmwareUpgradeDelegate {
 
 extension UpdateManager: McuMgrLogDelegate {
     func log(_ msg: String, ofCategory category: McuMgrLogCategory, atLevel level: McuMgrLogLevel) {
+        let log = ProtoLogMessage(message: msg, category: category.toProto(), level: level.toProto())
+        let logStremArg = ProtoLogMessageStreamArg(uuid: peripheral.identifier.uuidString, log: log)
         
+        do {
+            logStreamhandler.sink?(FlutterStandardTypedData(bytes: try logStremArg.serializedData()))
+        } catch let e {
+            let error = FlutterError(error: e, code: ErrorCode.flutterTypeError)
+            stateStreamHandler.sink?(error)
+        }
     }
     
     

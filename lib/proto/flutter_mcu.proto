@@ -46,6 +46,11 @@ message ProtoProgressUpdate {
 }
 
 // LOGS
+message ProtoLogMessageStreamArg {
+    string uuid = 1;
+    ProtoLogMessage protoLogMessage = 2;
+}
+
 message ProtoLogMessage {
     enum LogCategory {
         TRANSPORT = 0;
