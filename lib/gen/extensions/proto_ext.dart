@@ -1,7 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:mcumgr_flutter/gen/flutter_mcu.pb.dart';
-import 'package:mcumgr_flutter/models/mcu_log_message.dart';
-import 'package:mcumgr_flutter/models/progress_update.dart';
+import 'package:mcumgr_flutter/mcumgr_flutter.dart';
 
 extension ProtoProgressToModel on ProtoProgressUpdate {
   ProgressUpdate convert() {

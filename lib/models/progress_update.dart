@@ -1,3 +1,5 @@
+part of mcumgr_flutter;
+
 class ProgressUpdate {
   final int bytesSent;
   final int imageSize;
@@ -7,13 +9,20 @@ class ProgressUpdate {
 }
 
 class FirmwareUpgradeState {
-  const FirmwareUpgradeState();
+  final String _rawValue;
 
-  static const none = FirmwareUpgradeState();
-  static const validate = FirmwareUpgradeState();
-  static const upload = FirmwareUpgradeState();
-  static const test = FirmwareUpgradeState();
-  static const reset = FirmwareUpgradeState();
-  static const confirm = FirmwareUpgradeState();
-  static const success = FirmwareUpgradeState();
+  const FirmwareUpgradeState(this._rawValue);
+
+  static const none = FirmwareUpgradeState("None");
+  static const validate = FirmwareUpgradeState("Validate");
+  static const upload = FirmwareUpgradeState("Upload");
+  static const test = FirmwareUpgradeState("Test");
+  static const reset = FirmwareUpgradeState("Reset");
+  static const confirm = FirmwareUpgradeState("Confirm");
+  static const success = FirmwareUpgradeState("Success");
+
+  @override
+  String toString() {
+    return _rawValue;
+  }
 }

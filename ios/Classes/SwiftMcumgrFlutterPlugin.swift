@@ -57,14 +57,15 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
                 result(nil)
             }
         } catch let e {
-            if e is FlutterError {
-                result(e)
-            } else {
-                result(FlutterError(error: e, call: call))
-            }
+//            result(e.localizedDescription)
+            result(FlutterError(code: "Error", message: e.localizedDescription, details: nil))
+//            if e is FlutterError {
+//                result(e)
+//            } else {
+//                result(FlutterError(error: e, call: call))
+//            }
         }
         
-        result("iOS " + UIDevice.current.systemVersion)
     }
     
     private func initializeUpdateManager(call: FlutterMethodCall) throws {

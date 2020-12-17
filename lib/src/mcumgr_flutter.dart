@@ -70,7 +70,9 @@ class UpdateManager {
         .map((event) => ProtoProgressUpdateStreamArg.fromBuffer(event))
         .where((event) => event.uuid == _deviceId)
         .map((event) => event.progressUpdate)
-        .listen((event) {});
+        .listen((event) {
+      log("_progressStream" + event.toString());
+    });
 
     _progressListener
         .onData((data) => _progressStreamController.add(data.convert()));
@@ -83,7 +85,9 @@ class UpdateManager {
         .map((event) => ProtoUpdateStateChangesStreamArg.fromBuffer(event))
         .where((event) => event.uuid == _deviceId)
         .map((event) => event.updateStateChanges)
-        .listen((event) {});
+        .listen((event) {
+      log('_updateStateStream' + event.toString());
+    });
 
     _updateStateListener.onData((data) async {
       if (data.hasError) {
@@ -114,7 +118,9 @@ class UpdateManager {
         .map((event) => ProtoLogMessageStreamArg.fromBuffer(event))
         .where((event) => event.uuid == _deviceId)
         .map((event) => event.protoLogMessage)
-        .listen((event) {});
+        .listen((event) {
+      log('_logEventChannel' + event.toString());
+    });
 
     _logMessageListener.onData((data) {
       _logMessageStreamController.add(data.convent());

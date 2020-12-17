@@ -1,6 +1,6 @@
 name: mcumgr_flutter
 description: A new flutter plugin project.
-version: 0.0.1
+version: 0.0.1+1
 author:
 homepage:
 
@@ -10,7 +10,7 @@ environment:
 
 dependencies:
   protobuf: ^1.0.1
-  rxdart: ^0.25.0
+  rxdart: ^0.24.0
   flutter:
     sdk: flutter
 
