@@ -9,15 +9,19 @@ import Foundation
 import CoreBluetooth
 
 extension ProtoProgressUpdateStreamArg {
-    init(progressUpdate: ProtoProgressUpdate, peripheral: CBPeripheral) {
+    init(progressUpdate: ProtoProgressUpdate?, peripheral: CBPeripheral) {
         self.uuid = peripheral.identifier.uuidString
-        self.progressUpdate = progressUpdate
+        if let pu = progressUpdate {
+            self.progressUpdate = pu
+        }
     }
 }
 
 extension ProtoUpdateStateChangesStreamArg {
-    init(updateStateChanges: ProtoUpdateStateChanges, peripheral: CBPeripheral) {
+    init(updateStateChanges: ProtoUpdateStateChanges?, peripheral: CBPeripheral) {
         self.uuid = peripheral.identifier.uuidString
-        self.updateStateChanges = updateStateChanges
+        if let pu = updateStateChanges {
+            self.updateStateChanges = pu
+        }
     }
 }

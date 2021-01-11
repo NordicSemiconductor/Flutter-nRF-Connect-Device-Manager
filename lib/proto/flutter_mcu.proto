@@ -10,9 +10,12 @@ message ProtoError {
     string localizedDescription = 1;
 }
 
+// STATE
 message ProtoUpdateStateChangesStreamArg {
     string uuid = 1;
-    ProtoUpdateStateChanges updateStateChanges = 2;
+    bool done = 2;
+    ProtoError error = 3;
+    ProtoUpdateStateChanges updateStateChanges = 4;
 }
 
 message ProtoUpdateStateChanges {
@@ -29,14 +32,14 @@ message ProtoUpdateStateChanges {
     FirmwareUpgradeState oldState = 1;
     FirmwareUpgradeState newState = 2;
     bool canceled = 3;
-    bool hasError = 4;
-    ProtoError protoError = 5;
-    bool completed = 6;
 }
+
 
 message ProtoProgressUpdateStreamArg {
     string uuid = 1;
-    ProtoProgressUpdate progressUpdate = 2;
+    bool done = 2;
+    ProtoError error = 3;
+    ProtoProgressUpdate progressUpdate = 4;
 }
 
 message ProtoProgressUpdate {
@@ -48,7 +51,9 @@ message ProtoProgressUpdate {
 // LOGS
 message ProtoLogMessageStreamArg {
     string uuid = 1;
-    ProtoLogMessage protoLogMessage = 2;
+    bool done = 2;
+    ProtoError error = 3;
+    ProtoLogMessage protoLogMessage = 4;
 }
 
 message ProtoLogMessage {

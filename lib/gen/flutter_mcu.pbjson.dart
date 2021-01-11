@@ -2,7 +2,7 @@
 //  Generated code. Do not modify.
 //  source: flutter_mcu.proto
 //
-// @dart = 2.3
+// @dart = 2.7
 // ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
 
 const ProtoUpdateCallArgument$json = const {
@@ -24,7 +24,9 @@ const ProtoUpdateStateChangesStreamArg$json = const {
   '1': 'ProtoUpdateStateChangesStreamArg',
   '2': const [
     const {'1': 'uuid', '3': 1, '4': 1, '5': 9, '10': 'uuid'},
-    const {'1': 'updateStateChanges', '3': 2, '4': 1, '5': 11, '6': '.ProtoUpdateStateChanges', '10': 'updateStateChanges'},
+    const {'1': 'done', '3': 2, '4': 1, '5': 8, '10': 'done'},
+    const {'1': 'error', '3': 4, '4': 1, '5': 11, '6': '.ProtoError', '10': 'error'},
+    const {'1': 'updateStateChanges', '3': 5, '4': 1, '5': 11, '6': '.ProtoUpdateStateChanges', '10': 'updateStateChanges'},
   ],
 };
 
@@ -34,9 +36,6 @@ const ProtoUpdateStateChanges$json = const {
     const {'1': 'oldState', '3': 1, '4': 1, '5': 14, '6': '.ProtoUpdateStateChanges.FirmwareUpgradeState', '10': 'oldState'},
     const {'1': 'newState', '3': 2, '4': 1, '5': 14, '6': '.ProtoUpdateStateChanges.FirmwareUpgradeState', '10': 'newState'},
     const {'1': 'canceled', '3': 3, '4': 1, '5': 8, '10': 'canceled'},
-    const {'1': 'hasError', '3': 4, '4': 1, '5': 8, '10': 'hasError'},
-    const {'1': 'protoError', '3': 5, '4': 1, '5': 11, '6': '.ProtoError', '10': 'protoError'},
-    const {'1': 'completed', '3': 6, '4': 1, '5': 8, '10': 'completed'},
   ],
   '4': const [ProtoUpdateStateChanges_FirmwareUpgradeState$json],
 };
@@ -58,7 +57,9 @@ const ProtoProgressUpdateStreamArg$json = const {
   '1': 'ProtoProgressUpdateStreamArg',
   '2': const [
     const {'1': 'uuid', '3': 1, '4': 1, '5': 9, '10': 'uuid'},
-    const {'1': 'progressUpdate', '3': 2, '4': 1, '5': 11, '6': '.ProtoProgressUpdate', '10': 'progressUpdate'},
+    const {'1': 'done', '3': 2, '4': 1, '5': 8, '10': 'done'},
+    const {'1': 'error', '3': 4, '4': 1, '5': 11, '6': '.ProtoError', '10': 'error'},
+    const {'1': 'progressUpdate', '3': 5, '4': 1, '5': 11, '6': '.ProtoProgressUpdate', '10': 'progressUpdate'},
   ],
 };
 
@@ -75,7 +76,9 @@ const ProtoLogMessageStreamArg$json = const {
   '1': 'ProtoLogMessageStreamArg',
   '2': const [
     const {'1': 'uuid', '3': 1, '4': 1, '5': 9, '10': 'uuid'},
-    const {'1': 'protoLogMessage', '3': 2, '4': 1, '5': 11, '6': '.ProtoLogMessage', '10': 'protoLogMessage'},
+    const {'1': 'done', '3': 2, '4': 1, '5': 8, '10': 'done'},
+    const {'1': 'error', '3': 4, '4': 1, '5': 11, '6': '.ProtoError', '10': 'error'},
+    const {'1': 'protoLogMessage', '3': 5, '4': 1, '5': 11, '6': '.ProtoLogMessage', '10': 'protoLogMessage'},
   ],
 };
 

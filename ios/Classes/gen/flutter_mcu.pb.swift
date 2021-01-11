@@ -47,12 +47,25 @@ struct ProtoError {
   init() {}
 }
 
+/// STATE
 struct ProtoUpdateStateChangesStreamArg {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
   var uuid: String = String()
+
+  var done: Bool = false
+
+  /// bool hasError = 3;
+  var error: ProtoError {
+    get {return _error ?? ProtoError()}
+    set {_error = newValue}
+  }
+  /// Returns true if `error` has been explicitly set.
+  var hasError: Bool {return self._error != nil}
+  /// Clears the value of `error`. Subsequent reads from it will return its default value.
+  mutating func clearError() {self._error = nil}
 
   var updateStateChanges: ProtoUpdateStateChanges {
     get {return _updateStateChanges ?? ProtoUpdateStateChanges()}
@@ -67,6 +80,7 @@ struct ProtoUpdateStateChangesStreamArg {
 
   init() {}
 
+  fileprivate var _error: ProtoError? = nil
   fileprivate var _updateStateChanges: ProtoUpdateStateChanges? = nil
 }
 
@@ -80,19 +94,6 @@ struct ProtoUpdateStateChanges {
   var newState: ProtoUpdateStateChanges.FirmwareUpgradeState = .none
 
   var canceled: Bool = false
-
-  var hasError_p: Bool = false
-
-  var protoError: ProtoError {
-    get {return _protoError ?? ProtoError()}
-    set {_protoError = newValue}
-  }
-  /// Returns true if `protoError` has been explicitly set.
-  var hasProtoError: Bool {return self._protoError != nil}
-  /// Clears the value of `protoError`. Subsequent reads from it will return its default value.
-  mutating func clearProtoError() {self._protoError = nil}
-
-  var completed: Bool = false
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -140,8 +141,6 @@ struct ProtoUpdateStateChanges {
   }
 
   init() {}
-
-  fileprivate var _protoError: ProtoError? = nil
 }
 
 #if swift(>=4.2)
@@ -168,6 +167,18 @@ struct ProtoProgressUpdateStreamArg {
 
   var uuid: String = String()
 
+  var done: Bool = false
+
+  /// bool hasError = 3;
+  var error: ProtoError {
+    get {return _error ?? ProtoError()}
+    set {_error = newValue}
+  }
+  /// Returns true if `error` has been explicitly set.
+  var hasError: Bool {return self._error != nil}
+  /// Clears the value of `error`. Subsequent reads from it will return its default value.
+  mutating func clearError() {self._error = nil}
+
   var progressUpdate: ProtoProgressUpdate {
     get {return _progressUpdate ?? ProtoProgressUpdate()}
     set {_progressUpdate = newValue}
@@ -181,6 +192,7 @@ struct ProtoProgressUpdateStreamArg {
 
   init() {}
 
+  fileprivate var _error: ProtoError? = nil
   fileprivate var _progressUpdate: ProtoProgressUpdate? = nil
 }
 
@@ -208,6 +220,18 @@ struct ProtoLogMessageStreamArg {
 
   var uuid: String = String()
 
+  var done: Bool = false
+
+  /// bool hasError = 3;
+  var error: ProtoError {
+    get {return _error ?? ProtoError()}
+    set {_error = newValue}
+  }
+  /// Returns true if `error` has been explicitly set.
+  var hasError: Bool {return self._error != nil}
+  /// Clears the value of `error`. Subsequent reads from it will return its default value.
+  mutating func clearError() {self._error = nil}
+
   var protoLogMessage: ProtoLogMessage {
     get {return _protoLogMessage ?? ProtoLogMessage()}
     set {_protoLogMessage = newValue}
@@ -221,6 +245,7 @@ struct ProtoLogMessageStreamArg {
 
   init() {}
 
+  fileprivate var _error: ProtoError? = nil
   fileprivate var _protoLogMessage: ProtoLogMessage? = nil
 }
 
@@ -440,7 +465,9 @@ extension ProtoUpdateStateChangesStreamArg: SwiftProtobuf.Message, SwiftProtobuf
   static let protoMessageName: String = "ProtoUpdateStateChangesStreamArg"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "uuid"),
-    2: .same(proto: "updateStateChanges"),
+    2: .same(proto: "done"),
+    4: .same(proto: "error"),
+    5: .same(proto: "updateStateChanges"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -450,7 +477,9 @@ extension ProtoUpdateStateChangesStreamArg: SwiftProtobuf.Message, SwiftProtobuf
       // enabled. https://github.com/apple/swift-protobuf/issues/1034
       switch fieldNumber {
       case 1: try { try decoder.decodeSingularStringField(value: &self.uuid) }()
-      case 2: try { try decoder.decodeSingularMessageField(value: &self._updateStateChanges) }()
+      case 2: try { try decoder.decodeSingularBoolField(value: &self.done) }()
+      case 4: try { try decoder.decodeSingularMessageField(value: &self._error) }()
+      case 5: try { try decoder.decodeSingularMessageField(value: &self._updateStateChanges) }()
       default: break
       }
     }
@@ -460,14 +489,22 @@ extension ProtoUpdateStateChangesStreamArg: SwiftProtobuf.Message, SwiftProtobuf
     if !self.uuid.isEmpty {
       try visitor.visitSingularStringField(value: self.uuid, fieldNumber: 1)
     }
+    if self.done != false {
+      try visitor.visitSingularBoolField(value: self.done, fieldNumber: 2)
+    }
+    if let v = self._error {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 4)
+    }
     if let v = self._updateStateChanges {
-      try visitor.visitSingularMessageField(value: v, fieldNumber: 2)
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 5)
     }
     try unknownFields.traverse(visitor: &visitor)
   }
 
   static func ==(lhs: ProtoUpdateStateChangesStreamArg, rhs: ProtoUpdateStateChangesStreamArg) -> Bool {
     if lhs.uuid != rhs.uuid {return false}
+    if lhs.done != rhs.done {return false}
+    if lhs._error != rhs._error {return false}
     if lhs._updateStateChanges != rhs._updateStateChanges {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
@@ -480,9 +517,6 @@ extension ProtoUpdateStateChanges: SwiftProtobuf.Message, SwiftProtobuf._Message
     1: .same(proto: "oldState"),
     2: .same(proto: "newState"),
     3: .same(proto: "canceled"),
-    4: .same(proto: "hasError"),
-    5: .same(proto: "protoError"),
-    6: .same(proto: "completed"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -494,9 +528,6 @@ extension ProtoUpdateStateChanges: SwiftProtobuf.Message, SwiftProtobuf._Message
       case 1: try { try decoder.decodeSingularEnumField(value: &self.oldState) }()
       case 2: try { try decoder.decodeSingularEnumField(value: &self.newState) }()
       case 3: try { try decoder.decodeSingularBoolField(value: &self.canceled) }()
-      case 4: try { try decoder.decodeSingularBoolField(value: &self.hasError_p) }()
-      case 5: try { try decoder.decodeSingularMessageField(value: &self._protoError) }()
-      case 6: try { try decoder.decodeSingularBoolField(value: &self.completed) }()
       default: break
       }
     }
@@ -512,15 +543,6 @@ extension ProtoUpdateStateChanges: SwiftProtobuf.Message, SwiftProtobuf._Message
     if self.canceled != false {
       try visitor.visitSingularBoolField(value: self.canceled, fieldNumber: 3)
     }
-    if self.hasError_p != false {
-      try visitor.visitSingularBoolField(value: self.hasError_p, fieldNumber: 4)
-    }
-    if let v = self._protoError {
-      try visitor.visitSingularMessageField(value: v, fieldNumber: 5)
-    }
-    if self.completed != false {
-      try visitor.visitSingularBoolField(value: self.completed, fieldNumber: 6)
-    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
@@ -528,9 +550,6 @@ extension ProtoUpdateStateChanges: SwiftProtobuf.Message, SwiftProtobuf._Message
     if lhs.oldState != rhs.oldState {return false}
     if lhs.newState != rhs.newState {return false}
     if lhs.canceled != rhs.canceled {return false}
-    if lhs.hasError_p != rhs.hasError_p {return false}
-    if lhs._protoError != rhs._protoError {return false}
-    if lhs.completed != rhs.completed {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -552,7 +571,9 @@ extension ProtoProgressUpdateStreamArg: SwiftProtobuf.Message, SwiftProtobuf._Me
   static let protoMessageName: String = "ProtoProgressUpdateStreamArg"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "uuid"),
-    2: .same(proto: "progressUpdate"),
+    2: .same(proto: "done"),
+    4: .same(proto: "error"),
+    5: .same(proto: "progressUpdate"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -562,7 +583,9 @@ extension ProtoProgressUpdateStreamArg: SwiftProtobuf.Message, SwiftProtobuf._Me
       // enabled. https://github.com/apple/swift-protobuf/issues/1034
       switch fieldNumber {
       case 1: try { try decoder.decodeSingularStringField(value: &self.uuid) }()
-      case 2: try { try decoder.decodeSingularMessageField(value: &self._progressUpdate) }()
+      case 2: try { try decoder.decodeSingularBoolField(value: &self.done) }()
+      case 4: try { try decoder.decodeSingularMessageField(value: &self._error) }()
+      case 5: try { try decoder.decodeSingularMessageField(value: &self._progressUpdate) }()
       default: break
       }
     }
@@ -572,14 +595,22 @@ extension ProtoProgressUpdateStreamArg: SwiftProtobuf.Message, SwiftProtobuf._Me
     if !self.uuid.isEmpty {
       try visitor.visitSingularStringField(value: self.uuid, fieldNumber: 1)
     }
+    if self.done != false {
+      try visitor.visitSingularBoolField(value: self.done, fieldNumber: 2)
+    }
+    if let v = self._error {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 4)
+    }
     if let v = self._progressUpdate {
-      try visitor.visitSingularMessageField(value: v, fieldNumber: 2)
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 5)
     }
     try unknownFields.traverse(visitor: &visitor)
   }
 
   static func ==(lhs: ProtoProgressUpdateStreamArg, rhs: ProtoProgressUpdateStreamArg) -> Bool {
     if lhs.uuid != rhs.uuid {return false}
+    if lhs.done != rhs.done {return false}
+    if lhs._error != rhs._error {return false}
     if lhs._progressUpdate != rhs._progressUpdate {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
@@ -634,7 +665,9 @@ extension ProtoLogMessageStreamArg: SwiftProtobuf.Message, SwiftProtobuf._Messag
   static let protoMessageName: String = "ProtoLogMessageStreamArg"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "uuid"),
-    2: .same(proto: "protoLogMessage"),
+    2: .same(proto: "done"),
+    4: .same(proto: "error"),
+    5: .same(proto: "protoLogMessage"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -644,7 +677,9 @@ extension ProtoLogMessageStreamArg: SwiftProtobuf.Message, SwiftProtobuf._Messag
       // enabled. https://github.com/apple/swift-protobuf/issues/1034
       switch fieldNumber {
       case 1: try { try decoder.decodeSingularStringField(value: &self.uuid) }()
-      case 2: try { try decoder.decodeSingularMessageField(value: &self._protoLogMessage) }()
+      case 2: try { try decoder.decodeSingularBoolField(value: &self.done) }()
+      case 4: try { try decoder.decodeSingularMessageField(value: &self._error) }()
+      case 5: try { try decoder.decodeSingularMessageField(value: &self._protoLogMessage) }()
       default: break
       }
     }
@@ -654,14 +689,22 @@ extension ProtoLogMessageStreamArg: SwiftProtobuf.Message, SwiftProtobuf._Messag
     if !self.uuid.isEmpty {
       try visitor.visitSingularStringField(value: self.uuid, fieldNumber: 1)
     }
+    if self.done != false {
+      try visitor.visitSingularBoolField(value: self.done, fieldNumber: 2)
+    }
+    if let v = self._error {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 4)
+    }
     if let v = self._protoLogMessage {
-      try visitor.visitSingularMessageField(value: v, fieldNumber: 2)
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 5)
     }
     try unknownFields.traverse(visitor: &visitor)
   }
 
   static func ==(lhs: ProtoLogMessageStreamArg, rhs: ProtoLogMessageStreamArg) -> Bool {
     if lhs.uuid != rhs.uuid {return false}
+    if lhs.done != rhs.done {return false}
+    if lhs._error != rhs._error {return false}
     if lhs._protoLogMessage != rhs._protoLogMessage {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true

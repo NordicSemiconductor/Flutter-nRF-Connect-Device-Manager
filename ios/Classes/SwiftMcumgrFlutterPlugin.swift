@@ -90,7 +90,20 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
             throw FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can not parse provided arguments", details: call)
         }
         
-        let args = try ProtoUpdateCallArgument(serializedData: data.data)
+        let b = Bundle(for: type(of: self))
+        guard let path = b.url(forResource: "app_update_zephyr3", withExtension: "bin") else {
+            fatalError()
+        }
+        
+        let updateData: Data
+        do {
+            updateData = try Data(contentsOf: path)
+        } catch {
+            fatalError()
+        }
+        
+        var args = try ProtoUpdateCallArgument(serializedData: data.data)
+        args.firmwareData = updateData
         
         guard let manager = updateManagers[args.deviceUuid] else {
             throw FlutterError(code: ErrorCode.updateManagerExists.rawValue, message: "Update manager does not exist", details: call)

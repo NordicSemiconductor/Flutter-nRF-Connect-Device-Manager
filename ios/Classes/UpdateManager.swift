@@ -27,6 +27,7 @@ class UpdateManager {
     }
     
     func update(data: Data) throws {
+        dfuManager.logDelegate = self
         try dfuManager.start(data: data)
     }
 }
@@ -43,7 +44,9 @@ extension UpdateManager: FirmwareUpgradeDelegate {
             var changes = ProtoUpdateStateChanges()
             changes.oldState = oldProtoState
             changes.newState = newProtoState
-            let data = try changes.serializedData()
+            
+            let arg = ProtoUpdateStateChangesStreamArg(updateStateChanges: changes, peripheral: peripheral)
+            let data = try arg.serializedData()
             stateStreamHandler.sink?(FlutterStandardTypedData(bytes: data))
         } catch let e {
             let error = FlutterError(error: e, code: ErrorCode.flutterTypeError)
@@ -52,11 +55,25 @@ extension UpdateManager: FirmwareUpgradeDelegate {
     }
     
     func upgradeDidComplete() {
+        var stateChangesArg = ProtoUpdateStateChangesStreamArg(updateStateChanges: nil, peripheral: peripheral)
+        stateChangesArg.done = true
+        
+        var progressArg = ProtoProgressUpdateStreamArg(progressUpdate: nil, peripheral: peripheral)
+        progressArg.done = true
+        
+        var logArg = ProtoLogMessageStreamArg(uuid: peripheral.identifier.uuidString, log: ProtoLogMessage())
+        logArg.done = true
+        
+        
         do {
-            var changes = ProtoUpdateStateChanges()
-            changes.completed = true
-            let data = try changes.serializedData()
-            stateStreamHandler.sink?(FlutterStandardTypedData(bytes: data))
+            let statusData = try stateChangesArg.serializedData()
+            stateStreamHandler.sink?(FlutterStandardTypedData(bytes: statusData))
+            
+            let progressData = try progressArg.serializedData()
+            progressStreamHandler.sink?(FlutterStandardTypedData(bytes: progressData))
+            
+            let logData = try logArg.serializedData()
+            logStreamhandler.sink?(FlutterStandardTypedData(bytes: logData))
         } catch let e {
             let error = FlutterError(error: e, code: ErrorCode.flutterTypeError)
             stateStreamHandler.sink?(error)
@@ -64,13 +81,16 @@ extension UpdateManager: FirmwareUpgradeDelegate {
     }
     
     func upgradeDidFail(inState state: FirmwareUpgradeState, with error: Error) {
+        var changes = ProtoUpdateStateChanges()
+        changes.oldState = state.toProto()
+        changes.newState = state.toProto()
+        
+        var arg = ProtoUpdateStateChangesStreamArg(updateStateChanges: changes, peripheral: peripheral)
+        arg.error = ProtoError(localizedDescription: error.localizedDescription)
+
         do {
-            var changes = ProtoUpdateStateChanges()
-            let protoError = ProtoError(localizedDescription: error.localizedDescription)
-            changes.protoError = protoError
-            changes.oldState = state.toProto()
-            changes.newState = state.toProto()
-            stateStreamHandler.sink?(FlutterStandardTypedData(bytes: try changes.serializedData()))
+            let data = try arg.serializedData()
+            stateStreamHandler.sink?(FlutterStandardTypedData(bytes: data))
         } catch let e {
             let error = FlutterError(error: e, code: ErrorCode.flutterTypeError)
             stateStreamHandler.sink?(error)

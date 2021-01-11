@@ -2,7 +2,7 @@
 //  Generated code. Do not modify.
 //  source: flutter_mcu.proto
 //
-// @dart = 2.3
+// @dart = 2.7
 // ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
 
 import 'dart:core' as $core;
@@ -22,7 +22,19 @@ class ProtoUpdateCallArgument extends $pb.GeneratedMessage {
   ;
 
   ProtoUpdateCallArgument._() : super();
-  factory ProtoUpdateCallArgument() => create();
+  factory ProtoUpdateCallArgument({
+    $core.String deviceUuid,
+    $core.List<$core.int> firmwareData,
+  }) {
+    final _result = create();
+    if (deviceUuid != null) {
+      _result.deviceUuid = deviceUuid;
+    }
+    if (firmwareData != null) {
+      _result.firmwareData = firmwareData;
+    }
+    return _result;
+  }
   factory ProtoUpdateCallArgument.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory ProtoUpdateCallArgument.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
   @$core.Deprecated(
@@ -70,7 +82,15 @@ class ProtoError extends $pb.GeneratedMessage {
   ;
 
   ProtoError._() : super();
-  factory ProtoError() => create();
+  factory ProtoError({
+    $core.String localizedDescription,
+  }) {
+    final _result = create();
+    if (localizedDescription != null) {
+      _result.localizedDescription = localizedDescription;
+    }
+    return _result;
+  }
   factory ProtoError.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory ProtoError.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
   @$core.Deprecated(
@@ -105,12 +125,34 @@ class ProtoError extends $pb.GeneratedMessage {
 class ProtoUpdateStateChangesStreamArg extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ProtoUpdateStateChangesStreamArg', createEmptyInstance: create)
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'uuid')
-    ..aOM<ProtoUpdateStateChanges>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'updateStateChanges', protoName: 'updateStateChanges', subBuilder: ProtoUpdateStateChanges.create)
+    ..aOB(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'done')
+    ..aOM<ProtoError>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'error', subBuilder: ProtoError.create)
+    ..aOM<ProtoUpdateStateChanges>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'updateStateChanges', protoName: 'updateStateChanges', subBuilder: ProtoUpdateStateChanges.create)
     ..hasRequiredFields = false
   ;
 
   ProtoUpdateStateChangesStreamArg._() : super();
-  factory ProtoUpdateStateChangesStreamArg() => create();
+  factory ProtoUpdateStateChangesStreamArg({
+    $core.String uuid,
+    $core.bool done,
+    ProtoError error,
+    ProtoUpdateStateChanges updateStateChanges,
+  }) {
+    final _result = create();
+    if (uuid != null) {
+      _result.uuid = uuid;
+    }
+    if (done != null) {
+      _result.done = done;
+    }
+    if (error != null) {
+      _result.error = error;
+    }
+    if (updateStateChanges != null) {
+      _result.updateStateChanges = updateStateChanges;
+    }
+    return _result;
+  }
   factory ProtoUpdateStateChangesStreamArg.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory ProtoUpdateStateChangesStreamArg.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
   @$core.Deprecated(
@@ -142,15 +184,35 @@ class ProtoUpdateStateChangesStreamArg extends $pb.GeneratedMessage {
   void clearUuid() => clearField(1);
 
   @$pb.TagNumber(2)
-  ProtoUpdateStateChanges get updateStateChanges => $_getN(1);
+  $core.bool get done => $_getBF(1);
   @$pb.TagNumber(2)
-  set updateStateChanges(ProtoUpdateStateChanges v) { setField(2, v); }
+  set done($core.bool v) { $_setBool(1, v); }
   @$pb.TagNumber(2)
-  $core.bool hasUpdateStateChanges() => $_has(1);
+  $core.bool hasDone() => $_has(1);
   @$pb.TagNumber(2)
-  void clearUpdateStateChanges() => clearField(2);
-  @$pb.TagNumber(2)
-  ProtoUpdateStateChanges ensureUpdateStateChanges() => $_ensure(1);
+  void clearDone() => clearField(2);
+
+  @$pb.TagNumber(4)
+  ProtoError get error => $_getN(2);
+  @$pb.TagNumber(4)
+  set error(ProtoError v) { setField(4, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasError() => $_has(2);
+  @$pb.TagNumber(4)
+  void clearError() => clearField(4);
+  @$pb.TagNumber(4)
+  ProtoError ensureError() => $_ensure(2);
+
+  @$pb.TagNumber(5)
+  ProtoUpdateStateChanges get updateStateChanges => $_getN(3);
+  @$pb.TagNumber(5)
+  set updateStateChanges(ProtoUpdateStateChanges v) { setField(5, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasUpdateStateChanges() => $_has(3);
+  @$pb.TagNumber(5)
+  void clearUpdateStateChanges() => clearField(5);
+  @$pb.TagNumber(5)
+  ProtoUpdateStateChanges ensureUpdateStateChanges() => $_ensure(3);
 }
 
 class ProtoUpdateStateChanges extends $pb.GeneratedMessage {
@@ -158,14 +220,27 @@ class ProtoUpdateStateChanges extends $pb.GeneratedMessage {
     ..e<ProtoUpdateStateChanges_FirmwareUpgradeState>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'oldState', $pb.PbFieldType.OE, protoName: 'oldState', defaultOrMaker: ProtoUpdateStateChanges_FirmwareUpgradeState.NONE, valueOf: ProtoUpdateStateChanges_FirmwareUpgradeState.valueOf, enumValues: ProtoUpdateStateChanges_FirmwareUpgradeState.values)
     ..e<ProtoUpdateStateChanges_FirmwareUpgradeState>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'newState', $pb.PbFieldType.OE, protoName: 'newState', defaultOrMaker: ProtoUpdateStateChanges_FirmwareUpgradeState.NONE, valueOf: ProtoUpdateStateChanges_FirmwareUpgradeState.valueOf, enumValues: ProtoUpdateStateChanges_FirmwareUpgradeState.values)
     ..aOB(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'canceled')
-    ..aOB(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'hasError', protoName: 'hasError')
-    ..aOM<ProtoError>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'protoError', protoName: 'protoError', subBuilder: ProtoError.create)
-    ..aOB(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'completed')
     ..hasRequiredFields = false
   ;
 
   ProtoUpdateStateChanges._() : super();
-  factory ProtoUpdateStateChanges() => create();
+  factory ProtoUpdateStateChanges({
+    ProtoUpdateStateChanges_FirmwareUpgradeState oldState,
+    ProtoUpdateStateChanges_FirmwareUpgradeState newState,
+    $core.bool canceled,
+  }) {
+    final _result = create();
+    if (oldState != null) {
+      _result.oldState = oldState;
+    }
+    if (newState != null) {
+      _result.newState = newState;
+    }
+    if (canceled != null) {
+      _result.canceled = canceled;
+    }
+    return _result;
+  }
   factory ProtoUpdateStateChanges.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory ProtoUpdateStateChanges.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
   @$core.Deprecated(
@@ -213,46 +288,39 @@ class ProtoUpdateStateChanges extends $pb.GeneratedMessage {
   $core.bool hasCanceled() => $_has(2);
   @$pb.TagNumber(3)
   void clearCanceled() => clearField(3);
-
-  @$pb.TagNumber(4)
-  $core.bool get hasError => $_getBF(3);
-  @$pb.TagNumber(4)
-  set hasError($core.bool v) { $_setBool(3, v); }
-  @$pb.TagNumber(4)
-  $core.bool hasHasError() => $_has(3);
-  @$pb.TagNumber(4)
-  void clearHasError() => clearField(4);
-
-  @$pb.TagNumber(5)
-  ProtoError get protoError => $_getN(4);
-  @$pb.TagNumber(5)
-  set protoError(ProtoError v) { setField(5, v); }
-  @$pb.TagNumber(5)
-  $core.bool hasProtoError() => $_has(4);
-  @$pb.TagNumber(5)
-  void clearProtoError() => clearField(5);
-  @$pb.TagNumber(5)
-  ProtoError ensureProtoError() => $_ensure(4);
-
-  @$pb.TagNumber(6)
-  $core.bool get completed => $_getBF(5);
-  @$pb.TagNumber(6)
-  set completed($core.bool v) { $_setBool(5, v); }
-  @$pb.TagNumber(6)
-  $core.bool hasCompleted() => $_has(5);
-  @$pb.TagNumber(6)
-  void clearCompleted() => clearField(6);
 }
 
 class ProtoProgressUpdateStreamArg extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ProtoProgressUpdateStreamArg', createEmptyInstance: create)
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'uuid')
-    ..aOM<ProtoProgressUpdate>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'progressUpdate', protoName: 'progressUpdate', subBuilder: ProtoProgressUpdate.create)
+    ..aOB(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'done')
+    ..aOM<ProtoError>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'error', subBuilder: ProtoError.create)
+    ..aOM<ProtoProgressUpdate>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'progressUpdate', protoName: 'progressUpdate', subBuilder: ProtoProgressUpdate.create)
     ..hasRequiredFields = false
   ;
 
   ProtoProgressUpdateStreamArg._() : super();
-  factory ProtoProgressUpdateStreamArg() => create();
+  factory ProtoProgressUpdateStreamArg({
+    $core.String uuid,
+    $core.bool done,
+    ProtoError error,
+    ProtoProgressUpdate progressUpdate,
+  }) {
+    final _result = create();
+    if (uuid != null) {
+      _result.uuid = uuid;
+    }
+    if (done != null) {
+      _result.done = done;
+    }
+    if (error != null) {
+      _result.error = error;
+    }
+    if (progressUpdate != null) {
+      _result.progressUpdate = progressUpdate;
+    }
+    return _result;
+  }
   factory ProtoProgressUpdateStreamArg.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory ProtoProgressUpdateStreamArg.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
   @$core.Deprecated(
@@ -284,15 +352,35 @@ class ProtoProgressUpdateStreamArg extends $pb.GeneratedMessage {
   void clearUuid() => clearField(1);
 
   @$pb.TagNumber(2)
-  ProtoProgressUpdate get progressUpdate => $_getN(1);
+  $core.bool get done => $_getBF(1);
   @$pb.TagNumber(2)
-  set progressUpdate(ProtoProgressUpdate v) { setField(2, v); }
+  set done($core.bool v) { $_setBool(1, v); }
   @$pb.TagNumber(2)
-  $core.bool hasProgressUpdate() => $_has(1);
+  $core.bool hasDone() => $_has(1);
   @$pb.TagNumber(2)
-  void clearProgressUpdate() => clearField(2);
-  @$pb.TagNumber(2)
-  ProtoProgressUpdate ensureProgressUpdate() => $_ensure(1);
+  void clearDone() => clearField(2);
+
+  @$pb.TagNumber(4)
+  ProtoError get error => $_getN(2);
+  @$pb.TagNumber(4)
+  set error(ProtoError v) { setField(4, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasError() => $_has(2);
+  @$pb.TagNumber(4)
+  void clearError() => clearField(4);
+  @$pb.TagNumber(4)
+  ProtoError ensureError() => $_ensure(2);
+
+  @$pb.TagNumber(5)
+  ProtoProgressUpdate get progressUpdate => $_getN(3);
+  @$pb.TagNumber(5)
+  set progressUpdate(ProtoProgressUpdate v) { setField(5, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasProgressUpdate() => $_has(3);
+  @$pb.TagNumber(5)
+  void clearProgressUpdate() => clearField(5);
+  @$pb.TagNumber(5)
+  ProtoProgressUpdate ensureProgressUpdate() => $_ensure(3);
 }
 
 class ProtoProgressUpdate extends $pb.GeneratedMessage {
@@ -304,7 +392,23 @@ class ProtoProgressUpdate extends $pb.GeneratedMessage {
   ;
 
   ProtoProgressUpdate._() : super();
-  factory ProtoProgressUpdate() => create();
+  factory ProtoProgressUpdate({
+    $fixnum.Int64 bytesSent,
+    $fixnum.Int64 imageSize,
+    $core.double timestamp,
+  }) {
+    final _result = create();
+    if (bytesSent != null) {
+      _result.bytesSent = bytesSent;
+    }
+    if (imageSize != null) {
+      _result.imageSize = imageSize;
+    }
+    if (timestamp != null) {
+      _result.timestamp = timestamp;
+    }
+    return _result;
+  }
   factory ProtoProgressUpdate.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory ProtoProgressUpdate.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
   @$core.Deprecated(
@@ -357,12 +461,34 @@ class ProtoProgressUpdate extends $pb.GeneratedMessage {
 class ProtoLogMessageStreamArg extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ProtoLogMessageStreamArg', createEmptyInstance: create)
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'uuid')
-    ..aOM<ProtoLogMessage>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'protoLogMessage', protoName: 'protoLogMessage', subBuilder: ProtoLogMessage.create)
+    ..aOB(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'done')
+    ..aOM<ProtoError>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'error', subBuilder: ProtoError.create)
+    ..aOM<ProtoLogMessage>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'protoLogMessage', protoName: 'protoLogMessage', subBuilder: ProtoLogMessage.create)
     ..hasRequiredFields = false
   ;
 
   ProtoLogMessageStreamArg._() : super();
-  factory ProtoLogMessageStreamArg() => create();
+  factory ProtoLogMessageStreamArg({
+    $core.String uuid,
+    $core.bool done,
+    ProtoError error,
+    ProtoLogMessage protoLogMessage,
+  }) {
+    final _result = create();
+    if (uuid != null) {
+      _result.uuid = uuid;
+    }
+    if (done != null) {
+      _result.done = done;
+    }
+    if (error != null) {
+      _result.error = error;
+    }
+    if (protoLogMessage != null) {
+      _result.protoLogMessage = protoLogMessage;
+    }
+    return _result;
+  }
   factory ProtoLogMessageStreamArg.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory ProtoLogMessageStreamArg.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
   @$core.Deprecated(
@@ -394,15 +520,35 @@ class ProtoLogMessageStreamArg extends $pb.GeneratedMessage {
   void clearUuid() => clearField(1);
 
   @$pb.TagNumber(2)
-  ProtoLogMessage get protoLogMessage => $_getN(1);
+  $core.bool get done => $_getBF(1);
   @$pb.TagNumber(2)
-  set protoLogMessage(ProtoLogMessage v) { setField(2, v); }
+  set done($core.bool v) { $_setBool(1, v); }
   @$pb.TagNumber(2)
-  $core.bool hasProtoLogMessage() => $_has(1);
+  $core.bool hasDone() => $_has(1);
   @$pb.TagNumber(2)
-  void clearProtoLogMessage() => clearField(2);
-  @$pb.TagNumber(2)
-  ProtoLogMessage ensureProtoLogMessage() => $_ensure(1);
+  void clearDone() => clearField(2);
+
+  @$pb.TagNumber(4)
+  ProtoError get error => $_getN(2);
+  @$pb.TagNumber(4)
+  set error(ProtoError v) { setField(4, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasError() => $_has(2);
+  @$pb.TagNumber(4)
+  void clearError() => clearField(4);
+  @$pb.TagNumber(4)
+  ProtoError ensureError() => $_ensure(2);
+
+  @$pb.TagNumber(5)
+  ProtoLogMessage get protoLogMessage => $_getN(3);
+  @$pb.TagNumber(5)
+  set protoLogMessage(ProtoLogMessage v) { setField(5, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasProtoLogMessage() => $_has(3);
+  @$pb.TagNumber(5)
+  void clearProtoLogMessage() => clearField(5);
+  @$pb.TagNumber(5)
+  ProtoLogMessage ensureProtoLogMessage() => $_ensure(3);
 }
 
 class ProtoLogMessage extends $pb.GeneratedMessage {
@@ -414,7 +560,23 @@ class ProtoLogMessage extends $pb.GeneratedMessage {
   ;
 
   ProtoLogMessage._() : super();
-  factory ProtoLogMessage() => create();
+  factory ProtoLogMessage({
+    $core.String message,
+    ProtoLogMessage_LogCategory logCategory,
+    ProtoLogMessage_LogLevel logLevel,
+  }) {
+    final _result = create();
+    if (message != null) {
+      _result.message = message;
+    }
+    if (logCategory != null) {
+      _result.logCategory = logCategory;
+    }
+    if (logLevel != null) {
+      _result.logLevel = logLevel;
+    }
+    return _result;
+  }
   factory ProtoLogMessage.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory ProtoLogMessage.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
   @$core.Deprecated(

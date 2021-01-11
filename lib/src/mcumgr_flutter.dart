@@ -25,11 +25,6 @@ class UpdateManager {
   final StreamController<McuLogMessage> _logMessageStreamController =
       StreamController();
 
-  // STREAM LISTENERS
-  StreamSubscription<ProtoProgressUpdate> _progressListener;
-  StreamSubscription<ProtoUpdateStateChanges> _updateStateListener;
-  StreamSubscription<ProtoLogMessage> _logMessageListener;
-
   // STREAMS
   Stream<ProgressUpdate> get progressStream {
     return _progressStreamController.stream;
@@ -65,67 +60,76 @@ class UpdateManager {
   }
 
   void _setupProgressUpdateStream() {
-    _progressListener = _McumgrFlutter._progressStream
+    _McumgrFlutter._progressStream
         .receiveBroadcastStream()
         .map((event) => ProtoProgressUpdateStreamArg.fromBuffer(event))
         .where((event) => event.uuid == _deviceId)
-        .map((event) => event.progressUpdate)
         .listen((event) {
-      log("_progressStream" + event.toString());
-    });
+      if (event.hasError()) {
+        _progressStreamController.addError(event.error);
+      }
 
-    _progressListener
-        .onData((data) => _progressStreamController.add(data.convert()));
-    _progressListener.onError(_progressStreamController.addError);
+      if (event.done) {
+        _progressStreamController.close();
+      }
+
+      if (event.hasProgressUpdate()) {
+        final progress = event.progressUpdate.convert();
+        _progressStreamController.add(progress);
+      }
+    });
   }
 
   void _setupUpdateStateStream() {
-    _updateStateListener = _McumgrFlutter._updateStateStream
+    _McumgrFlutter._updateStateStream
         .receiveBroadcastStream()
         .map((event) => ProtoUpdateStateChangesStreamArg.fromBuffer(event))
         .where((event) => event.uuid == _deviceId)
-        .map((event) => event.updateStateChanges)
-        .listen((event) {
-      log('_updateStateStream' + event.toString());
-    });
-
-    _updateStateListener.onData((data) async {
-      if (data.hasError) {
-        _updateStateStreamController.addError(data.protoError);
+        .listen((data) async {
+      if (data.hasError()) {
+        _updateStateStreamController.addError(data.error);
         return;
       }
 
-      if (data.canceled) {
-        await _updateStateStreamController.close();
-        return;
-      }
-
-      if (data.completed) {
-        // TODO: Check Correctness
+      if (data.done) {
         _updateStateStreamController.close();
         return;
       }
 
-      _updateStateStreamController.add(data.newState.convert());
-    });
+      if (!data.hasUpdateStateChanges()) {
+        return;
+      }
 
-    _updateStateListener.onError(_updateStateStreamController.addError);
+      final stateChanges = data.updateStateChanges;
+      if (stateChanges.canceled) {
+        await _updateStateStreamController.close();
+        return;
+      }
+
+      var d = stateChanges.newState.convert();
+
+      _updateStateStreamController.add(d);
+    });
   }
 
   void _setupLogStream() {
-    _logMessageListener = _McumgrFlutter._logEventChannel
+    _McumgrFlutter._logEventChannel
         .receiveBroadcastStream()
         .map((event) => ProtoLogMessageStreamArg.fromBuffer(event))
         .where((event) => event.uuid == _deviceId)
-        .map((event) => event.protoLogMessage)
         .listen((event) {
-      log('_logEventChannel' + event.toString());
-    });
+      if (event.hasError()) {
+        _logMessageStreamController.addError(event.error);
+      }
 
-    _logMessageListener.onData((data) {
-      _logMessageStreamController.add(data.convent());
-    });
+      if (event.done) {
+        _logMessageStreamController.close();
+      }
 
-    _logMessageListener.onError(_logMessageStreamController.addError);
+      if (event.hasProtoLogMessage()) {
+        final msg = event.protoLogMessage.convent();
+        _logMessageStreamController.add(msg);
+      }
+    });
   }
 }
