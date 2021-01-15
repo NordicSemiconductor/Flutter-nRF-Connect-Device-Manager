@@ -121,10 +121,12 @@ extension UpdateManager: FirmwareUpgradeDelegate {
             progressUpdate.timestamp = timestamp.timeIntervalSince1970
             
             let arg = ProtoProgressUpdateStreamArg(progressUpdate: progressUpdate, peripheral: peripheral)
-            stateStreamHandler.sink?(FlutterStandardTypedData(bytes: try arg.serializedData()))
+            let data = try arg.serializedData()
+            let flutterData = FlutterStandardTypedData(bytes: data)
+            progressStreamHandler.sink?(flutterData)
         } catch let e {
             let error = FlutterError(error: e, code: ErrorCode.flutterTypeError)
-            stateStreamHandler.sink?(error)
+            progressStreamHandler.sink?(error)
         }
     }
 }
@@ -138,7 +140,7 @@ extension UpdateManager: McuMgrLogDelegate {
             logStreamhandler.sink?(FlutterStandardTypedData(bytes: try logStremArg.serializedData()))
         } catch let e {
             let error = FlutterError(error: e, code: ErrorCode.flutterTypeError)
-            stateStreamHandler.sink?(error)
+            logStreamhandler.sink?(error)
         }
     }
     

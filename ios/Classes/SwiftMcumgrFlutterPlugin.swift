@@ -91,7 +91,7 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
         }
         
         let b = Bundle(for: type(of: self))
-        guard let path = b.url(forResource: "app_update_zephyr3", withExtension: "bin") else {
+        guard let path = b.url(forResource: "app_update_zephyr2", withExtension: "bin") else {
             fatalError()
         }
         

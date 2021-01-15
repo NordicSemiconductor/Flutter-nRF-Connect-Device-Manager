@@ -60,6 +60,10 @@ class UpdateManager {
   }
 
   void _setupProgressUpdateStream() {
+    _McumgrFlutter._progressStream.receiveBroadcastStream().listen((event) {
+      print(event.toString());
+    });
+
     _McumgrFlutter._progressStream
         .receiveBroadcastStream()
         .map((event) => ProtoProgressUpdateStreamArg.fromBuffer(event))
