@@ -13,7 +13,7 @@ class UpdateManager {
     let transport: McuMgrBleTransport
     let progressStreamHandler: StreamHandler
     let stateStreamHandler: StreamHandler
-    let logStreamhandler: StreamHandler
+    let logStreamHandler: StreamHandler
     let peripheral: CBPeripheral
     
     private (set) lazy var dfuManager: FirmwareUpgradeManager = FirmwareUpgradeManager(transporter: self.transport, delegate: self)
@@ -23,12 +23,24 @@ class UpdateManager {
         self.transport = McuMgrBleTransport(peripheral)
         self.progressStreamHandler = progressStreamHandler
         self.stateStreamHandler = stateStreamHandler
-        self.logStreamhandler = logStreamhandler
+        self.logStreamHandler = logStreamhandler
     }
     
     func update(data: Data) throws {
         dfuManager.logDelegate = self
         try dfuManager.start(data: data)
+    }
+    
+    func pause() {
+        if dfuManager.isInProgress() {
+            dfuManager.pause()
+        }
+    }
+    
+    func resume() {
+        if dfuManager.isPaused() {
+            dfuManager.resume()
+        }
     }
 }
 
@@ -73,7 +85,7 @@ extension UpdateManager: FirmwareUpgradeDelegate {
             progressStreamHandler.sink?(FlutterStandardTypedData(bytes: progressData))
             
             let logData = try logArg.serializedData()
-            logStreamhandler.sink?(FlutterStandardTypedData(bytes: logData))
+            logStreamHandler.sink?(FlutterStandardTypedData(bytes: logData))
         } catch let e {
             let error = FlutterError(error: e, code: ErrorCode.flutterTypeError)
             stateStreamHandler.sink?(error)
@@ -137,10 +149,10 @@ extension UpdateManager: McuMgrLogDelegate {
         let logStremArg = ProtoLogMessageStreamArg(uuid: peripheral.identifier.uuidString, log: log)
         
         do {
-            logStreamhandler.sink?(FlutterStandardTypedData(bytes: try logStremArg.serializedData()))
+            logStreamHandler.sink?(FlutterStandardTypedData(bytes: try logStremArg.serializedData()))
         } catch let e {
             let error = FlutterError(error: e, code: ErrorCode.flutterTypeError)
-            logStreamhandler.sink?(error)
+            logStreamHandler.sink?(error)
         }
     }
     

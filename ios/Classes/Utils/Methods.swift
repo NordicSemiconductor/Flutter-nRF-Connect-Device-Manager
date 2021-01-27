@@ -11,6 +11,10 @@ import Foundation
 public enum FlutterMethod: String {
     case update
     case initializeUpdateManager
+    case pause
+    case resume
+    case isPaused
+    case isInProgress
 }
 
 /// Methods which platform sends to Flutter

@@ -10,6 +10,8 @@ class _McumgrFlutter {
       const EventChannel(_namespace + '/update_state_event_channel');
   static const EventChannel _logEventChannel =
       const EventChannel(_namespace + '/log_event_channel');
+  static const EventChannel _updateInProgressChannel =
+      const EventChannel(_namespace + '/updateInProgressChannel');
 }
 
 class UpdateManager {
@@ -24,6 +26,8 @@ class UpdateManager {
       StreamController();
   final StreamController<McuLogMessage> _logMessageStreamController =
       StreamController();
+  final StreamController<bool> _updateInProgressStreamController =
+      StreamController();
 
   // STREAMS
   Stream<ProgressUpdate> get progressStream {
@@ -36,6 +40,10 @@ class UpdateManager {
 
   Stream<McuLogMessage> get logMessageStream {
     return _logMessageStreamController.stream;
+  }
+
+  Stream<bool> get updateInProgressStream {
+    return _updateInProgressStreamController.stream;
   }
 
   // Stream<ProgressUpdate> get
@@ -52,11 +60,21 @@ class UpdateManager {
   }
 
   Future<void> update(Uint8List data) async {
-    final arg = ProtoUpdateCallArgument();
-    arg.deviceUuid = _deviceId;
-    arg.firmwareData = data.toList();
+    final arg = ProtoUpdateCallArgument()
+      ..deviceUuid = _deviceId
+      ..firmwareData = data.toList();
 
     await _McumgrFlutter._channel.invokeMethod("update", arg.writeToBuffer());
+  }
+
+  Future<void> pause() async {
+    await _McumgrFlutter._channel.invokeListMethod('pause', _deviceId);
+    _updateInProgressStreamController.add(false);
+  }
+
+  Future<void> resume() async {
+    await _McumgrFlutter._channel.invokeListMethod('resume', _deviceId);
+    _updateInProgressStreamController.add(true);
   }
 
   void _setupProgressUpdateStream() {

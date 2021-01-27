@@ -55,6 +55,16 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
             case .initializeUpdateManager:
                 try initializeUpdateManager(call: call)
                 result(nil)
+            case .pause:
+                try pause(call: call)
+                result(nil)
+            case .resume:
+                try resume(call: call)
+                result(nil)
+            case .isPaused:
+                result(try isPaused(call: call))
+            case .isInProgress:
+                result(try isInProgress(call: call))
             }
         } catch let e {
 //            result(e.localizedDescription)
@@ -84,12 +94,41 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
         let um = UpdateManager(peripheral: peripheral, progressStreamHandler: updateProgressStreamHandler, stateStreamHandler: updateStateStreamHandler, logStreamhandler: logStreamHandler)
         updateManagers[uuidString] = um
     }
+
+    private func retrieveManager(call: FlutterMethodCall) throws -> UpdateManager {
+        guard let uuid = call.arguments as? String else {
+            throw FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can't retrieve UUID of the device", details: call)
+        }
+
+        guard let manager = updateManagers[uuid] else {
+            throw FlutterError(code: ErrorCode.updateManagerExists.rawValue, message: "Update manager does not exist", details: call)
+        }
+
+        return manager;
+    }
+
+    private func pause(call: FlutterMethodCall) throws {
+        try retrieveManager(call: call).pause()
+    }
+
+    private func resume(call: FlutterMethodCall) throws {
+        try retrieveManager(call: call).resume()
+    }
+
+    private func isPaused(call: FlutterMethodCall) throws -> Bool {
+        try retrieveManager(call: call).dfuManager.isPaused()
+    }
+
+    private func isInProgress(call: FlutterMethodCall) throws -> Bool {
+        try retrieveManager(call: call).dfuManager.isInProgress()
+    }
     
     private func update(call: FlutterMethodCall) throws {
         guard let data = call.arguments as? FlutterStandardTypedData else {
             throw FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can not parse provided arguments", details: call)
         }
-        
+
+        // TODO: Get rid of it
         let b = Bundle(for: type(of: self))
         guard let path = b.url(forResource: "app_update_zephyr2", withExtension: "bin") else {
             fatalError()
