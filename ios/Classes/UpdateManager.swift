@@ -27,7 +27,7 @@ class UpdateManager {
     }
     
     func update(data: Data) throws {
-        dfuManager.logDelegate = self
+         dfuManager.logDelegate = self
         try dfuManager.start(data: data)
     }
     

@@ -131,6 +131,10 @@ class UpdateManager {
       var d = stateChanges.newState.convert();
 
       _updateStateStreamController.add(d);
+
+      if (d == FirmwareUpgradeState.upload) {
+        _updateInProgressStreamController.add(true);
+      }
     });
   }
 
