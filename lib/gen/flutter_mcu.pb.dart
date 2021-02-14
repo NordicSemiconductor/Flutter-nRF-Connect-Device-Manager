@@ -126,8 +126,8 @@ class ProtoUpdateStateChangesStreamArg extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ProtoUpdateStateChangesStreamArg', createEmptyInstance: create)
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'uuid')
     ..aOB(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'done')
-    ..aOM<ProtoError>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'error', subBuilder: ProtoError.create)
-    ..aOM<ProtoUpdateStateChanges>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'updateStateChanges', protoName: 'updateStateChanges', subBuilder: ProtoUpdateStateChanges.create)
+    ..aOM<ProtoError>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'error', subBuilder: ProtoError.create)
+    ..aOM<ProtoUpdateStateChanges>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'updateStateChanges', protoName: 'updateStateChanges', subBuilder: ProtoUpdateStateChanges.create)
     ..hasRequiredFields = false
   ;
 
@@ -192,26 +192,26 @@ class ProtoUpdateStateChangesStreamArg extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   void clearDone() => clearField(2);
 
-  @$pb.TagNumber(4)
+  @$pb.TagNumber(3)
   ProtoError get error => $_getN(2);
-  @$pb.TagNumber(4)
-  set error(ProtoError v) { setField(4, v); }
-  @$pb.TagNumber(4)
+  @$pb.TagNumber(3)
+  set error(ProtoError v) { setField(3, v); }
+  @$pb.TagNumber(3)
   $core.bool hasError() => $_has(2);
-  @$pb.TagNumber(4)
-  void clearError() => clearField(4);
-  @$pb.TagNumber(4)
+  @$pb.TagNumber(3)
+  void clearError() => clearField(3);
+  @$pb.TagNumber(3)
   ProtoError ensureError() => $_ensure(2);
 
-  @$pb.TagNumber(5)
+  @$pb.TagNumber(4)
   ProtoUpdateStateChanges get updateStateChanges => $_getN(3);
-  @$pb.TagNumber(5)
-  set updateStateChanges(ProtoUpdateStateChanges v) { setField(5, v); }
-  @$pb.TagNumber(5)
+  @$pb.TagNumber(4)
+  set updateStateChanges(ProtoUpdateStateChanges v) { setField(4, v); }
+  @$pb.TagNumber(4)
   $core.bool hasUpdateStateChanges() => $_has(3);
-  @$pb.TagNumber(5)
-  void clearUpdateStateChanges() => clearField(5);
-  @$pb.TagNumber(5)
+  @$pb.TagNumber(4)
+  void clearUpdateStateChanges() => clearField(4);
+  @$pb.TagNumber(4)
   ProtoUpdateStateChanges ensureUpdateStateChanges() => $_ensure(3);
 }
 
@@ -294,8 +294,8 @@ class ProtoProgressUpdateStreamArg extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ProtoProgressUpdateStreamArg', createEmptyInstance: create)
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'uuid')
     ..aOB(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'done')
-    ..aOM<ProtoError>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'error', subBuilder: ProtoError.create)
-    ..aOM<ProtoProgressUpdate>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'progressUpdate', protoName: 'progressUpdate', subBuilder: ProtoProgressUpdate.create)
+    ..aOM<ProtoError>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'error', subBuilder: ProtoError.create)
+    ..aOM<ProtoProgressUpdate>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'progressUpdate', protoName: 'progressUpdate', subBuilder: ProtoProgressUpdate.create)
     ..hasRequiredFields = false
   ;
 
@@ -360,26 +360,26 @@ class ProtoProgressUpdateStreamArg extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   void clearDone() => clearField(2);
 
-  @$pb.TagNumber(4)
+  @$pb.TagNumber(3)
   ProtoError get error => $_getN(2);
-  @$pb.TagNumber(4)
-  set error(ProtoError v) { setField(4, v); }
-  @$pb.TagNumber(4)
+  @$pb.TagNumber(3)
+  set error(ProtoError v) { setField(3, v); }
+  @$pb.TagNumber(3)
   $core.bool hasError() => $_has(2);
-  @$pb.TagNumber(4)
-  void clearError() => clearField(4);
-  @$pb.TagNumber(4)
+  @$pb.TagNumber(3)
+  void clearError() => clearField(3);
+  @$pb.TagNumber(3)
   ProtoError ensureError() => $_ensure(2);
 
-  @$pb.TagNumber(5)
+  @$pb.TagNumber(4)
   ProtoProgressUpdate get progressUpdate => $_getN(3);
-  @$pb.TagNumber(5)
-  set progressUpdate(ProtoProgressUpdate v) { setField(5, v); }
-  @$pb.TagNumber(5)
+  @$pb.TagNumber(4)
+  set progressUpdate(ProtoProgressUpdate v) { setField(4, v); }
+  @$pb.TagNumber(4)
   $core.bool hasProgressUpdate() => $_has(3);
-  @$pb.TagNumber(5)
-  void clearProgressUpdate() => clearField(5);
-  @$pb.TagNumber(5)
+  @$pb.TagNumber(4)
+  void clearProgressUpdate() => clearField(4);
+  @$pb.TagNumber(4)
   ProtoProgressUpdate ensureProgressUpdate() => $_ensure(3);
 }
 
@@ -462,8 +462,8 @@ class ProtoLogMessageStreamArg extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ProtoLogMessageStreamArg', createEmptyInstance: create)
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'uuid')
     ..aOB(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'done')
-    ..aOM<ProtoError>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'error', subBuilder: ProtoError.create)
-    ..aOM<ProtoLogMessage>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'protoLogMessage', protoName: 'protoLogMessage', subBuilder: ProtoLogMessage.create)
+    ..aOM<ProtoError>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'error', subBuilder: ProtoError.create)
+    ..aOM<ProtoLogMessage>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'protoLogMessage', protoName: 'protoLogMessage', subBuilder: ProtoLogMessage.create)
     ..hasRequiredFields = false
   ;
 
@@ -528,26 +528,26 @@ class ProtoLogMessageStreamArg extends $pb.GeneratedMessage {
   @$pb.TagNumber(2)
   void clearDone() => clearField(2);
 
-  @$pb.TagNumber(4)
+  @$pb.TagNumber(3)
   ProtoError get error => $_getN(2);
-  @$pb.TagNumber(4)
-  set error(ProtoError v) { setField(4, v); }
-  @$pb.TagNumber(4)
+  @$pb.TagNumber(3)
+  set error(ProtoError v) { setField(3, v); }
+  @$pb.TagNumber(3)
   $core.bool hasError() => $_has(2);
-  @$pb.TagNumber(4)
-  void clearError() => clearField(4);
-  @$pb.TagNumber(4)
+  @$pb.TagNumber(3)
+  void clearError() => clearField(3);
+  @$pb.TagNumber(3)
   ProtoError ensureError() => $_ensure(2);
 
-  @$pb.TagNumber(5)
+  @$pb.TagNumber(4)
   ProtoLogMessage get protoLogMessage => $_getN(3);
-  @$pb.TagNumber(5)
-  set protoLogMessage(ProtoLogMessage v) { setField(5, v); }
-  @$pb.TagNumber(5)
+  @$pb.TagNumber(4)
+  set protoLogMessage(ProtoLogMessage v) { setField(4, v); }
+  @$pb.TagNumber(4)
   $core.bool hasProtoLogMessage() => $_has(3);
-  @$pb.TagNumber(5)
-  void clearProtoLogMessage() => clearField(5);
-  @$pb.TagNumber(5)
+  @$pb.TagNumber(4)
+  void clearProtoLogMessage() => clearField(4);
+  @$pb.TagNumber(4)
   ProtoLogMessage ensureProtoLogMessage() => $_ensure(3);
 }
 

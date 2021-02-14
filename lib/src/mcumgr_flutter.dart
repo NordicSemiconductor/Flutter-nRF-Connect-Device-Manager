@@ -62,7 +62,7 @@ class UpdateManager {
   Future<void> update(Uint8List data) async {
     final arg = ProtoUpdateCallArgument()
       ..deviceUuid = _deviceId
-      ..firmwareData = data.toList();
+      ..firmwareData = data;
 
     await _McumgrFlutter._channel.invokeMethod("update", arg.writeToBuffer());
   }

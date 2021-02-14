@@ -67,13 +67,11 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
                 result(try isInProgress(call: call))
             }
         } catch let e {
-//            result(e.localizedDescription)
-            result(FlutterError(code: "Error", message: e.localizedDescription, details: nil))
-//            if e is FlutterError {
-//                result(e)
-//            } else {
-//                result(FlutterError(error: e, call: call))
-//            }
+            if e is FlutterError {
+                result(e)
+            } else {
+                result(FlutterError(error: e, call: call))
+            }
         }
         
     }

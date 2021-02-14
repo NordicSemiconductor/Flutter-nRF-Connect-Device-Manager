@@ -57,7 +57,6 @@ struct ProtoUpdateStateChangesStreamArg {
 
   var done: Bool = false
 
-  /// bool hasError = 3;
   var error: ProtoError {
     get {return _error ?? ProtoError()}
     set {_error = newValue}
@@ -169,7 +168,6 @@ struct ProtoProgressUpdateStreamArg {
 
   var done: Bool = false
 
-  /// bool hasError = 3;
   var error: ProtoError {
     get {return _error ?? ProtoError()}
     set {_error = newValue}
@@ -222,7 +220,6 @@ struct ProtoLogMessageStreamArg {
 
   var done: Bool = false
 
-  /// bool hasError = 3;
   var error: ProtoError {
     get {return _error ?? ProtoError()}
     set {_error = newValue}
@@ -466,8 +463,8 @@ extension ProtoUpdateStateChangesStreamArg: SwiftProtobuf.Message, SwiftProtobuf
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "uuid"),
     2: .same(proto: "done"),
-    4: .same(proto: "error"),
-    5: .same(proto: "updateStateChanges"),
+    3: .same(proto: "error"),
+    4: .same(proto: "updateStateChanges"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -478,8 +475,8 @@ extension ProtoUpdateStateChangesStreamArg: SwiftProtobuf.Message, SwiftProtobuf
       switch fieldNumber {
       case 1: try { try decoder.decodeSingularStringField(value: &self.uuid) }()
       case 2: try { try decoder.decodeSingularBoolField(value: &self.done) }()
-      case 4: try { try decoder.decodeSingularMessageField(value: &self._error) }()
-      case 5: try { try decoder.decodeSingularMessageField(value: &self._updateStateChanges) }()
+      case 3: try { try decoder.decodeSingularMessageField(value: &self._error) }()
+      case 4: try { try decoder.decodeSingularMessageField(value: &self._updateStateChanges) }()
       default: break
       }
     }
@@ -493,10 +490,10 @@ extension ProtoUpdateStateChangesStreamArg: SwiftProtobuf.Message, SwiftProtobuf
       try visitor.visitSingularBoolField(value: self.done, fieldNumber: 2)
     }
     if let v = self._error {
-      try visitor.visitSingularMessageField(value: v, fieldNumber: 4)
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 3)
     }
     if let v = self._updateStateChanges {
-      try visitor.visitSingularMessageField(value: v, fieldNumber: 5)
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 4)
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -572,8 +569,8 @@ extension ProtoProgressUpdateStreamArg: SwiftProtobuf.Message, SwiftProtobuf._Me
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "uuid"),
     2: .same(proto: "done"),
-    4: .same(proto: "error"),
-    5: .same(proto: "progressUpdate"),
+    3: .same(proto: "error"),
+    4: .same(proto: "progressUpdate"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -584,8 +581,8 @@ extension ProtoProgressUpdateStreamArg: SwiftProtobuf.Message, SwiftProtobuf._Me
       switch fieldNumber {
       case 1: try { try decoder.decodeSingularStringField(value: &self.uuid) }()
       case 2: try { try decoder.decodeSingularBoolField(value: &self.done) }()
-      case 4: try { try decoder.decodeSingularMessageField(value: &self._error) }()
-      case 5: try { try decoder.decodeSingularMessageField(value: &self._progressUpdate) }()
+      case 3: try { try decoder.decodeSingularMessageField(value: &self._error) }()
+      case 4: try { try decoder.decodeSingularMessageField(value: &self._progressUpdate) }()
       default: break
       }
     }
@@ -599,10 +596,10 @@ extension ProtoProgressUpdateStreamArg: SwiftProtobuf.Message, SwiftProtobuf._Me
       try visitor.visitSingularBoolField(value: self.done, fieldNumber: 2)
     }
     if let v = self._error {
-      try visitor.visitSingularMessageField(value: v, fieldNumber: 4)
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 3)
     }
     if let v = self._progressUpdate {
-      try visitor.visitSingularMessageField(value: v, fieldNumber: 5)
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 4)
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -666,8 +663,8 @@ extension ProtoLogMessageStreamArg: SwiftProtobuf.Message, SwiftProtobuf._Messag
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "uuid"),
     2: .same(proto: "done"),
-    4: .same(proto: "error"),
-    5: .same(proto: "protoLogMessage"),
+    3: .same(proto: "error"),
+    4: .same(proto: "protoLogMessage"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -678,8 +675,8 @@ extension ProtoLogMessageStreamArg: SwiftProtobuf.Message, SwiftProtobuf._Messag
       switch fieldNumber {
       case 1: try { try decoder.decodeSingularStringField(value: &self.uuid) }()
       case 2: try { try decoder.decodeSingularBoolField(value: &self.done) }()
-      case 4: try { try decoder.decodeSingularMessageField(value: &self._error) }()
-      case 5: try { try decoder.decodeSingularMessageField(value: &self._protoLogMessage) }()
+      case 3: try { try decoder.decodeSingularMessageField(value: &self._error) }()
+      case 4: try { try decoder.decodeSingularMessageField(value: &self._protoLogMessage) }()
       default: break
       }
     }
@@ -693,10 +690,10 @@ extension ProtoLogMessageStreamArg: SwiftProtobuf.Message, SwiftProtobuf._Messag
       try visitor.visitSingularBoolField(value: self.done, fieldNumber: 2)
     }
     if let v = self._error {
-      try visitor.visitSingularMessageField(value: v, fieldNumber: 4)
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 3)
     }
     if let v = self._protoLogMessage {
-      try visitor.visitSingularMessageField(value: v, fieldNumber: 5)
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 4)
     }
     try unknownFields.traverse(visitor: &visitor)
   }

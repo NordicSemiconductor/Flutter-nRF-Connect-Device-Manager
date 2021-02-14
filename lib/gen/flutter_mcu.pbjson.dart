@@ -25,8 +25,8 @@ const ProtoUpdateStateChangesStreamArg$json = const {
   '2': const [
     const {'1': 'uuid', '3': 1, '4': 1, '5': 9, '10': 'uuid'},
     const {'1': 'done', '3': 2, '4': 1, '5': 8, '10': 'done'},
-    const {'1': 'error', '3': 4, '4': 1, '5': 11, '6': '.ProtoError', '10': 'error'},
-    const {'1': 'updateStateChanges', '3': 5, '4': 1, '5': 11, '6': '.ProtoUpdateStateChanges', '10': 'updateStateChanges'},
+    const {'1': 'error', '3': 3, '4': 1, '5': 11, '6': '.ProtoError', '10': 'error'},
+    const {'1': 'updateStateChanges', '3': 4, '4': 1, '5': 11, '6': '.ProtoUpdateStateChanges', '10': 'updateStateChanges'},
   ],
 };
 
@@ -58,8 +58,8 @@ const ProtoProgressUpdateStreamArg$json = const {
   '2': const [
     const {'1': 'uuid', '3': 1, '4': 1, '5': 9, '10': 'uuid'},
     const {'1': 'done', '3': 2, '4': 1, '5': 8, '10': 'done'},
-    const {'1': 'error', '3': 4, '4': 1, '5': 11, '6': '.ProtoError', '10': 'error'},
-    const {'1': 'progressUpdate', '3': 5, '4': 1, '5': 11, '6': '.ProtoProgressUpdate', '10': 'progressUpdate'},
+    const {'1': 'error', '3': 3, '4': 1, '5': 11, '6': '.ProtoError', '10': 'error'},
+    const {'1': 'progressUpdate', '3': 4, '4': 1, '5': 11, '6': '.ProtoProgressUpdate', '10': 'progressUpdate'},
   ],
 };
 
@@ -77,8 +77,8 @@ const ProtoLogMessageStreamArg$json = const {
   '2': const [
     const {'1': 'uuid', '3': 1, '4': 1, '5': 9, '10': 'uuid'},
     const {'1': 'done', '3': 2, '4': 1, '5': 8, '10': 'done'},
-    const {'1': 'error', '3': 4, '4': 1, '5': 11, '6': '.ProtoError', '10': 'error'},
-    const {'1': 'protoLogMessage', '3': 5, '4': 1, '5': 11, '6': '.ProtoLogMessage', '10': 'protoLogMessage'},
+    const {'1': 'error', '3': 3, '4': 1, '5': 11, '6': '.ProtoError', '10': 'error'},
+    const {'1': 'protoLogMessage', '3': 4, '4': 1, '5': 11, '6': '.ProtoLogMessage', '10': 'protoLogMessage'},
   ],
 };
 
