@@ -68,13 +68,25 @@ class UpdateManager {
   }
 
   Future<void> pause() async {
-    await _McumgrFlutter._channel.invokeListMethod('pause', _deviceId);
+    await _McumgrFlutter._channel.invokeMethod('pause', _deviceId);
     _updateInProgressStreamController.add(false);
   }
 
   Future<void> resume() async {
-    await _McumgrFlutter._channel.invokeListMethod('resume', _deviceId);
+    await _McumgrFlutter._channel.invokeMethod('resume', _deviceId);
     _updateInProgressStreamController.add(true);
+  }
+
+  Future<bool> inProgress() async {
+    final bool inProgress =
+        await _McumgrFlutter._channel.invokeMethod('isInProgress', _deviceId);
+    return inProgress;
+  }
+
+  Future<bool> isPaused() async {
+    final bool isPaused =
+        await _McumgrFlutter._channel.invokeMethod('isPaused', _deviceId);
+    return isPaused;
   }
 
   void _setupProgressUpdateStream() {
