@@ -21,13 +21,13 @@ class UpdateManager {
 
   // STREAM CONTROLLERS
   final StreamController<ProgressUpdate> _progressStreamController =
-      StreamController();
+      StreamController.broadcast();
   final StreamController<FirmwareUpgradeState> _updateStateStreamController =
-      StreamController();
+      StreamController.broadcast();
   final StreamController<McuLogMessage> _logMessageStreamController =
-      StreamController();
+      StreamController.broadcast();
   final StreamController<bool> _updateInProgressStreamController =
-      StreamController();
+      StreamController.broadcast();
 
   // STREAMS
   Stream<ProgressUpdate> get progressStream {
