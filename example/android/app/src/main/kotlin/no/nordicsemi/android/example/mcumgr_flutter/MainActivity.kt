@@ -1,4 +1,4 @@
-package com.example.mcumgr_flutter_example
+package no.nordicsemi.android.example.mcumgr_flutter
 
 import io.flutter.embedding.android.FlutterActivity
 

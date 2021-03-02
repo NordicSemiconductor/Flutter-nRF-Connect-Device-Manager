@@ -1,4 +1,4 @@
-package com.example.mcumgr_flutter
+package no.nordicsemi.android.mcumgr_flutter
 
 import androidx.annotation.NonNull
 
