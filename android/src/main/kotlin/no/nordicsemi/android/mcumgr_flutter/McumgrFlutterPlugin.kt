@@ -10,13 +10,9 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
-import io.runtime.mcumgr.ble.McuMgrBleTransport
 import no.nordicsemi.android.mcumgr_flutter.gen.FlutterMcu
 import no.nordicsemi.android.mcumgr_flutter.logging.LoggableMcuMgrBleTransport
 import no.nordicsemi.android.mcumgr_flutter.utils.*
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
-import org.slf4j.spi.LoggerFactoryBinder
 
 /** McumgrFlutterPlugin */
 class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
@@ -108,7 +104,7 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 			throw UpdateManagerExists("Updated manager for provided peripheral already exists")
 		}
 		val device = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(address)
-		val transport = LoggableMcuMgrBleTransport(context, device, logStreamHandler = logStreamHandler)
+		val transport = LoggableMcuMgrBleTransport(context, device, logStreamHandler)
 		val updateManager = UpdateManager(transport, updateStateStreamHandler, updateProgressStreamHandler, logStreamHandler)
 		managers[address] = updateManager
 	}

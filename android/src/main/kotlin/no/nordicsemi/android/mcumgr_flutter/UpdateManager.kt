@@ -1,6 +1,5 @@
 package no.nordicsemi.android.mcumgr_flutter
 
-import io.flutter.Log
 import io.runtime.mcumgr.ble.McuMgrBleTransport
 import io.runtime.mcumgr.dfu.FirmwareUpgradeCallback
 import io.runtime.mcumgr.dfu.FirmwareUpgradeController
@@ -128,6 +127,11 @@ class UpdateManager(
 				.setBytesSent(bytesSent.toLong())
 				.setTimestamp(timestamp.toDouble() / 1000.0) // convert to seconds
 				.build()
-		updateProgressStreamHandler.sink?.success(progress.toByteArray())
+		val arg = FlutterMcu.ProtoProgressUpdateStreamArg
+				.newBuilder()
+				.setUuid(address)
+				.setProgressUpdate(progress)
+				.build()
+		updateProgressStreamHandler.sink?.success(arg.toByteArray())
 	}
 }
