@@ -81,6 +81,10 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 					retrieveManager(call).resume()
 					result.success(null)
 				}
+				FlutterMethod.cancel -> {
+					retrieveManager(call).cancel()
+					result.success(null)
+				}
 				FlutterMethod.isPaused -> {
 					val isPaused = retrieveManager(call).isPaused
 					result.success(isPaused)

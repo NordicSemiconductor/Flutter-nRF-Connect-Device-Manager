@@ -41,17 +41,17 @@ class UpdateManager(
 	fun pause() = manager.pause()
 	/** Resume a paused firmware upgrade. */
 	fun resume() = manager.resume()
+	/** Cancel the transfer. */
+	fun cancel() = manager.cancel()
 	/** True if the firmware upgrade is paused, false otherwise. */
 	var isPaused = manager.isPaused
 	/**	True if the firmware upgrade is in progress, false otherwise. */
 	var isInProgress = manager.isInProgress
 
 	override fun onUpgradeStarted(controller: FirmwareUpgradeController?) {
-		Log.w("UM", "onUpgradeStarted")
 	}
 
 	override fun onStateChanged(prevState: FirmwareUpgradeManager.State?, newState: FirmwareUpgradeManager.State?) {
-		Log.w("UM", "onStateChanged: $prevState -> $newState")
 		val changes = FlutterMcu.ProtoUpdateStateChanges
 				.newBuilder()
 				.setOldState(prevState!!.toProto())
@@ -66,7 +66,6 @@ class UpdateManager(
 	}
 
 	override fun onUpgradeCompleted() {
-		Log.w("UM", "onUpgradeCompleted")
 		val stateChangesArg = FlutterMcu.ProtoUpdateStateChangesStreamArg
 				.newBuilder()
 				.setUuid(address)
@@ -90,7 +89,6 @@ class UpdateManager(
 	}
 
 	override fun onUpgradeFailed(state: FirmwareUpgradeManager.State?, error: McuMgrException?) {
-		Log.w("UM", "onUpgradeFailed in $state: ${error?.message ?: "Unknown"}")
 		val changes = FlutterMcu.ProtoUpdateStateChanges
 				.newBuilder()
 				.setOldState(state!!.toProto())
@@ -109,7 +107,6 @@ class UpdateManager(
 	}
 
 	override fun onUpgradeCanceled(state: FirmwareUpgradeManager.State?) {
-		Log.w("UM", "onUpgradeCanceled in $state")
 		val changes = FlutterMcu.ProtoUpdateStateChanges
 				.newBuilder()
 				.setCanceled(true)
@@ -125,7 +122,6 @@ class UpdateManager(
 	}
 
 	override fun onUploadProgressChanged(bytesSent: Int, imageSize: Int, timestamp: Long) {
-		Log.w("UM", "onUploadProgressChanged ($bytesSent/$imageSize)")
 		val progress = FlutterMcu.ProtoProgressUpdate
 				.newBuilder()
 				.setImageSize(imageSize.toLong())
