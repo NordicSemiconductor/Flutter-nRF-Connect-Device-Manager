@@ -3,7 +3,7 @@ part of mcumgr_flutter;
 class _McumgrFlutter {
   static const _namespace = "mcumgr_flutter";
   static const MethodChannel _channel =
-      const MethodChannel(_namespace + '/method_chonnel');
+      const MethodChannel(_namespace + '/method_channel');
   static const EventChannel _progressStream =
       const EventChannel(_namespace + '/update_progress_event_channel');
   static const EventChannel _updateStateStream =
