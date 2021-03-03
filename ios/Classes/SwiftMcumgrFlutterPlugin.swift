@@ -29,7 +29,7 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
     }
     
     public static func register(with registrar: FlutterPluginRegistrar) {
-        let channel = FlutterMethodChannel(name: namespace + "/method_chonnel", binaryMessenger: registrar.messenger())
+        let channel = FlutterMethodChannel(name: namespace + "/method_channel", binaryMessenger: registrar.messenger())
         
         let updateStateEventChannel = FlutterEventChannel(name: namespace + "/update_state_event_channel", binaryMessenger: registrar.messenger())
         let updateProgressEventChannel = FlutterEventChannel(name: namespace + "/update_progress_event_channel", binaryMessenger: registrar.messenger())
@@ -85,14 +85,14 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
         }
         
         guard let peripheral = centralManager.retrievePeripherals(withIdentifiers: [uuid]).first else {
-            throw FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can't retreive preipheral with provided UUID", details: call)
+            throw FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can't retrieve peripheral with provided UUID", details: call)
         }
         
         guard case .none = updateManagers[uuidString] else {
             throw FlutterError(code: ErrorCode.updateManagerExists.rawValue, message: "Updated manager for provided peripheral already exists", details: call)
         }
         
-        let um = UpdateManager(peripheral: peripheral, progressStreamHandler: updateProgressStreamHandler, stateStreamHandler: updateStateStreamHandler, logStreamhandler: logStreamHandler)
+        let um = UpdateManager(peripheral: peripheral, progressStreamHandler: updateProgressStreamHandler, stateStreamHandler: updateStateStreamHandler, logStreamHandler: logStreamHandler)
         updateManagers[uuidString] = um
     }
 
@@ -102,7 +102,7 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
         }
 
         guard let manager = updateManagers[uuid] else {
-            throw FlutterError(code: ErrorCode.updateManagerExists.rawValue, message: "Update manager does not exist", details: call)
+            throw FlutterError(code: ErrorCode.updateManagerDoesNotExist.rawValue, message: "Update manager does not exist", details: call)
         }
 
         return manager;
@@ -136,7 +136,7 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
         let args = try ProtoUpdateCallArgument(serializedData: data.data)
         
         guard let manager = updateManagers[args.deviceUuid] else {
-            throw FlutterError(code: ErrorCode.updateManagerExists.rawValue, message: "Update manager does not exist", details: call)
+            throw FlutterError(code: ErrorCode.updateManagerDoesNotExist.rawValue, message: "Update manager does not exist", details: call)
         }
         
         try manager.update(data: args.firmwareData)

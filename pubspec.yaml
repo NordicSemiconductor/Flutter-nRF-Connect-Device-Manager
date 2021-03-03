@@ -30,7 +30,7 @@ flutter:
   plugin:
     platforms:
       android:
-        package: com.example.mcumgr_flutter
+        package: no.nordicsemi.android.mcumgr_flutter
         pluginClass: McumgrFlutterPlugin
       ios:
         pluginClass: McumgrFlutterPlugin

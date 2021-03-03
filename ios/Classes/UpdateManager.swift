@@ -18,14 +18,12 @@ class UpdateManager {
     
     private (set) lazy var dfuManager: FirmwareUpgradeManager = FirmwareUpgradeManager(transporter: self.transport, delegate: self)
     
-    init(peripheral: CBPeripheral, progressStreamHandler: StreamHandler, stateStreamHandler: StreamHandler, logStreamhandler: StreamHandler) {
+    init(peripheral: CBPeripheral, progressStreamHandler: StreamHandler, stateStreamHandler: StreamHandler, logStreamHandler: StreamHandler) {
         self.peripheral = peripheral
         self.transport = McuMgrBleTransport(peripheral)
         self.progressStreamHandler = progressStreamHandler
         self.stateStreamHandler = stateStreamHandler
-        self.logStreamHandler = logStreamhandler
-        
-        
+        self.logStreamHandler = logStreamHandler
     }
     
     func update(data: Data) throws {
@@ -44,7 +42,7 @@ class UpdateManager {
             dfuManager.resume()
         }
     }
-    
+
     func cancel() {
         dfuManager.cancel()
     }
@@ -128,7 +126,6 @@ extension UpdateManager: FirmwareUpgradeDelegate {
             let error = FlutterError(error: e, code: ErrorCode.flutterTypeError)
             stateStreamHandler.sink?(error)
         }
-        
     }
     
     func uploadProgressDidChange(bytesSent: Int, imageSize: Int, timestamp: Date) {
@@ -152,15 +149,13 @@ extension UpdateManager: FirmwareUpgradeDelegate {
 extension UpdateManager: McuMgrLogDelegate {
     func log(_ msg: String, ofCategory category: McuMgrLogCategory, atLevel level: McuMgrLogLevel) {
         let log = ProtoLogMessage(message: msg, category: category.toProto(), level: level.toProto())
-        let logStremArg = ProtoLogMessageStreamArg(uuid: peripheral.identifier.uuidString, log: log)
+        let logStreamArg = ProtoLogMessageStreamArg(uuid: peripheral.identifier.uuidString, log: log)
         
         do {
-            logStreamHandler.sink?(FlutterStandardTypedData(bytes: try logStremArg.serializedData()))
+            logStreamHandler.sink?(FlutterStandardTypedData(bytes: try logStreamArg.serializedData()))
         } catch let e {
             let error = FlutterError(error: e, code: ErrorCode.flutterTypeError)
             logStreamHandler.sink?(error)
         }
     }
-    
-    
 }
