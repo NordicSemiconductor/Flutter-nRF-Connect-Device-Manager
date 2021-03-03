@@ -24,6 +24,8 @@ class UpdateManager {
         self.progressStreamHandler = progressStreamHandler
         self.stateStreamHandler = stateStreamHandler
         self.logStreamHandler = logStreamhandler
+        
+        
     }
     
     func update(data: Data) throws {
@@ -41,6 +43,10 @@ class UpdateManager {
         if dfuManager.isPaused() {
             dfuManager.resume()
         }
+    }
+    
+    func cancel() {
+        dfuManager.cancel()
     }
 }
 

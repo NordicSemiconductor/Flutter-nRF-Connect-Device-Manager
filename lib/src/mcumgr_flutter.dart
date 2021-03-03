@@ -77,6 +77,10 @@ class UpdateManager {
     _updateInProgressStreamController.add(true);
   }
 
+  Future<void> cancel() async {
+    await _McumgrFlutter._channel.invokeMethod('cancel', _deviceId);
+  }
+
   Future<bool> inProgress() async {
     final bool inProgress =
         await _McumgrFlutter._channel.invokeMethod('isInProgress', _deviceId);

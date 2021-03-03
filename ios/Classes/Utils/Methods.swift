@@ -15,6 +15,7 @@ public enum FlutterMethod: String {
     case resume
     case isPaused
     case isInProgress
+    case cancel
 }
 
 /// Methods which platform sends to Flutter

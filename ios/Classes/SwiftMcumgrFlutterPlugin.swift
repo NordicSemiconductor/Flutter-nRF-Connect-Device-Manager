@@ -65,6 +65,9 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
                 result(try isPaused(call: call))
             case .isInProgress:
                 result(try isInProgress(call: call))
+            case .cancel:
+                try cancel(call: call)
+                result(nil)
             }
         } catch let e {
             if e is FlutterError {
@@ -119,6 +122,10 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
 
     private func isInProgress(call: FlutterMethodCall) throws -> Bool {
         try retrieveManager(call: call).dfuManager.isInProgress()
+    }
+    
+    private func cancel(call: FlutterMethodCall) throws {
+        try retrieveManager(call: call).cancel()
     }
     
     private func update(call: FlutterMethodCall) throws {
