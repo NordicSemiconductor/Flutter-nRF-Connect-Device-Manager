@@ -9,12 +9,18 @@ import Foundation
 import McuManager
 import CoreBluetooth
 
+protocol UpdateManagerDelegate: class {
+    func updateCompleted(manager: UpdateManager)
+}
+
 class UpdateManager {
     let transport: McuMgrBleTransport
     let progressStreamHandler: StreamHandler
     let stateStreamHandler: StreamHandler
     let logStreamHandler: StreamHandler
     let peripheral: CBPeripheral
+    
+    weak var delegate: UpdateManagerDelegate?
     
     private (set) lazy var dfuManager: FirmwareUpgradeManager = FirmwareUpgradeManager(transporter: self.transport, delegate: self)
     
@@ -27,7 +33,7 @@ class UpdateManager {
     }
     
     func update(data: Data) throws {
-         dfuManager.logDelegate = self
+        dfuManager.logDelegate = self
         try dfuManager.start(data: data)
     }
     
@@ -80,7 +86,6 @@ extension UpdateManager: FirmwareUpgradeDelegate {
         var logArg = ProtoLogMessageStreamArg(uuid: peripheral.identifier.uuidString, log: ProtoLogMessage())
         logArg.done = true
         
-        
         do {
             let statusData = try stateChangesArg.serializedData()
             stateStreamHandler.sink?(FlutterStandardTypedData(bytes: statusData))
@@ -94,6 +99,8 @@ extension UpdateManager: FirmwareUpgradeDelegate {
             let error = FlutterError(error: e, code: ErrorCode.flutterTypeError)
             stateStreamHandler.sink?(error)
         }
+        
+        delegate?.updateCompleted(manager: self)
     }
     
     func upgradeDidFail(inState state: FirmwareUpgradeState, with error: Error) {
@@ -111,6 +118,8 @@ extension UpdateManager: FirmwareUpgradeDelegate {
             let error = FlutterError(error: e, code: ErrorCode.flutterTypeError)
             stateStreamHandler.sink?(error)
         }
+        
+        delegate?.updateCompleted(manager: self)
     }
     
     func upgradeDidCancel(state: FirmwareUpgradeState) {
@@ -126,6 +135,8 @@ extension UpdateManager: FirmwareUpgradeDelegate {
             let error = FlutterError(error: e, code: ErrorCode.flutterTypeError)
             stateStreamHandler.sink?(error)
         }
+        
+        delegate?.updateCompleted(manager: self)
     }
     
     func uploadProgressDidChange(bytesSent: Int, imageSize: Int, timestamp: Date) {
