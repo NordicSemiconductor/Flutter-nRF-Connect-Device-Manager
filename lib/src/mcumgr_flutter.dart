@@ -20,14 +20,14 @@ class UpdateManager {
   UpdateManager._deviceIdentifier(this._deviceId);
 
   // STREAM CONTROLLERS
-  final StreamController<ProgressUpdate> _progressStreamController =
-      StreamController.broadcast();
-  final StreamController<FirmwareUpgradeState> _updateStateStreamController =
-      StreamController.broadcast();
-  final StreamController<McuLogMessage> _logMessageStreamController =
-      StreamController.broadcast();
-  final StreamController<bool> _updateInProgressStreamController =
-      StreamController.broadcast();
+  final BehaviorSubject<ProgressUpdate> _progressStreamController =
+      BehaviorSubject();
+  final BehaviorSubject<FirmwareUpgradeState> _updateStateStreamController =
+      BehaviorSubject();
+  final BehaviorSubject<McuLogMessage> _logMessageStreamController =
+      BehaviorSubject();
+  final BehaviorSubject<bool> _updateInProgressStreamController =
+      BehaviorSubject();
 
   // STREAMS
   Stream<ProgressUpdate> get progressStream {
