@@ -82,4 +82,5 @@ message ProtoLogMessage {
     string message = 1;
     LogCategory logCategory = 2;
     LogLevel logLevel = 3;
+    int64 logDateTime = 4;
 }

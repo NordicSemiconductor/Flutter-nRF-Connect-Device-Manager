@@ -46,9 +46,10 @@ extension ProtoLogMessageStreamArg {
 }
 
 extension ProtoLogMessage {
-    init(message: String, category: ProtoLogMessage.LogCategory, level: ProtoLogMessage.LogLevel) {
+    init(message: String, category: ProtoLogMessage.LogCategory, level: ProtoLogMessage.LogLevel, timeInterval: TimeInterval) {
         self.message = message
         self.logCategory = category
         self.logLevel = level
+        self.logDateTime = Int64(timeInterval * 1000)
     }
 }

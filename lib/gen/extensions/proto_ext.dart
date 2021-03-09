@@ -38,8 +38,11 @@ extension ProtoUpdateStateToModel
 
 extension ProtoLogMessageToModel on ProtoLogMessage {
   McuLogMessage convent() {
-    return McuLogMessage(message, conventCategory(this.logCategory),
-        conventLevel(this.logLevel));
+    return McuLogMessage(
+        message,
+        conventCategory(this.logCategory),
+        conventLevel(this.logLevel),
+        DateTime.fromMillisecondsSinceEpoch(this.logDateTime.toInt()));
   }
 
   McuMgrLogLevel conventLevel(ProtoLogMessage_LogLevel level) {

@@ -159,7 +159,7 @@ extension UpdateManager: FirmwareUpgradeDelegate {
 
 extension UpdateManager: McuMgrLogDelegate {
     func log(_ msg: String, ofCategory category: McuMgrLogCategory, atLevel level: McuMgrLogLevel) {
-        let log = ProtoLogMessage(message: msg, category: category.toProto(), level: level.toProto())
+        let log = ProtoLogMessage(message: msg, category: category.toProto(), level: level.toProto(), timeInterval: Date().timeIntervalSince1970)
         let logStreamArg = ProtoLogMessageStreamArg(uuid: peripheral.identifier.uuidString, log: log)
         
         do {

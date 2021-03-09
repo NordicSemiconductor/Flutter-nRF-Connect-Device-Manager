@@ -46,7 +46,7 @@ class ProtoUpdateCallArgument extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  ProtoUpdateCallArgument copyWith(void Function(ProtoUpdateCallArgument) updates) => super.copyWith((message) => updates(message as ProtoUpdateCallArgument)); // ignore: deprecated_member_use
+  ProtoUpdateCallArgument copyWith(void Function(ProtoUpdateCallArgument) updates) => super.copyWith((message) => updates(message as ProtoUpdateCallArgument)) as ProtoUpdateCallArgument; // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static ProtoUpdateCallArgument create() => ProtoUpdateCallArgument._();
@@ -102,7 +102,7 @@ class ProtoError extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  ProtoError copyWith(void Function(ProtoError) updates) => super.copyWith((message) => updates(message as ProtoError)); // ignore: deprecated_member_use
+  ProtoError copyWith(void Function(ProtoError) updates) => super.copyWith((message) => updates(message as ProtoError)) as ProtoError; // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static ProtoError create() => ProtoError._();
@@ -164,7 +164,7 @@ class ProtoUpdateStateChangesStreamArg extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  ProtoUpdateStateChangesStreamArg copyWith(void Function(ProtoUpdateStateChangesStreamArg) updates) => super.copyWith((message) => updates(message as ProtoUpdateStateChangesStreamArg)); // ignore: deprecated_member_use
+  ProtoUpdateStateChangesStreamArg copyWith(void Function(ProtoUpdateStateChangesStreamArg) updates) => super.copyWith((message) => updates(message as ProtoUpdateStateChangesStreamArg)) as ProtoUpdateStateChangesStreamArg; // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static ProtoUpdateStateChangesStreamArg create() => ProtoUpdateStateChangesStreamArg._();
@@ -252,7 +252,7 @@ class ProtoUpdateStateChanges extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  ProtoUpdateStateChanges copyWith(void Function(ProtoUpdateStateChanges) updates) => super.copyWith((message) => updates(message as ProtoUpdateStateChanges)); // ignore: deprecated_member_use
+  ProtoUpdateStateChanges copyWith(void Function(ProtoUpdateStateChanges) updates) => super.copyWith((message) => updates(message as ProtoUpdateStateChanges)) as ProtoUpdateStateChanges; // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static ProtoUpdateStateChanges create() => ProtoUpdateStateChanges._();
@@ -332,7 +332,7 @@ class ProtoProgressUpdateStreamArg extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  ProtoProgressUpdateStreamArg copyWith(void Function(ProtoProgressUpdateStreamArg) updates) => super.copyWith((message) => updates(message as ProtoProgressUpdateStreamArg)); // ignore: deprecated_member_use
+  ProtoProgressUpdateStreamArg copyWith(void Function(ProtoProgressUpdateStreamArg) updates) => super.copyWith((message) => updates(message as ProtoProgressUpdateStreamArg)) as ProtoProgressUpdateStreamArg; // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static ProtoProgressUpdateStreamArg create() => ProtoProgressUpdateStreamArg._();
@@ -420,7 +420,7 @@ class ProtoProgressUpdate extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  ProtoProgressUpdate copyWith(void Function(ProtoProgressUpdate) updates) => super.copyWith((message) => updates(message as ProtoProgressUpdate)); // ignore: deprecated_member_use
+  ProtoProgressUpdate copyWith(void Function(ProtoProgressUpdate) updates) => super.copyWith((message) => updates(message as ProtoProgressUpdate)) as ProtoProgressUpdate; // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static ProtoProgressUpdate create() => ProtoProgressUpdate._();
@@ -500,7 +500,7 @@ class ProtoLogMessageStreamArg extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  ProtoLogMessageStreamArg copyWith(void Function(ProtoLogMessageStreamArg) updates) => super.copyWith((message) => updates(message as ProtoLogMessageStreamArg)); // ignore: deprecated_member_use
+  ProtoLogMessageStreamArg copyWith(void Function(ProtoLogMessageStreamArg) updates) => super.copyWith((message) => updates(message as ProtoLogMessageStreamArg)) as ProtoLogMessageStreamArg; // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static ProtoLogMessageStreamArg create() => ProtoLogMessageStreamArg._();
@@ -556,6 +556,7 @@ class ProtoLogMessage extends $pb.GeneratedMessage {
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'message')
     ..e<ProtoLogMessage_LogCategory>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'logCategory', $pb.PbFieldType.OE, protoName: 'logCategory', defaultOrMaker: ProtoLogMessage_LogCategory.TRANSPORT, valueOf: ProtoLogMessage_LogCategory.valueOf, enumValues: ProtoLogMessage_LogCategory.values)
     ..e<ProtoLogMessage_LogLevel>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'logLevel', $pb.PbFieldType.OE, protoName: 'logLevel', defaultOrMaker: ProtoLogMessage_LogLevel.DEBUG, valueOf: ProtoLogMessage_LogLevel.valueOf, enumValues: ProtoLogMessage_LogLevel.values)
+    ..aInt64(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'logDateTime', protoName: 'logDateTime')
     ..hasRequiredFields = false
   ;
 
@@ -564,6 +565,7 @@ class ProtoLogMessage extends $pb.GeneratedMessage {
     $core.String message,
     ProtoLogMessage_LogCategory logCategory,
     ProtoLogMessage_LogLevel logLevel,
+    $fixnum.Int64 logDateTime,
   }) {
     final _result = create();
     if (message != null) {
@@ -574,6 +576,9 @@ class ProtoLogMessage extends $pb.GeneratedMessage {
     }
     if (logLevel != null) {
       _result.logLevel = logLevel;
+    }
+    if (logDateTime != null) {
+      _result.logDateTime = logDateTime;
     }
     return _result;
   }
@@ -588,7 +593,7 @@ class ProtoLogMessage extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  ProtoLogMessage copyWith(void Function(ProtoLogMessage) updates) => super.copyWith((message) => updates(message as ProtoLogMessage)); // ignore: deprecated_member_use
+  ProtoLogMessage copyWith(void Function(ProtoLogMessage) updates) => super.copyWith((message) => updates(message as ProtoLogMessage)) as ProtoLogMessage; // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
   static ProtoLogMessage create() => ProtoLogMessage._();
@@ -624,5 +629,14 @@ class ProtoLogMessage extends $pb.GeneratedMessage {
   $core.bool hasLogLevel() => $_has(2);
   @$pb.TagNumber(3)
   void clearLogLevel() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $fixnum.Int64 get logDateTime => $_getI64(3);
+  @$pb.TagNumber(4)
+  set logDateTime($fixnum.Int64 v) { $_setInt64(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasLogDateTime() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearLogDateTime() => clearField(4);
 }
 

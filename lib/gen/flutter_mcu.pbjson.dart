@@ -3,8 +3,12 @@
 //  source: flutter_mcu.proto
 //
 // @dart = 2.7
-// ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
+// ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields,deprecated_member_use_from_same_package
 
+import 'dart:core' as $core;
+import 'dart:convert' as $convert;
+import 'dart:typed_data' as $typed_data;
+@$core.Deprecated('Use protoUpdateCallArgumentDescriptor instead')
 const ProtoUpdateCallArgument$json = const {
   '1': 'ProtoUpdateCallArgument',
   '2': const [
@@ -13,6 +17,9 @@ const ProtoUpdateCallArgument$json = const {
   ],
 };
 
+/// Descriptor for `ProtoUpdateCallArgument`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List protoUpdateCallArgumentDescriptor = $convert.base64Decode('ChdQcm90b1VwZGF0ZUNhbGxBcmd1bWVudBIfCgtkZXZpY2VfdXVpZBgBIAEoCVIKZGV2aWNlVXVpZBIjCg1maXJtd2FyZV9kYXRhGAIgASgMUgxmaXJtd2FyZURhdGE=');
+@$core.Deprecated('Use protoErrorDescriptor instead')
 const ProtoError$json = const {
   '1': 'ProtoError',
   '2': const [
@@ -20,6 +27,9 @@ const ProtoError$json = const {
   ],
 };
 
+/// Descriptor for `ProtoError`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List protoErrorDescriptor = $convert.base64Decode('CgpQcm90b0Vycm9yEjIKFGxvY2FsaXplZERlc2NyaXB0aW9uGAEgASgJUhRsb2NhbGl6ZWREZXNjcmlwdGlvbg==');
+@$core.Deprecated('Use protoUpdateStateChangesStreamArgDescriptor instead')
 const ProtoUpdateStateChangesStreamArg$json = const {
   '1': 'ProtoUpdateStateChangesStreamArg',
   '2': const [
@@ -30,6 +40,9 @@ const ProtoUpdateStateChangesStreamArg$json = const {
   ],
 };
 
+/// Descriptor for `ProtoUpdateStateChangesStreamArg`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List protoUpdateStateChangesStreamArgDescriptor = $convert.base64Decode('CiBQcm90b1VwZGF0ZVN0YXRlQ2hhbmdlc1N0cmVhbUFyZxISCgR1dWlkGAEgASgJUgR1dWlkEhIKBGRvbmUYAiABKAhSBGRvbmUSIQoFZXJyb3IYAyABKAsyCy5Qcm90b0Vycm9yUgVlcnJvchJIChJ1cGRhdGVTdGF0ZUNoYW5nZXMYBCABKAsyGC5Qcm90b1VwZGF0ZVN0YXRlQ2hhbmdlc1ISdXBkYXRlU3RhdGVDaGFuZ2Vz');
+@$core.Deprecated('Use protoUpdateStateChangesDescriptor instead')
 const ProtoUpdateStateChanges$json = const {
   '1': 'ProtoUpdateStateChanges',
   '2': const [
@@ -40,6 +53,7 @@ const ProtoUpdateStateChanges$json = const {
   '4': const [ProtoUpdateStateChanges_FirmwareUpgradeState$json],
 };
 
+@$core.Deprecated('Use protoUpdateStateChangesDescriptor instead')
 const ProtoUpdateStateChanges_FirmwareUpgradeState$json = const {
   '1': 'FirmwareUpgradeState',
   '2': const [
@@ -53,6 +67,9 @@ const ProtoUpdateStateChanges_FirmwareUpgradeState$json = const {
   ],
 };
 
+/// Descriptor for `ProtoUpdateStateChanges`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List protoUpdateStateChangesDescriptor = $convert.base64Decode('ChdQcm90b1VwZGF0ZVN0YXRlQ2hhbmdlcxJJCghvbGRTdGF0ZRgBIAEoDjItLlByb3RvVXBkYXRlU3RhdGVDaGFuZ2VzLkZpcm13YXJlVXBncmFkZVN0YXRlUghvbGRTdGF0ZRJJCghuZXdTdGF0ZRgCIAEoDjItLlByb3RvVXBkYXRlU3RhdGVDaGFuZ2VzLkZpcm13YXJlVXBncmFkZVN0YXRlUghuZXdTdGF0ZRIaCghjYW5jZWxlZBgDIAEoCFIIY2FuY2VsZWQiaQoURmlybXdhcmVVcGdyYWRlU3RhdGUSCAoETk9ORRAAEgwKCFZBTElEQVRFEAESCgoGVVBMT0FEEAISCAoEVEVTVBADEgkKBVJFU0VUEAQSCwoHQ09ORklSTRAFEgsKB1NVQ0NFU1MQBg==');
+@$core.Deprecated('Use protoProgressUpdateStreamArgDescriptor instead')
 const ProtoProgressUpdateStreamArg$json = const {
   '1': 'ProtoProgressUpdateStreamArg',
   '2': const [
@@ -63,6 +80,9 @@ const ProtoProgressUpdateStreamArg$json = const {
   ],
 };
 
+/// Descriptor for `ProtoProgressUpdateStreamArg`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List protoProgressUpdateStreamArgDescriptor = $convert.base64Decode('ChxQcm90b1Byb2dyZXNzVXBkYXRlU3RyZWFtQXJnEhIKBHV1aWQYASABKAlSBHV1aWQSEgoEZG9uZRgCIAEoCFIEZG9uZRIhCgVlcnJvchgDIAEoCzILLlByb3RvRXJyb3JSBWVycm9yEjwKDnByb2dyZXNzVXBkYXRlGAQgASgLMhQuUHJvdG9Qcm9ncmVzc1VwZGF0ZVIOcHJvZ3Jlc3NVcGRhdGU=');
+@$core.Deprecated('Use protoProgressUpdateDescriptor instead')
 const ProtoProgressUpdate$json = const {
   '1': 'ProtoProgressUpdate',
   '2': const [
@@ -72,6 +92,9 @@ const ProtoProgressUpdate$json = const {
   ],
 };
 
+/// Descriptor for `ProtoProgressUpdate`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List protoProgressUpdateDescriptor = $convert.base64Decode('ChNQcm90b1Byb2dyZXNzVXBkYXRlEhwKCWJ5dGVzU2VudBgBIAEoBFIJYnl0ZXNTZW50EhwKCWltYWdlU2l6ZRgCIAEoBFIJaW1hZ2VTaXplEhwKCXRpbWVzdGFtcBgDIAEoAVIJdGltZXN0YW1w');
+@$core.Deprecated('Use protoLogMessageStreamArgDescriptor instead')
 const ProtoLogMessageStreamArg$json = const {
   '1': 'ProtoLogMessageStreamArg',
   '2': const [
@@ -82,16 +105,21 @@ const ProtoLogMessageStreamArg$json = const {
   ],
 };
 
+/// Descriptor for `ProtoLogMessageStreamArg`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List protoLogMessageStreamArgDescriptor = $convert.base64Decode('ChhQcm90b0xvZ01lc3NhZ2VTdHJlYW1BcmcSEgoEdXVpZBgBIAEoCVIEdXVpZBISCgRkb25lGAIgASgIUgRkb25lEiEKBWVycm9yGAMgASgLMgsuUHJvdG9FcnJvclIFZXJyb3ISOgoPcHJvdG9Mb2dNZXNzYWdlGAQgASgLMhAuUHJvdG9Mb2dNZXNzYWdlUg9wcm90b0xvZ01lc3NhZ2U=');
+@$core.Deprecated('Use protoLogMessageDescriptor instead')
 const ProtoLogMessage$json = const {
   '1': 'ProtoLogMessage',
   '2': const [
     const {'1': 'message', '3': 1, '4': 1, '5': 9, '10': 'message'},
     const {'1': 'logCategory', '3': 2, '4': 1, '5': 14, '6': '.ProtoLogMessage.LogCategory', '10': 'logCategory'},
     const {'1': 'logLevel', '3': 3, '4': 1, '5': 14, '6': '.ProtoLogMessage.LogLevel', '10': 'logLevel'},
+    const {'1': 'logDateTime', '3': 4, '4': 1, '5': 3, '10': 'logDateTime'},
   ],
   '4': const [ProtoLogMessage_LogCategory$json, ProtoLogMessage_LogLevel$json],
 };
 
+@$core.Deprecated('Use protoLogMessageDescriptor instead')
 const ProtoLogMessage_LogCategory$json = const {
   '1': 'LogCategory',
   '2': const [
@@ -108,6 +136,7 @@ const ProtoLogMessage_LogCategory$json = const {
   ],
 };
 
+@$core.Deprecated('Use protoLogMessageDescriptor instead')
 const ProtoLogMessage_LogLevel$json = const {
   '1': 'LogLevel',
   '2': const [
@@ -120,3 +149,5 @@ const ProtoLogMessage_LogLevel$json = const {
   ],
 };
 
+/// Descriptor for `ProtoLogMessage`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List protoLogMessageDescriptor = $convert.base64Decode('Cg9Qcm90b0xvZ01lc3NhZ2USGAoHbWVzc2FnZRgBIAEoCVIHbWVzc2FnZRI+Cgtsb2dDYXRlZ29yeRgCIAEoDjIcLlByb3RvTG9nTWVzc2FnZS5Mb2dDYXRlZ29yeVILbG9nQ2F0ZWdvcnkSNQoIbG9nTGV2ZWwYAyABKA4yGS5Qcm90b0xvZ01lc3NhZ2UuTG9nTGV2ZWxSCGxvZ0xldmVsEiAKC2xvZ0RhdGVUaW1lGAQgASgDUgtsb2dEYXRlVGltZSJ+CgtMb2dDYXRlZ29yeRINCglUUkFOU1BPUlQQABIKCgZDT05GSUcQARIJCgVDUkFTSBACEgsKB0RFRkFVTFQQAxIGCgJGUxAEEgkKBUlNQUdFEAUSBwoDTE9HEAYSDAoIUlVOX1RFU1QQBxIJCgVTVEFUUxAIEgcKA0RGVRAJIlUKCExvZ0xldmVsEgkKBURFQlVHEAASCwoHVkVSQk9TRRABEggKBElORk8QAhIPCgtBUFBMSUNBVElPThADEgsKB1dBUk5JTkcQBBIJCgVFUlJPUhAF');

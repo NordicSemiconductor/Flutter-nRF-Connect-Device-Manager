@@ -257,6 +257,8 @@ struct ProtoLogMessage {
 
   var logLevel: ProtoLogMessage.LogLevel = .debug
 
+  var logDateTime: Int64 = 0
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   enum LogCategory: SwiftProtobuf.Enum {
@@ -714,6 +716,7 @@ extension ProtoLogMessage: SwiftProtobuf.Message, SwiftProtobuf._MessageImplemen
     1: .same(proto: "message"),
     2: .same(proto: "logCategory"),
     3: .same(proto: "logLevel"),
+    4: .same(proto: "logDateTime"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -725,6 +728,7 @@ extension ProtoLogMessage: SwiftProtobuf.Message, SwiftProtobuf._MessageImplemen
       case 1: try { try decoder.decodeSingularStringField(value: &self.message) }()
       case 2: try { try decoder.decodeSingularEnumField(value: &self.logCategory) }()
       case 3: try { try decoder.decodeSingularEnumField(value: &self.logLevel) }()
+      case 4: try { try decoder.decodeSingularInt64Field(value: &self.logDateTime) }()
       default: break
       }
     }
@@ -740,6 +744,9 @@ extension ProtoLogMessage: SwiftProtobuf.Message, SwiftProtobuf._MessageImplemen
     if self.logLevel != .debug {
       try visitor.visitSingularEnumField(value: self.logLevel, fieldNumber: 3)
     }
+    if self.logDateTime != 0 {
+      try visitor.visitSingularInt64Field(value: self.logDateTime, fieldNumber: 4)
+    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
@@ -747,6 +754,7 @@ extension ProtoLogMessage: SwiftProtobuf.Message, SwiftProtobuf._MessageImplemen
     if lhs.message != rhs.message {return false}
     if lhs.logCategory != rhs.logCategory {return false}
     if lhs.logLevel != rhs.logLevel {return false}
+    if lhs.logDateTime != rhs.logDateTime {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }

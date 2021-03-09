@@ -4,8 +4,9 @@ class McuLogMessage {
   final String message;
   final McuMgrLogCategory category;
   final McuMgrLogLevel level;
+  final DateTime dateTime;
 
-  const McuLogMessage(this.message, this.category, this.level);
+  const McuLogMessage(this.message, this.category, this.level, this.dateTime);
 }
 
 class McuMgrLogCategory {
