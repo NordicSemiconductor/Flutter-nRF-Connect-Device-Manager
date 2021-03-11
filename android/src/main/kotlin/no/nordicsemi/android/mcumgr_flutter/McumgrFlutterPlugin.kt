@@ -104,8 +104,12 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 			throw UpdateManagerExists("Updated manager for provided peripheral already exists")
 		}
 		val device = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(address)
-		val transport = LoggableMcuMgrBleTransport(context, device, logStreamHandler)
-		val updateManager = UpdateManager(transport, updateStateStreamHandler, updateProgressStreamHandler, logStreamHandler)
+		val transport = LoggableMcuMgrBleTransport(context, device , logStreamHandler)
+		val updateManager = UpdateManager(transport,
+				updateStateStreamHandler,
+				updateProgressStreamHandler,
+				logStreamHandler) { _ -> managers.remove(address) }
+
 		managers[address] = updateManager
 	}
 
