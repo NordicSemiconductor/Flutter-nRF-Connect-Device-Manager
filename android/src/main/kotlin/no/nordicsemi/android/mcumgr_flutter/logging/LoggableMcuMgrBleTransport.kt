@@ -36,6 +36,7 @@ class LoggableMcuMgrBleTransport(
 				.newBuilder()
 				.setLogCategory(FlutterMcu.ProtoLogMessage.LogCategory.DFU)
 				.setLogLevel(priority.toLogLevel())
+				.setLogDateTime(System.currentTimeMillis())
 				.setMessage(message)
 				.build()
 		val arg = FlutterMcu.ProtoLogMessageStreamArg

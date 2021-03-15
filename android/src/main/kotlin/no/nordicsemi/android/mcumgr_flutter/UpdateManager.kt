@@ -132,7 +132,7 @@ class UpdateManager(
 				.newBuilder()
 				.setImageSize(imageSize.toLong())
 				.setBytesSent(bytesSent.toLong())
-				.setTimestamp(timestamp.toDouble() / 1000.0) // convert to seconds
+				.setTimestamp(timestamp.toDouble() * 1000.0) // convert to seconds
 				.build()
 		val arg = FlutterMcu.ProtoProgressUpdateStreamArg
 				.newBuilder()
