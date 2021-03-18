@@ -40,6 +40,6 @@ android {
 }
 
 dependencies {
-    implementation 'io.runtime.mcumgr:mcumgr-ble:0.12.0-beta3' // TODO: Update to 0.12.0
+    implementation 'io.runtime.mcumgr:mcumgr-ble:0.11.0' // TODO: Update to 0.12.0
     implementation  'com.google.protobuf:protobuf-javalite:3.11.0'
 }

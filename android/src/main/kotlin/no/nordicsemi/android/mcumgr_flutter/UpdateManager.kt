@@ -66,6 +66,17 @@ class UpdateManager(
 	}
 
 	override fun onUpgradeCompleted() {
+		val changes = FlutterMcu.ProtoUpdateStateChanges
+				.newBuilder()
+				.setNewState(FirmwareUpgradeManager.State.SUCCESS.toProto())
+				.build()
+		val successStateChanges = FlutterMcu.ProtoUpdateStateChangesStreamArg
+				.newBuilder()
+				.setUuid(address)
+				.setUpdateStateChanges(changes)
+				.build()
+		updateStateStreamHandler.sink?.success(successStateChanges.toByteArray())
+
 		val stateChangesArg = FlutterMcu.ProtoUpdateStateChangesStreamArg
 				.newBuilder()
 				.setUuid(address)

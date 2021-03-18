@@ -6,11 +6,11 @@ homepage:
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
-  flutter: ">=1.20.0"
+  flutter: ">=2.0.0"
 
 dependencies:
-  protobuf: ^1.0.1
-  rxdart: ^0.24.0
+  protobuf: ^2.0.0
+  rxdart: ^0.26.0
   flutter:
     sdk: flutter
 
