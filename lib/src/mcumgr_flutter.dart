@@ -46,6 +46,14 @@ class UpdateManager {
     return _updateInProgressStreamController.stream;
   }
 
+  void dispose() {
+    _logMessageStreamController.close();
+    _progressStreamController.close();
+    _updateStateStreamController.close();
+    _logMessageStreamController.close();
+    _updateInProgressStreamController.close();
+  }
+
   // Stream<ProgressUpdate> get
 
   static Future<UpdateManager> newManager(String deviceId) async {
@@ -165,7 +173,7 @@ class UpdateManager {
       }
 
       if (event.done) {
-        _logMessageStreamController.close();
+        // _logMessageStreamController.close();
       }
 
       if (event.hasProtoLogMessage()) {
