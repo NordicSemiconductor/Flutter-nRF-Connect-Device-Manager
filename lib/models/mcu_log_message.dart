@@ -43,7 +43,18 @@ class McuMgrLogLevel {
   static const warning = McuMgrLogLevel._value(15);
   static const error = McuMgrLogLevel._value(20);
 
-  String get name {
+  static List<McuMgrLogLevel> get list {
+    return [
+      McuMgrLogLevel.debug,
+      McuMgrLogLevel.verbose,
+      McuMgrLogLevel.info,
+      McuMgrLogLevel.application,
+      McuMgrLogLevel.warning,
+      McuMgrLogLevel.error
+    ];
+  }
+
+  String get shortName {
     switch (this) {
       case debug:
         return "D";
@@ -57,6 +68,25 @@ class McuMgrLogLevel {
         return "W";
       case error:
         return "E";
+      default:
+        return "";
+    }
+  }
+
+  String get name {
+    switch (this) {
+      case debug:
+        return "Debug";
+      case verbose:
+        return "Verbose";
+      case info:
+        return "Info";
+      case application:
+        return "Application";
+      case warning:
+        return "Warning";
+      case error:
+        return "Error";
       default:
         return "";
     }
