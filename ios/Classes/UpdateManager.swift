@@ -9,7 +9,7 @@ import Foundation
 import McuManager
 import CoreBluetooth
 
-protocol UpdateManagerDelegate: class {
+protocol UpdateManagerDelegate: AnyObject {
     func updateCompleted(manager: UpdateManager)
 }
 
