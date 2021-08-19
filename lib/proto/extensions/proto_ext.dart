@@ -1,6 +1,7 @@
 import 'package:mcumgr_flutter/gen/flutter_mcu.pb.dart';
 import 'package:mcumgr_flutter/mcumgr_flutter.dart';
 
+
 extension ProtoProgressToModel on ProtoProgressUpdate {
   ProgressUpdate convert() {
     final int bytesSent = (this.bytesSent).toInt();

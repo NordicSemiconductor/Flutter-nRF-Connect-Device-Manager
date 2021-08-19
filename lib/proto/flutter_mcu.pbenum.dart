@@ -1,8 +1,8 @@
 ///
 //  Generated code. Do not modify.
-//  source: flutter_mcu.proto
+//  source: lib/proto/flutter_mcu.proto
 //
-// @dart = 2.7
+// @dart = 2.12
 // ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
 
 // ignore_for_file: UNDEFINED_SHOWN_NAME
@@ -29,7 +29,7 @@ class ProtoUpdateStateChanges_FirmwareUpgradeState extends $pb.ProtobufEnum {
   ];
 
   static final $core.Map<$core.int, ProtoUpdateStateChanges_FirmwareUpgradeState> _byValue = $pb.ProtobufEnum.initByValue(values);
-  static ProtoUpdateStateChanges_FirmwareUpgradeState valueOf($core.int value) => _byValue[value];
+  static ProtoUpdateStateChanges_FirmwareUpgradeState? valueOf($core.int value) => _byValue[value];
 
   const ProtoUpdateStateChanges_FirmwareUpgradeState._($core.int v, $core.String n) : super(v, n);
 }
@@ -60,7 +60,7 @@ class ProtoLogMessage_LogCategory extends $pb.ProtobufEnum {
   ];
 
   static final $core.Map<$core.int, ProtoLogMessage_LogCategory> _byValue = $pb.ProtobufEnum.initByValue(values);
-  static ProtoLogMessage_LogCategory valueOf($core.int value) => _byValue[value];
+  static ProtoLogMessage_LogCategory? valueOf($core.int value) => _byValue[value];
 
   const ProtoLogMessage_LogCategory._($core.int v, $core.String n) : super(v, n);
 }
@@ -83,7 +83,7 @@ class ProtoLogMessage_LogLevel extends $pb.ProtobufEnum {
   ];
 
   static final $core.Map<$core.int, ProtoLogMessage_LogLevel> _byValue = $pb.ProtobufEnum.initByValue(values);
-  static ProtoLogMessage_LogLevel valueOf($core.int value) => _byValue[value];
+  static ProtoLogMessage_LogLevel? valueOf($core.int value) => _byValue[value];
 
   const ProtoLogMessage_LogLevel._($core.int v, $core.String n) : super(v, n);
 }

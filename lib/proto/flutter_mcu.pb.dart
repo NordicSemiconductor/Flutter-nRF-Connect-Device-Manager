@@ -1,8 +1,8 @@
 ///
 //  Generated code. Do not modify.
-//  source: flutter_mcu.proto
+//  source: lib/proto/flutter_mcu.proto
 //
-// @dart = 2.7
+// @dart = 2.12
 // ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
 
 import 'dart:core' as $core;
@@ -23,8 +23,8 @@ class ProtoUpdateCallArgument extends $pb.GeneratedMessage {
 
   ProtoUpdateCallArgument._() : super();
   factory ProtoUpdateCallArgument({
-    $core.String deviceUuid,
-    $core.List<$core.int> firmwareData,
+    $core.String? deviceUuid,
+    $core.List<$core.int>? firmwareData,
   }) {
     final _result = create();
     if (deviceUuid != null) {
@@ -54,7 +54,7 @@ class ProtoUpdateCallArgument extends $pb.GeneratedMessage {
   static $pb.PbList<ProtoUpdateCallArgument> createRepeated() => $pb.PbList<ProtoUpdateCallArgument>();
   @$core.pragma('dart2js:noInline')
   static ProtoUpdateCallArgument getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ProtoUpdateCallArgument>(create);
-  static ProtoUpdateCallArgument _defaultInstance;
+  static ProtoUpdateCallArgument? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get deviceUuid => $_getSZ(0);
@@ -83,7 +83,7 @@ class ProtoError extends $pb.GeneratedMessage {
 
   ProtoError._() : super();
   factory ProtoError({
-    $core.String localizedDescription,
+    $core.String? localizedDescription,
   }) {
     final _result = create();
     if (localizedDescription != null) {
@@ -110,7 +110,7 @@ class ProtoError extends $pb.GeneratedMessage {
   static $pb.PbList<ProtoError> createRepeated() => $pb.PbList<ProtoError>();
   @$core.pragma('dart2js:noInline')
   static ProtoError getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ProtoError>(create);
-  static ProtoError _defaultInstance;
+  static ProtoError? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get localizedDescription => $_getSZ(0);
@@ -133,10 +133,10 @@ class ProtoUpdateStateChangesStreamArg extends $pb.GeneratedMessage {
 
   ProtoUpdateStateChangesStreamArg._() : super();
   factory ProtoUpdateStateChangesStreamArg({
-    $core.String uuid,
-    $core.bool done,
-    ProtoError error,
-    ProtoUpdateStateChanges updateStateChanges,
+    $core.String? uuid,
+    $core.bool? done,
+    ProtoError? error,
+    ProtoUpdateStateChanges? updateStateChanges,
   }) {
     final _result = create();
     if (uuid != null) {
@@ -172,7 +172,7 @@ class ProtoUpdateStateChangesStreamArg extends $pb.GeneratedMessage {
   static $pb.PbList<ProtoUpdateStateChangesStreamArg> createRepeated() => $pb.PbList<ProtoUpdateStateChangesStreamArg>();
   @$core.pragma('dart2js:noInline')
   static ProtoUpdateStateChangesStreamArg getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ProtoUpdateStateChangesStreamArg>(create);
-  static ProtoUpdateStateChangesStreamArg _defaultInstance;
+  static ProtoUpdateStateChangesStreamArg? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get uuid => $_getSZ(0);
@@ -225,9 +225,9 @@ class ProtoUpdateStateChanges extends $pb.GeneratedMessage {
 
   ProtoUpdateStateChanges._() : super();
   factory ProtoUpdateStateChanges({
-    ProtoUpdateStateChanges_FirmwareUpgradeState oldState,
-    ProtoUpdateStateChanges_FirmwareUpgradeState newState,
-    $core.bool canceled,
+    ProtoUpdateStateChanges_FirmwareUpgradeState? oldState,
+    ProtoUpdateStateChanges_FirmwareUpgradeState? newState,
+    $core.bool? canceled,
   }) {
     final _result = create();
     if (oldState != null) {
@@ -260,7 +260,7 @@ class ProtoUpdateStateChanges extends $pb.GeneratedMessage {
   static $pb.PbList<ProtoUpdateStateChanges> createRepeated() => $pb.PbList<ProtoUpdateStateChanges>();
   @$core.pragma('dart2js:noInline')
   static ProtoUpdateStateChanges getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ProtoUpdateStateChanges>(create);
-  static ProtoUpdateStateChanges _defaultInstance;
+  static ProtoUpdateStateChanges? _defaultInstance;
 
   @$pb.TagNumber(1)
   ProtoUpdateStateChanges_FirmwareUpgradeState get oldState => $_getN(0);
@@ -301,10 +301,10 @@ class ProtoProgressUpdateStreamArg extends $pb.GeneratedMessage {
 
   ProtoProgressUpdateStreamArg._() : super();
   factory ProtoProgressUpdateStreamArg({
-    $core.String uuid,
-    $core.bool done,
-    ProtoError error,
-    ProtoProgressUpdate progressUpdate,
+    $core.String? uuid,
+    $core.bool? done,
+    ProtoError? error,
+    ProtoProgressUpdate? progressUpdate,
   }) {
     final _result = create();
     if (uuid != null) {
@@ -340,7 +340,7 @@ class ProtoProgressUpdateStreamArg extends $pb.GeneratedMessage {
   static $pb.PbList<ProtoProgressUpdateStreamArg> createRepeated() => $pb.PbList<ProtoProgressUpdateStreamArg>();
   @$core.pragma('dart2js:noInline')
   static ProtoProgressUpdateStreamArg getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ProtoProgressUpdateStreamArg>(create);
-  static ProtoProgressUpdateStreamArg _defaultInstance;
+  static ProtoProgressUpdateStreamArg? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get uuid => $_getSZ(0);
@@ -393,9 +393,9 @@ class ProtoProgressUpdate extends $pb.GeneratedMessage {
 
   ProtoProgressUpdate._() : super();
   factory ProtoProgressUpdate({
-    $fixnum.Int64 bytesSent,
-    $fixnum.Int64 imageSize,
-    $core.double timestamp,
+    $fixnum.Int64? bytesSent,
+    $fixnum.Int64? imageSize,
+    $core.double? timestamp,
   }) {
     final _result = create();
     if (bytesSent != null) {
@@ -428,7 +428,7 @@ class ProtoProgressUpdate extends $pb.GeneratedMessage {
   static $pb.PbList<ProtoProgressUpdate> createRepeated() => $pb.PbList<ProtoProgressUpdate>();
   @$core.pragma('dart2js:noInline')
   static ProtoProgressUpdate getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ProtoProgressUpdate>(create);
-  static ProtoProgressUpdate _defaultInstance;
+  static ProtoProgressUpdate? _defaultInstance;
 
   @$pb.TagNumber(1)
   $fixnum.Int64 get bytesSent => $_getI64(0);
@@ -469,10 +469,10 @@ class ProtoLogMessageStreamArg extends $pb.GeneratedMessage {
 
   ProtoLogMessageStreamArg._() : super();
   factory ProtoLogMessageStreamArg({
-    $core.String uuid,
-    $core.bool done,
-    ProtoError error,
-    ProtoLogMessage protoLogMessage,
+    $core.String? uuid,
+    $core.bool? done,
+    ProtoError? error,
+    ProtoLogMessage? protoLogMessage,
   }) {
     final _result = create();
     if (uuid != null) {
@@ -508,7 +508,7 @@ class ProtoLogMessageStreamArg extends $pb.GeneratedMessage {
   static $pb.PbList<ProtoLogMessageStreamArg> createRepeated() => $pb.PbList<ProtoLogMessageStreamArg>();
   @$core.pragma('dart2js:noInline')
   static ProtoLogMessageStreamArg getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ProtoLogMessageStreamArg>(create);
-  static ProtoLogMessageStreamArg _defaultInstance;
+  static ProtoLogMessageStreamArg? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get uuid => $_getSZ(0);
@@ -562,10 +562,10 @@ class ProtoLogMessage extends $pb.GeneratedMessage {
 
   ProtoLogMessage._() : super();
   factory ProtoLogMessage({
-    $core.String message,
-    ProtoLogMessage_LogCategory logCategory,
-    ProtoLogMessage_LogLevel logLevel,
-    $fixnum.Int64 logDateTime,
+    $core.String? message,
+    ProtoLogMessage_LogCategory? logCategory,
+    ProtoLogMessage_LogLevel? logLevel,
+    $fixnum.Int64? logDateTime,
   }) {
     final _result = create();
     if (message != null) {
@@ -601,7 +601,7 @@ class ProtoLogMessage extends $pb.GeneratedMessage {
   static $pb.PbList<ProtoLogMessage> createRepeated() => $pb.PbList<ProtoLogMessage>();
   @$core.pragma('dart2js:noInline')
   static ProtoLogMessage getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ProtoLogMessage>(create);
-  static ProtoLogMessage _defaultInstance;
+  static ProtoLogMessage? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get message => $_getSZ(0);
