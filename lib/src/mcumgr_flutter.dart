@@ -68,6 +68,8 @@ class UpdateManager {
   }
 
   Future<void> update(Uint8List data) async {
+
+
     final arg = ProtoUpdateCallArgument()
       ..deviceUuid = _deviceId
       ..firmwareData = data;

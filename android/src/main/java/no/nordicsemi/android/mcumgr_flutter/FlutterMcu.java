@@ -69,7 +69,7 @@ public final class FlutterMcu {
      */
     private void setDeviceUuid(
         java.lang.String value) {
-      java.lang.Class<?> valueClass = value.getClass();
+      value.getClass();
   
       deviceUuid_ = value;
     }
@@ -106,7 +106,7 @@ public final class FlutterMcu {
      * @param value The firmwareData to set.
      */
     private void setFirmwareData(com.google.protobuf.ByteString value) {
-      java.lang.Class<?> valueClass = value.getClass();
+      value.getClass();
   
       firmwareData_ = value;
     }
@@ -422,7 +422,7 @@ public final class FlutterMcu {
      */
     private void setLocalizedDescription(
         java.lang.String value) {
-      java.lang.Class<?> valueClass = value.getClass();
+      value.getClass();
   
       localizedDescription_ = value;
     }
@@ -746,7 +746,7 @@ public final class FlutterMcu {
      */
     private void setUuid(
         java.lang.String value) {
-      java.lang.Class<?> valueClass = value.getClass();
+      value.getClass();
   
       uuid_ = value;
     }
@@ -1892,7 +1892,7 @@ public final class FlutterMcu {
      */
     private void setUuid(
         java.lang.String value) {
-      java.lang.Class<?> valueClass = value.getClass();
+      value.getClass();
   
       uuid_ = value;
     }
@@ -2826,7 +2826,7 @@ public final class FlutterMcu {
      */
     private void setUuid(
         java.lang.String value) {
-      java.lang.Class<?> valueClass = value.getClass();
+      value.getClass();
   
       uuid_ = value;
     }
@@ -3680,7 +3680,7 @@ public final class FlutterMcu {
      */
     private void setMessage(
         java.lang.String value) {
-      java.lang.Class<?> valueClass = value.getClass();
+      value.getClass();
   
       message_ = value;
     }
