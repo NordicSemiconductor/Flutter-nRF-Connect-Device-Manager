@@ -47,6 +47,10 @@ class UpdateManager {
   }
 
   void dispose() {
+    close();
+  }
+
+  void close() {
     _logMessageStreamController.close();
     _progressStreamController.close();
     _updateStateStreamController.close();
@@ -68,8 +72,6 @@ class UpdateManager {
   }
 
   Future<void> update(Uint8List data) async {
-
-
     final arg = ProtoUpdateCallArgument()
       ..deviceUuid = _deviceId
       ..firmwareData = data;
