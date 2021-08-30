@@ -21,6 +21,15 @@ class FirmwareUpgradeState {
   static const confirm = FirmwareUpgradeState("Confirm");
   static const success = FirmwareUpgradeState("Success");
 
+  static const values = [
+    FirmwareUpgradeState.validate,
+    FirmwareUpgradeState.upload,
+    FirmwareUpgradeState.test,
+    FirmwareUpgradeState.reset,
+    FirmwareUpgradeState.confirm,
+    FirmwareUpgradeState.success
+  ];
+
   @override
   String toString() {
     return _rawValue;
