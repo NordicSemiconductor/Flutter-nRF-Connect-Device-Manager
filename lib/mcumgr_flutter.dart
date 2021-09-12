@@ -10,6 +10,9 @@ import 'package:rxdart/rxdart.dart';
 import 'proto/extensions/proto_ext.dart';
 import 'proto/flutter_mcu.pb.dart';
 
+import 'src/mock_update_manager.dart';
+import 'src/mcumgr_update_manager.dart';
+
 part 'src/mcumgr_flutter.dart';
 part 'models/progress_update.dart';
 part 'models/mcu_log_message.dart';
