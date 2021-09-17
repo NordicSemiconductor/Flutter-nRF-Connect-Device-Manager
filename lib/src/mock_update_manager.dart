@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:mcumgr_flutter/mcumgr_flutter.dart';
@@ -19,6 +20,7 @@ class MockUpdateManager extends UpdateManager {
       BehaviorSubject();
   final BehaviorSubject<bool> _updateInProgressStreamController =
       BehaviorSubject.seeded(true);
+  final StreamController<bool> _cancelTrigger = StreamController.broadcast();
 
   @override
   Stream<McuLogMessage> get logMessageStream =>
@@ -40,6 +42,7 @@ class MockUpdateManager extends UpdateManager {
   }
 
   void _close() {
+    _cancelTrigger.close();
     _logMessageStreamController.close();
     _progressStreamController.close();
     _updateStateStreamController.close();
@@ -48,9 +51,9 @@ class MockUpdateManager extends UpdateManager {
   }
 
   @override
-  Future<void> cancel() {
-    // TODO: implement cancel
-    throw UnimplementedError();
+  Future<void> cancel() async {
+    _cancelTrigger.add(true);
+    _close();
   }
 
   @override
@@ -95,11 +98,13 @@ class MockUpdateManager extends UpdateManager {
         .flatMap((value) => Stream.fromIterable(value))
         .map((event) => event.progressUpdate)
         .interval(Duration(milliseconds: 100))
-        .take(100);
+        .take(100)
+        .takeUntil(_cancelTrigger.stream);
 
     await for (var e in queue) {
       _progressStreamController.add(e);
     }
+    _progressStreamController.close();
 
     final states = [
       FirmwareUpgradeState.test,
@@ -108,12 +113,12 @@ class MockUpdateManager extends UpdateManager {
       FirmwareUpgradeState.success
     ];
 
-    await for (var e
-        in Stream.fromIterable(states).interval(Duration(seconds: 3))) {
+    await for (var e in Stream.fromIterable(states)
+        .takeUntil(_cancelTrigger.stream)
+        .interval(Duration(seconds: 3))) {
       _updateStateStreamController.add(e);
     }
 
-    _progressStreamController.close();
     _updateStateStreamController.close();
   }
 }
