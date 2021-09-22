@@ -1,7 +1,6 @@
 name: mcumgr_flutter
 description: A new flutter plugin project.
 version: 0.0.1+1
-author:
 homepage:
 
 environment:
@@ -15,6 +14,7 @@ dependencies:
     sdk: flutter
 
 dev_dependencies:
+  faker: ^2.0.0
   flutter_test:
     sdk: flutter
 

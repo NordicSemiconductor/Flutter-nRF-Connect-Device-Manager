@@ -25,6 +25,19 @@ class McuMgrLogCategory {
   static const stats = McuMgrLogCategory._value("StatsManager");
   static const dfu = McuMgrLogCategory._value("DFU");
 
+  static List<McuMgrLogCategory> get values => [
+        transport,
+        config,
+        crash,
+        defaultLevel,
+        fs,
+        image,
+        log,
+        runTest,
+        stats,
+        dfu
+      ];
+
   @override
   String toString() {
     return _rawValue;
@@ -43,14 +56,14 @@ class McuMgrLogLevel {
   static const warning = McuMgrLogLevel._value(15);
   static const error = McuMgrLogLevel._value(20);
 
-  static List<McuMgrLogLevel> get list {
+  static List<McuMgrLogLevel> get values {
     return [
-      McuMgrLogLevel.debug,
-      McuMgrLogLevel.verbose,
-      McuMgrLogLevel.info,
-      McuMgrLogLevel.application,
-      McuMgrLogLevel.warning,
-      McuMgrLogLevel.error
+      debug,
+      verbose,
+      info,
+      application,
+      warning,
+      error
     ];
   }
 
