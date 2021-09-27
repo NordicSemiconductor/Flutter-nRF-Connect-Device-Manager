@@ -41,5 +41,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>Grant the permition for using Bluetooth to have an ability find and connect the devices.</string>
 </dict>
 </plist>

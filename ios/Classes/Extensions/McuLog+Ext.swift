@@ -27,13 +27,15 @@ extension McuMgrLogCategory {
         case .transport: return .transport
         case .config: return .config
         case .crash: return .crash
-        case .default: return .default
+        case .`default`: return .`default`
         case .fs: return .fs
         case .image: return .image
         case .log: return .log
         case .runTest: return .runTest
         case .stats: return .stats
         case .dfu: return .dfu
+        case .basic:
+            return .`default`
         }
     }
 }
