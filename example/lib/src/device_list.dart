@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
+import 'package:mcumgr_flutter_example/src/firmware_list.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:mcumgr_flutter_example/src/utils/set_ext.dart';
 import 'package:mcumgr_flutter_example/src/utils/string_ext.dart';
@@ -32,13 +33,22 @@ class DeviceList extends StatelessWidget {
         itemCount: scanResults.length,
         itemBuilder: (c, i) {
           final sr = scanResults[i];
-          return ListTile(
-            title: Text(sr.advertisementData.localName.replaceIfEmpty('n/a')),
-            trailing: Text(
-              sr.rssi.toString() + ' dB',
-              style: Theme.of(c).textTheme.subtitle1,
-            ),
-          );
+          return _buildListTile(sr, c);
         });
+  }
+
+  GestureDetector _buildListTile(ScanResult sr, BuildContext c) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(c, MaterialPageRoute(builder: (c) => FirmwareList()));
+      },
+      child: ListTile(
+        title: Text(sr.advertisementData.localName.replaceIfEmpty('n/a')),
+        trailing: Text(
+          sr.rssi.toString() + ' dB',
+          style: Theme.of(c).textTheme.subtitle1,
+        ),
+      ),
+    );
   }
 }
