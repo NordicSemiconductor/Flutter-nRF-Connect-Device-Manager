@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:mcumgr_flutter_example/src/update_screen.dart';
 import 'package:path/path.dart' as p;
 
 class FirmwareList extends StatelessWidget {
@@ -21,13 +22,23 @@ class FirmwareList extends StatelessWidget {
             } else {
               final data = a.data;
               final json = jsonDecode(data as String);
-              final images = json.keys.map((e) => p.split(e).last).toList();
+              final images = json.keys.toList();
 
               return ListView.separated(
                   separatorBuilder: (c, i) => Divider(),
                   itemCount: images.length,
-                  itemBuilder: (c, i) => ListTile(
-                        title: Text(images[i]),
+                  itemBuilder: (c, i) => GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              c,
+                              MaterialPageRoute(
+                                  builder: (c) => UpdateScreen(
+                                        asset: images[i],
+                                      )));
+                        },
+                        child: ListTile(
+                          title: Text(p.split(images[i]).last),
+                        ),
                       ));
             }
           }),
