@@ -29,6 +29,28 @@ const ProtoError$json = const {
 
 /// Descriptor for `ProtoError`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List protoErrorDescriptor = $convert.base64Decode('CgpQcm90b0Vycm9yEjIKFGxvY2FsaXplZERlc2NyaXB0aW9uGAEgASgJUhRsb2NhbGl6ZWREZXNjcmlwdGlvbg==');
+@$core.Deprecated('Use pairDescriptor instead')
+const Pair$json = const {
+  '1': 'Pair',
+  '2': const [
+    const {'1': 'key', '3': 1, '4': 1, '5': 5, '10': 'key'},
+    const {'1': 'value', '3': 2, '4': 1, '5': 12, '10': 'value'},
+  ],
+};
+
+/// Descriptor for `Pair`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List pairDescriptor = $convert.base64Decode('CgRQYWlyEhAKA2tleRgBIAEoBVIDa2V5EhQKBXZhbHVlGAIgASgMUgV2YWx1ZQ==');
+@$core.Deprecated('Use protoUpdateWithImageCallArgumentsDescriptor instead')
+const ProtoUpdateWithImageCallArguments$json = const {
+  '1': 'ProtoUpdateWithImageCallArguments',
+  '2': const [
+    const {'1': 'device_uuid', '3': 1, '4': 1, '5': 9, '10': 'deviceUuid'},
+    const {'1': 'images', '3': 2, '4': 3, '5': 11, '6': '.Pair', '10': 'images'},
+  ],
+};
+
+/// Descriptor for `ProtoUpdateWithImageCallArguments`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List protoUpdateWithImageCallArgumentsDescriptor = $convert.base64Decode('CiFQcm90b1VwZGF0ZVdpdGhJbWFnZUNhbGxBcmd1bWVudHMSHwoLZGV2aWNlX3V1aWQYASABKAlSCmRldmljZVV1aWQSHQoGaW1hZ2VzGAIgAygLMgUuUGFpclIGaW1hZ2Vz');
 @$core.Deprecated('Use protoUpdateStateChangesStreamArgDescriptor instead')
 const ProtoUpdateStateChangesStreamArg$json = const {
   '1': 'ProtoUpdateStateChangesStreamArg',

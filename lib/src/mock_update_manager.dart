@@ -134,4 +134,10 @@ class MockUpdateManager extends UpdateManager {
     _updateStateStreamController.close();
     _logMessageStreamController.close();
   }
+
+  @override
+  Future<void> multicoreUpdate(Map<int, Uint8List> images) {
+    // TODO: implement updateWithImages
+    throw UnimplementedError();
+  }
 }

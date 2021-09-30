@@ -1,4 +1,3 @@
-
 import 'dart:typed_data';
 
 import 'package:flutter/services.dart';
@@ -80,13 +79,21 @@ class McuMgrUpdateManager extends UpdateManager {
   }
 
   @override
-  Future<void> update(Uint8List data) async {
-    final arg = ProtoUpdateCallArgument()
-      ..deviceUuid = _deviceId
-      ..firmwareData = data;
+  Future<void> update(Uint8List data) async =>
+      await _McumgrFlutter._channel.invokeMethod(
+          "update",
+          ProtoUpdateCallArgument(deviceUuid: _deviceId, firmwareData: data)
+              .writeToBuffer());
 
-    await _McumgrFlutter._channel.invokeMethod("update", arg.writeToBuffer());
-  }
+  @override
+  Future<void> multicoreUpdate(Map<int, Uint8List> images) async =>
+      await _McumgrFlutter._channel.invokeMethod(
+          "multicore_update",
+          ProtoUpdateWithImageCallArguments(
+                  deviceUuid: this._deviceId,
+                  images: images.entries
+                      .map((e) => Pair(key: e.key, value: e.value)))
+              .writeToBuffer());
 
   @override
   Future<void> pause() async {
@@ -101,23 +108,16 @@ class McuMgrUpdateManager extends UpdateManager {
   }
 
   @override
-  Future<void> cancel() async {
-    await _McumgrFlutter._channel.invokeMethod('cancel', _deviceId);
-  }
+  Future<void> cancel() async =>
+      await _McumgrFlutter._channel.invokeMethod('cancel', _deviceId);
 
   @override
-  Future<bool> inProgress() async {
-    final bool inProgress =
-        await _McumgrFlutter._channel.invokeMethod('isInProgress', _deviceId);
-    return inProgress;
-  }
+  Future<bool> inProgress() async =>
+      await _McumgrFlutter._channel.invokeMethod('isInProgress', _deviceId);
 
   @override
-  Future<bool> isPaused() async {
-    final bool isPaused =
-        await _McumgrFlutter._channel.invokeMethod('isPaused', _deviceId);
-    return isPaused;
-  }
+  Future<bool> isPaused() async =>
+      await _McumgrFlutter._channel.invokeMethod('isPaused', _deviceId);
 
   void _setupProgressUpdateStream() {
     _McumgrFlutter._progressStream.receiveBroadcastStream().listen((event) {
@@ -201,4 +201,3 @@ class McuMgrUpdateManager extends UpdateManager {
     });
   }
 }
-

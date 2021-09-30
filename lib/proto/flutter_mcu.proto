@@ -10,6 +10,17 @@ message ProtoError {
     string localizedDescription = 1;
 }
 
+// Firmware image pair
+message Pair {
+    int32 key = 1;
+    bytes value = 2;
+}
+
+message ProtoUpdateWithImageCallArguments {
+    string device_uuid = 1;
+    repeated Pair images = 2;
+}
+
 // STATE
 message ProtoUpdateStateChangesStreamArg {
     string uuid = 1;

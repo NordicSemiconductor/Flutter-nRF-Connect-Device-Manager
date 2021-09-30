@@ -40,7 +40,12 @@ class DeviceList extends StatelessWidget {
   GestureDetector _buildListTile(ScanResult sr, BuildContext c) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(c, MaterialPageRoute(builder: (c) => FirmwareList()));
+        Navigator.push(
+            c,
+            MaterialPageRoute(
+                builder: (c) => FirmwareList(
+                      deviceId: sr.device.id.id,
+                    )));
       },
       child: ListTile(
         title: Text(sr.advertisementData.localName.replaceIfEmpty('n/a')),

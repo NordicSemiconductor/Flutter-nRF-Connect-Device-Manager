@@ -122,6 +122,122 @@ class ProtoError extends $pb.GeneratedMessage {
   void clearLocalizedDescription() => clearField(1);
 }
 
+class Pair extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'Pair', createEmptyInstance: create)
+    ..a<$core.int>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'key', $pb.PbFieldType.O3)
+    ..a<$core.List<$core.int>>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'value', $pb.PbFieldType.OY)
+    ..hasRequiredFields = false
+  ;
+
+  Pair._() : super();
+  factory Pair({
+    $core.int? key,
+    $core.List<$core.int>? value,
+  }) {
+    final _result = create();
+    if (key != null) {
+      _result.key = key;
+    }
+    if (value != null) {
+      _result.value = value;
+    }
+    return _result;
+  }
+  factory Pair.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory Pair.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  Pair clone() => Pair()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  Pair copyWith(void Function(Pair) updates) => super.copyWith((message) => updates(message as Pair)) as Pair; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static Pair create() => Pair._();
+  Pair createEmptyInstance() => create();
+  static $pb.PbList<Pair> createRepeated() => $pb.PbList<Pair>();
+  @$core.pragma('dart2js:noInline')
+  static Pair getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Pair>(create);
+  static Pair? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.int get key => $_getIZ(0);
+  @$pb.TagNumber(1)
+  set key($core.int v) { $_setSignedInt32(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasKey() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearKey() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.List<$core.int> get value => $_getN(1);
+  @$pb.TagNumber(2)
+  set value($core.List<$core.int> v) { $_setBytes(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasValue() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearValue() => clearField(2);
+}
+
+class ProtoUpdateWithImageCallArguments extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ProtoUpdateWithImageCallArguments', createEmptyInstance: create)
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'deviceUuid')
+    ..pc<Pair>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'images', $pb.PbFieldType.PM, subBuilder: Pair.create)
+    ..hasRequiredFields = false
+  ;
+
+  ProtoUpdateWithImageCallArguments._() : super();
+  factory ProtoUpdateWithImageCallArguments({
+    $core.String? deviceUuid,
+    $core.Iterable<Pair>? images,
+  }) {
+    final _result = create();
+    if (deviceUuid != null) {
+      _result.deviceUuid = deviceUuid;
+    }
+    if (images != null) {
+      _result.images.addAll(images);
+    }
+    return _result;
+  }
+  factory ProtoUpdateWithImageCallArguments.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ProtoUpdateWithImageCallArguments.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  ProtoUpdateWithImageCallArguments clone() => ProtoUpdateWithImageCallArguments()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  ProtoUpdateWithImageCallArguments copyWith(void Function(ProtoUpdateWithImageCallArguments) updates) => super.copyWith((message) => updates(message as ProtoUpdateWithImageCallArguments)) as ProtoUpdateWithImageCallArguments; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static ProtoUpdateWithImageCallArguments create() => ProtoUpdateWithImageCallArguments._();
+  ProtoUpdateWithImageCallArguments createEmptyInstance() => create();
+  static $pb.PbList<ProtoUpdateWithImageCallArguments> createRepeated() => $pb.PbList<ProtoUpdateWithImageCallArguments>();
+  @$core.pragma('dart2js:noInline')
+  static ProtoUpdateWithImageCallArguments getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ProtoUpdateWithImageCallArguments>(create);
+  static ProtoUpdateWithImageCallArguments? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get deviceUuid => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set deviceUuid($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasDeviceUuid() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearDeviceUuid() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.List<Pair> get images => $_getList(1);
+}
+
 class ProtoUpdateStateChangesStreamArg extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ProtoUpdateStateChangesStreamArg', createEmptyInstance: create)
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'uuid')

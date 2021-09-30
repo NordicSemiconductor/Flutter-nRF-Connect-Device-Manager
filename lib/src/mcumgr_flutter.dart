@@ -21,6 +21,13 @@ abstract class UpdateManager {
   /// [data] is a Byte List of `*.bin` file.
   Future<void> update(Uint8List data);
 
+  /// Start update process
+  /// 
+  /// This is the full-featured API to start DFU update, including support for Multi-Image uploads.
+  /// 
+  /// [images] is a `Map<int, Uint8List>` where key is an image core index
+  Future<void> multicoreUpdate(Map<int, Uint8List> images);
+
   /// Pause the update process.
   Future<void> pause();
 

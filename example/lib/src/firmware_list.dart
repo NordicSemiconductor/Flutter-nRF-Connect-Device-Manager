@@ -5,7 +5,8 @@ import 'package:mcumgr_flutter_example/src/update_screen.dart';
 import 'package:path/path.dart' as p;
 
 class FirmwareList extends StatelessWidget {
-  const FirmwareList({Key? key}) : super(key: key);
+  final String deviceId;
+  const FirmwareList({Key? key, required this.deviceId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +35,7 @@ class FirmwareList extends StatelessWidget {
                               MaterialPageRoute(
                                   builder: (c) => UpdateScreen(
                                         asset: images[i],
+                                        deviceId: deviceId,
                                       )));
                         },
                         child: ListTile(
