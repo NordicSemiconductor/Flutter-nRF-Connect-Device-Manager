@@ -16,6 +16,7 @@ public enum FlutterMethod: String {
     case isPaused
     case isInProgress
     case cancel
+    case multicoreUpdate
 }
 
 /// Methods which platform sends to Flutter

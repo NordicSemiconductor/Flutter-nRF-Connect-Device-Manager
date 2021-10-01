@@ -37,6 +37,11 @@ class UpdateManager {
         try dfuManager.start(data: data)
     }
     
+    func update(images: [(Int, Data)]) throws {
+        dfuManager.logDelegate = self
+        try dfuManager.start(images: images)
+    }
+    
     func pause() {
         if dfuManager.isInProgress() {
             dfuManager.pause()

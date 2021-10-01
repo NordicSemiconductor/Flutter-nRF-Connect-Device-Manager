@@ -88,7 +88,7 @@ class McuMgrUpdateManager extends UpdateManager {
   @override
   Future<void> multicoreUpdate(Map<int, Uint8List> images) async =>
       await _McumgrFlutter._channel.invokeMethod(
-          "multicore_update",
+          "multicoreUpdate",
           ProtoUpdateWithImageCallArguments(
                   deviceUuid: this._deviceId,
                   images: images.entries

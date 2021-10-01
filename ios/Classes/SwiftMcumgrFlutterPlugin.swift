@@ -52,6 +52,9 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
             case .update:
                 try update(call: call)
                 result(nil)
+            case .multicoreUpdate:
+                try multicoreUpdate(call: call)
+                result(nil)
             case .initializeUpdateManager:
                 try initializeUpdateManager(call: call)
                 result(nil)
@@ -141,6 +144,20 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
         }
         
         try manager.update(data: args.firmwareData)
+    }
+    
+    private func multicoreUpdate(call: FlutterMethodCall) throws {
+        guard let data = call.arguments as? FlutterStandardTypedData else {
+            throw FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can not parse provided arguments", details: call)
+        }
+        
+        let args = try ProtoUpdateWithImageCallArguments(serializedData: data.data)
+        guard let manager = updateManagers[args.deviceUuid] else {
+            throw FlutterError(code: ErrorCode.updateManagerDoesNotExist.rawValue, message: "Update manager does not exist", details: call)
+        }
+        
+        let images = args.images.map { (Int($0.key), $0.value) }
+        try manager.update(images: images)
     }
 }
 
