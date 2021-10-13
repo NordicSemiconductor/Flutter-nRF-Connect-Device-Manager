@@ -2,5 +2,6 @@
     "cSpell.words": [
         "CBOR",
         "Protobuf"
-    ]
+    ],
+    "C_Cpp.default.configurationProvider": "nrf-connect"
 }

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:flutter/services.dart';
@@ -29,8 +30,8 @@ class McuMgrUpdateManager extends UpdateManager {
   // STREAM CONTROLLERS
   final BehaviorSubject<ProgressUpdate> _progressStreamController =
       BehaviorSubject();
-  final BehaviorSubject<FirmwareUpgradeState> _updateStateStreamController =
-      BehaviorSubject();
+  final StreamController<FirmwareUpgradeState> _updateStateStreamController =
+      StreamController.broadcast();
   final BehaviorSubject<McuLogMessage> _logMessageStreamController =
       BehaviorSubject();
   final BehaviorSubject<bool> _updateInProgressStreamController =
@@ -151,7 +152,7 @@ class McuMgrUpdateManager extends UpdateManager {
         .where((event) => event.uuid == _deviceId)
         .listen((data) async {
       if (data.hasError()) {
-        _updateStateStreamController.addError(data.error);
+        _updateStateStreamController.sink.addError(data.error);
         return;
       }
 
@@ -191,7 +192,7 @@ class McuMgrUpdateManager extends UpdateManager {
       }
 
       if (event.done) {
-        // _logMessageStreamController.close();
+        _logMessageStreamController.close();
       }
 
       if (event.hasProtoLogMessage()) {
