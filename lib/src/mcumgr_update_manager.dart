@@ -131,7 +131,7 @@ class McuMgrUpdateManager extends UpdateManager {
         .where((event) => event.uuid == _deviceId)
         .listen((event) {
       if (event.hasError()) {
-        _progressStreamController.addError(event.error);
+        _progressStreamController.addError(event.error.localizedDescription);
       }
 
       if (event.done) {
@@ -152,7 +152,8 @@ class McuMgrUpdateManager extends UpdateManager {
         .where((event) => event.uuid == _deviceId)
         .listen((data) async {
       if (data.hasError()) {
-        _updateStateStreamController.sink.addError(data.error);
+        _updateStateStreamController.sink
+            .addError(data.error.localizedDescription);
         return;
       }
 
