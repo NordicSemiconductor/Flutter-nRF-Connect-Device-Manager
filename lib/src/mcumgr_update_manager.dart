@@ -38,7 +38,8 @@ class McuMgrUpdateManager extends UpdateManager {
   final StreamController<McuLogMessage> _logMessageStreamController =
       StreamController.broadcast();
   // ignore: close_sinks
-  late StreamController<bool>? _updateInProgressStreamController;
+  final StreamController<bool>? _updateInProgressStreamController =
+      BehaviorSubject.seeded(false);
 
   // STREAMS
   Stream<ProgressUpdate> get progressStream {
