@@ -163,8 +163,8 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
 
 extension SwiftMcumgrFlutterPlugin: UpdateManagerDelegate {
     func updateCompleted(manager: UpdateManager) {
-        let uuid = manager.peripheral.identifier.uuidString
-        updateManagers.removeValue(forKey: uuid)
+//        let uuid = manager.peripheral.identifier.uuidString
+//        updateManagers.removeValue(forKey: uuid)
     }
     
     

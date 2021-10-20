@@ -77,11 +77,6 @@ class MockUpdateManager extends UpdateManager {
     _updateInProgressStreamController.add(true);
   }
 
-  @override
-  Future<void> update(Uint8List data) async {
-    _startUpdate();
-  }
-
   Future<void> _startUpdate() async {
     _updateStateStreamController.add(FirmwareUpgradeState.validate);
 
@@ -134,8 +129,19 @@ class MockUpdateManager extends UpdateManager {
   }
 
   @override
-  Future<void> multicoreUpdate(Map<int, Uint8List> images) {
-    // TODO: implement updateWithImages
+  Future<void> kill() {
+    // TODO: implement kill
     throw UnimplementedError();
+  }
+
+  @override
+  Stream<FirmwareUpgradeState> setup() {
+    // TODO: implement setup
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> update(Map<int, Uint8List> images) async {
+    await _startUpdate();
   }
 }
