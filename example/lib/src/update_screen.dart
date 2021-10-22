@@ -39,6 +39,12 @@ class _UpdateScreenState extends State<UpdateScreen> {
     );
   }
 
+  @override
+  void dispose() async {
+    await uManager?.kill();
+    super.dispose();
+  }
+
   Widget _buildMainBody(BuildContext context) {
     if (uManager == null) {
       return FutureBuilder(

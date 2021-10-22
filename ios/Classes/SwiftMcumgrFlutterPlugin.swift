@@ -71,6 +71,10 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
             case .cancel:
                 try cancel(call: call)
                 result(nil)
+            case .kill:
+                try kill(call: call)
+                result(nil)
+                
             }
         } catch let e {
             if e is FlutterError {
@@ -158,6 +162,11 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
         
         let images = args.images.map { (Int($0.key), $0.value) }
         try manager.update(images: images)
+    }
+    
+    private func kill(call: FlutterMethodCall) throws {
+        let uuid = try retrieveManager(call: call).peripheral.identifier.uuidString
+        updateManagers.removeValue(forKey: uuid)
     }
 }
 
