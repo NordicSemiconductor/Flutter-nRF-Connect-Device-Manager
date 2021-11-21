@@ -1,5 +1,6 @@
 package no.nordicsemi.android.mcumgr_flutter
 
+import android.util.Pair
 import io.runtime.mcumgr.ble.McuMgrBleTransport
 import io.runtime.mcumgr.dfu.FirmwareUpgradeCallback
 import io.runtime.mcumgr.dfu.FirmwareUpgradeController
@@ -36,7 +37,7 @@ class UpdateManager(
 	 *
 	 * @param firmware The firmware to be sent.
 	 */
-	fun start(firmware: ByteArray) = manager.start(firmware)
+	fun start(images: List<Pair<Int, ByteArray>>) = manager.start(images, false)
 	/** Pause the firmware upgrade. */
 	fun pause() = manager.pause()
 	/** Resume a paused firmware upgrade. */
@@ -68,7 +69,7 @@ class UpdateManager(
 	override fun onUpgradeCompleted() {
 		val changes = FlutterMcu.ProtoUpdateStateChanges
 				.newBuilder()
-				.setNewState(FirmwareUpgradeManager.State.SUCCESS.toProto())
+				.setNewState(FlutterMcu.ProtoUpdateStateChanges.FirmwareUpgradeState.SUCCESS)
 				.build()
 		val successStateChanges = FlutterMcu.ProtoUpdateStateChangesStreamArg
 				.newBuilder()
@@ -111,7 +112,8 @@ class UpdateManager(
 				.newBuilder()
 				.setUuid(address)
 				.setUpdateStateChanges(changes)
-				.setError(FlutterMcu.ProtoError
+				.setError(
+                    FlutterMcu.ProtoError
 						.newBuilder()
 						.setLocalizedDescription(error?.message ?: "Unknown error")
 						.build())

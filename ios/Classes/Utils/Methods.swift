@@ -16,7 +16,6 @@ public enum FlutterMethod: String {
     case isPaused
     case isInProgress
     case cancel
-    case multicoreUpdate
     case kill
 }
 

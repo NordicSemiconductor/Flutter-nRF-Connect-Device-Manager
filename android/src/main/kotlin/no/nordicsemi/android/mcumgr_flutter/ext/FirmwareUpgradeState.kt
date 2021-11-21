@@ -11,5 +11,4 @@ fun State.toProto(): Proto = when (this) {
 	TEST     -> Proto.TEST
 	RESET    -> Proto.RESET
 	CONFIRM  -> Proto.CONFIRM
-	SUCCESS  -> Proto.SUCCESS
 }

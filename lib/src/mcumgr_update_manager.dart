@@ -22,6 +22,24 @@ class _McumgrFlutter {
       const EventChannel(_namespace + '/updateInProgressChannel');
 }
 
+class _FlutterChannelMethod {
+  final String _rawValue;
+
+  const _FlutterChannelMethod(this._rawValue);
+
+  String get rawValue => _rawValue;
+
+  static const update = const _FlutterChannelMethod('update');
+  static const initializeUpdateManager =
+      const _FlutterChannelMethod('initializeUpdateManager');
+  static const pause = const _FlutterChannelMethod('pause');
+  static const resume = const _FlutterChannelMethod('resume');
+  static const isPaused = const _FlutterChannelMethod('isPaused');
+  static const isInProgress = const _FlutterChannelMethod('isInProgress');
+  static const cancel = const _FlutterChannelMethod('cancel');
+  static const kill = const _FlutterChannelMethod('kill');
+}
+
 class McuMgrUpdateManager extends UpdateManager {
   final String _deviceId;
 
@@ -65,8 +83,8 @@ class McuMgrUpdateManager extends UpdateManager {
   // Stream<ProgressUpdate> get
 
   static Future<McuMgrUpdateManager> newManager(String deviceId) async {
-    await _McumgrFlutter._channel
-        .invokeMethod("initializeUpdateManager", deviceId);
+    await _McumgrFlutter._channel.invokeMethod(
+        _FlutterChannelMethod.initializeUpdateManager.rawValue, deviceId);
 
     final um = McuMgrUpdateManager._deviceIdentifier(deviceId);
     um._setupStreams();
@@ -87,7 +105,7 @@ class McuMgrUpdateManager extends UpdateManager {
   @override
   Future<void> update(Map<int, Uint8List> images) async {
     await _McumgrFlutter._channel.invokeMethod(
-        "multicoreUpdate",
+        _FlutterChannelMethod.update.rawValue,
         ProtoUpdateWithImageCallArguments(
             deviceUuid: this._deviceId,
             images: images.entries
@@ -96,27 +114,29 @@ class McuMgrUpdateManager extends UpdateManager {
 
   @override
   Future<void> pause() async {
-    await _McumgrFlutter._channel.invokeMethod('pause', _deviceId);
+    await _McumgrFlutter._channel
+        .invokeMethod(_FlutterChannelMethod.pause.rawValue, _deviceId);
     _updateInProgressStreamController!.add(false);
   }
 
   @override
   Future<void> resume() async {
-    await _McumgrFlutter._channel.invokeMethod('resume', _deviceId);
+    await _McumgrFlutter._channel
+        .invokeMethod(_FlutterChannelMethod.resume.rawValue, _deviceId);
     _updateInProgressStreamController!.add(true);
   }
 
   @override
-  Future<void> cancel() async =>
-      await _McumgrFlutter._channel.invokeMethod('cancel', _deviceId);
+  Future<void> cancel() async => await _McumgrFlutter._channel
+      .invokeMethod(_FlutterChannelMethod.cancel.rawValue, _deviceId);
 
   @override
-  Future<bool> inProgress() async =>
-      await _McumgrFlutter._channel.invokeMethod('isInProgress', _deviceId);
+  Future<bool> inProgress() async => await _McumgrFlutter._channel
+      .invokeMethod(_FlutterChannelMethod.isInProgress.rawValue, _deviceId);
 
   @override
-  Future<bool> isPaused() async =>
-      await _McumgrFlutter._channel.invokeMethod('isPaused', _deviceId);
+  Future<bool> isPaused() async => await _McumgrFlutter._channel
+      .invokeMethod(_FlutterChannelMethod.isPaused.rawValue, _deviceId);
 
   void _setupStreams() {
     _setupProgressUpdateStream();
@@ -194,6 +214,7 @@ class McuMgrUpdateManager extends UpdateManager {
       }
     });
 
-    await _McumgrFlutter._channel.invokeMethod('kill', _deviceId);
+    await _McumgrFlutter._channel
+        .invokeMethod(_FlutterChannelMethod.kill.rawValue, _deviceId);
   }
 }

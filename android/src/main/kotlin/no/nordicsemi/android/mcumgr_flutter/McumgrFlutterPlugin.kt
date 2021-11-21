@@ -2,6 +2,7 @@ package no.nordicsemi.android.mcumgr_flutter
 
 import android.bluetooth.BluetoothAdapter
 import android.content.Context
+import android.util.Pair
 import androidx.annotation.NonNull
 import com.google.protobuf.InvalidProtocolBufferException
 import io.flutter.embedding.engine.plugins.FlutterPlugin
@@ -11,6 +12,7 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import no.nordicsemi.android.mcumgr_flutter.gen.FlutterMcu
+
 import no.nordicsemi.android.mcumgr_flutter.logging.LoggableMcuMgrBleTransport
 import no.nordicsemi.android.mcumgr_flutter.utils.*
 
@@ -119,14 +121,15 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 			throw WrongArguments("Can not parse provided arguments: ${call.arguments.javaClass}")
 		}
 		val arg = try {
-			FlutterMcu.ProtoUpdateCallArgument.parseFrom(bytes)
+			FlutterMcu.ProtoUpdateWithImageCallArguments.parseFrom(bytes)
 		} catch (e: InvalidProtocolBufferException) {
 			throw WrongArguments("Can not parse provided arguments")
 		}
 		val updateManager = managers[arg.deviceUuid].guard {
 			throw UpdateManagerDoesNotExist("Update manager does not exist")
 		}
-		updateManager.start(arg.firmwareData.toByteArray())
+
+		updateManager.start(arg.imagesList.map { Pair.create(it.key, it.value.toByteArray()) })
 	}
 
 	@Throws(FlutterError::class)
