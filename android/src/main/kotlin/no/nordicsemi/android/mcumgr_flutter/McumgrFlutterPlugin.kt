@@ -91,6 +91,10 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 					val isPaused = retrieveManager(call).isInProgress
 					result.success(isPaused)
 				}
+				FlutterMethod.kill -> {
+					kill(call)
+					result.success(null)
+				}
 			}
 		} catch (e: FlutterError) {
 			result.error(e.code, e.message, null)
@@ -110,7 +114,7 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 		val updateManager = UpdateManager(transport,
 				updateStateStreamHandler,
 				updateProgressStreamHandler,
-				logStreamHandler) { _ -> managers.remove(address) }
+				logStreamHandler)
 
 		managers[address] = updateManager
 	}
@@ -140,5 +144,12 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 		return managers[address].guard {
 			throw UpdateManagerDoesNotExist("Update manager does not exist")
 		}
+	}
+
+	private fun kill(@NonNull call: MethodCall) {
+		val address = (call.arguments as? String).guard {
+			throw WrongArguments("Device Address expected")
+		}
+		managers.remove(address)
 	}
 }

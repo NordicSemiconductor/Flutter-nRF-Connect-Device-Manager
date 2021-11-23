@@ -97,7 +97,6 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
         }
         
         let um = UpdateManager(peripheral: peripheral, progressStreamHandler: updateProgressStreamHandler, stateStreamHandler: updateStateStreamHandler, logStreamHandler: logStreamHandler)
-        um.delegate = self
         updateManagers[uuidString] = um
     }
 
@@ -151,13 +150,4 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
         let uuid = try retrieveManager(call: call).peripheral.identifier.uuidString
         updateManagers.removeValue(forKey: uuid)
     }
-}
-
-extension SwiftMcumgrFlutterPlugin: UpdateManagerDelegate {
-    func updateCompleted(manager: UpdateManager) {
-//        let uuid = manager.peripheral.identifier.uuidString
-//        updateManagers.removeValue(forKey: uuid)
-    }
-    
-    
 }

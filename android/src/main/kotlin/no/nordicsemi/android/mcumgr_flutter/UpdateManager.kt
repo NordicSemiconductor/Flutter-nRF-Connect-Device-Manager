@@ -14,8 +14,7 @@ class UpdateManager(
 		transport: McuMgrBleTransport,
 		private val updateStateStreamHandler: StreamHandler,
 		private val updateProgressStreamHandler: StreamHandler,
-		private val logStreamHandler: StreamHandler,
-		private var disposeCallback: ((UpdateManager) -> Unit )?
+		private val logStreamHandler: StreamHandler
 ): FirmwareUpgradeCallback {
 	private val manager: FirmwareUpgradeManager
 	private val address: String
@@ -98,8 +97,6 @@ class UpdateManager(
 				.setDone(true)
 				.build()
 		logStreamHandler.sink?.success(logArg.toByteArray())
-
-		disposeCallback?.invoke(this)
 	}
 
 	override fun onUpgradeFailed(state: FirmwareUpgradeManager.State?, error: McuMgrException?) {
@@ -119,8 +116,6 @@ class UpdateManager(
 						.build())
 				.build()
 		updateStateStreamHandler.sink?.success(stateChangesArg.toByteArray())
-
-		disposeCallback?.invoke(this)
 	}
 
 	override fun onUpgradeCanceled(state: FirmwareUpgradeManager.State?) {
@@ -136,8 +131,6 @@ class UpdateManager(
 				.setUpdateStateChanges(changes)
 				.build()
 		updateStateStreamHandler.sink?.success(stateChangesArg.toByteArray())
-
-		disposeCallback?.invoke(this)
 	}
 
 	override fun onUploadProgressChanged(bytesSent: Int, imageSize: Int, timestamp: Long) {

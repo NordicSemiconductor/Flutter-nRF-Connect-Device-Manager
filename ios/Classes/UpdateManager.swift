@@ -20,8 +20,6 @@ class UpdateManager {
     let logStreamHandler: StreamHandler
     let peripheral: CBPeripheral
     
-    weak var delegate: UpdateManagerDelegate?
-    
     private (set) lazy var dfuManager: FirmwareUpgradeManager = FirmwareUpgradeManager(transporter: self.transport, delegate: self)
     
     init(peripheral: CBPeripheral, progressStreamHandler: StreamHandler, stateStreamHandler: StreamHandler, logStreamHandler: StreamHandler) {
@@ -104,8 +102,6 @@ extension UpdateManager: FirmwareUpgradeDelegate {
             let error = FlutterError(error: e, code: ErrorCode.flutterTypeError)
             stateStreamHandler.sink?(error)
         }
-        
-        delegate?.updateCompleted(manager: self)
     }
     
     func upgradeDidFail(inState state: FirmwareUpgradeState, with error: Error) {
@@ -123,8 +119,6 @@ extension UpdateManager: FirmwareUpgradeDelegate {
             let error = FlutterError(error: e, code: ErrorCode.flutterTypeError)
             stateStreamHandler.sink?(error)
         }
-        
-        delegate?.updateCompleted(manager: self)
     }
     
     func upgradeDidCancel(state: FirmwareUpgradeState) {
@@ -140,8 +134,6 @@ extension UpdateManager: FirmwareUpgradeDelegate {
             let error = FlutterError(error: e, code: ErrorCode.flutterTypeError)
             stateStreamHandler.sink?(error)
         }
-        
-        delegate?.updateCompleted(manager: self)
     }
     
     func uploadProgressDidChange(bytesSent: Int, imageSize: Int, timestamp: Date) {
