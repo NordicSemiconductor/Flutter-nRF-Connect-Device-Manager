@@ -81,7 +81,7 @@ class MockUpdateManager extends UpdateManager {
     _updateStateStreamController.add(FirmwareUpgradeState.validate);
 
     final rand = Random();
-    Stream.periodic(Duration(seconds: 1), (i) {
+    Stream.periodic(Duration(milliseconds: 500), (i) {
       final category = McuMgrLogCategory
           .values[rand.nextInt(McuMgrLogCategory.values.length)];
       final level =
@@ -90,12 +90,12 @@ class MockUpdateManager extends UpdateManager {
       return msg;
     }).listen((event) => _logMessageStreamController.add(event));
 
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(Duration(milliseconds: 100));
 
     _updateStateStreamController.add(FirmwareUpgradeState.upload);
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(Duration(milliseconds: 100));
 
-    final progStream = Stream.periodic(Duration(milliseconds: 200),
+    final progStream = Stream.periodic(Duration(milliseconds: 50),
         (i) => ProgressUpdate(i, 100, DateTime.now()));
 
     final queue = Rx.combineLatest2(progStream, updateInProgressStream,
@@ -103,7 +103,7 @@ class MockUpdateManager extends UpdateManager {
         .bufferTest((event) => event.inProgress)
         .flatMap((value) => Stream.fromIterable(value))
         .map((event) => event.progressUpdate)
-        .interval(Duration(milliseconds: 100))
+        // .interval(Duration(milliseconds: 100))
         .take(100)
         .takeUntil(_cancelTrigger.stream);
 
@@ -129,15 +129,11 @@ class MockUpdateManager extends UpdateManager {
   }
 
   @override
-  Future<void> kill() {
-    // TODO: implement kill
-    throw UnimplementedError();
-  }
+  Future<void> kill() async {}
 
   @override
   Stream<FirmwareUpgradeState> setup() {
-    // TODO: implement setup
-    throw UnimplementedError();
+    return _updateStateStreamController.stream;
   }
 
   @override
