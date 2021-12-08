@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothDevice
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
+import android.renderscript.RenderScript
 import io.flutter.Log
 import io.runtime.mcumgr.ble.McuMgrBleTransport
 import no.nordicsemi.android.mcumgr_flutter.gen.FlutterMcu
@@ -31,6 +32,10 @@ class LoggableMcuMgrBleTransport(
 					else -> if (applicationLevel) FlutterMcu.ProtoLogMessage.LogLevel.APPLICATION
 								else FlutterMcu.ProtoLogMessage.LogLevel.ERROR
 				}
+
+//		if (priority.toLogLevel().number < 2) {
+//			return
+//		}
 
 		val log = FlutterMcu.ProtoLogMessage
 				.newBuilder()

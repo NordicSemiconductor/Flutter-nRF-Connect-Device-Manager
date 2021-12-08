@@ -37,6 +37,7 @@ class UpdateManager {
     
     func update(images: [(Int, Data)]) throws {
         dfuManager.logDelegate = self
+        dfuManager.mode = .testOnly
         try dfuManager.start(images: images)
     }
     
