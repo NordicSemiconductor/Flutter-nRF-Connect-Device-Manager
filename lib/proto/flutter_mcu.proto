@@ -64,7 +64,7 @@ message ProtoLogMessageStreamArg {
     string uuid = 1;
     bool done = 2;
     ProtoError error = 3;
-    ProtoLogMessage protoLogMessage = 4;
+    repeated ProtoLogMessage protoLogMessage = 4;
 }
 
 message ProtoLogMessage {

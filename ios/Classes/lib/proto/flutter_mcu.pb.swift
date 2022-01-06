@@ -258,21 +258,13 @@ struct ProtoLogMessageStreamArg {
   /// Clears the value of `error`. Subsequent reads from it will return its default value.
   mutating func clearError() {self._error = nil}
 
-  var protoLogMessage: ProtoLogMessage {
-    get {return _protoLogMessage ?? ProtoLogMessage()}
-    set {_protoLogMessage = newValue}
-  }
-  /// Returns true if `protoLogMessage` has been explicitly set.
-  var hasProtoLogMessage: Bool {return self._protoLogMessage != nil}
-  /// Clears the value of `protoLogMessage`. Subsequent reads from it will return its default value.
-  mutating func clearProtoLogMessage() {self._protoLogMessage = nil}
+  var protoLogMessage: [ProtoLogMessage] = []
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
 
   fileprivate var _error: ProtoError? = nil
-  fileprivate var _protoLogMessage: ProtoLogMessage? = nil
 }
 
 struct ProtoLogMessage {
@@ -783,7 +775,7 @@ extension ProtoLogMessageStreamArg: SwiftProtobuf.Message, SwiftProtobuf._Messag
       case 1: try { try decoder.decodeSingularStringField(value: &self.uuid) }()
       case 2: try { try decoder.decodeSingularBoolField(value: &self.done) }()
       case 3: try { try decoder.decodeSingularMessageField(value: &self._error) }()
-      case 4: try { try decoder.decodeSingularMessageField(value: &self._protoLogMessage) }()
+      case 4: try { try decoder.decodeRepeatedMessageField(value: &self.protoLogMessage) }()
       default: break
       }
     }
@@ -799,8 +791,8 @@ extension ProtoLogMessageStreamArg: SwiftProtobuf.Message, SwiftProtobuf._Messag
     if let v = self._error {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 3)
     }
-    if let v = self._protoLogMessage {
-      try visitor.visitSingularMessageField(value: v, fieldNumber: 4)
+    if !self.protoLogMessage.isEmpty {
+      try visitor.visitRepeatedMessageField(value: self.protoLogMessage, fieldNumber: 4)
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -809,7 +801,7 @@ extension ProtoLogMessageStreamArg: SwiftProtobuf.Message, SwiftProtobuf._Messag
     if lhs.uuid != rhs.uuid {return false}
     if lhs.done != rhs.done {return false}
     if lhs._error != rhs._error {return false}
-    if lhs._protoLogMessage != rhs._protoLogMessage {return false}
+    if lhs.protoLogMessage != rhs.protoLogMessage {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }

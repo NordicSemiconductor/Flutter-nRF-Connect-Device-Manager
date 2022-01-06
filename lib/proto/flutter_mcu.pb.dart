@@ -579,7 +579,7 @@ class ProtoLogMessageStreamArg extends $pb.GeneratedMessage {
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'uuid')
     ..aOB(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'done')
     ..aOM<ProtoError>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'error', subBuilder: ProtoError.create)
-    ..aOM<ProtoLogMessage>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'protoLogMessage', protoName: 'protoLogMessage', subBuilder: ProtoLogMessage.create)
+    ..pc<ProtoLogMessage>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'protoLogMessage', $pb.PbFieldType.PM, protoName: 'protoLogMessage', subBuilder: ProtoLogMessage.create)
     ..hasRequiredFields = false
   ;
 
@@ -588,7 +588,7 @@ class ProtoLogMessageStreamArg extends $pb.GeneratedMessage {
     $core.String? uuid,
     $core.bool? done,
     ProtoError? error,
-    ProtoLogMessage? protoLogMessage,
+    $core.Iterable<ProtoLogMessage>? protoLogMessage,
   }) {
     final _result = create();
     if (uuid != null) {
@@ -601,7 +601,7 @@ class ProtoLogMessageStreamArg extends $pb.GeneratedMessage {
       _result.error = error;
     }
     if (protoLogMessage != null) {
-      _result.protoLogMessage = protoLogMessage;
+      _result.protoLogMessage.addAll(protoLogMessage);
     }
     return _result;
   }
@@ -656,15 +656,7 @@ class ProtoLogMessageStreamArg extends $pb.GeneratedMessage {
   ProtoError ensureError() => $_ensure(2);
 
   @$pb.TagNumber(4)
-  ProtoLogMessage get protoLogMessage => $_getN(3);
-  @$pb.TagNumber(4)
-  set protoLogMessage(ProtoLogMessage v) { setField(4, v); }
-  @$pb.TagNumber(4)
-  $core.bool hasProtoLogMessage() => $_has(3);
-  @$pb.TagNumber(4)
-  void clearProtoLogMessage() => clearField(4);
-  @$pb.TagNumber(4)
-  ProtoLogMessage ensureProtoLogMessage() => $_ensure(3);
+  $core.List<ProtoLogMessage> get protoLogMessage => $_getList(3);
 }
 
 class ProtoLogMessage extends $pb.GeneratedMessage {

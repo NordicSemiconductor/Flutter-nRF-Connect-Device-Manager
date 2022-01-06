@@ -17,6 +17,7 @@ public enum FlutterMethod: String {
     case isInProgress
     case cancel
     case kill
+    
 }
 
 /// Methods which platform sends to Flutter
