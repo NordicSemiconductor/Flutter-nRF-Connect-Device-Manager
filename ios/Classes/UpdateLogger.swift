@@ -14,7 +14,7 @@ class UpdateLogger {
     private var messages: [ProtoLogMessage] = []
     var timeInterval: TimeInterval = 1.0 {
         didSet {
-            setTimer(enabled: !liveUpdateEnabled, timeInterval: timeInterval)
+             setTimer(enabled: !liveUpdateEnabled, timeInterval: timeInterval)
         }
     }
     var liveUpdateEnabled = false {
@@ -27,13 +27,14 @@ class UpdateLogger {
     init(identifier: String, streamHandler: StreamHandler) {
         self.identifier = identifier
         self.logStreamHandler = streamHandler
+        setTimer(enabled: true, timeInterval: 1.0)
     }
 }
 
 extension UpdateLogger {
     private func setTimer(enabled: Bool, timeInterval: TimeInterval) {
         if enabled {
-            timer = Timer(timeInterval: timeInterval, repeats: true, block: { [weak self] t in
+            timer = Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: true, block: { [weak self] t in
                 self?.sendMessages()
             })
         } else if let t = timer {

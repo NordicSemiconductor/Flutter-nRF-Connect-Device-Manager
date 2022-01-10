@@ -4,16 +4,20 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mcumgr_flutter/proto/flutter_mcu.pb.dart';
+import 'package:mcumgr_flutter/src/mcumgr_update_logger.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../mcumgr_flutter.dart';
 import '../proto/extensions/proto_ext.dart';
 import 'method_channels.dart';
+import 'mcumgr_update_logger.dart';
 
 class McuMgrUpdateManager extends UpdateManager {
   final String _deviceId;
+  final McuMgrLogger _logger;
 
-  McuMgrUpdateManager._deviceIdentifier(this._deviceId);
+  McuMgrUpdateManager._deviceIdentifier(this._deviceId)
+      : this._logger = McuMgrLogger.deviceIdentifier(_deviceId);
 
   // STREAM CONTROLLERS
   // All stream controllers are closed in the `kill()` method.
@@ -55,7 +59,7 @@ class McuMgrUpdateManager extends UpdateManager {
   static Future<McuMgrUpdateManager> getInstance(String deviceId) async {
     try {
       await methodChannel.invokeMethod(
-          UpdateManagerMethod.getUpdateManager.rawValue, deviceId);
+          UpdateManagerMethod.initializeUpdateManager.rawValue, deviceId);
     } catch (e) {
       // TODO: Handle Flutter error
       print(e);
@@ -115,7 +119,6 @@ class McuMgrUpdateManager extends UpdateManager {
 
   void _setupStreams() {
     _setupProgressUpdateStream();
-    _setupLogStream();
   }
 
   void _setupProgressUpdateStream() {
@@ -182,4 +185,7 @@ class McuMgrUpdateManager extends UpdateManager {
     await methodChannel.invokeMethod(
         UpdateManagerMethod.kill.rawValue, _deviceId);
   }
+
+  @override
+  UpdateLogger get logger => _logger;
 }

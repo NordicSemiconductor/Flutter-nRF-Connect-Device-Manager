@@ -10,13 +10,17 @@ class UpdateManagerChannel {
   static const EventChannel updateStateStream =
       const EventChannel(_namespace + '/update_state_event_channel');
   static const EventChannel updateInProgressChannel =
-      const EventChannel(_namespace + '/updateInProgressChannel');
+      const EventChannel(_namespace + '/update_in_progress_channel');
 }
 
 class UpdateLoggerChannel {
   // channel for log messages
   static const EventChannel logEventChannel =
       const EventChannel(_namespace + '/log_event_channel');
+
+  // emit bool value
+  static const EventChannel liveLogEnabledChannel =
+      const EventChannel(_namespace + '/live_log_enabled_channel');
 }
 
 /// Channel methods related to UpdateManager
@@ -28,7 +32,7 @@ class UpdateManagerMethod {
   String get rawValue => _rawValue;
 
   static const update = const UpdateManagerMethod('update');
-  static const getUpdateManager = const UpdateManagerMethod('getUpdateManager');
+  static const initializeUpdateManager = const UpdateManagerMethod('initializeUpdateManager');
   static const pause = const UpdateManagerMethod('pause');
   static const resume = const UpdateManagerMethod('resume');
   static const isPaused = const UpdateManagerMethod('isPaused');
@@ -45,9 +49,6 @@ class UpdateLoggerMethod {
 
   String get rawValue => _rawValue;
 
-  static const getUpdateLogger = const UpdateManagerMethod('getUpdateLogger');
-  static const enableLiveUpdate = const UpdateLoggerMethod('enableLiveUpdate');
-  static const disableLiveUpdate =
-      const UpdateLoggerMethod('disableLiveUpdate');
-  static const getLogs = const UpdateLoggerMethod('getLogs');
+  static const setLiveLogStatus = const UpdateLoggerMethod('set_live_log_status'); 
+  static const getLogs = const UpdateLoggerMethod('get_logs');
 }

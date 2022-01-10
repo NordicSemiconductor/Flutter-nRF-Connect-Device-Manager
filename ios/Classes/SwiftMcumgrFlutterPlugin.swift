@@ -95,6 +95,10 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
         guard case .none = updateManagers[uuidString] else {
             throw FlutterError(code: ErrorCode.updateManagerExists.rawValue, message: "Updated manager for provided peripheral already exists", details: call)
         }
+        
+        let logger = UpdateLogger(identifier: uuidString, streamHandler: logStreamHandler)
+        let updateManager = UpdateManager(peripheral: peripheral, progressStreamHandler: updateProgressStreamHandler, stateStreamHandler: updateStateStreamHandler, updateLogger: logger)
+        updateManagers[uuidString] = updateManager
     }
     
     private func retrieveManager(call: FlutterMethodCall) throws -> UpdateManager {

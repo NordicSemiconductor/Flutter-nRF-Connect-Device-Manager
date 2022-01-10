@@ -9,17 +9,19 @@ import '../proto/extensions/proto_ext.dart';
 class McuMgrLogger extends UpdateLogger {
   StreamController<List<McuLogMessage>> _logMessageStreamController =
       StreamController.broadcast();
+  StreamController<bool> _liveLogEnabled = StreamController.broadcast();
   final String _deviceId;
 
-  McuMgrLogger._deviceIdentifier(this._deviceId);
+  McuMgrLogger.deviceIdentifier(this._deviceId) {
+    _setupLogStream();
+  }
 
   @override
   Stream<List<McuLogMessage>> get logMessageStream =>
       _logMessageStreamController.stream;
 
   @override
-  // TODO: implement liveLoggingEnabled
-  Stream<bool> get liveLoggingEnabled => throw UnimplementedError();
+  Stream<bool> get liveLoggingEnabled => _liveLogEnabled.stream;
 
   @override
   void readLogs() {
@@ -27,26 +29,27 @@ class McuMgrLogger extends UpdateLogger {
   }
 
   @override
-  void toggleLiveLogging() {
-    // TODO: implement toggleLiveLogging
-  }
+  void toggleLiveLogging() {}
 
   @override
-  // TODO: implement logMessageTimeWindow
   Future<Duration> get logMessageTimeWindow => throw UnimplementedError();
 
   @override
   void setLogMessageTimeWindow(Duration value) {
-    // TODO: implement setLogMessageTimeWindow
+    throw UnimplementedError();
   }
 
-  void _setupLogStream() {
-    UpdateLoggerChannel.logEventChannel
+  void _setupLogStream() => UpdateLoggerChannel.logEventChannel
+      .receiveBroadcastStream()
+      .map((data) => ProtoLogMessageStreamArg.fromBuffer(data))
+      .where((arg) => (arg.uuid == _deviceId) && arg.protoLogMessage.isNotEmpty)
+      .listen((msg) => _logMessageStreamController
+          .add(msg.protoLogMessage.map((m) => m.convent()).toList()));
+
+  void _setupLiveLogStatusStream() {
+    UpdateLoggerChannel.liveLogEnabledChannel
         .receiveBroadcastStream()
-        .map((data) => ProtoLogMessageStreamArg.fromBuffer(data))
-        .where(
-            (arg) => (arg.uuid == _deviceId) && arg.protoLogMessage.isNotEmpty)
-        .listen((msg) => _logMessageStreamController
-            .add(msg.protoLogMessage.map((m) => m.convent()).toList()));
+        .map((b) => b as bool)
+        .listen((enabled) => _liveLogEnabled.add(enabled));
   }
 }

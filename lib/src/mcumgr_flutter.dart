@@ -68,19 +68,19 @@ abstract class UpdateLogger {
   /// Time window for log messages
   ///
   /// Default value is `const Duration(seconds: 1)`
-  Future<Duration> get logMessageTimeWindow;
+  // Future<Duration> get logMessageTimeWindow;
 
   /// Set time window for log messages
-  void setLogMessageTimeWindow(Duration value);
+  // void setLogMessageTimeWindow(Duration value);
 
   /// Subscribe to detect if live logging is enabled
-  Stream<bool> get liveLoggingEnabled;
+  // Stream<bool> get liveLoggingEnabled;
 
   /// Enable/Disable live logging
-  void toggleLiveLogging();
+  // void toggleLiveLogging();
 
   /// New logs will be sent thgrough `logMessageStream`
-  void readLogs();
+  // void readLogs();
 }
 
 abstract class UpdateManagerFactory {

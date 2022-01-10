@@ -140,4 +140,8 @@ class MockUpdateManager extends UpdateManager {
   Future<void> update(Map<int, Uint8List> images) async {
     await _startUpdate();
   }
+
+  @override
+  // TODO: implement logger
+  UpdateLogger get logger => throw UnimplementedError();
 }

@@ -17,7 +17,6 @@ class UpdateManager {
     let transport: McuMgrBleTransport
     let progressStreamHandler: StreamHandler
     let stateStreamHandler: StreamHandler
-    let logStreamHandler: StreamHandler
     let peripheral: CBPeripheral
     let updateLogger: UpdateLogger
     
@@ -38,6 +37,7 @@ class UpdateManager {
     
     func update(images: [(Int, Data)]) throws {
         dfuManager.mode = .confirmOnly
+        dfuManager.logDelegate = updateLogger
         try dfuManager.start(images: images)
     }
     
@@ -98,7 +98,7 @@ extension UpdateManager: FirmwareUpgradeDelegate {
             progressStreamHandler.sink?(FlutterStandardTypedData(bytes: progressData))
             
             let logData = try logArg.serializedData()
-            logStreamHandler.sink?(FlutterStandardTypedData(bytes: logData))
+//            logStreamHandler.sink?(FlutterStandardTypedData(bytes: logData))
         } catch let e {
             let error = FlutterError(error: e, code: ErrorCode.flutterTypeError)
             stateStreamHandler.sink?(error)
