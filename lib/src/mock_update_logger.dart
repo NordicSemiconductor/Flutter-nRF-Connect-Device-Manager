@@ -26,12 +26,13 @@ class MockUpdateLogger extends UpdateLogger {
   }
 
   @override
-  void toggleLiveLogging() async {
-    // TODO: implement toggleLiveLogging
+  void setLogMessageTimeWindow(Duration value) {
+    // TODO: implement setLogMessageTimeWindow
   }
 
   @override
-  void setLogMessageTimeWindow(Duration value) {
-    // TODO: implement setLogMessageTimeWindow
+  Future<bool> toggleLiveLogging() {
+    // TODO: implement toggleLiveLogging
+    throw UnimplementedError();
   }
 }

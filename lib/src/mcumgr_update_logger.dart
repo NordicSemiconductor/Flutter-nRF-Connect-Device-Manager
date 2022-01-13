@@ -14,6 +14,7 @@ class McuMgrLogger extends UpdateLogger {
 
   McuMgrLogger.deviceIdentifier(this._deviceId) {
     _setupLogStream();
+    _setupLiveLogStatusStream();
   }
 
   @override
@@ -24,12 +25,15 @@ class McuMgrLogger extends UpdateLogger {
   Stream<bool> get liveLoggingEnabled => _liveLogEnabled.stream;
 
   @override
-  void readLogs() {
-    // TODO: implement readLogs
+  Future<List<McuLogMessage>> readLogs() async {
+    final streamArg = ProtoLogMessageStreamArg.fromBuffer(
+        await methodChannel.invokeMethod(UpdateLoggerMethod.getLogs.rawValue));
+    return streamArg.protoLogMessage.map((e) => e.convent()).toList();
   }
 
   @override
-  void toggleLiveLogging() {}
+  Future<bool> toggleLiveLogging() async => await methodChannel.invokeMethod(
+      UpdateLoggerMethod.toggleLiveLoggs.rawValue, _deviceId);
 
   @override
   Future<Duration> get logMessageTimeWindow => throw UnimplementedError();
@@ -49,7 +53,8 @@ class McuMgrLogger extends UpdateLogger {
   void _setupLiveLogStatusStream() {
     UpdateLoggerChannel.liveLogEnabledChannel
         .receiveBroadcastStream()
-        .map((b) => b as bool)
-        .listen((enabled) => _liveLogEnabled.add(enabled));
+        .map((data) => ProtoMessageLiveLogEnabled.fromBuffer(data))
+        .where((arg) => (arg.uuid == _deviceId))
+        .listen((arg) => _liveLogEnabled.add(arg.enabled));
   }
 }

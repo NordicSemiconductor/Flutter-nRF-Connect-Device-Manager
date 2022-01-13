@@ -18,6 +18,8 @@ public enum FlutterMethod: String {
     case cancel
     case kill
     
+    case toggleLiveLoggs
+    case readLogs
 }
 
 /// Methods which platform sends to Flutter

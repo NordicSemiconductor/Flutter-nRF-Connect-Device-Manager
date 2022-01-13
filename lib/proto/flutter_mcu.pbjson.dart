@@ -173,3 +173,14 @@ const ProtoLogMessage_LogLevel$json = const {
 
 /// Descriptor for `ProtoLogMessage`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List protoLogMessageDescriptor = $convert.base64Decode('Cg9Qcm90b0xvZ01lc3NhZ2USGAoHbWVzc2FnZRgBIAEoCVIHbWVzc2FnZRI+Cgtsb2dDYXRlZ29yeRgCIAEoDjIcLlByb3RvTG9nTWVzc2FnZS5Mb2dDYXRlZ29yeVILbG9nQ2F0ZWdvcnkSNQoIbG9nTGV2ZWwYAyABKA4yGS5Qcm90b0xvZ01lc3NhZ2UuTG9nTGV2ZWxSCGxvZ0xldmVsEiAKC2xvZ0RhdGVUaW1lGAQgASgDUgtsb2dEYXRlVGltZSJ+CgtMb2dDYXRlZ29yeRINCglUUkFOU1BPUlQQABIKCgZDT05GSUcQARIJCgVDUkFTSBACEgsKB0RFRkFVTFQQAxIGCgJGUxAEEgkKBUlNQUdFEAUSBwoDTE9HEAYSDAoIUlVOX1RFU1QQBxIJCgVTVEFUUxAIEgcKA0RGVRAJIlUKCExvZ0xldmVsEgkKBURFQlVHEAASCwoHVkVSQk9TRRABEggKBElORk8QAhIPCgtBUFBMSUNBVElPThADEgsKB1dBUk5JTkcQBBIJCgVFUlJPUhAF');
+@$core.Deprecated('Use protoMessageLiveLogEnabledDescriptor instead')
+const ProtoMessageLiveLogEnabled$json = const {
+  '1': 'ProtoMessageLiveLogEnabled',
+  '2': const [
+    const {'1': 'uuid', '3': 1, '4': 1, '5': 9, '10': 'uuid'},
+    const {'1': 'enabled', '3': 2, '4': 1, '5': 8, '10': 'enabled'},
+  ],
+};
+
+/// Descriptor for `ProtoMessageLiveLogEnabled`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List protoMessageLiveLogEnabledDescriptor = $convert.base64Decode('ChpQcm90b01lc3NhZ2VMaXZlTG9nRW5hYmxlZBISCgR1dWlkGAEgASgJUgR1dWlkEhgKB2VuYWJsZWQYAiABKAhSB2VuYWJsZWQ=');

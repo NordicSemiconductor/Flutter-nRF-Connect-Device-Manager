@@ -101,7 +101,7 @@ message ProtoLogMessage {
 //     int64 timeWindow = 2;
 // }
 
-// message ProtoMessageLiveLogEnabled {
-//     string uuid = 1;
-//     bool enabled = 2;
-// }
+message ProtoMessageLiveLogEnabled {
+    string uuid = 1;
+    bool enabled = 2;
+}

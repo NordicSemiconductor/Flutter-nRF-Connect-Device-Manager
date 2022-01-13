@@ -32,7 +32,8 @@ class UpdateManagerMethod {
   String get rawValue => _rawValue;
 
   static const update = const UpdateManagerMethod('update');
-  static const initializeUpdateManager = const UpdateManagerMethod('initializeUpdateManager');
+  static const initializeUpdateManager =
+      const UpdateManagerMethod('initializeUpdateManager');
   static const pause = const UpdateManagerMethod('pause');
   static const resume = const UpdateManagerMethod('resume');
   static const isPaused = const UpdateManagerMethod('isPaused');
@@ -49,6 +50,6 @@ class UpdateLoggerMethod {
 
   String get rawValue => _rawValue;
 
-  static const setLiveLogStatus = const UpdateLoggerMethod('set_live_log_status'); 
-  static const getLogs = const UpdateLoggerMethod('get_logs');
+  static const getLogs = const UpdateLoggerMethod('readLogs');
+  static const toggleLiveLoggs = const UpdateLoggerMethod('toggleLiveLoggs');
 }

@@ -74,13 +74,13 @@ abstract class UpdateLogger {
   // void setLogMessageTimeWindow(Duration value);
 
   /// Subscribe to detect if live logging is enabled
-  // Stream<bool> get liveLoggingEnabled;
+  Stream<bool> get liveLoggingEnabled;
 
   /// Enable/Disable live logging
-  // void toggleLiveLogging();
+  Future<bool> toggleLiveLogging();
 
   /// New logs will be sent thgrough `logMessageStream`
-  // void readLogs();
+  Future<List<McuLogMessage>> readLogs();
 }
 
 abstract class UpdateManagerFactory {

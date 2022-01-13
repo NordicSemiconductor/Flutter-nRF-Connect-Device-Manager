@@ -8,34 +8,46 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
     private var updateManagers: [String : UpdateManager] = [:]
     private let centralManager = CBCentralManager()
     
+    
     private let updateStateEventChannel: FlutterEventChannel
     private let updateProgressEventChannel: FlutterEventChannel
+    
+    // Log channels
     private let logEventChannel: FlutterEventChannel
+    private let liveLogEnabled: FlutterEventChannel
     
     private let updateStateStreamHandler = StreamHandler()
     private let updateProgressStreamHandler = StreamHandler()
     private let logStreamHandler = StreamHandler()
+    private let liveLogStreamHandler = StreamHandler()
     
-    public init(updateStateEventChannel: FlutterEventChannel, updateProgressEventChannel: FlutterEventChannel, logEventChannel: FlutterEventChannel) {
+    public init(updateStateEventChannel: FlutterEventChannel, updateProgressEventChannel: FlutterEventChannel, logEventChannel: FlutterEventChannel, liveLogEnabled: FlutterEventChannel) {
         self.updateStateEventChannel = updateStateEventChannel
         self.updateProgressEventChannel = updateProgressEventChannel
         self.logEventChannel = logEventChannel
+        self.liveLogEnabled = liveLogEnabled
         
         super.init()
         
         updateStateEventChannel.setStreamHandler(updateStateStreamHandler)
         updateProgressEventChannel.setStreamHandler(updateProgressStreamHandler)
         logEventChannel.setStreamHandler(logStreamHandler)
+        liveLogEnabled.setStreamHandler(liveLogStreamHandler)
     }
     
     public static func register(with registrar: FlutterPluginRegistrar) {
         let channel = FlutterMethodChannel(name: namespace + "/method_channel", binaryMessenger: registrar.messenger())
         
-        let updateStateEventChannel = FlutterEventChannel(name: namespace + "/update_state_event_channel", binaryMessenger: registrar.messenger())
-        let updateProgressEventChannel = FlutterEventChannel(name: namespace + "/update_progress_event_channel", binaryMessenger: registrar.messenger())
-        let logEventChannel = FlutterEventChannel(name: namespace + "/log_event_channel", binaryMessenger: registrar.messenger())
+        let updateStateEventChannel = FlutterEventChannel(channel: .updateStateEventChannel, binaryMessenger: registrar.messenger())
+        let updateProgressEventChannel = FlutterEventChannel(channel: .updateProgressEventChannel, binaryMessenger: registrar.messenger())
+        let logEventChannel = FlutterEventChannel(channel: .logEventChannel, binaryMessenger: registrar.messenger())
+        let liveLogEnabled = FlutterEventChannel(channel: .liveLogEnabledChannel, binaryMessenger: registrar.messenger())
         
-        let instance = SwiftMcumgrFlutterPlugin(updateStateEventChannel: updateStateEventChannel, updateProgressEventChannel: updateProgressEventChannel, logEventChannel: logEventChannel)
+        let instance = SwiftMcumgrFlutterPlugin(
+            updateStateEventChannel: updateStateEventChannel,
+            updateProgressEventChannel: updateProgressEventChannel,
+            logEventChannel: logEventChannel,
+            liveLogEnabled: liveLogEnabled)
         registrar.addMethodCallDelegate(instance, channel: channel)
     }
     
@@ -71,7 +83,11 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
             case .kill:
                 try kill(call: call)
                 result(nil)
-                
+            case .toggleLiveLoggs:
+                let m = try retrieveManager(call: call)
+                result(m.updateLogger.toggleLiveLoggs())
+            case .readLogs:
+                result(try readLogs(call: call))
             }
         } catch let e {
             if e is FlutterError {
@@ -96,7 +112,7 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
             throw FlutterError(code: ErrorCode.updateManagerExists.rawValue, message: "Updated manager for provided peripheral already exists", details: call)
         }
         
-        let logger = UpdateLogger(identifier: uuidString, streamHandler: logStreamHandler)
+        let logger = UpdateLogger(identifier: uuidString, streamHandler: logStreamHandler, liveLogEnabledStreamHandler: liveLogStreamHandler)
         let updateManager = UpdateManager(peripheral: peripheral, progressStreamHandler: updateProgressStreamHandler, stateStreamHandler: updateStateStreamHandler, updateLogger: logger)
         updateManagers[uuidString] = updateManager
     }
@@ -150,5 +166,11 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
     private func kill(call: FlutterMethodCall) throws {
         let uuid = try retrieveManager(call: call).peripheral.identifier.uuidString
         updateManagers.removeValue(forKey: uuid)
+    }
+    
+    // MARK: Logs
+    private func readLogs(call: FlutterMethodCall) throws -> ProtoLogMessageStreamArg {
+        let um = try retrieveManager(call: call)
+        return um.updateLogger.readLogs()
     }
 }
