@@ -26,7 +26,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_archive (from `.symlinks/plugins/flutter_archive/ios`)
   - flutter_blue (from `.symlinks/plugins/flutter_blue/ios`)
-  - McuManager (from `https://github.com/NickKibish/IOS-nRF-Connect-Device-Manager.git`)
+  - McuManager (from `https://github.com/dinesharjani/mcumgr-ios.git`, branch `always-upload-image-zero-fix`)
   - mcumgr_flutter (from `.symlinks/plugins/mcumgr_flutter/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
 
@@ -45,7 +45,8 @@ EXTERNAL SOURCES:
   flutter_blue:
     :path: ".symlinks/plugins/flutter_blue/ios"
   McuManager:
-    :git: https://github.com/NickKibish/IOS-nRF-Connect-Device-Manager.git
+    :branch: always-upload-image-zero-fix
+    :git: https://github.com/dinesharjani/mcumgr-ios.git
   mcumgr_flutter:
     :path: ".symlinks/plugins/mcumgr_flutter/ios"
   path_provider:
@@ -53,8 +54,8 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   McuManager:
-    :commit: ee7850b028a6aafb9f3dd7e6b508fadcb7e3404b
-    :git: https://github.com/NickKibish/IOS-nRF-Connect-Device-Manager.git
+    :commit: 7a0f72ad5b272b75811f47e8371177683dbeca83
+    :git: https://github.com/dinesharjani/mcumgr-ios.git
 
 SPEC CHECKSUMS:
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
@@ -68,6 +69,6 @@ SPEC CHECKSUMS:
   SwiftProtobuf: c3c12645230d9b09c72267e0de89468c5543bd86
   ZIPFoundation: b1f0de4eed33e74a676f76e12559ab6b75990197
 
-PODFILE CHECKSUM: dcb3d74a218fe3feeb57719f99a05b544aa413bf
+PODFILE CHECKSUM: 491f2b496971893b80514e4d25a3ae2cbb18231d
 
 COCOAPODS: 1.11.2
