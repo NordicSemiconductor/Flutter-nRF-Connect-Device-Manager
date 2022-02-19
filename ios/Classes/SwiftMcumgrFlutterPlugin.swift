@@ -8,7 +8,6 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
     private var updateManagers: [String : UpdateManager] = [:]
     private let centralManager = CBCentralManager()
     
-    
     private let updateStateEventChannel: FlutterEventChannel
     private let updateProgressEventChannel: FlutterEventChannel
     
@@ -86,8 +85,16 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
             case .toggleLiveLoggs:
                 let m = try retrieveManager(call: call)
                 result(m.updateLogger.toggleLiveLoggs())
+            case .setLiveLoggsEnabled:
+                try setLiveLoggEnabled(call: call)
+                result(nil)
             case .readLogs:
                 result(try readLogs(call: call))
+            case .clearLogs:
+                try retrieveManager(call: call).updateLogger.clearLogs()
+                result(nil)
+            case .getAllLogs:
+                result(try retrieveManager(call: call).updateLogger.getAllLogs())
             }
         } catch let e {
             if e is FlutterError {
@@ -127,6 +134,15 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
         }
 
         return manager;
+    }
+    
+    private func setLiveLoggEnabled(call: FlutterMethodCall) throws {
+        guard let data = call.arguments as? FlutterStandardTypedData else {
+            throw FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can not parse provided arguments", details: call)
+        }
+        
+        let args = try ProtoMessageLiveLogEnabled(serializedData: data.data)
+        updateManagers[args.uuid]?.updateLogger.liveUpdateEnabled = args.enabled
     }
 
     private func pause(call: FlutterMethodCall) throws {

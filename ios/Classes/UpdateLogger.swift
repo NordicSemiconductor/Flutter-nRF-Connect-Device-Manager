@@ -12,7 +12,10 @@ class UpdateLogger {
     let logStreamHandler: StreamHandler
     let liveLogEnabledStreamHandler: StreamHandler
     let identifier: String
+    
+    private var allMessages: [ProtoLogMessage] = []
     private var messages: [ProtoLogMessage] = []
+    
     var timeInterval: TimeInterval = 1.0 {
         didSet {
             setTimer(enabled: !liveUpdateEnabled, timeInterval: timeInterval)
@@ -44,6 +47,16 @@ class UpdateLogger {
         let logStreamArg = ProtoLogMessageStreamArg(uuid: identifier, logs: messages)
         sendMessages()
         return logStreamArg
+    }
+    
+    func getAllLogs() -> ProtoLogMessageStreamArg {
+        return ProtoLogMessageStreamArg(uuid: identifier, logs: allMessages)
+    }
+    
+    func clearLogs() {
+        messages.removeAll()
+        allMessages.removeAll()
+        sendMessages()
     }
 }
 

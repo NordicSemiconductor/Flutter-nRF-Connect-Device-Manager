@@ -19,7 +19,11 @@ public enum FlutterMethod: String {
     case kill
     
     case toggleLiveLoggs
+    case setLiveLoggsEnabled
     case readLogs
+    
+    case getAllLogs
+    case clearLogs
 }
 
 /// Methods which platform sends to Flutter

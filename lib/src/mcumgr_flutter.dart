@@ -79,8 +79,18 @@ abstract class UpdateLogger {
   /// Enable/Disable live logging
   Future<bool> toggleLiveLogging();
 
+  /// Set live logging
+  Future<void> setLiveLoggingEnabled(bool value);
+
   /// New logs will be sent thgrough `logMessageStream`
   Future<List<McuLogMessage>> readLogs();
+
+  /// Get all available log messages
+  /// If `clearLogs` method wos called, this method will return empty list.
+  Future<List<McuLogMessage>> getAllLogs();
+
+  /// Clear all log messages
+  Future<void> clearLogs();
 }
 
 abstract class UpdateManagerFactory {

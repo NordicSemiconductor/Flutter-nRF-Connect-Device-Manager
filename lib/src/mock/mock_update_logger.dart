@@ -7,20 +7,7 @@ class MockUpdateLogger extends UpdateLogger {
   bool _liveUpdate = true;
 
   @override
-  Stream<List<McuLogMessage>> get logMessageStream {
-    final path =
-        'packages/mcumgr_flutter/assets/mock_logs.txt'; // packages/mcumgr_flutter/assets/mock_logs.txt
-    final fileContent = rootBundle.loadString(path);
-
-    return fileContent.asStream().map((event) => event.split('\n').map((e) {
-          final sublines = e.split(' ');
-          final dateTime = DateTime.parse(sublines[0]);
-          final logLevel = levelFromString(sublines[1]);
-          final message = sublines.skip(2).join(' ');
-          return McuLogMessage(
-              message, McuMgrLogCategory.dfu, logLevel, dateTime);
-        }).toList());
-  }
+  Stream<List<McuLogMessage>> get logMessageStream => getAllLogs().asStream();
 
   @override
   Stream<bool> get liveLoggingEnabled => Stream.value(_liveUpdate);
@@ -55,5 +42,28 @@ class MockUpdateLogger extends UpdateLogger {
       default:
         throw UnimplementedError();
     }
+  }
+
+  @override
+  Future<void> setLiveLoggingEnabled(bool value) async {}
+
+  @override
+  Future<void> clearLogs() => getAllLogs();
+
+  @override
+  Future<List<McuLogMessage>> getAllLogs() {
+    final path =
+        'packages/mcumgr_flutter/assets/mock_logs.txt'; // packages/mcumgr_flutter/assets/mock_logs.txt
+
+    return rootBundle
+        .loadString(path)
+        .then((event) => event.split('\n').map((e) {
+              final sublines = e.split(' ');
+              final dateTime = DateTime.parse(sublines[0]);
+              final logLevel = levelFromString(sublines[1]);
+              final message = sublines.skip(2).join(' ');
+              return McuLogMessage(
+                  message, McuMgrLogCategory.dfu, logLevel, dateTime);
+            }).toList());
   }
 }

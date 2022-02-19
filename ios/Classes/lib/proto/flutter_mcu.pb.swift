@@ -596,18 +596,22 @@ extension ProtoUpdateStateChangesStreamArg: SwiftProtobuf.Message, SwiftProtobuf
   }
 
   func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
     if !self.uuid.isEmpty {
       try visitor.visitSingularStringField(value: self.uuid, fieldNumber: 1)
     }
     if self.done != false {
       try visitor.visitSingularBoolField(value: self.done, fieldNumber: 2)
     }
-    if let v = self._error {
+    try { if let v = self._error {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 3)
-    }
-    if let v = self._updateStateChanges {
+    } }()
+    try { if let v = self._updateStateChanges {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 4)
-    }
+    } }()
     try unknownFields.traverse(visitor: &visitor)
   }
 
@@ -702,18 +706,22 @@ extension ProtoProgressUpdateStreamArg: SwiftProtobuf.Message, SwiftProtobuf._Me
   }
 
   func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
     if !self.uuid.isEmpty {
       try visitor.visitSingularStringField(value: self.uuid, fieldNumber: 1)
     }
     if self.done != false {
       try visitor.visitSingularBoolField(value: self.done, fieldNumber: 2)
     }
-    if let v = self._error {
+    try { if let v = self._error {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 3)
-    }
-    if let v = self._progressUpdate {
+    } }()
+    try { if let v = self._progressUpdate {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 4)
-    }
+    } }()
     try unknownFields.traverse(visitor: &visitor)
   }
 
@@ -796,15 +804,19 @@ extension ProtoLogMessageStreamArg: SwiftProtobuf.Message, SwiftProtobuf._Messag
   }
 
   func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
     if !self.uuid.isEmpty {
       try visitor.visitSingularStringField(value: self.uuid, fieldNumber: 1)
     }
     if self.done != false {
       try visitor.visitSingularBoolField(value: self.done, fieldNumber: 2)
     }
-    if let v = self._error {
+    try { if let v = self._error {
       try visitor.visitSingularMessageField(value: v, fieldNumber: 3)
-    }
+    } }()
     if !self.protoLogMessage.isEmpty {
       try visitor.visitRepeatedMessageField(value: self.protoLogMessage, fieldNumber: 4)
     }

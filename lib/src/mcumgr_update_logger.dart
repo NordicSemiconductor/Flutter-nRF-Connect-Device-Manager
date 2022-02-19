@@ -1,10 +1,17 @@
 import 'dart:async';
 
+import 'package:flutter/services.dart';
 import 'package:mcumgr_flutter/mcumgr_flutter.dart';
 import 'package:mcumgr_flutter/proto/flutter_mcu.pb.dart';
 
 import 'method_channels.dart';
 import '../proto/extensions/proto_ext.dart';
+
+extension _Invocation on MethodChannel {
+  Future<T?> invoke<T>(UpdateLoggerMethod method, [dynamic arguments]) {
+    return this.invokeMethod<T>(method.rawValue, arguments);
+  }
+}
 
 class McuMgrLogger extends UpdateLogger {
   StreamController<List<McuLogMessage>> _logMessageStreamController =
@@ -25,23 +32,12 @@ class McuMgrLogger extends UpdateLogger {
   Stream<bool> get liveLoggingEnabled => _liveLogEnabled.stream;
 
   @override
-  Future<List<McuLogMessage>> readLogs() async {
-    final streamArg = ProtoLogMessageStreamArg.fromBuffer(
-        await methodChannel.invokeMethod(UpdateLoggerMethod.getLogs.rawValue));
-    return streamArg.protoLogMessage.map((e) => e.convent()).toList();
-  }
+  Future<List<McuLogMessage>> readLogs() =>
+      _retreiveLogs(UpdateLoggerMethod.readLogs);
 
   @override
-  Future<bool> toggleLiveLogging() async => await methodChannel.invokeMethod(
-      UpdateLoggerMethod.toggleLiveLoggs.rawValue, _deviceId);
-
-  @override
-  Future<Duration> get logMessageTimeWindow => throw UnimplementedError();
-
-  @override
-  void setLogMessageTimeWindow(Duration value) {
-    throw UnimplementedError();
-  }
+  Future<bool> toggleLiveLogging() async =>
+      await methodChannel.invoke(UpdateLoggerMethod.toggleLiveLoggs, _deviceId);
 
   void _setupLogStream() => UpdateLoggerChannel.logEventChannel
       .receiveBroadcastStream()
@@ -56,5 +52,31 @@ class McuMgrLogger extends UpdateLogger {
         .map((data) => ProtoMessageLiveLogEnabled.fromBuffer(data))
         .where((arg) => (arg.uuid == _deviceId))
         .listen((arg) => _liveLogEnabled.add(arg.enabled));
+  }
+
+  @override
+  Future<void> setLiveLoggingEnabled(bool value) async {
+    // ProtoMessageLiveLogEnabled
+
+    final msg = ProtoMessageLiveLogEnabled()
+      ..enabled = value
+      ..uuid = _deviceId;
+    await methodChannel.invoke(
+        UpdateLoggerMethod.setLiveLoggsEnabled, msg.writeToBuffer());
+  }
+
+  @override
+  Future<void> clearLogs() async {
+    await methodChannel.invoke(UpdateLoggerMethod.clearLogs, _deviceId);
+  }
+
+  @override
+  Future<List<McuLogMessage>> getAllLogs() =>
+      _retreiveLogs(UpdateLoggerMethod.getAllLogs);
+
+  Future<List<McuLogMessage>> _retreiveLogs(UpdateLoggerMethod method) async {
+    final streamArg = ProtoLogMessageStreamArg.fromBuffer(
+        await methodChannel.invoke(method, _deviceId));
+    return streamArg.protoLogMessage.map((e) => e.convent()).toList();
   }
 }

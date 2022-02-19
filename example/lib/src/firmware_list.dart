@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mcumgr_flutter_example/src/update_screen.dart';
 import 'package:path/path.dart' as p;
 
@@ -16,7 +17,7 @@ class FirmwareList extends StatelessWidget {
       ),
       body: FutureBuilder(
           future:
-              DefaultAssetBundle.of(context).loadString('AssetManifest.json'),
+              rootBundle.loadString('AssetManifest.json'),
           builder: (c, a) {
             if (!a.hasData) {
               return Center(child: CircularProgressIndicator());
