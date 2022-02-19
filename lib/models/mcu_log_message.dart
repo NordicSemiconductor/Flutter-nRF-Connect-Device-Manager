@@ -9,8 +9,6 @@ class McuLogMessage {
   const McuLogMessage(this.message, this.category, this.level, this.dateTime);
 }
 
-
-
 class McuMgrLogCategory {
   final String _rawValue;
 

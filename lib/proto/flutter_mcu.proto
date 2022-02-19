@@ -64,7 +64,7 @@ message ProtoLogMessageStreamArg {
     string uuid = 1;
     bool done = 2;
     ProtoError error = 3;
-    ProtoLogMessage protoLogMessage = 4;
+    repeated ProtoLogMessage protoLogMessage = 4;
 }
 
 message ProtoLogMessage {
@@ -94,4 +94,14 @@ message ProtoLogMessage {
     LogCategory logCategory = 2;
     LogLevel logLevel = 3;
     int64 logDateTime = 4;
+}
+
+// message ProtoMessageTimeWindow {
+//     string uuid = 1;
+//     int64 timeWindow = 2;
+// }
+
+message ProtoMessageLiveLogEnabled {
+    string uuid = 1;
+    bool enabled = 2;
 }

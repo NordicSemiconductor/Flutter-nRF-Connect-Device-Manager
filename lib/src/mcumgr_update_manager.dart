@@ -1,49 +1,23 @@
 import 'dart:async';
 import 'dart:typed_data';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mcumgr_flutter/proto/flutter_mcu.pb.dart';
+import 'package:mcumgr_flutter/src/mcumgr_update_logger.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../mcumgr_flutter.dart';
 import '../proto/extensions/proto_ext.dart';
-
-class _McumgrFlutter {
-  static const _namespace = "mcumgr_flutter";
-  static const MethodChannel _channel =
-      const MethodChannel(_namespace + '/method_channel');
-  static const EventChannel _progressStream =
-      const EventChannel(_namespace + '/update_progress_event_channel');
-  static const EventChannel _updateStateStream =
-      const EventChannel(_namespace + '/update_state_event_channel');
-  static const EventChannel _logEventChannel =
-      const EventChannel(_namespace + '/log_event_channel');
-  static const EventChannel _updateInProgressChannel =
-      const EventChannel(_namespace + '/updateInProgressChannel');
-}
-
-class _FlutterChannelMethod {
-  final String _rawValue;
-
-  const _FlutterChannelMethod(this._rawValue);
-
-  String get rawValue => _rawValue;
-
-  static const update = const _FlutterChannelMethod('update');
-  static const initializeUpdateManager =
-      const _FlutterChannelMethod('initializeUpdateManager');
-  static const pause = const _FlutterChannelMethod('pause');
-  static const resume = const _FlutterChannelMethod('resume');
-  static const isPaused = const _FlutterChannelMethod('isPaused');
-  static const isInProgress = const _FlutterChannelMethod('isInProgress');
-  static const cancel = const _FlutterChannelMethod('cancel');
-  static const kill = const _FlutterChannelMethod('kill');
-}
+import 'method_channels.dart';
+import 'mcumgr_update_logger.dart';
 
 class McuMgrUpdateManager extends UpdateManager {
   final String _deviceId;
+  final McuMgrLogger _logger;
 
-  McuMgrUpdateManager._deviceIdentifier(this._deviceId);
+  McuMgrUpdateManager._deviceIdentifier(this._deviceId)
+      : this._logger = McuMgrLogger.deviceIdentifier(_deviceId);
 
   // STREAM CONTROLLERS
   // All stream controllers are closed in the `kill()` method.
@@ -82,9 +56,14 @@ class McuMgrUpdateManager extends UpdateManager {
 
   // Stream<ProgressUpdate> get
 
-  static Future<McuMgrUpdateManager> newManager(String deviceId) async {
-    await _McumgrFlutter._channel.invokeMethod(
-        _FlutterChannelMethod.initializeUpdateManager.rawValue, deviceId);
+  static Future<McuMgrUpdateManager> getInstance(String deviceId) async {
+    try {
+      await methodChannel.invokeMethod(
+          UpdateManagerMethod.initializeUpdateManager.rawValue, deviceId);
+    } catch (e) {
+      // TODO: Handle Flutter error
+      print(e);
+    }
 
     final um = McuMgrUpdateManager._deviceIdentifier(deviceId);
     um._setupStreams();
@@ -104,8 +83,8 @@ class McuMgrUpdateManager extends UpdateManager {
 
   @override
   Future<void> update(Map<int, Uint8List> images) async {
-    await _McumgrFlutter._channel.invokeMethod(
-        _FlutterChannelMethod.update.rawValue,
+    await methodChannel.invokeMethod(
+        UpdateManagerMethod.update.rawValue,
         ProtoUpdateWithImageCallArguments(
             deviceUuid: this._deviceId,
             images: images.entries
@@ -114,37 +93,36 @@ class McuMgrUpdateManager extends UpdateManager {
 
   @override
   Future<void> pause() async {
-    await _McumgrFlutter._channel
-        .invokeMethod(_FlutterChannelMethod.pause.rawValue, _deviceId);
+    await methodChannel.invokeMethod(
+        UpdateManagerMethod.pause.rawValue, _deviceId);
     _updateInProgressStreamController!.add(false);
   }
 
   @override
   Future<void> resume() async {
-    await _McumgrFlutter._channel
-        .invokeMethod(_FlutterChannelMethod.resume.rawValue, _deviceId);
+    await methodChannel.invokeMethod(
+        UpdateManagerMethod.resume.rawValue, _deviceId);
     _updateInProgressStreamController!.add(true);
   }
 
   @override
-  Future<void> cancel() async => await _McumgrFlutter._channel
-      .invokeMethod(_FlutterChannelMethod.cancel.rawValue, _deviceId);
+  Future<void> cancel() async => await methodChannel.invokeMethod(
+      UpdateManagerMethod.cancel.rawValue, _deviceId);
 
   @override
-  Future<bool> inProgress() async => await _McumgrFlutter._channel
-      .invokeMethod(_FlutterChannelMethod.isInProgress.rawValue, _deviceId);
+  Future<bool> inProgress() async => await methodChannel.invokeMethod(
+      UpdateManagerMethod.isInProgress.rawValue, _deviceId);
 
   @override
-  Future<bool> isPaused() async => await _McumgrFlutter._channel
-      .invokeMethod(_FlutterChannelMethod.isPaused.rawValue, _deviceId);
+  Future<bool> isPaused() async => await methodChannel.invokeMethod(
+      UpdateManagerMethod.isPaused.rawValue, _deviceId);
 
   void _setupStreams() {
     _setupProgressUpdateStream();
-    _setupLogStream();
   }
 
   void _setupProgressUpdateStream() {
-    _McumgrFlutter._progressStream
+    UpdateManagerChannel.progressStream
         .receiveBroadcastStream()
         .map((event) => ProtoProgressUpdateStreamArg.fromBuffer(event))
         .where((event) => event.uuid == _deviceId)
@@ -154,7 +132,7 @@ class McuMgrUpdateManager extends UpdateManager {
   }
 
   void _setupUpdateStateStream() {
-    _McumgrFlutter._updateStateStream
+    UpdateManagerChannel.updateStateStream
         .receiveBroadcastStream()
         .map((event) => ProtoUpdateStateChangesStreamArg.fromBuffer(event))
         .where((event) => event.uuid == _deviceId)
@@ -191,16 +169,6 @@ class McuMgrUpdateManager extends UpdateManager {
     });
   }
 
-  void _setupLogStream() {
-    _McumgrFlutter._logEventChannel
-        .receiveBroadcastStream()
-        .map((event) => ProtoLogMessageStreamArg.fromBuffer(event))
-        .where((event) => event.uuid == _deviceId)
-        .where((event) => event.hasProtoLogMessage())
-        .listen((event) =>
-            _logMessageStreamController.add(event.protoLogMessage.convent()));
-  }
-
   @override
   Future<void> kill() async {
     [
@@ -214,7 +182,10 @@ class McuMgrUpdateManager extends UpdateManager {
       }
     });
 
-    await _McumgrFlutter._channel
-        .invokeMethod(_FlutterChannelMethod.kill.rawValue, _deviceId);
+    await methodChannel.invokeMethod(
+        UpdateManagerMethod.kill.rawValue, _deviceId);
   }
+
+  @override
+  UpdateLogger get logger => _logger;
 }

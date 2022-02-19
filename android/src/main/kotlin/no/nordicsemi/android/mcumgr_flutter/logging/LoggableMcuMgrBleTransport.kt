@@ -50,7 +50,7 @@ class LoggableMcuMgrBleTransport(
 				.setProtoLogMessage(log)
 				.build()
 		handler.post {
-			logStreamHandler.sink?.success(arg.toByteArray())
+//			logStreamHandler.sink?.success(arg.toByteArray())
 		}
 	}
 }

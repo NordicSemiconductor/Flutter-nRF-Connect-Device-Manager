@@ -17,27 +17,27 @@ class UpdateManager {
     let transport: McuMgrBleTransport
     let progressStreamHandler: StreamHandler
     let stateStreamHandler: StreamHandler
-    let logStreamHandler: StreamHandler
     let peripheral: CBPeripheral
+    let updateLogger: UpdateLogger
     
     private (set) lazy var dfuManager: FirmwareUpgradeManager = FirmwareUpgradeManager(transporter: self.transport, delegate: self)
     
-    init(peripheral: CBPeripheral, progressStreamHandler: StreamHandler, stateStreamHandler: StreamHandler, logStreamHandler: StreamHandler) {
+    init(peripheral: CBPeripheral, progressStreamHandler: StreamHandler, stateStreamHandler: StreamHandler, updateLogger: UpdateLogger) {
         self.peripheral = peripheral
         self.transport = McuMgrBleTransport(peripheral)
         self.progressStreamHandler = progressStreamHandler
         self.stateStreamHandler = stateStreamHandler
-        self.logStreamHandler = logStreamHandler
+        self.updateLogger = updateLogger
     }
     
     func update(data: Data) throws {
-        dfuManager.logDelegate = self
+        dfuManager.logDelegate = updateLogger
         try dfuManager.start(data: data)
     }
     
     func update(images: [(Int, Data)]) throws {
-        dfuManager.logDelegate = self
-        dfuManager.mode = .testOnly
+        dfuManager.mode = .confirmOnly
+        dfuManager.logDelegate = updateLogger
         try dfuManager.start(images: images)
     }
     
@@ -87,7 +87,7 @@ extension UpdateManager: FirmwareUpgradeDelegate {
         var progressArg = ProtoProgressUpdateStreamArg(progressUpdate: nil, peripheral: peripheral)
         progressArg.done = true
         
-        var logArg = ProtoLogMessageStreamArg(uuid: peripheral.identifier.uuidString, log: ProtoLogMessage())
+        var logArg = ProtoLogMessageStreamArg(uuid: peripheral.identifier.uuidString, logs: [])
         logArg.done = true
         
         do {
@@ -98,7 +98,7 @@ extension UpdateManager: FirmwareUpgradeDelegate {
             progressStreamHandler.sink?(FlutterStandardTypedData(bytes: progressData))
             
             let logData = try logArg.serializedData()
-            logStreamHandler.sink?(FlutterStandardTypedData(bytes: logData))
+//            logStreamHandler.sink?(FlutterStandardTypedData(bytes: logData))
         } catch let e {
             let error = FlutterError(error: e, code: ErrorCode.flutterTypeError)
             stateStreamHandler.sink?(error)
@@ -151,20 +151,6 @@ extension UpdateManager: FirmwareUpgradeDelegate {
         } catch let e {
             let error = FlutterError(error: e, code: ErrorCode.flutterTypeError)
             progressStreamHandler.sink?(error)
-        }
-    }
-}
-
-extension UpdateManager: McuMgrLogDelegate {
-    func log(_ msg: String, ofCategory category: McuMgrLogCategory, atLevel level: McuMgrLogLevel) {
-        let log = ProtoLogMessage(message: msg, category: category.toProto(), level: level.toProto(), timeInterval: Date().timeIntervalSince1970)
-        let logStreamArg = ProtoLogMessageStreamArg(uuid: peripheral.identifier.uuidString, log: log)
-        
-        do {
-            logStreamHandler.sink?(FlutterStandardTypedData(bytes: try logStreamArg.serializedData()))
-        } catch let e {
-            let error = FlutterError(error: e, code: ErrorCode.flutterTypeError)
-            logStreamHandler.sink?(error)
         }
     }
 }

@@ -23,6 +23,7 @@ class UpdateManager(
 		transport.setLoggingEnabled(true)
 		address = transport.bluetoothDevice.address
 		manager = FirmwareUpgradeManager(transport, this)
+		manager.setMode(FirmwareUpgradeManager.Mode.CONFIRM_ONLY)
 	}
 
 	/**
@@ -138,7 +139,7 @@ class UpdateManager(
 				.newBuilder()
 				.setImageSize(imageSize.toLong())
 				.setBytesSent(bytesSent.toLong())
-				.setTimestamp(timestamp.toDouble() * 1000.0) // convert to seconds
+				.setTimestamp(timestamp.toDouble()) // convert to seconds
 				.build()
 		val arg = FlutterMcu.ProtoProgressUpdateStreamArg
 				.newBuilder()

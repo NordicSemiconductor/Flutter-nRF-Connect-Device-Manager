@@ -2,14 +2,14 @@ part of mcumgr_flutter;
 
 /// Object that handles update process.
 abstract class UpdateManager {
+  /// Get logger related to this update manager.
+  UpdateLogger get logger;
+
   /// Stream emits `ProgressUpdate` events.
   Stream<ProgressUpdate> get progressStream;
 
   /// Stream emits events with stage of the update progress.
   // Stream<FirmwareUpgradeState>? get updateStateStream;
-
-  /// Stream emits Log Messages
-  Stream<McuLogMessage> get logMessageStream;
 
   /// Stream emits bool value that indicates if the update in progress.
   ///
@@ -21,7 +21,7 @@ abstract class UpdateManager {
   Stream<FirmwareUpgradeState> setup();
 
   /// Stream emits update state during update process
-  /// 
+  ///
   /// It doesn't exist until method `setup()`  wasn't called.
   Stream<FirmwareUpgradeState>? get updateStateStream;
 
@@ -61,20 +61,58 @@ abstract class UpdateManager {
   Future<void> kill();
 }
 
+abstract class UpdateLogger {
+  /// Stream emits Log Messages
+  Stream<List<McuLogMessage>> get logMessageStream;
+
+  /// Time window for log messages
+  ///
+  /// Default value is `const Duration(seconds: 1)`
+  // Future<Duration> get logMessageTimeWindow;
+
+  /// Set time window for log messages
+  // void setLogMessageTimeWindow(Duration value);
+
+  /// Subscribe to detect if live logging is enabled
+  Stream<bool> get liveLoggingEnabled;
+
+  /// Enable/Disable live logging
+  Future<bool> toggleLiveLogging();
+
+  /// Set live logging
+  Future<void> setLiveLoggingEnabled(bool value);
+
+  /// New logs will be sent thgrough `logMessageStream`
+  Future<List<McuLogMessage>> readLogs();
+
+  /// Get all available log messages
+  /// If `clearLogs` method wos called, this method will return empty list.
+  Future<List<McuLogMessage>> getAllLogs();
+
+  /// Clear all log messages
+  Future<void> clearLogs();
+}
+
 abstract class UpdateManagerFactory {
-  Future<UpdateManager> create(String deviceId);
+  Future<UpdateManager> getUpdateManager(String deviceId);
 }
 
 class McuMgrUpdateManagerFactory extends UpdateManagerFactory {
   @override
-  Future<UpdateManager> create(String deviceId) async {
-    return await McuMgrUpdateManager.newManager(deviceId);
+  Future<UpdateManager> getUpdateManager(String deviceId) async {
+    return await McuMgrUpdateManager.getInstance(deviceId);
   }
 }
 
 class MockUpdateManagerFactory extends UpdateManagerFactory {
   @override
-  Future<UpdateManager> create(String deviceId) async {
+  Future<UpdateManager> getUpdateManager(String deviceId) async {
     return MockUpdateManager();
+  }
+
+  @override
+  Future<UpdateLogger> getUpdateLogger(String deviceId) {
+    // TODO: implement getUpdateLogger
+    throw UnimplementedError();
   }
 }

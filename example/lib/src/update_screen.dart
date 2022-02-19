@@ -164,7 +164,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
     });
 
     final updateManager =
-        await McuMgrUpdateManagerFactory().create(widget.deviceId);
+        await McuMgrUpdateManagerFactory().getUpdateManager(widget.deviceId);
     updateManager.setup();
     await updateManager.update(fwScheme);
     return updateManager;

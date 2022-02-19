@@ -3,6 +3,7 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:mcumgr_flutter/mcumgr_flutter.dart';
+import 'package:mcumgr_flutter/src/mock/mock_update_logger.dart';
 import 'package:rxdart/rxdart.dart';
 
 class _UpdateTupple {
@@ -17,15 +18,9 @@ class MockUpdateManager extends UpdateManager {
       BehaviorSubject();
   final BehaviorSubject<FirmwareUpgradeState> _updateStateStreamController =
       BehaviorSubject.seeded(FirmwareUpgradeState.none);
-  final BehaviorSubject<McuLogMessage> _logMessageStreamController =
-      BehaviorSubject();
   final BehaviorSubject<bool> _updateInProgressStreamController =
       BehaviorSubject.seeded(true);
   final StreamController<bool> _cancelTrigger = StreamController.broadcast();
-
-  @override
-  Stream<McuLogMessage> get logMessageStream =>
-      _logMessageStreamController.stream;
 
   @override
   Stream<ProgressUpdate> get progressStream => _progressStreamController.stream;
@@ -44,10 +39,8 @@ class MockUpdateManager extends UpdateManager {
 
   void _close() {
     _cancelTrigger.close();
-    _logMessageStreamController.close();
     _progressStreamController.close();
     _updateStateStreamController.close();
-    _logMessageStreamController.close();
     _updateInProgressStreamController.close();
   }
 
@@ -80,15 +73,15 @@ class MockUpdateManager extends UpdateManager {
   Future<void> _startUpdate() async {
     _updateStateStreamController.add(FirmwareUpgradeState.validate);
 
-    final rand = Random();
-    Stream.periodic(Duration(milliseconds: 500), (i) {
-      final category = McuMgrLogCategory
-          .values[rand.nextInt(McuMgrLogCategory.values.length)];
-      final level =
-          McuMgrLogLevel.values[rand.nextInt(McuMgrLogLevel.values.length)];
-      final msg = McuLogMessage('message', category, level, DateTime.now());
-      return msg;
-    }).listen((event) => _logMessageStreamController.add(event));
+    // final rand = Random();
+    // Stream.periodic(Duration(milliseconds: 500), (i) {
+    //   final category = McuMgrLogCategory
+    //       .values[rand.nextInt(McuMgrLogCategory.values.length)];
+    //   final level =
+    //       McuMgrLogLevel.values[rand.nextInt(McuMgrLogLevel.values.length)];
+    //   final msg = McuLogMessage('message', category, level, DateTime.now());
+    //   return msg;
+    // }).listen((event) => _logMessageStreamController.add(event));
 
     await Future.delayed(Duration(milliseconds: 100));
 
@@ -125,7 +118,7 @@ class MockUpdateManager extends UpdateManager {
     }
     _progressStreamController.close();
     _updateStateStreamController.close();
-    _logMessageStreamController.close();
+    // _logMessageStreamController.close();
   }
 
   @override
@@ -140,4 +133,7 @@ class MockUpdateManager extends UpdateManager {
   Future<void> update(Map<int, Uint8List> images) async {
     await _startUpdate();
   }
+
+  @override
+  UpdateLogger get logger => MockUpdateLogger();
 }
