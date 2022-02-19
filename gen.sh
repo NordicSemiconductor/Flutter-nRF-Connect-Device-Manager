@@ -11,10 +11,13 @@
 #     echo 'building dart proto'
 # fi
 
-export PATH="$PATH":"$HOME/.pub-cache/bin"
 # dart pub install 
+# export PATH="$PATH":"$HOME/.pub-cache/bin"
 # dart pub global activate protoc_plugin 
 
-protoc --dart_out=./ lib/proto/flutter_mcu.proto # --experimental_allow_proto3_optional
-protoc --swift_out=ios/Classes/ lib/proto/flutter_mcu.proto # --experimental_allow_proto3_optional
-protoc --java_out=lite:android/src/main/kotlin/no/nordicsemi/android/mcumgr_flutter/gen/ lib/proto/flutter_mcu.proto # --experimental_allow_proto3_optional
+# protoc --dart_out=./ lib/proto/flutter_mcu.proto # --experimental_allow_proto3_optional
+protoc --swift_out=ios/Classes/ \
+    --dart_out=./ \
+    --kotlin_out=lite:android/src/main/kotlin/no/nordicsemi/android/mcumgr_flutter/gen/ \
+    lib/proto/flutter_mcu.proto # --experimental_allow_proto3_optional
+# protoc --java_out=lite:android/src/main/kotlin/no/nordicsemi/android/mcumgr_flutter/gen/ lib/proto/flutter_mcu.proto # --experimental_allow_proto3_optional
