@@ -94,7 +94,9 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
                 try retrieveManager(call: call).updateLogger.clearLogs()
                 result(nil)
             case .getAllLogs:
-                result(try retrieveManager(call: call).updateLogger.getAllLogs())
+                let arg = try retrieveManager(call: call).updateLogger.getAllLogs()
+                let data = FlutterStandardTypedData(bytes: try arg.serializedData())
+                result(data)
             }
         } catch let e {
             if e is FlutterError {

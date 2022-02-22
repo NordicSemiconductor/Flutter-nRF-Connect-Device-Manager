@@ -98,5 +98,6 @@ extension UpdateLogger: McuMgrLogDelegate {
         let log = ProtoLogMessage(message: msg, category: category.toProto(), level: level.toProto(), timeInterval: Date().timeIntervalSince1970)
         
         messages.append(log)
+        allMessages.append(log)
     }
 }
