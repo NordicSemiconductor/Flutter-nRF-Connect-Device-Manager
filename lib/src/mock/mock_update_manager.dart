@@ -72,23 +72,12 @@ class MockUpdateManager extends UpdateManager {
 
   Future<void> _startUpdate() async {
     _updateStateStreamController.add(FirmwareUpgradeState.validate);
-
-    // final rand = Random();
-    // Stream.periodic(Duration(milliseconds: 500), (i) {
-    //   final category = McuMgrLogCategory
-    //       .values[rand.nextInt(McuMgrLogCategory.values.length)];
-    //   final level =
-    //       McuMgrLogLevel.values[rand.nextInt(McuMgrLogLevel.values.length)];
-    //   final msg = McuLogMessage('message', category, level, DateTime.now());
-    //   return msg;
-    // }).listen((event) => _logMessageStreamController.add(event));
-
-    await Future.delayed(Duration(milliseconds: 100));
+    await Future.delayed(Duration(milliseconds: 10));
 
     _updateStateStreamController.add(FirmwareUpgradeState.upload);
-    await Future.delayed(Duration(milliseconds: 100));
+    await Future.delayed(Duration(milliseconds: 1000));
 
-    final progStream = Stream.periodic(Duration(milliseconds: 50),
+    final progStream = Stream.periodic(Duration(milliseconds: 20),
         (i) => ProgressUpdate(i, 100, DateTime.now()));
 
     final queue = Rx.combineLatest2(progStream, updateInProgressStream,
@@ -96,7 +85,6 @@ class MockUpdateManager extends UpdateManager {
         .bufferTest((event) => event.inProgress)
         .flatMap((value) => Stream.fromIterable(value))
         .map((event) => event.progressUpdate)
-        // .interval(Duration(milliseconds: 100))
         .take(100)
         .takeUntil(_cancelTrigger.stream);
 
@@ -113,7 +101,7 @@ class MockUpdateManager extends UpdateManager {
 
     await for (var e in Stream.fromIterable(states)
         .takeUntil(_cancelTrigger.stream)
-        .interval(Duration(seconds: 3))) {
+        .interval(Duration(milliseconds: 10))) {
       _updateStateStreamController.add(e);
     }
     _progressStreamController.close();
