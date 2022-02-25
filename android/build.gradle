@@ -25,7 +25,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -40,6 +40,6 @@ android {
 }
 
 dependencies {
-    implementation 'no.nordicsemi.android:mcumgr-ble:0.13.0-beta08'
-    implementation  'com.google.protobuf:protobuf-javalite:3.11.4'
+    implementation 'no.nordicsemi.android:mcumgr-ble:1.1-beta01'
+    implementation  'com.google.protobuf:protobuf-kotlin-lite:3.19.4'
 }

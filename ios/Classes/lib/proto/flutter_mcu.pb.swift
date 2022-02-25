@@ -21,7 +21,7 @@ fileprivate struct _GeneratedWithProtocGenSwiftVersion: SwiftProtobuf.ProtobufAP
 }
 
 /// Flutter call arguments
-struct ProtoUpdateCallArgument {
+struct No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoUpdateCallArgument {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
@@ -35,7 +35,7 @@ struct ProtoUpdateCallArgument {
   init() {}
 }
 
-struct ProtoError {
+struct No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoError {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
@@ -48,7 +48,7 @@ struct ProtoError {
 }
 
 /// Firmware image pair
-struct Pair {
+struct No_Nordicsemi_Android_McumgrFlutter_Gen_Pair {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
@@ -62,14 +62,14 @@ struct Pair {
   init() {}
 }
 
-struct ProtoUpdateWithImageCallArguments {
+struct No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoUpdateWithImageCallArguments {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
   var deviceUuid: String = String()
 
-  var images: [Pair] = []
+  var images: [No_Nordicsemi_Android_McumgrFlutter_Gen_Pair] = []
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -77,7 +77,7 @@ struct ProtoUpdateWithImageCallArguments {
 }
 
 /// STATE
-struct ProtoUpdateStateChangesStreamArg {
+struct No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoUpdateStateChangesStreamArg {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
@@ -86,8 +86,8 @@ struct ProtoUpdateStateChangesStreamArg {
 
   var done: Bool = false
 
-  var error: ProtoError {
-    get {return _error ?? ProtoError()}
+  var error: No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoError {
+    get {return _error ?? No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoError()}
     set {_error = newValue}
   }
   /// Returns true if `error` has been explicitly set.
@@ -95,8 +95,8 @@ struct ProtoUpdateStateChangesStreamArg {
   /// Clears the value of `error`. Subsequent reads from it will return its default value.
   mutating func clearError() {self._error = nil}
 
-  var updateStateChanges: ProtoUpdateStateChanges {
-    get {return _updateStateChanges ?? ProtoUpdateStateChanges()}
+  var updateStateChanges: No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoUpdateStateChanges {
+    get {return _updateStateChanges ?? No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoUpdateStateChanges()}
     set {_updateStateChanges = newValue}
   }
   /// Returns true if `updateStateChanges` has been explicitly set.
@@ -108,18 +108,18 @@ struct ProtoUpdateStateChangesStreamArg {
 
   init() {}
 
-  fileprivate var _error: ProtoError? = nil
-  fileprivate var _updateStateChanges: ProtoUpdateStateChanges? = nil
+  fileprivate var _error: No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoError? = nil
+  fileprivate var _updateStateChanges: No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoUpdateStateChanges? = nil
 }
 
-struct ProtoUpdateStateChanges {
+struct No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoUpdateStateChanges {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  var oldState: ProtoUpdateStateChanges.FirmwareUpgradeState = .none
+  var oldState: No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoUpdateStateChanges.FirmwareUpgradeState = .none
 
-  var newState: ProtoUpdateStateChanges.FirmwareUpgradeState = .none
+  var newState: No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoUpdateStateChanges.FirmwareUpgradeState = .none
 
   var canceled: Bool = false
 
@@ -173,9 +173,9 @@ struct ProtoUpdateStateChanges {
 
 #if swift(>=4.2)
 
-extension ProtoUpdateStateChanges.FirmwareUpgradeState: CaseIterable {
+extension No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoUpdateStateChanges.FirmwareUpgradeState: CaseIterable {
   // The compiler won't synthesize support with the UNRECOGNIZED case.
-  static var allCases: [ProtoUpdateStateChanges.FirmwareUpgradeState] = [
+  static var allCases: [No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoUpdateStateChanges.FirmwareUpgradeState] = [
     .none,
     .validate,
     .upload,
@@ -188,7 +188,7 @@ extension ProtoUpdateStateChanges.FirmwareUpgradeState: CaseIterable {
 
 #endif  // swift(>=4.2)
 
-struct ProtoProgressUpdateStreamArg {
+struct No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoProgressUpdateStreamArg {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
@@ -197,8 +197,8 @@ struct ProtoProgressUpdateStreamArg {
 
   var done: Bool = false
 
-  var error: ProtoError {
-    get {return _error ?? ProtoError()}
+  var error: No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoError {
+    get {return _error ?? No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoError()}
     set {_error = newValue}
   }
   /// Returns true if `error` has been explicitly set.
@@ -206,8 +206,8 @@ struct ProtoProgressUpdateStreamArg {
   /// Clears the value of `error`. Subsequent reads from it will return its default value.
   mutating func clearError() {self._error = nil}
 
-  var progressUpdate: ProtoProgressUpdate {
-    get {return _progressUpdate ?? ProtoProgressUpdate()}
+  var progressUpdate: No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoProgressUpdate {
+    get {return _progressUpdate ?? No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoProgressUpdate()}
     set {_progressUpdate = newValue}
   }
   /// Returns true if `progressUpdate` has been explicitly set.
@@ -219,11 +219,11 @@ struct ProtoProgressUpdateStreamArg {
 
   init() {}
 
-  fileprivate var _error: ProtoError? = nil
-  fileprivate var _progressUpdate: ProtoProgressUpdate? = nil
+  fileprivate var _error: No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoError? = nil
+  fileprivate var _progressUpdate: No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoProgressUpdate? = nil
 }
 
-struct ProtoProgressUpdate {
+struct No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoProgressUpdate {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
@@ -240,7 +240,7 @@ struct ProtoProgressUpdate {
 }
 
 /// LOGS
-struct ProtoLogMessageStreamArg {
+struct No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoLogMessageStreamArg {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
@@ -249,8 +249,8 @@ struct ProtoLogMessageStreamArg {
 
   var done: Bool = false
 
-  var error: ProtoError {
-    get {return _error ?? ProtoError()}
+  var error: No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoError {
+    get {return _error ?? No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoError()}
     set {_error = newValue}
   }
   /// Returns true if `error` has been explicitly set.
@@ -258,25 +258,25 @@ struct ProtoLogMessageStreamArg {
   /// Clears the value of `error`. Subsequent reads from it will return its default value.
   mutating func clearError() {self._error = nil}
 
-  var protoLogMessage: [ProtoLogMessage] = []
+  var protoLogMessage: [No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoLogMessage] = []
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
 
-  fileprivate var _error: ProtoError? = nil
+  fileprivate var _error: No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoError? = nil
 }
 
-struct ProtoLogMessage {
+struct No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoLogMessage {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
   var message: String = String()
 
-  var logCategory: ProtoLogMessage.LogCategory = .transport
+  var logCategory: No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoLogMessage.LogCategory = .transport
 
-  var logLevel: ProtoLogMessage.LogLevel = .debug
+  var logLevel: No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoLogMessage.LogLevel = .debug
 
   var logDateTime: Int64 = 0
 
@@ -379,9 +379,9 @@ struct ProtoLogMessage {
 
 #if swift(>=4.2)
 
-extension ProtoLogMessage.LogCategory: CaseIterable {
+extension No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoLogMessage.LogCategory: CaseIterable {
   // The compiler won't synthesize support with the UNRECOGNIZED case.
-  static var allCases: [ProtoLogMessage.LogCategory] = [
+  static var allCases: [No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoLogMessage.LogCategory] = [
     .transport,
     .config,
     .crash,
@@ -395,9 +395,9 @@ extension ProtoLogMessage.LogCategory: CaseIterable {
   ]
 }
 
-extension ProtoLogMessage.LogLevel: CaseIterable {
+extension No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoLogMessage.LogLevel: CaseIterable {
   // The compiler won't synthesize support with the UNRECOGNIZED case.
-  static var allCases: [ProtoLogMessage.LogLevel] = [
+  static var allCases: [No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoLogMessage.LogLevel] = [
     .debug,
     .verbose,
     .info,
@@ -409,7 +409,7 @@ extension ProtoLogMessage.LogLevel: CaseIterable {
 
 #endif  // swift(>=4.2)
 
-struct ProtoMessageLiveLogEnabled {
+struct No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoMessageLiveLogEnabled {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
@@ -425,8 +425,10 @@ struct ProtoMessageLiveLogEnabled {
 
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
 
-extension ProtoUpdateCallArgument: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = "ProtoUpdateCallArgument"
+fileprivate let _protobuf_package = "no.nordicsemi.android.mcumgr_flutter.gen"
+
+extension No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoUpdateCallArgument: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".ProtoUpdateCallArgument"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "device_uuid"),
     2: .standard(proto: "firmware_data"),
@@ -455,7 +457,7 @@ extension ProtoUpdateCallArgument: SwiftProtobuf.Message, SwiftProtobuf._Message
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: ProtoUpdateCallArgument, rhs: ProtoUpdateCallArgument) -> Bool {
+  static func ==(lhs: No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoUpdateCallArgument, rhs: No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoUpdateCallArgument) -> Bool {
     if lhs.deviceUuid != rhs.deviceUuid {return false}
     if lhs.firmwareData != rhs.firmwareData {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
@@ -463,8 +465,8 @@ extension ProtoUpdateCallArgument: SwiftProtobuf.Message, SwiftProtobuf._Message
   }
 }
 
-extension ProtoError: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = "ProtoError"
+extension No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoError: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".ProtoError"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "localizedDescription"),
   ]
@@ -488,15 +490,15 @@ extension ProtoError: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementatio
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: ProtoError, rhs: ProtoError) -> Bool {
+  static func ==(lhs: No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoError, rhs: No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoError) -> Bool {
     if lhs.localizedDescription != rhs.localizedDescription {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
 }
 
-extension Pair: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = "Pair"
+extension No_Nordicsemi_Android_McumgrFlutter_Gen_Pair: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".Pair"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "key"),
     2: .same(proto: "value"),
@@ -525,7 +527,7 @@ extension Pair: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase,
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: Pair, rhs: Pair) -> Bool {
+  static func ==(lhs: No_Nordicsemi_Android_McumgrFlutter_Gen_Pair, rhs: No_Nordicsemi_Android_McumgrFlutter_Gen_Pair) -> Bool {
     if lhs.key != rhs.key {return false}
     if lhs.value != rhs.value {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
@@ -533,8 +535,8 @@ extension Pair: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase,
   }
 }
 
-extension ProtoUpdateWithImageCallArguments: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = "ProtoUpdateWithImageCallArguments"
+extension No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoUpdateWithImageCallArguments: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".ProtoUpdateWithImageCallArguments"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "device_uuid"),
     2: .same(proto: "images"),
@@ -563,7 +565,7 @@ extension ProtoUpdateWithImageCallArguments: SwiftProtobuf.Message, SwiftProtobu
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: ProtoUpdateWithImageCallArguments, rhs: ProtoUpdateWithImageCallArguments) -> Bool {
+  static func ==(lhs: No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoUpdateWithImageCallArguments, rhs: No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoUpdateWithImageCallArguments) -> Bool {
     if lhs.deviceUuid != rhs.deviceUuid {return false}
     if lhs.images != rhs.images {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
@@ -571,8 +573,8 @@ extension ProtoUpdateWithImageCallArguments: SwiftProtobuf.Message, SwiftProtobu
   }
 }
 
-extension ProtoUpdateStateChangesStreamArg: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = "ProtoUpdateStateChangesStreamArg"
+extension No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoUpdateStateChangesStreamArg: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".ProtoUpdateStateChangesStreamArg"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "uuid"),
     2: .same(proto: "done"),
@@ -615,7 +617,7 @@ extension ProtoUpdateStateChangesStreamArg: SwiftProtobuf.Message, SwiftProtobuf
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: ProtoUpdateStateChangesStreamArg, rhs: ProtoUpdateStateChangesStreamArg) -> Bool {
+  static func ==(lhs: No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoUpdateStateChangesStreamArg, rhs: No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoUpdateStateChangesStreamArg) -> Bool {
     if lhs.uuid != rhs.uuid {return false}
     if lhs.done != rhs.done {return false}
     if lhs._error != rhs._error {return false}
@@ -625,8 +627,8 @@ extension ProtoUpdateStateChangesStreamArg: SwiftProtobuf.Message, SwiftProtobuf
   }
 }
 
-extension ProtoUpdateStateChanges: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = "ProtoUpdateStateChanges"
+extension No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoUpdateStateChanges: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".ProtoUpdateStateChanges"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "oldState"),
     2: .same(proto: "newState"),
@@ -660,7 +662,7 @@ extension ProtoUpdateStateChanges: SwiftProtobuf.Message, SwiftProtobuf._Message
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: ProtoUpdateStateChanges, rhs: ProtoUpdateStateChanges) -> Bool {
+  static func ==(lhs: No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoUpdateStateChanges, rhs: No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoUpdateStateChanges) -> Bool {
     if lhs.oldState != rhs.oldState {return false}
     if lhs.newState != rhs.newState {return false}
     if lhs.canceled != rhs.canceled {return false}
@@ -669,7 +671,7 @@ extension ProtoUpdateStateChanges: SwiftProtobuf.Message, SwiftProtobuf._Message
   }
 }
 
-extension ProtoUpdateStateChanges.FirmwareUpgradeState: SwiftProtobuf._ProtoNameProviding {
+extension No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoUpdateStateChanges.FirmwareUpgradeState: SwiftProtobuf._ProtoNameProviding {
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     0: .same(proto: "NONE"),
     1: .same(proto: "VALIDATE"),
@@ -681,8 +683,8 @@ extension ProtoUpdateStateChanges.FirmwareUpgradeState: SwiftProtobuf._ProtoName
   ]
 }
 
-extension ProtoProgressUpdateStreamArg: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = "ProtoProgressUpdateStreamArg"
+extension No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoProgressUpdateStreamArg: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".ProtoProgressUpdateStreamArg"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "uuid"),
     2: .same(proto: "done"),
@@ -725,7 +727,7 @@ extension ProtoProgressUpdateStreamArg: SwiftProtobuf.Message, SwiftProtobuf._Me
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: ProtoProgressUpdateStreamArg, rhs: ProtoProgressUpdateStreamArg) -> Bool {
+  static func ==(lhs: No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoProgressUpdateStreamArg, rhs: No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoProgressUpdateStreamArg) -> Bool {
     if lhs.uuid != rhs.uuid {return false}
     if lhs.done != rhs.done {return false}
     if lhs._error != rhs._error {return false}
@@ -735,8 +737,8 @@ extension ProtoProgressUpdateStreamArg: SwiftProtobuf.Message, SwiftProtobuf._Me
   }
 }
 
-extension ProtoProgressUpdate: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = "ProtoProgressUpdate"
+extension No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoProgressUpdate: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".ProtoProgressUpdate"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "bytesSent"),
     2: .same(proto: "imageSize"),
@@ -770,7 +772,7 @@ extension ProtoProgressUpdate: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: ProtoProgressUpdate, rhs: ProtoProgressUpdate) -> Bool {
+  static func ==(lhs: No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoProgressUpdate, rhs: No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoProgressUpdate) -> Bool {
     if lhs.bytesSent != rhs.bytesSent {return false}
     if lhs.imageSize != rhs.imageSize {return false}
     if lhs.timestamp != rhs.timestamp {return false}
@@ -779,8 +781,8 @@ extension ProtoProgressUpdate: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
   }
 }
 
-extension ProtoLogMessageStreamArg: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = "ProtoLogMessageStreamArg"
+extension No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoLogMessageStreamArg: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".ProtoLogMessageStreamArg"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "uuid"),
     2: .same(proto: "done"),
@@ -823,7 +825,7 @@ extension ProtoLogMessageStreamArg: SwiftProtobuf.Message, SwiftProtobuf._Messag
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: ProtoLogMessageStreamArg, rhs: ProtoLogMessageStreamArg) -> Bool {
+  static func ==(lhs: No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoLogMessageStreamArg, rhs: No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoLogMessageStreamArg) -> Bool {
     if lhs.uuid != rhs.uuid {return false}
     if lhs.done != rhs.done {return false}
     if lhs._error != rhs._error {return false}
@@ -833,8 +835,8 @@ extension ProtoLogMessageStreamArg: SwiftProtobuf.Message, SwiftProtobuf._Messag
   }
 }
 
-extension ProtoLogMessage: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = "ProtoLogMessage"
+extension No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoLogMessage: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".ProtoLogMessage"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "message"),
     2: .same(proto: "logCategory"),
@@ -873,7 +875,7 @@ extension ProtoLogMessage: SwiftProtobuf.Message, SwiftProtobuf._MessageImplemen
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: ProtoLogMessage, rhs: ProtoLogMessage) -> Bool {
+  static func ==(lhs: No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoLogMessage, rhs: No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoLogMessage) -> Bool {
     if lhs.message != rhs.message {return false}
     if lhs.logCategory != rhs.logCategory {return false}
     if lhs.logLevel != rhs.logLevel {return false}
@@ -883,7 +885,7 @@ extension ProtoLogMessage: SwiftProtobuf.Message, SwiftProtobuf._MessageImplemen
   }
 }
 
-extension ProtoLogMessage.LogCategory: SwiftProtobuf._ProtoNameProviding {
+extension No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoLogMessage.LogCategory: SwiftProtobuf._ProtoNameProviding {
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     0: .same(proto: "TRANSPORT"),
     1: .same(proto: "CONFIG"),
@@ -898,7 +900,7 @@ extension ProtoLogMessage.LogCategory: SwiftProtobuf._ProtoNameProviding {
   ]
 }
 
-extension ProtoLogMessage.LogLevel: SwiftProtobuf._ProtoNameProviding {
+extension No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoLogMessage.LogLevel: SwiftProtobuf._ProtoNameProviding {
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     0: .same(proto: "DEBUG"),
     1: .same(proto: "VERBOSE"),
@@ -909,8 +911,8 @@ extension ProtoLogMessage.LogLevel: SwiftProtobuf._ProtoNameProviding {
   ]
 }
 
-extension ProtoMessageLiveLogEnabled: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = "ProtoMessageLiveLogEnabled"
+extension No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoMessageLiveLogEnabled: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".ProtoMessageLiveLogEnabled"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "uuid"),
     2: .same(proto: "enabled"),
@@ -939,7 +941,7 @@ extension ProtoMessageLiveLogEnabled: SwiftProtobuf.Message, SwiftProtobuf._Mess
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: ProtoMessageLiveLogEnabled, rhs: ProtoMessageLiveLogEnabled) -> Bool {
+  static func ==(lhs: No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoMessageLiveLogEnabled, rhs: No_Nordicsemi_Android_McumgrFlutter_Gen_ProtoMessageLiveLogEnabled) -> Bool {
     if lhs.uuid != rhs.uuid {return false}
     if lhs.enabled != rhs.enabled {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
