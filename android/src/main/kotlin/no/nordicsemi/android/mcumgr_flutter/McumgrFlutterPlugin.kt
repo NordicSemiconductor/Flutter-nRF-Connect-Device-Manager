@@ -91,6 +91,9 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 					val isPaused = retrieveManager(call).isInProgress
 					result.success(isPaused)
 				}
+				FlutterMethod.getAllLogs -> {
+					result.success(retrieveManager(call).readAllLogs().toByteArray())
+				}
 				FlutterMethod.kill -> {
 					kill(call)
 					result.success(null)

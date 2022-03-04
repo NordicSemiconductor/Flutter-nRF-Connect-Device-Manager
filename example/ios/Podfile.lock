@@ -3,12 +3,6 @@ PODS:
   - flutter_archive (0.0.1):
     - Flutter
     - ZIPFoundation (= 0.9.11)
-  - flutter_blue (0.0.1):
-    - Flutter
-    - flutter_blue/Protos (= 0.0.1)
-  - flutter_blue/Protos (0.0.1):
-    - Flutter
-    - Protobuf (~> 3.11.4)
   - McuManager (0.12.0):
     - SwiftCBOR (= 0.4.3)
   - mcumgr_flutter (0.0.1):
@@ -17,7 +11,6 @@ PODS:
     - SwiftProtobuf
   - path_provider (0.0.1):
     - Flutter
-  - Protobuf (3.11.4)
   - SwiftCBOR (0.4.3)
   - SwiftProtobuf (1.18.0)
   - ZIPFoundation (0.9.11)
@@ -25,14 +18,12 @@ PODS:
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_archive (from `.symlinks/plugins/flutter_archive/ios`)
-  - flutter_blue (from `.symlinks/plugins/flutter_blue/ios`)
   - McuManager (from `https://github.com/dinesharjani/mcumgr-ios.git`, branch `always-upload-image-zero-fix`)
   - mcumgr_flutter (from `.symlinks/plugins/mcumgr_flutter/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
 
 SPEC REPOS:
   trunk:
-    - Protobuf
     - SwiftCBOR
     - SwiftProtobuf
     - ZIPFoundation
@@ -42,8 +33,6 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_archive:
     :path: ".symlinks/plugins/flutter_archive/ios"
-  flutter_blue:
-    :path: ".symlinks/plugins/flutter_blue/ios"
   McuManager:
     :branch: always-upload-image-zero-fix
     :git: https://github.com/dinesharjani/mcumgr-ios.git
@@ -60,11 +49,9 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
   flutter_archive: e7010a2779b4ff1483b00386bfb4e847f5836182
-  flutter_blue: eeb381dc4727a0954dede73515f683865494b370
   McuManager: 04fbec94566eaaf5508175246b1d5b0c5f1b83dd
   mcumgr_flutter: b510e6767929b8a75d52644a0384001cf1405c65
   path_provider: d1e9807085df1f9cc9318206cd649dc0b76be3de
-  Protobuf: 176220c526ad8bd09ab1fb40a978eac3fef665f7
   SwiftCBOR: c7d740966575e0fd5d971466de2b6776db3f10c3
   SwiftProtobuf: c3c12645230d9b09c72267e0de89468c5543bd86
   ZIPFoundation: b1f0de4eed33e74a676f76e12559ab6b75990197

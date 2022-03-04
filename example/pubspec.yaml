@@ -10,7 +10,7 @@ environment:
 
 dependencies:
   platform: ^3.1.0
-  flutter_blue: ^0.8.0
+  # flutter_blue: ^0.8.0
   path: ^1.8.0
   flutter_archive: ^4.0.1
   path_provider: ^2.0.5
@@ -20,15 +20,8 @@ dependencies:
     sdk: flutter
 
   mcumgr_flutter:
-    # When depending on this package from a real application you should use:
-    #   mcumgr_flutter: ^x.y.z
-    # See https://dart.dev/tools/pub/dependencies#version-constraints
-    # The example app is bundled with the plugin so we use a path dependency on
-    # the parent directory to use the current plugin's version.
     path: ../
 
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.0
 
 dev_dependencies:

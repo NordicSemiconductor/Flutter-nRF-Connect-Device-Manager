@@ -7,6 +7,8 @@
 // For information on using the generated types, please see the documentation:
 //   https://github.com/apple/swift-protobuf/
 
+/// package no.nordicsemi.android.mcumgr_flutter.gen;
+
 import Foundation
 import SwiftProtobuf
 

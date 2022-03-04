@@ -8,6 +8,7 @@ import io.runtime.mcumgr.dfu.FirmwareUpgradeManager
 import io.runtime.mcumgr.exception.McuMgrException
 import no.nordicsemi.android.mcumgr_flutter.ext.toProto
 import no.nordicsemi.android.mcumgr_flutter.gen.FlutterMcu
+import no.nordicsemi.android.mcumgr_flutter.logging.LoggableMcuMgrBleTransport
 import no.nordicsemi.android.mcumgr_flutter.utils.StreamHandler
 
 class UpdateManager(
@@ -23,6 +24,9 @@ class UpdateManager(
 		transport.setLoggingEnabled(true)
 		address = transport.bluetoothDevice.address
 		manager = FirmwareUpgradeManager(transport, this)
+		manager.setMemoryAlignment(4)
+		manager.setEstimatedSwapTime(5000)
+		manager.setWindowUploadCapacity(3)
 		manager.setMode(FirmwareUpgradeManager.Mode.CONFIRM_ONLY)
 	}
 
@@ -48,6 +52,10 @@ class UpdateManager(
 	var isPaused = manager.isPaused
 	/**	True if the firmware upgrade is in progress, false otherwise. */
 	var isInProgress = manager.isInProgress
+	/** Read all logs */
+	fun readAllLogs() : FlutterMcu.ProtoLogMessageStreamArg {
+		return (manager.transporter as? LoggableMcuMgrBleTransport)!!.readLogs()
+	}
 
 	override fun onUpgradeStarted(controller: FirmwareUpgradeController?) {
 	}

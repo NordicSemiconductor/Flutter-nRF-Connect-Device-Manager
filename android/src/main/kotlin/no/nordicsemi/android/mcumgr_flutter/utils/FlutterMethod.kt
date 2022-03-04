@@ -12,6 +12,7 @@ enum class FlutterMethod {
 	isPaused,
 	isInProgress,
 	cancel,
+	getAllLogs,
 	kill;
 
 	companion object {
