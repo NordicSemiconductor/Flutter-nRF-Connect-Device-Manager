@@ -24,6 +24,9 @@ class UpdateManager(
 		transport.setLoggingEnabled(true)
 		address = transport.bluetoothDevice.address
 		manager = FirmwareUpgradeManager(transport, this)
+		manager.setMemoryAlignment(4)
+		manager.setEstimatedSwapTime(5000)
+		manager.setWindowUploadCapacity(3)
 		manager.setMode(FirmwareUpgradeManager.Mode.CONFIRM_ONLY)
 	}
 
@@ -50,8 +53,8 @@ class UpdateManager(
 	/**	True if the firmware upgrade is in progress, false otherwise. */
 	var isInProgress = manager.isInProgress
 	/** Read all logs */
-	fun readAllLogs() {
-		(manager.transporter as? LoggableMcuMgrBleTransport)?.readLogs()
+	fun readAllLogs() : FlutterMcu.ProtoLogMessageStreamArg {
+		return (manager.transporter as? LoggableMcuMgrBleTransport)!!.readLogs()
 	}
 
 	override fun onUpgradeStarted(controller: FirmwareUpgradeController?) {

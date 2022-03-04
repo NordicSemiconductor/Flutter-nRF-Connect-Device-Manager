@@ -45,31 +45,31 @@ const ProtoUpdateWithImageCallArguments$json = const {
   '1': 'ProtoUpdateWithImageCallArguments',
   '2': const [
     const {'1': 'device_uuid', '3': 1, '4': 1, '5': 9, '10': 'deviceUuid'},
-    const {'1': 'images', '3': 2, '4': 3, '5': 11, '6': '.no.nordicsemi.android.mcumgr_flutter.gen.Pair', '10': 'images'},
+    const {'1': 'images', '3': 2, '4': 3, '5': 11, '6': '.Pair', '10': 'images'},
   ],
 };
 
 /// Descriptor for `ProtoUpdateWithImageCallArguments`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List protoUpdateWithImageCallArgumentsDescriptor = $convert.base64Decode('CiFQcm90b1VwZGF0ZVdpdGhJbWFnZUNhbGxBcmd1bWVudHMSHwoLZGV2aWNlX3V1aWQYASABKAlSCmRldmljZVV1aWQSRgoGaW1hZ2VzGAIgAygLMi4ubm8ubm9yZGljc2VtaS5hbmRyb2lkLm1jdW1ncl9mbHV0dGVyLmdlbi5QYWlyUgZpbWFnZXM=');
+final $typed_data.Uint8List protoUpdateWithImageCallArgumentsDescriptor = $convert.base64Decode('CiFQcm90b1VwZGF0ZVdpdGhJbWFnZUNhbGxBcmd1bWVudHMSHwoLZGV2aWNlX3V1aWQYASABKAlSCmRldmljZVV1aWQSHQoGaW1hZ2VzGAIgAygLMgUuUGFpclIGaW1hZ2Vz');
 @$core.Deprecated('Use protoUpdateStateChangesStreamArgDescriptor instead')
 const ProtoUpdateStateChangesStreamArg$json = const {
   '1': 'ProtoUpdateStateChangesStreamArg',
   '2': const [
     const {'1': 'uuid', '3': 1, '4': 1, '5': 9, '10': 'uuid'},
     const {'1': 'done', '3': 2, '4': 1, '5': 8, '10': 'done'},
-    const {'1': 'error', '3': 3, '4': 1, '5': 11, '6': '.no.nordicsemi.android.mcumgr_flutter.gen.ProtoError', '10': 'error'},
-    const {'1': 'updateStateChanges', '3': 4, '4': 1, '5': 11, '6': '.no.nordicsemi.android.mcumgr_flutter.gen.ProtoUpdateStateChanges', '10': 'updateStateChanges'},
+    const {'1': 'error', '3': 3, '4': 1, '5': 11, '6': '.ProtoError', '10': 'error'},
+    const {'1': 'updateStateChanges', '3': 4, '4': 1, '5': 11, '6': '.ProtoUpdateStateChanges', '10': 'updateStateChanges'},
   ],
 };
 
 /// Descriptor for `ProtoUpdateStateChangesStreamArg`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List protoUpdateStateChangesStreamArgDescriptor = $convert.base64Decode('CiBQcm90b1VwZGF0ZVN0YXRlQ2hhbmdlc1N0cmVhbUFyZxISCgR1dWlkGAEgASgJUgR1dWlkEhIKBGRvbmUYAiABKAhSBGRvbmUSSgoFZXJyb3IYAyABKAsyNC5uby5ub3JkaWNzZW1pLmFuZHJvaWQubWN1bWdyX2ZsdXR0ZXIuZ2VuLlByb3RvRXJyb3JSBWVycm9yEnEKEnVwZGF0ZVN0YXRlQ2hhbmdlcxgEIAEoCzJBLm5vLm5vcmRpY3NlbWkuYW5kcm9pZC5tY3VtZ3JfZmx1dHRlci5nZW4uUHJvdG9VcGRhdGVTdGF0ZUNoYW5nZXNSEnVwZGF0ZVN0YXRlQ2hhbmdlcw==');
+final $typed_data.Uint8List protoUpdateStateChangesStreamArgDescriptor = $convert.base64Decode('CiBQcm90b1VwZGF0ZVN0YXRlQ2hhbmdlc1N0cmVhbUFyZxISCgR1dWlkGAEgASgJUgR1dWlkEhIKBGRvbmUYAiABKAhSBGRvbmUSIQoFZXJyb3IYAyABKAsyCy5Qcm90b0Vycm9yUgVlcnJvchJIChJ1cGRhdGVTdGF0ZUNoYW5nZXMYBCABKAsyGC5Qcm90b1VwZGF0ZVN0YXRlQ2hhbmdlc1ISdXBkYXRlU3RhdGVDaGFuZ2Vz');
 @$core.Deprecated('Use protoUpdateStateChangesDescriptor instead')
 const ProtoUpdateStateChanges$json = const {
   '1': 'ProtoUpdateStateChanges',
   '2': const [
-    const {'1': 'oldState', '3': 1, '4': 1, '5': 14, '6': '.no.nordicsemi.android.mcumgr_flutter.gen.ProtoUpdateStateChanges.FirmwareUpgradeState', '10': 'oldState'},
-    const {'1': 'newState', '3': 2, '4': 1, '5': 14, '6': '.no.nordicsemi.android.mcumgr_flutter.gen.ProtoUpdateStateChanges.FirmwareUpgradeState', '10': 'newState'},
+    const {'1': 'oldState', '3': 1, '4': 1, '5': 14, '6': '.ProtoUpdateStateChanges.FirmwareUpgradeState', '10': 'oldState'},
+    const {'1': 'newState', '3': 2, '4': 1, '5': 14, '6': '.ProtoUpdateStateChanges.FirmwareUpgradeState', '10': 'newState'},
     const {'1': 'canceled', '3': 3, '4': 1, '5': 8, '10': 'canceled'},
   ],
   '4': const [ProtoUpdateStateChanges_FirmwareUpgradeState$json],
@@ -90,20 +90,20 @@ const ProtoUpdateStateChanges_FirmwareUpgradeState$json = const {
 };
 
 /// Descriptor for `ProtoUpdateStateChanges`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List protoUpdateStateChangesDescriptor = $convert.base64Decode('ChdQcm90b1VwZGF0ZVN0YXRlQ2hhbmdlcxJyCghvbGRTdGF0ZRgBIAEoDjJWLm5vLm5vcmRpY3NlbWkuYW5kcm9pZC5tY3VtZ3JfZmx1dHRlci5nZW4uUHJvdG9VcGRhdGVTdGF0ZUNoYW5nZXMuRmlybXdhcmVVcGdyYWRlU3RhdGVSCG9sZFN0YXRlEnIKCG5ld1N0YXRlGAIgASgOMlYubm8ubm9yZGljc2VtaS5hbmRyb2lkLm1jdW1ncl9mbHV0dGVyLmdlbi5Qcm90b1VwZGF0ZVN0YXRlQ2hhbmdlcy5GaXJtd2FyZVVwZ3JhZGVTdGF0ZVIIbmV3U3RhdGUSGgoIY2FuY2VsZWQYAyABKAhSCGNhbmNlbGVkImkKFEZpcm13YXJlVXBncmFkZVN0YXRlEggKBE5PTkUQABIMCghWQUxJREFURRABEgoKBlVQTE9BRBACEggKBFRFU1QQAxIJCgVSRVNFVBAEEgsKB0NPTkZJUk0QBRILCgdTVUNDRVNTEAY=');
+final $typed_data.Uint8List protoUpdateStateChangesDescriptor = $convert.base64Decode('ChdQcm90b1VwZGF0ZVN0YXRlQ2hhbmdlcxJJCghvbGRTdGF0ZRgBIAEoDjItLlByb3RvVXBkYXRlU3RhdGVDaGFuZ2VzLkZpcm13YXJlVXBncmFkZVN0YXRlUghvbGRTdGF0ZRJJCghuZXdTdGF0ZRgCIAEoDjItLlByb3RvVXBkYXRlU3RhdGVDaGFuZ2VzLkZpcm13YXJlVXBncmFkZVN0YXRlUghuZXdTdGF0ZRIaCghjYW5jZWxlZBgDIAEoCFIIY2FuY2VsZWQiaQoURmlybXdhcmVVcGdyYWRlU3RhdGUSCAoETk9ORRAAEgwKCFZBTElEQVRFEAESCgoGVVBMT0FEEAISCAoEVEVTVBADEgkKBVJFU0VUEAQSCwoHQ09ORklSTRAFEgsKB1NVQ0NFU1MQBg==');
 @$core.Deprecated('Use protoProgressUpdateStreamArgDescriptor instead')
 const ProtoProgressUpdateStreamArg$json = const {
   '1': 'ProtoProgressUpdateStreamArg',
   '2': const [
     const {'1': 'uuid', '3': 1, '4': 1, '5': 9, '10': 'uuid'},
     const {'1': 'done', '3': 2, '4': 1, '5': 8, '10': 'done'},
-    const {'1': 'error', '3': 3, '4': 1, '5': 11, '6': '.no.nordicsemi.android.mcumgr_flutter.gen.ProtoError', '10': 'error'},
-    const {'1': 'progressUpdate', '3': 4, '4': 1, '5': 11, '6': '.no.nordicsemi.android.mcumgr_flutter.gen.ProtoProgressUpdate', '10': 'progressUpdate'},
+    const {'1': 'error', '3': 3, '4': 1, '5': 11, '6': '.ProtoError', '10': 'error'},
+    const {'1': 'progressUpdate', '3': 4, '4': 1, '5': 11, '6': '.ProtoProgressUpdate', '10': 'progressUpdate'},
   ],
 };
 
 /// Descriptor for `ProtoProgressUpdateStreamArg`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List protoProgressUpdateStreamArgDescriptor = $convert.base64Decode('ChxQcm90b1Byb2dyZXNzVXBkYXRlU3RyZWFtQXJnEhIKBHV1aWQYASABKAlSBHV1aWQSEgoEZG9uZRgCIAEoCFIEZG9uZRJKCgVlcnJvchgDIAEoCzI0Lm5vLm5vcmRpY3NlbWkuYW5kcm9pZC5tY3VtZ3JfZmx1dHRlci5nZW4uUHJvdG9FcnJvclIFZXJyb3ISZQoOcHJvZ3Jlc3NVcGRhdGUYBCABKAsyPS5uby5ub3JkaWNzZW1pLmFuZHJvaWQubWN1bWdyX2ZsdXR0ZXIuZ2VuLlByb3RvUHJvZ3Jlc3NVcGRhdGVSDnByb2dyZXNzVXBkYXRl');
+final $typed_data.Uint8List protoProgressUpdateStreamArgDescriptor = $convert.base64Decode('ChxQcm90b1Byb2dyZXNzVXBkYXRlU3RyZWFtQXJnEhIKBHV1aWQYASABKAlSBHV1aWQSEgoEZG9uZRgCIAEoCFIEZG9uZRIhCgVlcnJvchgDIAEoCzILLlByb3RvRXJyb3JSBWVycm9yEjwKDnByb2dyZXNzVXBkYXRlGAQgASgLMhQuUHJvdG9Qcm9ncmVzc1VwZGF0ZVIOcHJvZ3Jlc3NVcGRhdGU=');
 @$core.Deprecated('Use protoProgressUpdateDescriptor instead')
 const ProtoProgressUpdate$json = const {
   '1': 'ProtoProgressUpdate',
@@ -122,20 +122,20 @@ const ProtoLogMessageStreamArg$json = const {
   '2': const [
     const {'1': 'uuid', '3': 1, '4': 1, '5': 9, '10': 'uuid'},
     const {'1': 'done', '3': 2, '4': 1, '5': 8, '10': 'done'},
-    const {'1': 'error', '3': 3, '4': 1, '5': 11, '6': '.no.nordicsemi.android.mcumgr_flutter.gen.ProtoError', '10': 'error'},
-    const {'1': 'protoLogMessage', '3': 4, '4': 3, '5': 11, '6': '.no.nordicsemi.android.mcumgr_flutter.gen.ProtoLogMessage', '10': 'protoLogMessage'},
+    const {'1': 'error', '3': 3, '4': 1, '5': 11, '6': '.ProtoError', '10': 'error'},
+    const {'1': 'protoLogMessage', '3': 4, '4': 3, '5': 11, '6': '.ProtoLogMessage', '10': 'protoLogMessage'},
   ],
 };
 
 /// Descriptor for `ProtoLogMessageStreamArg`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List protoLogMessageStreamArgDescriptor = $convert.base64Decode('ChhQcm90b0xvZ01lc3NhZ2VTdHJlYW1BcmcSEgoEdXVpZBgBIAEoCVIEdXVpZBISCgRkb25lGAIgASgIUgRkb25lEkoKBWVycm9yGAMgASgLMjQubm8ubm9yZGljc2VtaS5hbmRyb2lkLm1jdW1ncl9mbHV0dGVyLmdlbi5Qcm90b0Vycm9yUgVlcnJvchJjCg9wcm90b0xvZ01lc3NhZ2UYBCADKAsyOS5uby5ub3JkaWNzZW1pLmFuZHJvaWQubWN1bWdyX2ZsdXR0ZXIuZ2VuLlByb3RvTG9nTWVzc2FnZVIPcHJvdG9Mb2dNZXNzYWdl');
+final $typed_data.Uint8List protoLogMessageStreamArgDescriptor = $convert.base64Decode('ChhQcm90b0xvZ01lc3NhZ2VTdHJlYW1BcmcSEgoEdXVpZBgBIAEoCVIEdXVpZBISCgRkb25lGAIgASgIUgRkb25lEiEKBWVycm9yGAMgASgLMgsuUHJvdG9FcnJvclIFZXJyb3ISOgoPcHJvdG9Mb2dNZXNzYWdlGAQgAygLMhAuUHJvdG9Mb2dNZXNzYWdlUg9wcm90b0xvZ01lc3NhZ2U=');
 @$core.Deprecated('Use protoLogMessageDescriptor instead')
 const ProtoLogMessage$json = const {
   '1': 'ProtoLogMessage',
   '2': const [
     const {'1': 'message', '3': 1, '4': 1, '5': 9, '10': 'message'},
-    const {'1': 'logCategory', '3': 2, '4': 1, '5': 14, '6': '.no.nordicsemi.android.mcumgr_flutter.gen.ProtoLogMessage.LogCategory', '10': 'logCategory'},
-    const {'1': 'logLevel', '3': 3, '4': 1, '5': 14, '6': '.no.nordicsemi.android.mcumgr_flutter.gen.ProtoLogMessage.LogLevel', '10': 'logLevel'},
+    const {'1': 'logCategory', '3': 2, '4': 1, '5': 14, '6': '.ProtoLogMessage.LogCategory', '10': 'logCategory'},
+    const {'1': 'logLevel', '3': 3, '4': 1, '5': 14, '6': '.ProtoLogMessage.LogLevel', '10': 'logLevel'},
     const {'1': 'logDateTime', '3': 4, '4': 1, '5': 3, '10': 'logDateTime'},
   ],
   '4': const [ProtoLogMessage_LogCategory$json, ProtoLogMessage_LogLevel$json],
@@ -172,7 +172,7 @@ const ProtoLogMessage_LogLevel$json = const {
 };
 
 /// Descriptor for `ProtoLogMessage`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List protoLogMessageDescriptor = $convert.base64Decode('Cg9Qcm90b0xvZ01lc3NhZ2USGAoHbWVzc2FnZRgBIAEoCVIHbWVzc2FnZRJnCgtsb2dDYXRlZ29yeRgCIAEoDjJFLm5vLm5vcmRpY3NlbWkuYW5kcm9pZC5tY3VtZ3JfZmx1dHRlci5nZW4uUHJvdG9Mb2dNZXNzYWdlLkxvZ0NhdGVnb3J5Ugtsb2dDYXRlZ29yeRJeCghsb2dMZXZlbBgDIAEoDjJCLm5vLm5vcmRpY3NlbWkuYW5kcm9pZC5tY3VtZ3JfZmx1dHRlci5nZW4uUHJvdG9Mb2dNZXNzYWdlLkxvZ0xldmVsUghsb2dMZXZlbBIgCgtsb2dEYXRlVGltZRgEIAEoA1ILbG9nRGF0ZVRpbWUifgoLTG9nQ2F0ZWdvcnkSDQoJVFJBTlNQT1JUEAASCgoGQ09ORklHEAESCQoFQ1JBU0gQAhILCgdERUZBVUxUEAMSBgoCRlMQBBIJCgVJTUFHRRAFEgcKA0xPRxAGEgwKCFJVTl9URVNUEAcSCQoFU1RBVFMQCBIHCgNERlUQCSJVCghMb2dMZXZlbBIJCgVERUJVRxAAEgsKB1ZFUkJPU0UQARIICgRJTkZPEAISDwoLQVBQTElDQVRJT04QAxILCgdXQVJOSU5HEAQSCQoFRVJST1IQBQ==');
+final $typed_data.Uint8List protoLogMessageDescriptor = $convert.base64Decode('Cg9Qcm90b0xvZ01lc3NhZ2USGAoHbWVzc2FnZRgBIAEoCVIHbWVzc2FnZRI+Cgtsb2dDYXRlZ29yeRgCIAEoDjIcLlByb3RvTG9nTWVzc2FnZS5Mb2dDYXRlZ29yeVILbG9nQ2F0ZWdvcnkSNQoIbG9nTGV2ZWwYAyABKA4yGS5Qcm90b0xvZ01lc3NhZ2UuTG9nTGV2ZWxSCGxvZ0xldmVsEiAKC2xvZ0RhdGVUaW1lGAQgASgDUgtsb2dEYXRlVGltZSJ+CgtMb2dDYXRlZ29yeRINCglUUkFOU1BPUlQQABIKCgZDT05GSUcQARIJCgVDUkFTSBACEgsKB0RFRkFVTFQQAxIGCgJGUxAEEgkKBUlNQUdFEAUSBwoDTE9HEAYSDAoIUlVOX1RFU1QQBxIJCgVTVEFUUxAIEgcKA0RGVRAJIlUKCExvZ0xldmVsEgkKBURFQlVHEAASCwoHVkVSQk9TRRABEggKBElORk8QAhIPCgtBUFBMSUNBVElPThADEgsKB1dBUk5JTkcQBBIJCgVFUlJPUhAF');
 @$core.Deprecated('Use protoMessageLiveLogEnabledDescriptor instead')
 const ProtoMessageLiveLogEnabled$json = const {
   '1': 'ProtoMessageLiveLogEnabled',

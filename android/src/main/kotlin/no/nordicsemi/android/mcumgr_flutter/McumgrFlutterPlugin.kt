@@ -92,7 +92,7 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 					result.success(isPaused)
 				}
 				FlutterMethod.getAllLogs -> {
-					retrieveManager(call).readAllLogs()
+					result.success(retrieveManager(call).readAllLogs().toByteArray())
 				}
 				FlutterMethod.kill -> {
 					kill(call)

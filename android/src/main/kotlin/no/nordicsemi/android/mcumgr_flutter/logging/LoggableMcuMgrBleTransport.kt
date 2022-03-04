@@ -4,7 +4,6 @@ import android.bluetooth.BluetoothDevice
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
-import android.renderscript.RenderScript
 import io.flutter.Log
 import io.runtime.mcumgr.ble.McuMgrBleTransport
 import no.nordicsemi.android.mcumgr_flutter.gen.FlutterMcu
@@ -18,6 +17,10 @@ class LoggableMcuMgrBleTransport(
 	private val handler: Handler = Handler(Looper.getMainLooper())
 
 	private var allMessages: MutableList<FlutterMcu.ProtoLogMessage> = mutableListOf()
+
+	override fun getMinLogPriority(): Int {
+		return android.util.Log.VERBOSE
+	}
 
 	override fun log(priority: Int, message: String) {
 		Log.d("McuManager", message)
@@ -46,15 +49,14 @@ class LoggableMcuMgrBleTransport(
 		allMessages.add(log)
 	}
 
-	fun readLogs() : FlutterMcu.ProtoLogMessageStreamArg {
-		val arg = FlutterMcu.ProtoLogMessageStreamArg
+	fun readLogs(): FlutterMcu.ProtoLogMessageStreamArg {
+
+//		handler.post { logStreamHandler.sink?.success(arg.toByteArray()) }
+
+		return FlutterMcu.ProtoLogMessageStreamArg
 			.newBuilder()
 			.setUuid(bluetoothDevice.address)
 			.addAllProtoLogMessage(allMessages)
 			.build()
-
-		handler.post { logStreamHandler.sink?.success(arg.toByteArray()) }
-
-		return arg
 	}
 }

@@ -20,7 +20,7 @@ ANDR_OUT_DIR=lite:android/src/main/kotlin/
 # protoc --dart_out=./ lib/proto/flutter_mcu.proto # --experimental_allow_proto3_optional
 protoc --swift_out=ios/Classes/ \
     --dart_out=./ \
-    --java_out=$ANDR_OUT_DIR \
-    --kotlin_out=$ANDR_OUT_DIR \
     lib/proto/flutter_mcu.proto # --experimental_allow_proto3_optional
+    # --java_out=$ANDR_OUT_DIR \
+    # --kotlin_out=$ANDR_OUT_DIR \
 # protoc --java_out=lite:android/src/main/kotlin/no/nordicsemi/android/mcumgr_flutter/gen/ lib/proto/flutter_mcu.proto # --experimental_allow_proto3_optional
