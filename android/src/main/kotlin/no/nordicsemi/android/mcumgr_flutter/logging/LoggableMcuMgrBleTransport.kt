@@ -6,6 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import io.flutter.Log
 import io.runtime.mcumgr.ble.McuMgrBleTransport
+import no.nordicsemi.android.mcumgr_flutter.BuildConfig
 import no.nordicsemi.android.mcumgr_flutter.gen.FlutterMcu
 import no.nordicsemi.android.mcumgr_flutter.utils.StreamHandler
 
@@ -19,7 +20,7 @@ class LoggableMcuMgrBleTransport(
 	private var allMessages: MutableList<FlutterMcu.ProtoLogMessage> = mutableListOf()
 
 	override fun log(priority: Int, message: String) {
-		if (Build.DEBUG)
+		if (BuildConfig.DEBUG)
 			Log.d("McuManager", message)
 
 		// Supported since mcumgr-android 0.12.0:
