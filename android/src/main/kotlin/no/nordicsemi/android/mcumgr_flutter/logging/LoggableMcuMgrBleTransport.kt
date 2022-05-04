@@ -18,24 +18,21 @@ class LoggableMcuMgrBleTransport(
 
 	private var allMessages: MutableList<FlutterMcu.ProtoLogMessage> = mutableListOf()
 
-	override fun getMinLogPriority(): Int {
-		return android.util.Log.VERBOSE
-	}
-
 	override fun log(priority: Int, message: String) {
-		Log.d("McuManager", message)
+		if (Build.DEBUG)
+			Log.d("McuManager", message)
 
 		// Supported since mcumgr-android 0.12.0:
 		val applicationLevel = message.startsWith("Sending") || message.startsWith("Received")
 
 		fun Int.toLogLevel(): FlutterMcu.ProtoLogMessage.LogLevel =
-			when (this) {
+			if (applicationLevel) FlutterMcu.ProtoLogMessage.LogLevel.APPLICATION
+			else when (this) {
 				android.util.Log.VERBOSE -> FlutterMcu.ProtoLogMessage.LogLevel.VERBOSE
 				android.util.Log.DEBUG -> FlutterMcu.ProtoLogMessage.LogLevel.DEBUG
 				android.util.Log.INFO -> FlutterMcu.ProtoLogMessage.LogLevel.INFO
 				android.util.Log.WARN -> FlutterMcu.ProtoLogMessage.LogLevel.WARNING
-				else -> if (applicationLevel) FlutterMcu.ProtoLogMessage.LogLevel.APPLICATION
-				else FlutterMcu.ProtoLogMessage.LogLevel.ERROR
+				else -> FlutterMcu.ProtoLogMessage.LogLevel.ERROR
 			}
 
 		val log = FlutterMcu.ProtoLogMessage

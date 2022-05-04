@@ -2,7 +2,7 @@ group 'no.nordicsemi.android.mcumgr_flutter'
 version '1.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = '1.6.10'
+    ext.kotlin_version = '1.6.21'
     repositories {
         google()
         mavenCentral()
@@ -40,6 +40,6 @@ android {
 }
 
 dependencies {
-    implementation 'no.nordicsemi.android:mcumgr-ble:1.1-beta01'
+    implementation 'no.nordicsemi.android:mcumgr-ble:1.2.0'
     implementation  'com.google.protobuf:protobuf-kotlin-lite:3.19.4'
 }
