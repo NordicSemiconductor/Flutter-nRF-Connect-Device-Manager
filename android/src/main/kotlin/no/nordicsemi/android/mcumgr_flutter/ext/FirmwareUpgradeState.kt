@@ -12,3 +12,8 @@ fun State.toProto(): Proto = when (this) {
 	RESET    -> Proto.RESET
 	CONFIRM  -> Proto.CONFIRM
 }
+
+fun State.shouldLog(): Boolean = when (this) {
+	UPLOAD   -> false
+	else     -> true
+}
