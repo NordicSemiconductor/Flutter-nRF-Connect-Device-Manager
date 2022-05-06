@@ -17,12 +17,11 @@ class UpdateManager(
 		private val updateProgressStreamHandler: StreamHandler,
 		private val logStreamHandler: StreamHandler
 ): FirmwareUpgradeCallback {
-	private val manager: FirmwareUpgradeManager
-	private val address: String
+	private val manager: FirmwareUpgradeManager = FirmwareUpgradeManager(transport, this)
+	private val address: String = transport.bluetoothDevice.address
+	private val transport: McuMgrBleTransport = transport as LoggableMcuMgrBleTransport
 
 	init {
-		address = transport.bluetoothDevice.address
-		manager = FirmwareUpgradeManager(transport, this)
 		manager.setMemoryAlignment(4)
 		manager.setEstimatedSwapTime(5000)
 		manager.setWindowUploadCapacity(3)
@@ -71,7 +70,8 @@ class UpdateManager(
 	}
 
 	override fun onStateChanged(prevState: FirmwareUpgradeManager.State?, newState: FirmwareUpgradeManager.State?) {
-		transport.setLoggingEnabled(newState!!.shouldLog())
+		// TODO: check if this is the right way to enable logging
+		// transport.setLoggingEnabled(newState!!.shouldLog())
 
 		val changes = FlutterMcu.ProtoUpdateStateChanges
 				.newBuilder()
