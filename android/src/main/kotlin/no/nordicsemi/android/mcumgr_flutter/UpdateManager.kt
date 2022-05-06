@@ -17,13 +17,11 @@ class UpdateManager(
 		private val updateProgressStreamHandler: StreamHandler,
 		private val logStreamHandler: StreamHandler
 ): FirmwareUpgradeCallback {
-	private val manager: FirmwareUpgradeManager
-	private val address: String
+	private val manager: FirmwareUpgradeManager = FirmwareUpgradeManager(transport, this)
+	private val address: String = transport.bluetoothDevice.address
+	private val transport: McuMgrBleTransport = transport as LoggableMcuMgrBleTransport
 
 	init {
-		transport.setLoggingEnabled(true)
-		address = transport.bluetoothDevice.address
-		manager = FirmwareUpgradeManager(transport, this)
 		manager.setMemoryAlignment(4)
 		manager.setEstimatedSwapTime(5000)
 		manager.setWindowUploadCapacity(3)
@@ -43,9 +41,19 @@ class UpdateManager(
 	 */
 	fun start(images: List<Pair<Int, ByteArray>>) = manager.start(images, false)
 	/** Pause the firmware upgrade. */
-	fun pause() = manager.pause()
+	fun pause() {
+		if (!isPaused) {
+			transport.setLoggingEnabled(true)
+			manager.pause()
+		}
+	}
 	/** Resume a paused firmware upgrade. */
-	fun resume() = manager.resume()
+	fun resume() {
+		if (isPaused) {
+			manager.resume()
+			transport.setLoggingEnabled(false)
+		}
+	}
 	/** Cancel the transfer. */
 	fun cancel() = manager.cancel()
 	/** True if the firmware upgrade is paused, false otherwise. */
@@ -58,9 +66,13 @@ class UpdateManager(
 	}
 
 	override fun onUpgradeStarted(controller: FirmwareUpgradeController?) {
+		transport.setLoggingEnabled(true)
 	}
 
 	override fun onStateChanged(prevState: FirmwareUpgradeManager.State?, newState: FirmwareUpgradeManager.State?) {
+		// TODO: check if this is the right way to enable logging
+		// transport.setLoggingEnabled(newState!!.shouldLog())
+
 		val changes = FlutterMcu.ProtoUpdateStateChanges
 				.newBuilder()
 				.setOldState(prevState!!.toProto())
@@ -75,6 +87,8 @@ class UpdateManager(
 	}
 
 	override fun onUpgradeCompleted() {
+		transport.setLoggingEnabled(true)
+
 		val changes = FlutterMcu.ProtoUpdateStateChanges
 				.newBuilder()
 				.setNewState(FlutterMcu.ProtoUpdateStateChanges.FirmwareUpgradeState.SUCCESS)
@@ -109,6 +123,8 @@ class UpdateManager(
 	}
 
 	override fun onUpgradeFailed(state: FirmwareUpgradeManager.State?, error: McuMgrException?) {
+		transport.setLoggingEnabled(true)
+
 		val changes = FlutterMcu.ProtoUpdateStateChanges
 				.newBuilder()
 				.setOldState(state!!.toProto())
@@ -128,6 +144,8 @@ class UpdateManager(
 	}
 
 	override fun onUpgradeCanceled(state: FirmwareUpgradeManager.State?) {
+		transport.setLoggingEnabled(true)
+
 		val changes = FlutterMcu.ProtoUpdateStateChanges
 				.newBuilder()
 				.setCanceled(true)
