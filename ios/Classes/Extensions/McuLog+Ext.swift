@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import McuManager
+import iOSMcuManagerLibrary
 
 extension McuMgrLogLevel {
     func toProto() -> ProtoLogMessage.LogLevel {

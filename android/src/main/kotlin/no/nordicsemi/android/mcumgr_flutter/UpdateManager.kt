@@ -6,6 +6,7 @@ import io.runtime.mcumgr.dfu.FirmwareUpgradeCallback
 import io.runtime.mcumgr.dfu.FirmwareUpgradeController
 import io.runtime.mcumgr.dfu.FirmwareUpgradeManager
 import io.runtime.mcumgr.exception.McuMgrException
+import no.nordicsemi.android.mcumgr_flutter.ext.shouldLog
 import no.nordicsemi.android.mcumgr_flutter.ext.toProto
 import no.nordicsemi.android.mcumgr_flutter.gen.FlutterMcu
 import no.nordicsemi.android.mcumgr_flutter.logging.LoggableMcuMgrBleTransport
@@ -70,8 +71,7 @@ class UpdateManager(
 	}
 
 	override fun onStateChanged(prevState: FirmwareUpgradeManager.State?, newState: FirmwareUpgradeManager.State?) {
-		// TODO: check if this is the right way to enable logging
-		// transport.setLoggingEnabled(newState!!.shouldLog())
+		 transport.setLoggingEnabled(newState!!.shouldLog())
 
 		val changes = FlutterMcu.ProtoUpdateStateChanges
 				.newBuilder()

@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import McuManager
+import iOSMcuManagerLibrary
 import CoreBluetooth
 
 protocol UpdateManagerDelegate: AnyObject {

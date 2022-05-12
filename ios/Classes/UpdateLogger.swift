@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import McuManager
+import iOSMcuManagerLibrary
 
 class UpdateLogger {
     let logStreamHandler: StreamHandler
