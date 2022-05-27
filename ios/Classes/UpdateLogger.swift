@@ -95,6 +95,10 @@ extension UpdateLogger {
 
 extension UpdateLogger: McuMgrLogDelegate {
     func log(_ msg: String, ofCategory category: McuMgrLogCategory, atLevel level: McuMgrLogLevel) {
+        if case .verbose = level {
+            return
+        }
+
         let log = ProtoLogMessage(message: msg, category: category.toProto(), level: level.toProto(), timeInterval: Date().timeIntervalSince1970)
         
         messages.append(log)

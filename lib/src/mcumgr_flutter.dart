@@ -109,10 +109,11 @@ class MockUpdateManagerFactory extends UpdateManagerFactory {
   Future<UpdateManager> getUpdateManager(String deviceId) async {
     return MockUpdateManager();
   }
+}
+
+class IntegrationTestUpdateManagerFactory extends UpdateManagerFactory {
+  final um = MockManualUpdateManager();
 
   @override
-  Future<UpdateLogger> getUpdateLogger(String deviceId) {
-    // TODO: implement getUpdateLogger
-    throw UnimplementedError();
-  }
+  Future<UpdateManager> getUpdateManager(String deviceId) async => um;
 }
