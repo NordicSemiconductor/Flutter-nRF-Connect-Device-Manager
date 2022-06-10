@@ -38,7 +38,9 @@ class UpdateManager {
     func update(images: [(Int, Data)]) throws {
         dfuManager.mode = .confirmOnly
         dfuManager.logDelegate = updateLogger
-        try dfuManager.start(images: images)
+        
+        let pipelinedConfiguration = FirmwareUpgradeConfiguration(pipelineDepth: 3, byteAlignment: .fourByte)
+        try dfuManager.start(images: images, using: pipelinedConfiguration)
     }
     
     func pause() {
