@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:mcumgr_flutter/proto/flutter_mcu.pb.dart';
 import 'package:mcumgr_flutter/src/mcumgr_update_logger.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:tuple/tuple.dart';
 
 import '../mcumgr_flutter.dart';
 import '../proto/extensions/proto_ext.dart';
@@ -80,13 +81,23 @@ class McuMgrUpdateManager extends UpdateManager {
   }
 
   @override
-  Future<void> update(Map<int, Uint8List> images) async {
+  Future<void> updateMap(Map<int, Uint8List> images) async {
     await methodChannel.invokeMethod(
         UpdateManagerMethod.update.rawValue,
         ProtoUpdateWithImageCallArguments(
             deviceUuid: this._deviceId,
             images: images.entries
                 .map((e) => Pair(key: e.key, value: e.value))).writeToBuffer());
+  }
+
+  @override
+  Future<void> update(List<Tuple2<int, Uint8List>> images) async {
+    await methodChannel.invokeMethod(
+        UpdateManagerMethod.update.rawValue,
+        ProtoUpdateWithImageCallArguments(
+          deviceUuid: _deviceId,
+          images: images.map((e) => Pair(key: e.item1, value: e.item2)),
+        ).writeToBuffer());
   }
 
   @override

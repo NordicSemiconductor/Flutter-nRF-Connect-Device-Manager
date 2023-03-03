@@ -1,5 +1,6 @@
 package no.nordicsemi.android.mcumgr_flutter
 
+import android.util.Log
 import android.util.Pair
 import io.runtime.mcumgr.ble.McuMgrBleTransport
 import io.runtime.mcumgr.dfu.FirmwareUpgradeCallback
@@ -11,7 +12,17 @@ import no.nordicsemi.android.mcumgr_flutter.ext.toProto
 import no.nordicsemi.android.mcumgr_flutter.gen.FlutterMcu
 import no.nordicsemi.android.mcumgr_flutter.logging.LoggableMcuMgrBleTransport
 import no.nordicsemi.android.mcumgr_flutter.utils.StreamHandler
+import java.security.MessageDigest
 
+
+// Extetnios of ByteArray to get sha1 hash
+val ByteArray.sha1: String
+	get() {
+		val bytes = MessageDigest.getInstance("SHA-1").digest(this)
+		return bytes.joinToString("") {
+			"%02x".format(it)
+		}
+	}
 class UpdateManager(
 		transport: McuMgrBleTransport,
 		private val updateStateStreamHandler: StreamHandler,
@@ -40,7 +51,22 @@ class UpdateManager(
 	 *
 	 * @param firmware The firmware to be sent.
 	 */
-	fun start(images: List<Pair<Int, ByteArray>>) = manager.start(images, false)
+
+	private val TAG: String? = "MyActivity"
+
+	fun start(images: List<Pair<Int, ByteArray>>) {
+		// print images to log
+		images.forEach {
+			val imageNumber = it.first
+			val image = it.second
+			// Get sha1 hash of image
+			val sha1 = image.sha1
+
+			// Log image and sha1
+			Log.d(TAG, "Image $imageNumber: ${image.size} bytes, sha1: $sha1")
+		}
+		manager.start(images, false)
+	}
 	/** Pause the firmware upgrade. */
 	fun pause() {
 		if (!isPaused) {

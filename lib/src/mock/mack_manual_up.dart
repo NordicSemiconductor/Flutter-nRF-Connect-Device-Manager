@@ -5,6 +5,7 @@ import 'dart:typed_data';
 
 import 'package:mcumgr_flutter/mcumgr_flutter.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:tuple/tuple.dart';
 
 import 'mock_update_logger.dart';
 
@@ -93,7 +94,7 @@ class MockManualUpdateManager extends UpdateManager {
   }
 
   @override
-  Future<void> update(Map<int, Uint8List> images) async {}
+  Future<void> updateMap(Map<int, Uint8List> images) async {}
 
   @override
   Stream<bool>? get updateInProgressStream =>
@@ -102,4 +103,12 @@ class MockManualUpdateManager extends UpdateManager {
   @override
   Stream<FirmwareUpgradeState>? get updateStateStream =>
       _updateStateStreamController.stream;
+
+  @override
+  Future<void> update(List<Tuple2<int, Uint8List>> images) {
+    Map<int, Uint8List> imageMap = {};
+    // convert list to map
+    images.forEach((e) => imageMap[e.item1] = e.item2);
+    return updateMap(imageMap);
+  }
 }

@@ -3,5 +3,6 @@
         "CBOR",
         "Protobuf"
     ],
-    "C_Cpp.default.configurationProvider": "nrf-connect"
+    "C_Cpp.default.configurationProvider": "nrf-connect",
+    "nrf-connect.toolchain.path": "${nrf-connect.toolchain:1.9.1}"
 }

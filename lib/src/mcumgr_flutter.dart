@@ -30,7 +30,7 @@ abstract class UpdateManager {
   /// This is the full-featured API to start DFU update, including support for Multi-Image uploads.
   ///
   /// [images] is a `Map<int, Uint8List>` where key is an image core index
-  Future<void> update(Map<int, Uint8List> images);
+  Future<void> update(List<Tuple2<int, Uint8List>> images);
 
   /// Pause the update process.
   Future<void> pause();
@@ -93,10 +93,12 @@ abstract class UpdateLogger {
   Future<void> clearLogs();
 }
 
+/// Object that creates `UpdateManager` instance.
 abstract class UpdateManagerFactory {
   Future<UpdateManager> getUpdateManager(String deviceId);
 }
 
+/// Implementation of `UpdateManagerFactory` that creates `UpdateManager` instance for production.
 class McuMgrUpdateManagerFactory extends UpdateManagerFactory {
   @override
   Future<UpdateManager> getUpdateManager(String deviceId) async {
@@ -104,6 +106,9 @@ class McuMgrUpdateManagerFactory extends UpdateManagerFactory {
   }
 }
 
+/// Implementation of `UpdateManagerFactory` that creates `UpdateManager` instance for testing.
+/// 
+/// This implementation creates `MockUpdateManager` instance which emulates update process.
 class MockUpdateManagerFactory extends UpdateManagerFactory {
   @override
   Future<UpdateManager> getUpdateManager(String deviceId) async {
@@ -111,6 +116,9 @@ class MockUpdateManagerFactory extends UpdateManagerFactory {
   }
 }
 
+/// Implementation of `UpdateManagerFactory` that creates `UpdateManager` instance for testing.
+/// 
+/// Created update manager allows to switch between states by calling `resume()` method.
 class IntegrationTestUpdateManagerFactory extends UpdateManagerFactory {
   final um = MockManualUpdateManager();
 

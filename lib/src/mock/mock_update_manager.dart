@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:mcumgr_flutter/mcumgr_flutter.dart';
 import 'package:mcumgr_flutter/src/mock/mock_update_logger.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:tuple/tuple.dart';
 
 class _UpdateTupple {
   final ProgressUpdate progressUpdate;
@@ -118,10 +119,18 @@ class MockUpdateManager extends UpdateManager {
   }
 
   @override
-  Future<void> update(Map<int, Uint8List> images) async {
+  Future<void> updateMap(Map<int, Uint8List> images) async {
     await _startUpdate();
   }
 
   @override
   UpdateLogger get logger => MockUpdateLogger();
+
+  @override
+  Future<void> update(List<Tuple2<int, Uint8List>> images) {
+    Map<int, Uint8List> imageMap =
+        Map.fromIterable(images, key: (e) => e.item1, value: (e) => e.item2);
+
+    return updateMap(imageMap);
+  }
 }
