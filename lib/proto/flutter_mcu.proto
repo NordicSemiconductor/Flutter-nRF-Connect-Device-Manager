@@ -115,11 +115,6 @@ message ProtoLogMessage {
     int64 logDateTime = 4;
 }
 
-// message ProtoMessageTimeWindow {
-//     string uuid = 1;
-//     int64 timeWindow = 2;
-// }
-
 message ProtoMessageLiveLogEnabled {
     string uuid = 1;
     bool enabled = 2;

@@ -52,6 +52,7 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+    namespace 'no.nordicsemi.android.example.mcumgr_flutter'
 }
 
 flutter {
