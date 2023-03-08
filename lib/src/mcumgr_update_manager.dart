@@ -91,14 +91,16 @@ class McuMgrUpdateManager extends UpdateManager {
   }
 
   @override
-  Future<void> update(List<Tuple2<int, Uint8List>> images) async {
-    await methodChannel.invokeMethod(
-        UpdateManagerMethod.update.rawValue,
-        ProtoUpdateWithImageCallArguments(
-          deviceUuid: _deviceId,
-          images: images.map((e) => Pair(key: e.item1, value: e.item2)),
-        ).writeToBuffer());
-  }
+  Future<void> update(List<Tuple2<int, Uint8List>> images,
+          {FirmwareUpgradeConfiguration configuration =
+              const FirmwareUpgradeConfiguration()}) async =>
+      await methodChannel.invokeMethod(
+          UpdateManagerMethod.update.rawValue,
+          ProtoUpdateWithImageCallArguments(
+            deviceUuid: _deviceId,
+            images: images.map((e) => Pair(key: e.item1, value: e.item2)),
+            configuration: configuration.proto(),
+          ).writeToBuffer());
 
   @override
   Future<void> pause() async {

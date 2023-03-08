@@ -1,5 +1,7 @@
 import 'package:mcumgr_flutter/mcumgr_flutter.dart';
+import 'package:mcumgr_flutter/models/image_upload_alignment.dart';
 import '../flutter_mcu.pb.dart';
+import 'package:fixnum/fixnum.dart';
 
 extension ProtoProgressToModel on ProtoProgressUpdate {
   ProgressUpdate convert() {
@@ -30,6 +32,11 @@ extension ProtoUpdateStateToModel
         return FirmwareUpgradeState.confirm;
       case (ProtoUpdateStateChanges_FirmwareUpgradeState.SUCCESS):
         return FirmwareUpgradeState.success;
+      case (ProtoUpdateStateChanges_FirmwareUpgradeState
+          .REQUEST_MCU_MGR_PARAMETERS):
+        return FirmwareUpgradeState.requestMcuMgrParameters;
+      case (ProtoUpdateStateChanges_FirmwareUpgradeState.ERASE_APP_SETTINGS):
+        return FirmwareUpgradeState.eraseAppSettings;
       default:
         throw "Unsupported state";
     }
@@ -90,4 +97,64 @@ extension ProtoLogMessageToModel on ProtoLogMessage {
         throw 'Unsupported Category';
     }
   }
+}
+
+extension ProtoFirmwareUpgradeConfiguration_ImageUploadAlignmentToModel
+    on ProtoFirmwareUpgradeConfiguration_ImageUploadAlignment {
+  ImageUploadAlignment convent() {
+    switch (this) {
+      case ProtoFirmwareUpgradeConfiguration_ImageUploadAlignment.DISABLED:
+        return ImageUploadAlignment.disabled;
+      case ProtoFirmwareUpgradeConfiguration_ImageUploadAlignment.TWO_BYTE:
+        return ImageUploadAlignment.twoByte;
+      case ProtoFirmwareUpgradeConfiguration_ImageUploadAlignment.FOUR_BYTE:
+        return ImageUploadAlignment.fourByte;
+      case ProtoFirmwareUpgradeConfiguration_ImageUploadAlignment.EIGHT_BYTE:
+        return ImageUploadAlignment.eightByte;
+      case ProtoFirmwareUpgradeConfiguration_ImageUploadAlignment.SIXTEEN_BYTE:
+        return ImageUploadAlignment.sixteenByte;
+      default:
+        throw 'Unsupported ImageUploadAlignment';
+    }
+  }
+}
+
+extension ImageUploadAlignmentModel on ImageUploadAlignment {
+  ProtoFirmwareUpgradeConfiguration_ImageUploadAlignment convent() {
+    switch (this) {
+      case ImageUploadAlignment.disabled:
+        return ProtoFirmwareUpgradeConfiguration_ImageUploadAlignment.DISABLED;
+      case ImageUploadAlignment.twoByte:
+        return ProtoFirmwareUpgradeConfiguration_ImageUploadAlignment.TWO_BYTE;
+      case ImageUploadAlignment.fourByte:
+        return ProtoFirmwareUpgradeConfiguration_ImageUploadAlignment.FOUR_BYTE;
+      case ImageUploadAlignment.eightByte:
+        return ProtoFirmwareUpgradeConfiguration_ImageUploadAlignment.EIGHT_BYTE;
+      case ImageUploadAlignment.sixteenByte:
+        return ProtoFirmwareUpgradeConfiguration_ImageUploadAlignment.SIXTEEN_BYTE;
+      default:
+        throw 'Unsupported ImageUploadAlignment';
+    }
+  }
+}
+
+extension FirmwareUpgradeConfigurationToModel on FirmwareUpgradeConfiguration {
+  ProtoFirmwareUpgradeConfiguration proto() => ProtoFirmwareUpgradeConfiguration(
+        estimatedSwapTimeMs: Int64(this.estimatedSwapTime.inMilliseconds),
+        eraseAppSettings: this.eraseAppSettings,
+        pipelineDepth: Int64(this.pipelineDepth),
+        byteAlignment: this.byteAlignment.convent(),
+        reassemblyBufferSize: Int64(this.reassemblyBufferSize),
+      );
+}
+
+extension ProtoFirmwareUpgradeConfigurationToModel
+    on ProtoFirmwareUpgradeConfiguration {
+  FirmwareUpgradeConfiguration convert() => FirmwareUpgradeConfiguration(
+    estimatedSwapTime: Duration(milliseconds: this.estimatedSwapTimeMs as int),
+    eraseAppSettings: this.eraseAppSettings,
+    pipelineDepth: this.pipelineDepth as int,
+    byteAlignment: this.byteAlignment.convent(),
+    reassemblyBufferSize: this.reassemblyBufferSize as int,
+  );
 }

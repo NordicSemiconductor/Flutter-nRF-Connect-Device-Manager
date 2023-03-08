@@ -39,7 +39,12 @@ class UpdateManager {
         dfuManager.mode = .confirmOnly
         dfuManager.logDelegate = updateLogger
         
-        let pipelinedConfiguration = FirmwareUpgradeConfiguration(pipelineDepth: 3, byteAlignment: .fourByte)
+        
+        // TODO: Open `pipelineDepth` parameter for user
+        let pipelinedConfiguration = FirmwareUpgradeConfiguration(
+            
+            pipelineDepth: 3, byteAlignment: .fourByte
+        )
         try dfuManager.start(images: images, using: pipelinedConfiguration)
     }
     

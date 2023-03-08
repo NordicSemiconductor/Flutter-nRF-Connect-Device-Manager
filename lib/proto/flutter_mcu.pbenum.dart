@@ -3,7 +3,7 @@
 //  source: lib/proto/flutter_mcu.proto
 //
 // @dart = 2.12
-// ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
+// ignore_for_file: annotate_overrides,camel_case_types,constant_identifier_names,directives_ordering,library_prefixes,non_constant_identifier_names,prefer_final_fields,return_of_invalid_type,unnecessary_const,unnecessary_import,unnecessary_this,unused_import,unused_shown_name
 
 // ignore_for_file: UNDEFINED_SHOWN_NAME
 import 'dart:core' as $core;
@@ -17,6 +17,8 @@ class ProtoUpdateStateChanges_FirmwareUpgradeState extends $pb.ProtobufEnum {
   static const ProtoUpdateStateChanges_FirmwareUpgradeState RESET = ProtoUpdateStateChanges_FirmwareUpgradeState._(4, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'RESET');
   static const ProtoUpdateStateChanges_FirmwareUpgradeState CONFIRM = ProtoUpdateStateChanges_FirmwareUpgradeState._(5, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'CONFIRM');
   static const ProtoUpdateStateChanges_FirmwareUpgradeState SUCCESS = ProtoUpdateStateChanges_FirmwareUpgradeState._(6, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'SUCCESS');
+  static const ProtoUpdateStateChanges_FirmwareUpgradeState REQUEST_MCU_MGR_PARAMETERS = ProtoUpdateStateChanges_FirmwareUpgradeState._(7, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'REQUEST_MCU_MGR_PARAMETERS');
+  static const ProtoUpdateStateChanges_FirmwareUpgradeState ERASE_APP_SETTINGS = ProtoUpdateStateChanges_FirmwareUpgradeState._(8, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'ERASE_APP_SETTINGS');
 
   static const $core.List<ProtoUpdateStateChanges_FirmwareUpgradeState> values = <ProtoUpdateStateChanges_FirmwareUpgradeState> [
     NONE,
@@ -26,12 +28,35 @@ class ProtoUpdateStateChanges_FirmwareUpgradeState extends $pb.ProtobufEnum {
     RESET,
     CONFIRM,
     SUCCESS,
+    REQUEST_MCU_MGR_PARAMETERS,
+    ERASE_APP_SETTINGS,
   ];
 
   static final $core.Map<$core.int, ProtoUpdateStateChanges_FirmwareUpgradeState> _byValue = $pb.ProtobufEnum.initByValue(values);
   static ProtoUpdateStateChanges_FirmwareUpgradeState? valueOf($core.int value) => _byValue[value];
 
   const ProtoUpdateStateChanges_FirmwareUpgradeState._($core.int v, $core.String n) : super(v, n);
+}
+
+class ProtoFirmwareUpgradeConfiguration_ImageUploadAlignment extends $pb.ProtobufEnum {
+  static const ProtoFirmwareUpgradeConfiguration_ImageUploadAlignment DISABLED = ProtoFirmwareUpgradeConfiguration_ImageUploadAlignment._(0, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'DISABLED');
+  static const ProtoFirmwareUpgradeConfiguration_ImageUploadAlignment TWO_BYTE = ProtoFirmwareUpgradeConfiguration_ImageUploadAlignment._(1, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'TWO_BYTE');
+  static const ProtoFirmwareUpgradeConfiguration_ImageUploadAlignment FOUR_BYTE = ProtoFirmwareUpgradeConfiguration_ImageUploadAlignment._(2, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'FOUR_BYTE');
+  static const ProtoFirmwareUpgradeConfiguration_ImageUploadAlignment EIGHT_BYTE = ProtoFirmwareUpgradeConfiguration_ImageUploadAlignment._(3, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'EIGHT_BYTE');
+  static const ProtoFirmwareUpgradeConfiguration_ImageUploadAlignment SIXTEEN_BYTE = ProtoFirmwareUpgradeConfiguration_ImageUploadAlignment._(4, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'SIXTEEN_BYTE');
+
+  static const $core.List<ProtoFirmwareUpgradeConfiguration_ImageUploadAlignment> values = <ProtoFirmwareUpgradeConfiguration_ImageUploadAlignment> [
+    DISABLED,
+    TWO_BYTE,
+    FOUR_BYTE,
+    EIGHT_BYTE,
+    SIXTEEN_BYTE,
+  ];
+
+  static final $core.Map<$core.int, ProtoFirmwareUpgradeConfiguration_ImageUploadAlignment> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static ProtoFirmwareUpgradeConfiguration_ImageUploadAlignment? valueOf($core.int value) => _byValue[value];
+
+  const ProtoFirmwareUpgradeConfiguration_ImageUploadAlignment._($core.int v, $core.String n) : super(v, n);
 }
 
 class ProtoLogMessage_LogCategory extends $pb.ProtobufEnum {

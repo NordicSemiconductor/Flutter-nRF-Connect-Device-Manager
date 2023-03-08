@@ -20,6 +20,7 @@ message Pair {
 message ProtoUpdateWithImageCallArguments {
     string device_uuid = 1;
     repeated Pair images = 2;
+    ProtoFirmwareUpgradeConfiguration configuration = 3;
 }
 
 // STATE
@@ -39,6 +40,8 @@ message ProtoUpdateStateChanges {
         RESET = 4;
         CONFIRM = 5;
         SUCCESS = 6;
+        REQUEST_MCU_MGR_PARAMETERS = 7;
+        ERASE_APP_SETTINGS = 8;
     }
 
     FirmwareUpgradeState oldState = 1;
@@ -46,6 +49,21 @@ message ProtoUpdateStateChanges {
     bool canceled = 3;
 }
 
+message ProtoFirmwareUpgradeConfiguration {
+    enum ImageUploadAlignment {
+        DISABLED = 0;
+        TWO_BYTE = 1;
+        FOUR_BYTE = 2;
+        EIGHT_BYTE = 3;
+        SIXTEEN_BYTE = 4;
+    }
+
+    int64 estimatedSwapTimeMs = 1;
+    bool eraseAppSettings = 2;
+    int64 pipelineDepth = 3;
+    ImageUploadAlignment byteAlignment = 4;
+    uint64 reassemblyBufferSize = 5;
+}
 
 message ProtoProgressUpdateStreamArg {
     string uuid = 1;
