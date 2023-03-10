@@ -1,5 +1,6 @@
 syntax = "proto3";
 // package no.nordicsemi.android.mcumgr_flutter.gen;
+option java_package = "no.nordicsemi.android.mcumgr_flutter.gen";
 
 // Flutter call arguments
 message ProtoUpdateCallArgument {

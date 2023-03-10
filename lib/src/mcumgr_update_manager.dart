@@ -9,7 +9,6 @@ import 'package:tuple/tuple.dart';
 import '../mcumgr_flutter.dart';
 import '../proto/extensions/proto_ext.dart';
 import 'method_channels.dart';
-import 'mcumgr_update_logger.dart';
 
 class McuMgrUpdateManager extends UpdateManager {
   final String _deviceId;
