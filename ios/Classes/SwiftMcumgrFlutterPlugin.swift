@@ -179,8 +179,7 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
         }
         
         let images = args.images.map { (Int($0.key), $0.value) }
-        
-        let config = FirmwareUpgradeConfiguration(proto: args.configuration)
+        let config = args.hasConfiguration ? FirmwareUpgradeConfiguration(proto: args.configuration) : FirmwareUpgradeConfiguration()
         
         try manager.update(images: images, config: config)
     }

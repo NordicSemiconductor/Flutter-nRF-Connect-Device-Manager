@@ -9,13 +9,13 @@ import io.runtime.mcumgr.dfu.FirmwareUpgradeManager
 import io.runtime.mcumgr.exception.McuMgrException
 import no.nordicsemi.android.mcumgr_flutter.ext.shouldLog
 import no.nordicsemi.android.mcumgr_flutter.ext.toProto
-import no.nordicsemi.android.mcumgr_flutter.gen.FlutterMcu
+import no.nordicsemi.android.mcumgr_flutter.gen.*
 import no.nordicsemi.android.mcumgr_flutter.logging.LoggableMcuMgrBleTransport
 import no.nordicsemi.android.mcumgr_flutter.utils.StreamHandler
 import java.security.MessageDigest
 
 
-// Extetnios of ByteArray to get sha1 hash
+// Extensions of ByteArray to get sha1 hash
 val ByteArray.sha1: String
 	get() {
 		val bytes = MessageDigest.getInstance("SHA-1").digest(this)
@@ -23,6 +23,15 @@ val ByteArray.sha1: String
 			"%02x".format(it)
 		}
 	}
+
+data class FirmwareUpgradeConfiguration(
+	val estimatedSwapTime: Long = 0,
+	val eraseAppSettings: Boolean = true,
+	val pipelineDepth: Int = 1,
+	val byteAlignment: Int = 4,
+	val reassemblyBufferSize: Long = 0
+)
+
 class UpdateManager(
 		transport: McuMgrBleTransport,
 		private val updateStateStreamHandler: StreamHandler,
@@ -31,7 +40,7 @@ class UpdateManager(
 ): FirmwareUpgradeCallback {
 	private val manager: FirmwareUpgradeManager = FirmwareUpgradeManager(transport, this)
 	private val address: String = transport.bluetoothDevice.address
-	private val transport: McuMgrBleTransport = transport as LoggableMcuMgrBleTransport
+	private val transport: LoggableMcuMgrBleTransport = transport as LoggableMcuMgrBleTransport
 
 	init {
 		manager.setMemoryAlignment(4)
@@ -54,7 +63,12 @@ class UpdateManager(
 
 	private val TAG: String? = "MyActivity"
 
-	fun start(images: List<Pair<Int, ByteArray>>) {
+	fun start(images: List<Pair<Int, ByteArray>>, config: FirmwareUpgradeConfiguration?) {
+		if (config != null) {
+			manager.setMemoryAlignment(config.byteAlignment)
+			manager.setEstimatedSwapTime(config.estimatedSwapTime.toInt())
+			manager.setWindowUploadCapacity(config.pipelineDepth)
+		}
 		// print images to log
 		images.forEach {
 			val imageNumber = it.first
@@ -65,7 +79,7 @@ class UpdateManager(
 			// Log image and sha1
 			Log.d(TAG, "Image $imageNumber: ${image.size} bytes, sha1: $sha1")
 		}
-		manager.start(images, false)
+		manager.start(images, config?.eraseAppSettings ?: true)
 	}
 	/** Pause the firmware upgrade. */
 	fun pause() {
@@ -88,7 +102,7 @@ class UpdateManager(
 	/**	True if the firmware upgrade is in progress, false otherwise. */
 	var isInProgress = manager.isInProgress
 	/** Read all logs */
-	fun readAllLogs() : FlutterMcu.ProtoLogMessageStreamArg {
+	fun readAllLogs() : ProtoLogMessageStreamArg {
 		return (manager.transporter as? LoggableMcuMgrBleTransport)!!.readLogs()
 	}
 
@@ -97,107 +111,96 @@ class UpdateManager(
 	}
 
 	override fun onStateChanged(prevState: FirmwareUpgradeManager.State?, newState: FirmwareUpgradeManager.State?) {
-		 transport.setLoggingEnabled(newState!!.shouldLog())
+		transport.setLoggingEnabled(newState!!.shouldLog())
+		transport.log("State changed: $prevState -> $newState")
 
-		val changes = FlutterMcu.ProtoUpdateStateChanges
-				.newBuilder()
-				.setOldState(prevState!!.toProto())
-				.setNewState(newState!!.toProto())
-				.build()
-		val stateChangesArg = FlutterMcu.ProtoUpdateStateChangesStreamArg
-				.newBuilder()
-				.setUuid(address)
-				.setUpdateStateChanges(changes)
-				.build()
-		updateStateStreamHandler.sink?.success(stateChangesArg.toByteArray())
+		val changes = ProtoUpdateStateChanges(
+			oldState = prevState!!.toProto(),
+			newState = newState!!.toProto(),
+		)
+		val stateChangesArg = ProtoUpdateStateChangesStreamArg(
+			uuid = address,
+			updateStateChanges = changes,
+		)
+		updateStateStreamHandler.sink?.success(stateChangesArg.encode())
 	}
 
 	override fun onUpgradeCompleted() {
 		transport.setLoggingEnabled(true)
+		transport.log("Upgrade completed")
 
-		val changes = FlutterMcu.ProtoUpdateStateChanges
-				.newBuilder()
-				.setNewState(FlutterMcu.ProtoUpdateStateChanges.FirmwareUpgradeState.SUCCESS)
-				.build()
-		val successStateChanges = FlutterMcu.ProtoUpdateStateChangesStreamArg
-				.newBuilder()
-				.setUuid(address)
-				.setUpdateStateChanges(changes)
-				.build()
-		updateStateStreamHandler.sink?.success(successStateChanges.toByteArray())
+		val changes = ProtoUpdateStateChanges(
+			newState = ProtoUpdateStateChanges.FirmwareUpgradeState.SUCCESS,
+		)
+		val successStateChanges = ProtoUpdateStateChangesStreamArg(
+			uuid = address,
+			updateStateChanges = changes,
+		)
+		updateStateStreamHandler.sink?.success(successStateChanges.encode())
 
-		val stateChangesArg = FlutterMcu.ProtoUpdateStateChangesStreamArg
-				.newBuilder()
-				.setUuid(address)
-				.setDone(true)
-				.build()
-		updateStateStreamHandler.sink?.success(stateChangesArg.toByteArray())
+		val stateChangesArg = ProtoUpdateStateChangesStreamArg(
+			uuid = address,
+			done = true,
+		)
+		updateStateStreamHandler.sink?.success(stateChangesArg.encode())
 
-		val progressArg = FlutterMcu.ProtoProgressUpdateStreamArg
-				.newBuilder()
-				.setUuid(address)
-				.setDone(true)
-				.build()
-		updateProgressStreamHandler.sink?.success(progressArg.toByteArray())
+		val progressArg = ProtoProgressUpdateStreamArg(
+			uuid = address,
+			done = true,
+		)
+		updateProgressStreamHandler.sink?.success(progressArg.encode())
 
-		val logArg = FlutterMcu.ProtoLogMessageStreamArg
-				.newBuilder()
-				.setUuid(address)
-				.setDone(true)
-				.build()
-		logStreamHandler.sink?.success(logArg.toByteArray())
+		val logArg = ProtoLogMessageStreamArg(
+			uuid = address,
+			done = true,
+		)
+		logStreamHandler.sink?.success(logArg.encode())
 	}
 
 	override fun onUpgradeFailed(state: FirmwareUpgradeManager.State?, error: McuMgrException?) {
 		transport.setLoggingEnabled(true)
+		transport.log("Upgrade failed")
 
-		val changes = FlutterMcu.ProtoUpdateStateChanges
-				.newBuilder()
-				.setOldState(state!!.toProto())
-				.setNewState(state.toProto())
-				.build()
-		val stateChangesArg = FlutterMcu.ProtoUpdateStateChangesStreamArg
-				.newBuilder()
-				.setUuid(address)
-				.setUpdateStateChanges(changes)
-				.setError(
-                    FlutterMcu.ProtoError
-						.newBuilder()
-						.setLocalizedDescription(error?.message ?: "Unknown error")
-						.build())
-				.build()
-		updateStateStreamHandler.sink?.success(stateChangesArg.toByteArray())
+		val changes = ProtoUpdateStateChanges(
+			oldState = state!!.toProto(),
+			newState = state.toProto(),
+		)
+		val stateChangesArg = ProtoUpdateStateChangesStreamArg(
+			uuid = address,
+			updateStateChanges = changes,
+			error = ProtoError(
+				localizedDescription = error?.message ?: "Unknown error",
+			),
+		)
+		updateStateStreamHandler.sink?.success(stateChangesArg.encode())
 	}
 
 	override fun onUpgradeCanceled(state: FirmwareUpgradeManager.State?) {
 		transport.setLoggingEnabled(true)
+		transport.log("Upgrade canceled")
 
-		val changes = FlutterMcu.ProtoUpdateStateChanges
-				.newBuilder()
-				.setCanceled(true)
-				.setOldState(state!!.toProto())
-				.setNewState(state.toProto())
-				.build()
-		val stateChangesArg = FlutterMcu.ProtoUpdateStateChangesStreamArg
-				.newBuilder()
-				.setUuid(address)
-				.setUpdateStateChanges(changes)
-				.build()
-		updateStateStreamHandler.sink?.success(stateChangesArg.toByteArray())
+		val changes = ProtoUpdateStateChanges(
+			oldState = state!!.toProto(),
+			newState = state.toProto(),
+			canceled = true,
+		)
+		val stateChangesArg = ProtoUpdateStateChangesStreamArg(
+			uuid = address,
+			updateStateChanges = changes,
+		)
+		updateStateStreamHandler.sink?.success(stateChangesArg.encode())
 	}
 
 	override fun onUploadProgressChanged(bytesSent: Int, imageSize: Int, timestamp: Long) {
-		val progress = FlutterMcu.ProtoProgressUpdate
-				.newBuilder()
-				.setImageSize(imageSize.toLong())
-				.setBytesSent(bytesSent.toLong())
-				.setTimestamp(timestamp.toDouble()) // convert to seconds
-				.build()
-		val arg = FlutterMcu.ProtoProgressUpdateStreamArg
-				.newBuilder()
-				.setUuid(address)
-				.setProgressUpdate(progress)
-				.build()
-		updateProgressStreamHandler.sink?.success(arg.toByteArray())
+		val progress = ProtoProgressUpdate(
+			bytesSent = bytesSent.toLong(),
+			imageSize = imageSize.toLong(),
+			timestamp = timestamp.toDouble(), // convert to seconds
+		)
+		val arg = ProtoProgressUpdateStreamArg(
+			uuid = address,
+			progressUpdate = progress,
+		)
+		updateProgressStreamHandler.sink?.success(arg.encode())
 	}
 }

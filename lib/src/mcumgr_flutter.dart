@@ -5,7 +5,7 @@ class FirmwareUpgradeConfiguration {
   /// If the mode is set to `.testAndConfirm`, the manager will try to reconnect after this time. 0 by default.
   final Duration estimatedSwapTime;
 
-  /// If enabled, after succesful upload but before test/confirm/reset phase, an Erase App Settings Command will be sent and awaited before proceeding.
+  /// If enabled, after successful upload but before test/confirm/reset phase, an Erase App Settings Command will be sent and awaited before proceeding.
   final bool eraseAppSettings;
 
   /// If set to a value larger than 1, this enables SMP Pipelining, wherein multiple packets of data ('chunks') are sent at once before awaiting a response, which can lead to a big increase in transfer speed if the receiving hardware supports this feature.
@@ -49,7 +49,7 @@ abstract class UpdateManager {
   Stream<bool>? get updateInProgressStream;
 
   /// Prepare State Stream
-  /// This method should be called befor staring the update
+  /// This method should be called before staring the update
   Stream<FirmwareUpgradeState> setup();
 
   /// Stream emits update state during update process
