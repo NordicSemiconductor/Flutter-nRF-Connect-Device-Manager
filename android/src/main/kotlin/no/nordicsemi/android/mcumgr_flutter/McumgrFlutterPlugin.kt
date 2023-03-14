@@ -131,26 +131,24 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 			throw UpdateManagerDoesNotExist("Update manager does not exist")
 		}
 
-		val configuration = arg.configuration?.let {
-			val byteAlignment = when (it.byteAlignment) {
-				ProtoFirmwareUpgradeConfiguration.ImageUploadAlignment.TWO_BYTE -> 2
-				ProtoFirmwareUpgradeConfiguration.ImageUploadAlignment.FOUR_BYTE -> 4
-				ProtoFirmwareUpgradeConfiguration.ImageUploadAlignment.EIGHT_BYTE -> 8
-				ProtoFirmwareUpgradeConfiguration.ImageUploadAlignment.SIXTEEN_BYTE -> 16
-				ProtoFirmwareUpgradeConfiguration.ImageUploadAlignment.DISABLED -> 0
-				else -> 4
-			}
-
+		val config = arg.configuration?.let {
 			return@let FirmwareUpgradeConfiguration(
 				it.estimatedSwapTimeMs ?: 0,
 				it.eraseAppSettings ?: true,
 				(it.pipelineDepth ?: 1).toInt(),
-				byteAlignment,
+				when (it.byteAlignment) {
+					ProtoFirmwareUpgradeConfiguration.ImageUploadAlignment.TWO_BYTE -> 2
+					ProtoFirmwareUpgradeConfiguration.ImageUploadAlignment.FOUR_BYTE -> 4
+					ProtoFirmwareUpgradeConfiguration.ImageUploadAlignment.EIGHT_BYTE -> 8
+					ProtoFirmwareUpgradeConfiguration.ImageUploadAlignment.SIXTEEN_BYTE -> 16
+					ProtoFirmwareUpgradeConfiguration.ImageUploadAlignment.DISABLED -> 0
+					else -> 4
+				},
 				it.reassemblyBufferSize ?: 0
 			)
 		}
 
-		updateManager.start(arg.images.map { Pair.create(it.key, it.value_.toByteArray()) }, configuration)
+		updateManager.start(arg.images.map { Pair.create(it.key, it.value_.toByteArray()) }, config)
 	}
 
 	@Throws(FlutterError::class)

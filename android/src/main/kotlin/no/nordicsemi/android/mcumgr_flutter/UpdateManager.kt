@@ -66,7 +66,7 @@ class UpdateManager(
 	fun start(images: List<Pair<Int, ByteArray>>, config: FirmwareUpgradeConfiguration?) {
 		if (config != null) {
 			manager.setMemoryAlignment(config.byteAlignment)
-			manager.setEstimatedSwapTime(config.estimatedSwapTime)
+			manager.setEstimatedSwapTime(config.estimatedSwapTime.toInt())
 			manager.setWindowUploadCapacity(config.pipelineDepth)
 		}
 		// print images to log
@@ -79,7 +79,7 @@ class UpdateManager(
 			// Log image and sha1
 			Log.d(TAG, "Image $imageNumber: ${image.size} bytes, sha1: $sha1")
 		}
-		manager.start(images, config.eraseAppSettings)
+		manager.start(images, config?.eraseAppSettings ?: true)
 	}
 	/** Pause the firmware upgrade. */
 	fun pause() {
