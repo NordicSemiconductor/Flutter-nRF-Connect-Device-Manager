@@ -4,7 +4,6 @@ import android.bluetooth.BluetoothAdapter
 import android.content.Context
 import android.util.Pair
 import androidx.annotation.NonNull
-import com.google.protobuf.InvalidProtocolBufferException
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodCall
@@ -132,7 +131,26 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 			throw UpdateManagerDoesNotExist("Update manager does not exist")
 		}
 
-		updateManager.start(arg.images.map { Pair.create(it.key, it.value_.toByteArray()) })
+		val configuration = arg.configuration?.let {
+			val byteAlignment = when (it.byteAlignment) {
+				ProtoFirmwareUpgradeConfiguration.ImageUploadAlignment.TWO_BYTE -> 2
+				ProtoFirmwareUpgradeConfiguration.ImageUploadAlignment.FOUR_BYTE -> 4
+				ProtoFirmwareUpgradeConfiguration.ImageUploadAlignment.EIGHT_BYTE -> 8
+				ProtoFirmwareUpgradeConfiguration.ImageUploadAlignment.SIXTEEN_BYTE -> 16
+				ProtoFirmwareUpgradeConfiguration.ImageUploadAlignment.DISABLED -> 0
+				else -> 4
+			}
+
+			return@let FirmwareUpgradeConfiguration(
+				it.estimatedSwapTimeMs ?: 0,
+				it.eraseAppSettings ?: true,
+				(it.pipelineDepth ?: 1).toInt(),
+				byteAlignment,
+				it.reassemblyBufferSize ?: 0
+			)
+		}
+
+		updateManager.start(arg.images.map { Pair.create(it.key, it.value_.toByteArray()) }, configuration)
 	}
 
 	@Throws(FlutterError::class)

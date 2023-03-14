@@ -15,7 +15,7 @@ import no.nordicsemi.android.mcumgr_flutter.utils.StreamHandler
 import java.security.MessageDigest
 
 
-// Extetnios of ByteArray to get sha1 hash
+// Extensions of ByteArray to get sha1 hash
 val ByteArray.sha1: String
 	get() {
 		val bytes = MessageDigest.getInstance("SHA-1").digest(this)
@@ -23,6 +23,15 @@ val ByteArray.sha1: String
 			"%02x".format(it)
 		}
 	}
+
+data class FirmwareUpgradeConfiguration(
+	val estimatedSwapTime: Long = 0,
+	val eraseAppSettings: Boolean = true,
+	val pipelineDepth: Int = 1,
+	val byteAlignment: Int = 4,
+	val reassemblyBufferSize: Long = 0
+)
+
 class UpdateManager(
 		transport: McuMgrBleTransport,
 		private val updateStateStreamHandler: StreamHandler,
@@ -54,7 +63,12 @@ class UpdateManager(
 
 	private val TAG: String? = "MyActivity"
 
-	fun start(images: List<Pair<Int, ByteArray>>) {
+	fun start(images: List<Pair<Int, ByteArray>>, config: FirmwareUpgradeConfiguration?) {
+		if (config != null) {
+			manager.setMemoryAlignment(config.byteAlignment)
+			manager.setEstimatedSwapTime(config.estimatedSwapTime)
+			manager.setWindowUploadCapacity(config.pipelineDepth)
+		}
 		// print images to log
 		images.forEach {
 			val imageNumber = it.first
@@ -65,7 +79,7 @@ class UpdateManager(
 			// Log image and sha1
 			Log.d(TAG, "Image $imageNumber: ${image.size} bytes, sha1: $sha1")
 		}
-		manager.start(images, false)
+		manager.start(images, config.eraseAppSettings)
 	}
 	/** Pause the firmware upgrade. */
 	fun pause() {
