@@ -105,7 +105,9 @@ class MockManualUpdateManager extends UpdateManager {
       _updateStateStreamController.stream;
 
   @override
-  Future<void> update(List<Tuple2<int, Uint8List>> images) {
+  Future<void> update(List<Tuple2<int, Uint8List>> images,
+      {FirmwareUpgradeConfiguration configuration =
+          const FirmwareUpgradeConfiguration()}) {
     Map<int, Uint8List> imageMap = {};
     // convert list to map
     images.forEach((e) => imageMap[e.item1] = e.item2);

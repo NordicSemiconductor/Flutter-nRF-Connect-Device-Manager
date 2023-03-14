@@ -3,7 +3,7 @@
 //  source: lib/proto/flutter_mcu.proto
 //
 // @dart = 2.12
-// ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields,deprecated_member_use_from_same_package
+// ignore_for_file: annotate_overrides,camel_case_types,constant_identifier_names,deprecated_member_use_from_same_package,directives_ordering,library_prefixes,non_constant_identifier_names,prefer_final_fields,return_of_invalid_type,unnecessary_const,unnecessary_import,unnecessary_this,unused_import,unused_shown_name
 
 import 'dart:core' as $core;
 import 'dart:convert' as $convert;
@@ -46,11 +46,12 @@ const ProtoUpdateWithImageCallArguments$json = const {
   '2': const [
     const {'1': 'device_uuid', '3': 1, '4': 1, '5': 9, '10': 'deviceUuid'},
     const {'1': 'images', '3': 2, '4': 3, '5': 11, '6': '.Pair', '10': 'images'},
+    const {'1': 'configuration', '3': 3, '4': 1, '5': 11, '6': '.ProtoFirmwareUpgradeConfiguration', '10': 'configuration'},
   ],
 };
 
 /// Descriptor for `ProtoUpdateWithImageCallArguments`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List protoUpdateWithImageCallArgumentsDescriptor = $convert.base64Decode('CiFQcm90b1VwZGF0ZVdpdGhJbWFnZUNhbGxBcmd1bWVudHMSHwoLZGV2aWNlX3V1aWQYASABKAlSCmRldmljZVV1aWQSHQoGaW1hZ2VzGAIgAygLMgUuUGFpclIGaW1hZ2Vz');
+final $typed_data.Uint8List protoUpdateWithImageCallArgumentsDescriptor = $convert.base64Decode('CiFQcm90b1VwZGF0ZVdpdGhJbWFnZUNhbGxBcmd1bWVudHMSHwoLZGV2aWNlX3V1aWQYASABKAlSCmRldmljZVV1aWQSHQoGaW1hZ2VzGAIgAygLMgUuUGFpclIGaW1hZ2VzEkgKDWNvbmZpZ3VyYXRpb24YAyABKAsyIi5Qcm90b0Zpcm13YXJlVXBncmFkZUNvbmZpZ3VyYXRpb25SDWNvbmZpZ3VyYXRpb24=');
 @$core.Deprecated('Use protoUpdateStateChangesStreamArgDescriptor instead')
 const ProtoUpdateStateChangesStreamArg$json = const {
   '1': 'ProtoUpdateStateChangesStreamArg',
@@ -86,11 +87,40 @@ const ProtoUpdateStateChanges_FirmwareUpgradeState$json = const {
     const {'1': 'RESET', '2': 4},
     const {'1': 'CONFIRM', '2': 5},
     const {'1': 'SUCCESS', '2': 6},
+    const {'1': 'REQUEST_MCU_MGR_PARAMETERS', '2': 7},
+    const {'1': 'ERASE_APP_SETTINGS', '2': 8},
   ],
 };
 
 /// Descriptor for `ProtoUpdateStateChanges`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List protoUpdateStateChangesDescriptor = $convert.base64Decode('ChdQcm90b1VwZGF0ZVN0YXRlQ2hhbmdlcxJJCghvbGRTdGF0ZRgBIAEoDjItLlByb3RvVXBkYXRlU3RhdGVDaGFuZ2VzLkZpcm13YXJlVXBncmFkZVN0YXRlUghvbGRTdGF0ZRJJCghuZXdTdGF0ZRgCIAEoDjItLlByb3RvVXBkYXRlU3RhdGVDaGFuZ2VzLkZpcm13YXJlVXBncmFkZVN0YXRlUghuZXdTdGF0ZRIaCghjYW5jZWxlZBgDIAEoCFIIY2FuY2VsZWQiaQoURmlybXdhcmVVcGdyYWRlU3RhdGUSCAoETk9ORRAAEgwKCFZBTElEQVRFEAESCgoGVVBMT0FEEAISCAoEVEVTVBADEgkKBVJFU0VUEAQSCwoHQ09ORklSTRAFEgsKB1NVQ0NFU1MQBg==');
+final $typed_data.Uint8List protoUpdateStateChangesDescriptor = $convert.base64Decode('ChdQcm90b1VwZGF0ZVN0YXRlQ2hhbmdlcxJJCghvbGRTdGF0ZRgBIAEoDjItLlByb3RvVXBkYXRlU3RhdGVDaGFuZ2VzLkZpcm13YXJlVXBncmFkZVN0YXRlUghvbGRTdGF0ZRJJCghuZXdTdGF0ZRgCIAEoDjItLlByb3RvVXBkYXRlU3RhdGVDaGFuZ2VzLkZpcm13YXJlVXBncmFkZVN0YXRlUghuZXdTdGF0ZRIaCghjYW5jZWxlZBgDIAEoCFIIY2FuY2VsZWQioQEKFEZpcm13YXJlVXBncmFkZVN0YXRlEggKBE5PTkUQABIMCghWQUxJREFURRABEgoKBlVQTE9BRBACEggKBFRFU1QQAxIJCgVSRVNFVBAEEgsKB0NPTkZJUk0QBRILCgdTVUNDRVNTEAYSHgoaUkVRVUVTVF9NQ1VfTUdSX1BBUkFNRVRFUlMQBxIWChJFUkFTRV9BUFBfU0VUVElOR1MQCA==');
+@$core.Deprecated('Use protoFirmwareUpgradeConfigurationDescriptor instead')
+const ProtoFirmwareUpgradeConfiguration$json = const {
+  '1': 'ProtoFirmwareUpgradeConfiguration',
+  '2': const [
+    const {'1': 'estimatedSwapTimeMs', '3': 1, '4': 1, '5': 3, '10': 'estimatedSwapTimeMs'},
+    const {'1': 'eraseAppSettings', '3': 2, '4': 1, '5': 8, '10': 'eraseAppSettings'},
+    const {'1': 'pipelineDepth', '3': 3, '4': 1, '5': 3, '10': 'pipelineDepth'},
+    const {'1': 'byteAlignment', '3': 4, '4': 1, '5': 14, '6': '.ProtoFirmwareUpgradeConfiguration.ImageUploadAlignment', '10': 'byteAlignment'},
+    const {'1': 'reassemblyBufferSize', '3': 5, '4': 1, '5': 4, '10': 'reassemblyBufferSize'},
+  ],
+  '4': const [ProtoFirmwareUpgradeConfiguration_ImageUploadAlignment$json],
+};
+
+@$core.Deprecated('Use protoFirmwareUpgradeConfigurationDescriptor instead')
+const ProtoFirmwareUpgradeConfiguration_ImageUploadAlignment$json = const {
+  '1': 'ImageUploadAlignment',
+  '2': const [
+    const {'1': 'DISABLED', '2': 0},
+    const {'1': 'TWO_BYTE', '2': 1},
+    const {'1': 'FOUR_BYTE', '2': 2},
+    const {'1': 'EIGHT_BYTE', '2': 3},
+    const {'1': 'SIXTEEN_BYTE', '2': 4},
+  ],
+};
+
+/// Descriptor for `ProtoFirmwareUpgradeConfiguration`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List protoFirmwareUpgradeConfigurationDescriptor = $convert.base64Decode('CiFQcm90b0Zpcm13YXJlVXBncmFkZUNvbmZpZ3VyYXRpb24SMAoTZXN0aW1hdGVkU3dhcFRpbWVNcxgBIAEoA1ITZXN0aW1hdGVkU3dhcFRpbWVNcxIqChBlcmFzZUFwcFNldHRpbmdzGAIgASgIUhBlcmFzZUFwcFNldHRpbmdzEiQKDXBpcGVsaW5lRGVwdGgYAyABKANSDXBpcGVsaW5lRGVwdGgSXQoNYnl0ZUFsaWdubWVudBgEIAEoDjI3LlByb3RvRmlybXdhcmVVcGdyYWRlQ29uZmlndXJhdGlvbi5JbWFnZVVwbG9hZEFsaWdubWVudFINYnl0ZUFsaWdubWVudBIyChRyZWFzc2VtYmx5QnVmZmVyU2l6ZRgFIAEoBFIUcmVhc3NlbWJseUJ1ZmZlclNpemUiYwoUSW1hZ2VVcGxvYWRBbGlnbm1lbnQSDAoIRElTQUJMRUQQABIMCghUV09fQllURRABEg0KCUZPVVJfQllURRACEg4KCkVJR0hUX0JZVEUQAxIQCgxTSVhURUVOX0JZVEUQBA==');
 @$core.Deprecated('Use protoProgressUpdateStreamArgDescriptor instead')
 const ProtoProgressUpdateStreamArg$json = const {
   '1': 'ProtoProgressUpdateStreamArg',

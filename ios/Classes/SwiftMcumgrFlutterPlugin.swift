@@ -1,6 +1,7 @@
 import Flutter
 import UIKit
 import CoreBluetooth
+import iOSMcuManagerLibrary
 
 public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
     static let namespace = "mcumgr_flutter"
@@ -178,7 +179,9 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
         }
         
         let images = args.images.map { (Int($0.key), $0.value) }
-        try manager.update(images: images)
+        let config = args.hasConfiguration ? FirmwareUpgradeConfiguration(proto: args.configuration) : FirmwareUpgradeConfiguration()
+        
+        try manager.update(images: images, config: config)
     }
     
     private func kill(call: FlutterMethodCall) throws {

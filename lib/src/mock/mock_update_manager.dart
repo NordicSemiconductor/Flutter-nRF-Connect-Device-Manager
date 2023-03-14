@@ -127,7 +127,9 @@ class MockUpdateManager extends UpdateManager {
   UpdateLogger get logger => MockUpdateLogger();
 
   @override
-  Future<void> update(List<Tuple2<int, Uint8List>> images) {
+  Future<void> update(List<Tuple2<int, Uint8List>> images,
+      {FirmwareUpgradeConfiguration configuration =
+          const FirmwareUpgradeConfiguration()}) {
     Map<int, Uint8List> imageMap =
         Map.fromIterable(images, key: (e) => e.item1, value: (e) => e.item2);
 

@@ -10,12 +10,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  protobuf: ^2.0.0
+  protobuf: ^2.1.0
   rxdart: ^0.26.0
-  tuple: ^2.0.0
+  tuple: ^2.0.1
 
 dev_dependencies:
-  faker: ^2.0.0
+  faker: ^2.1.0
   flutter_test:
     sdk: flutter
 
