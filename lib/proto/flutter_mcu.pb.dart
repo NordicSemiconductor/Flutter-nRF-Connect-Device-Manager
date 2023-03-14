@@ -3,7 +3,7 @@
 //  source: lib/proto/flutter_mcu.proto
 //
 // @dart = 2.12
-// ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
+// ignore_for_file: annotate_overrides,camel_case_types,constant_identifier_names,directives_ordering,library_prefixes,non_constant_identifier_names,prefer_final_fields,return_of_invalid_type,unnecessary_const,unnecessary_import,unnecessary_this,unused_import,unused_shown_name
 
 import 'dart:core' as $core;
 
@@ -187,6 +187,7 @@ class ProtoUpdateWithImageCallArguments extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ProtoUpdateWithImageCallArguments', createEmptyInstance: create)
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'deviceUuid')
     ..pc<Pair>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'images', $pb.PbFieldType.PM, subBuilder: Pair.create)
+    ..aOM<ProtoFirmwareUpgradeConfiguration>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'configuration', subBuilder: ProtoFirmwareUpgradeConfiguration.create)
     ..hasRequiredFields = false
   ;
 
@@ -194,6 +195,7 @@ class ProtoUpdateWithImageCallArguments extends $pb.GeneratedMessage {
   factory ProtoUpdateWithImageCallArguments({
     $core.String? deviceUuid,
     $core.Iterable<Pair>? images,
+    ProtoFirmwareUpgradeConfiguration? configuration,
   }) {
     final _result = create();
     if (deviceUuid != null) {
@@ -201,6 +203,9 @@ class ProtoUpdateWithImageCallArguments extends $pb.GeneratedMessage {
     }
     if (images != null) {
       _result.images.addAll(images);
+    }
+    if (configuration != null) {
+      _result.configuration = configuration;
     }
     return _result;
   }
@@ -236,6 +241,17 @@ class ProtoUpdateWithImageCallArguments extends $pb.GeneratedMessage {
 
   @$pb.TagNumber(2)
   $core.List<Pair> get images => $_getList(1);
+
+  @$pb.TagNumber(3)
+  ProtoFirmwareUpgradeConfiguration get configuration => $_getN(2);
+  @$pb.TagNumber(3)
+  set configuration(ProtoFirmwareUpgradeConfiguration v) { setField(3, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasConfiguration() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearConfiguration() => clearField(3);
+  @$pb.TagNumber(3)
+  ProtoFirmwareUpgradeConfiguration ensureConfiguration() => $_ensure(2);
 }
 
 class ProtoUpdateStateChangesStreamArg extends $pb.GeneratedMessage {
@@ -404,6 +420,109 @@ class ProtoUpdateStateChanges extends $pb.GeneratedMessage {
   $core.bool hasCanceled() => $_has(2);
   @$pb.TagNumber(3)
   void clearCanceled() => clearField(3);
+}
+
+class ProtoFirmwareUpgradeConfiguration extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ProtoFirmwareUpgradeConfiguration', createEmptyInstance: create)
+    ..aInt64(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'estimatedSwapTimeMs', protoName: 'estimatedSwapTimeMs')
+    ..aOB(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'eraseAppSettings', protoName: 'eraseAppSettings')
+    ..aInt64(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'pipelineDepth', protoName: 'pipelineDepth')
+    ..e<ProtoFirmwareUpgradeConfiguration_ImageUploadAlignment>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'byteAlignment', $pb.PbFieldType.OE, protoName: 'byteAlignment', defaultOrMaker: ProtoFirmwareUpgradeConfiguration_ImageUploadAlignment.DISABLED, valueOf: ProtoFirmwareUpgradeConfiguration_ImageUploadAlignment.valueOf, enumValues: ProtoFirmwareUpgradeConfiguration_ImageUploadAlignment.values)
+    ..a<$fixnum.Int64>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'reassemblyBufferSize', $pb.PbFieldType.OU6, protoName: 'reassemblyBufferSize', defaultOrMaker: $fixnum.Int64.ZERO)
+    ..hasRequiredFields = false
+  ;
+
+  ProtoFirmwareUpgradeConfiguration._() : super();
+  factory ProtoFirmwareUpgradeConfiguration({
+    $fixnum.Int64? estimatedSwapTimeMs,
+    $core.bool? eraseAppSettings,
+    $fixnum.Int64? pipelineDepth,
+    ProtoFirmwareUpgradeConfiguration_ImageUploadAlignment? byteAlignment,
+    $fixnum.Int64? reassemblyBufferSize,
+  }) {
+    final _result = create();
+    if (estimatedSwapTimeMs != null) {
+      _result.estimatedSwapTimeMs = estimatedSwapTimeMs;
+    }
+    if (eraseAppSettings != null) {
+      _result.eraseAppSettings = eraseAppSettings;
+    }
+    if (pipelineDepth != null) {
+      _result.pipelineDepth = pipelineDepth;
+    }
+    if (byteAlignment != null) {
+      _result.byteAlignment = byteAlignment;
+    }
+    if (reassemblyBufferSize != null) {
+      _result.reassemblyBufferSize = reassemblyBufferSize;
+    }
+    return _result;
+  }
+  factory ProtoFirmwareUpgradeConfiguration.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ProtoFirmwareUpgradeConfiguration.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  ProtoFirmwareUpgradeConfiguration clone() => ProtoFirmwareUpgradeConfiguration()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  ProtoFirmwareUpgradeConfiguration copyWith(void Function(ProtoFirmwareUpgradeConfiguration) updates) => super.copyWith((message) => updates(message as ProtoFirmwareUpgradeConfiguration)) as ProtoFirmwareUpgradeConfiguration; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static ProtoFirmwareUpgradeConfiguration create() => ProtoFirmwareUpgradeConfiguration._();
+  ProtoFirmwareUpgradeConfiguration createEmptyInstance() => create();
+  static $pb.PbList<ProtoFirmwareUpgradeConfiguration> createRepeated() => $pb.PbList<ProtoFirmwareUpgradeConfiguration>();
+  @$core.pragma('dart2js:noInline')
+  static ProtoFirmwareUpgradeConfiguration getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ProtoFirmwareUpgradeConfiguration>(create);
+  static ProtoFirmwareUpgradeConfiguration? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $fixnum.Int64 get estimatedSwapTimeMs => $_getI64(0);
+  @$pb.TagNumber(1)
+  set estimatedSwapTimeMs($fixnum.Int64 v) { $_setInt64(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasEstimatedSwapTimeMs() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearEstimatedSwapTimeMs() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.bool get eraseAppSettings => $_getBF(1);
+  @$pb.TagNumber(2)
+  set eraseAppSettings($core.bool v) { $_setBool(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasEraseAppSettings() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearEraseAppSettings() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $fixnum.Int64 get pipelineDepth => $_getI64(2);
+  @$pb.TagNumber(3)
+  set pipelineDepth($fixnum.Int64 v) { $_setInt64(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasPipelineDepth() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearPipelineDepth() => clearField(3);
+
+  @$pb.TagNumber(4)
+  ProtoFirmwareUpgradeConfiguration_ImageUploadAlignment get byteAlignment => $_getN(3);
+  @$pb.TagNumber(4)
+  set byteAlignment(ProtoFirmwareUpgradeConfiguration_ImageUploadAlignment v) { setField(4, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasByteAlignment() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearByteAlignment() => clearField(4);
+
+  @$pb.TagNumber(5)
+  $fixnum.Int64 get reassemblyBufferSize => $_getI64(4);
+  @$pb.TagNumber(5)
+  set reassemblyBufferSize($fixnum.Int64 v) { $_setInt64(4, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasReassemblyBufferSize() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearReassemblyBufferSize() => clearField(5);
 }
 
 class ProtoProgressUpdateStreamArg extends $pb.GeneratedMessage {
@@ -579,7 +698,7 @@ class ProtoLogMessageStreamArg extends $pb.GeneratedMessage {
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'uuid')
     ..aOB(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'done')
     ..aOM<ProtoError>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'error', subBuilder: ProtoError.create)
-    ..aOM<ProtoLogMessage>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'protoLogMessage', protoName: 'protoLogMessage', subBuilder: ProtoLogMessage.create)
+    ..pc<ProtoLogMessage>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'protoLogMessage', $pb.PbFieldType.PM, protoName: 'protoLogMessage', subBuilder: ProtoLogMessage.create)
     ..hasRequiredFields = false
   ;
 
@@ -588,7 +707,7 @@ class ProtoLogMessageStreamArg extends $pb.GeneratedMessage {
     $core.String? uuid,
     $core.bool? done,
     ProtoError? error,
-    ProtoLogMessage? protoLogMessage,
+    $core.Iterable<ProtoLogMessage>? protoLogMessage,
   }) {
     final _result = create();
     if (uuid != null) {
@@ -601,7 +720,7 @@ class ProtoLogMessageStreamArg extends $pb.GeneratedMessage {
       _result.error = error;
     }
     if (protoLogMessage != null) {
-      _result.protoLogMessage = protoLogMessage;
+      _result.protoLogMessage.addAll(protoLogMessage);
     }
     return _result;
   }
@@ -656,15 +775,7 @@ class ProtoLogMessageStreamArg extends $pb.GeneratedMessage {
   ProtoError ensureError() => $_ensure(2);
 
   @$pb.TagNumber(4)
-  ProtoLogMessage get protoLogMessage => $_getN(3);
-  @$pb.TagNumber(4)
-  set protoLogMessage(ProtoLogMessage v) { setField(4, v); }
-  @$pb.TagNumber(4)
-  $core.bool hasProtoLogMessage() => $_has(3);
-  @$pb.TagNumber(4)
-  void clearProtoLogMessage() => clearField(4);
-  @$pb.TagNumber(4)
-  ProtoLogMessage ensureProtoLogMessage() => $_ensure(3);
+  $core.List<ProtoLogMessage> get protoLogMessage => $_getList(3);
 }
 
 class ProtoLogMessage extends $pb.GeneratedMessage {
@@ -754,5 +865,66 @@ class ProtoLogMessage extends $pb.GeneratedMessage {
   $core.bool hasLogDateTime() => $_has(3);
   @$pb.TagNumber(4)
   void clearLogDateTime() => clearField(4);
+}
+
+class ProtoMessageLiveLogEnabled extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'ProtoMessageLiveLogEnabled', createEmptyInstance: create)
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'uuid')
+    ..aOB(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'enabled')
+    ..hasRequiredFields = false
+  ;
+
+  ProtoMessageLiveLogEnabled._() : super();
+  factory ProtoMessageLiveLogEnabled({
+    $core.String? uuid,
+    $core.bool? enabled,
+  }) {
+    final _result = create();
+    if (uuid != null) {
+      _result.uuid = uuid;
+    }
+    if (enabled != null) {
+      _result.enabled = enabled;
+    }
+    return _result;
+  }
+  factory ProtoMessageLiveLogEnabled.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ProtoMessageLiveLogEnabled.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  ProtoMessageLiveLogEnabled clone() => ProtoMessageLiveLogEnabled()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  ProtoMessageLiveLogEnabled copyWith(void Function(ProtoMessageLiveLogEnabled) updates) => super.copyWith((message) => updates(message as ProtoMessageLiveLogEnabled)) as ProtoMessageLiveLogEnabled; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static ProtoMessageLiveLogEnabled create() => ProtoMessageLiveLogEnabled._();
+  ProtoMessageLiveLogEnabled createEmptyInstance() => create();
+  static $pb.PbList<ProtoMessageLiveLogEnabled> createRepeated() => $pb.PbList<ProtoMessageLiveLogEnabled>();
+  @$core.pragma('dart2js:noInline')
+  static ProtoMessageLiveLogEnabled getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ProtoMessageLiveLogEnabled>(create);
+  static ProtoMessageLiveLogEnabled? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get uuid => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set uuid($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasUuid() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearUuid() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.bool get enabled => $_getBF(1);
+  @$pb.TagNumber(2)
+  set enabled($core.bool v) { $_setBool(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasEnabled() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearEnabled() => clearField(2);
 }
 

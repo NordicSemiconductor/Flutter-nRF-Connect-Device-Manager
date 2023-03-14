@@ -11,7 +11,9 @@ enum class FlutterMethod {
 	resume,
 	isPaused,
 	isInProgress,
-	cancel;
+	cancel,
+	getAllLogs,
+	kill;
 
 	companion object {
 		fun valueOfOrNull(string: String) = try {

@@ -1,4 +1,6 @@
 syntax = "proto3";
+// package no.nordicsemi.android.mcumgr_flutter.gen;
+option java_package = "no.nordicsemi.android.mcumgr_flutter.gen";
 
 // Flutter call arguments
 message ProtoUpdateCallArgument {
@@ -19,6 +21,7 @@ message Pair {
 message ProtoUpdateWithImageCallArguments {
     string device_uuid = 1;
     repeated Pair images = 2;
+    ProtoFirmwareUpgradeConfiguration configuration = 3;
 }
 
 // STATE
@@ -38,6 +41,8 @@ message ProtoUpdateStateChanges {
         RESET = 4;
         CONFIRM = 5;
         SUCCESS = 6;
+        REQUEST_MCU_MGR_PARAMETERS = 7;
+        ERASE_APP_SETTINGS = 8;
     }
 
     FirmwareUpgradeState oldState = 1;
@@ -45,6 +50,21 @@ message ProtoUpdateStateChanges {
     bool canceled = 3;
 }
 
+message ProtoFirmwareUpgradeConfiguration {
+    enum ImageUploadAlignment {
+        DISABLED = 0;
+        TWO_BYTE = 1;
+        FOUR_BYTE = 2;
+        EIGHT_BYTE = 3;
+        SIXTEEN_BYTE = 4;
+    }
+
+    int64 estimatedSwapTimeMs = 1;
+    bool eraseAppSettings = 2;
+    int64 pipelineDepth = 3;
+    ImageUploadAlignment byteAlignment = 4;
+    uint64 reassemblyBufferSize = 5;
+}
 
 message ProtoProgressUpdateStreamArg {
     string uuid = 1;
@@ -64,7 +84,7 @@ message ProtoLogMessageStreamArg {
     string uuid = 1;
     bool done = 2;
     ProtoError error = 3;
-    ProtoLogMessage protoLogMessage = 4;
+    repeated ProtoLogMessage protoLogMessage = 4;
 }
 
 message ProtoLogMessage {
@@ -94,4 +114,9 @@ message ProtoLogMessage {
     LogCategory logCategory = 2;
     LogLevel logLevel = 3;
     int64 logDateTime = 4;
+}
+
+message ProtoMessageLiveLogEnabled {
+    string uuid = 1;
+    bool enabled = 2;
 }

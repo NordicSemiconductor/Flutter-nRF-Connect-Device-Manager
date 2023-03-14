@@ -2,7 +2,7 @@ package no.nordicsemi.android.mcumgr_flutter.ext
 
 import io.runtime.mcumgr.dfu.FirmwareUpgradeManager.State
 import io.runtime.mcumgr.dfu.FirmwareUpgradeManager.State.*
-import no.nordicsemi.android.mcumgr_flutter.gen.FlutterMcu.ProtoUpdateStateChanges.FirmwareUpgradeState as Proto
+import no.nordicsemi.android.mcumgr_flutter.gen.ProtoUpdateStateChanges.FirmwareUpgradeState as Proto
 
 fun State.toProto(): Proto = when (this) {
 	NONE     -> Proto.NONE
@@ -11,5 +11,9 @@ fun State.toProto(): Proto = when (this) {
 	TEST     -> Proto.TEST
 	RESET    -> Proto.RESET
 	CONFIRM  -> Proto.CONFIRM
-	SUCCESS  -> Proto.SUCCESS
+}
+
+fun State.shouldLog(): Boolean = when (this) {
+	UPLOAD   -> false
+	else     -> true
 }

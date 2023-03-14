@@ -9,6 +9,7 @@ import 'package:mcumgr_flutter/mcumgr_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:path/path.dart' as p;
+import 'package:tuple/tuple.dart';
 
 import 'model/manifest.dart';
 
@@ -24,7 +25,7 @@ class UpdateScreen extends StatefulWidget {
 }
 
 class _UpdateScreenState extends State<UpdateScreen> {
-  Map<int, Uint8List> fwScheme = {};
+  List<Tuple2<int, Uint8List>> fwScheme = [];
   late Stream<FirmwareUpgradeState>? stateStream;
   UpdateManager? uManager;
   late Stream<ProgressUpdate> progressStream;
@@ -73,9 +74,6 @@ class _UpdateScreenState extends State<UpdateScreen> {
       ],
     );
   }
-
-  StreamBuilder<McuLogMessage> _buildLogView(Stream<McuLogMessage> logStream) =>
-      StreamBuilder(stream: logStream, builder: (c, a) => Container());
 
   StreamBuilder<ProgressUpdate> _buildProgressIndicator(
           Stream<ProgressUpdate> progressStream) =>
@@ -160,11 +158,11 @@ class _UpdateScreenState extends State<UpdateScreen> {
       final filePath = p.join(manifestFile.parent.path, section.file);
       final fileContent = await File(filePath).readAsBytes();
       final part = section.image;
-      fwScheme[part] = fileContent;
+      fwScheme.add(Tuple2(part, fileContent));
     });
 
     final updateManager =
-        await McuMgrUpdateManagerFactory().create(widget.deviceId);
+        await McuMgrUpdateManagerFactory().getUpdateManager(widget.deviceId);
     updateManager.setup();
     await updateManager.update(fwScheme);
     return updateManager;

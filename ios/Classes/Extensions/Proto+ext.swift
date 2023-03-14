@@ -25,3 +25,10 @@ extension ProtoUpdateStateChangesStreamArg {
         }
     }
 }
+
+extension ProtoMessageLiveLogEnabled {
+    init(uuid: String, enabled: Bool) {
+        self.uuid = uuid
+        self.enabled = enabled
+    }
+}

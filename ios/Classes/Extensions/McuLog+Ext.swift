@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import McuManager
+import iOSMcuManagerLibrary
 
 extension McuMgrLogLevel {
     func toProto() -> ProtoLogMessage.LogLevel {
@@ -41,9 +41,9 @@ extension McuMgrLogCategory {
 }
 
 extension ProtoLogMessageStreamArg {
-    init(uuid: String, log: ProtoLogMessage) {
+    init(uuid: String, logs: [ProtoLogMessage]) {
         self.uuid = uuid
-        self.protoLogMessage = log 
+        self.protoLogMessage = logs
     }
 }
 

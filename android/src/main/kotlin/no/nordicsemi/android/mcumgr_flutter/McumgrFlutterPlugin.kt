@@ -2,17 +2,18 @@ package no.nordicsemi.android.mcumgr_flutter
 
 import android.bluetooth.BluetoothAdapter
 import android.content.Context
+import android.util.Pair
 import androidx.annotation.NonNull
-import com.google.protobuf.InvalidProtocolBufferException
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
-import no.nordicsemi.android.mcumgr_flutter.gen.FlutterMcu
+
 import no.nordicsemi.android.mcumgr_flutter.logging.LoggableMcuMgrBleTransport
 import no.nordicsemi.android.mcumgr_flutter.utils.*
+import no.nordicsemi.android.mcumgr_flutter.gen.*
 
 /** McumgrFlutterPlugin */
 class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
@@ -89,6 +90,13 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 					val isPaused = retrieveManager(call).isInProgress
 					result.success(isPaused)
 				}
+				FlutterMethod.getAllLogs -> {
+					result.success(retrieveManager(call).readAllLogs().encode())
+				}
+				FlutterMethod.kill -> {
+					kill(call)
+					result.success(null)
+				}
 			}
 		} catch (e: FlutterError) {
 			result.error(e.code, e.message, null)
@@ -106,9 +114,9 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 		val device = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(address)
 		val transport = LoggableMcuMgrBleTransport(context, device , logStreamHandler)
 		val updateManager = UpdateManager(transport,
-				updateStateStreamHandler,
-				updateProgressStreamHandler,
-				logStreamHandler) { _ -> managers.remove(address) }
+			updateStateStreamHandler,
+			updateProgressStreamHandler,
+			logStreamHandler)
 
 		managers[address] = updateManager
 	}
@@ -118,15 +126,29 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 		val bytes = (call.arguments as? ByteArray).guard {
 			throw WrongArguments("Can not parse provided arguments: ${call.arguments.javaClass}")
 		}
-		val arg = try {
-			FlutterMcu.ProtoUpdateCallArgument.parseFrom(bytes)
-		} catch (e: InvalidProtocolBufferException) {
-			throw WrongArguments("Can not parse provided arguments")
-		}
-		val updateManager = managers[arg.deviceUuid].guard {
+		val arg = ProtoUpdateWithImageCallArguments.ADAPTER.decode(bytes)
+		val updateManager = managers[arg.device_uuid].guard {
 			throw UpdateManagerDoesNotExist("Update manager does not exist")
 		}
-		updateManager.start(arg.firmwareData.toByteArray())
+
+		val config = arg.configuration?.let {
+			return@let FirmwareUpgradeConfiguration(
+				it.estimatedSwapTimeMs ?: 0,
+				it.eraseAppSettings ?: true,
+				(it.pipelineDepth ?: 1).toInt(),
+				when (it.byteAlignment) {
+					ProtoFirmwareUpgradeConfiguration.ImageUploadAlignment.TWO_BYTE -> 2
+					ProtoFirmwareUpgradeConfiguration.ImageUploadAlignment.FOUR_BYTE -> 4
+					ProtoFirmwareUpgradeConfiguration.ImageUploadAlignment.EIGHT_BYTE -> 8
+					ProtoFirmwareUpgradeConfiguration.ImageUploadAlignment.SIXTEEN_BYTE -> 16
+					ProtoFirmwareUpgradeConfiguration.ImageUploadAlignment.DISABLED -> 0
+					else -> 4
+				},
+				it.reassemblyBufferSize ?: 0
+			)
+		}
+
+		updateManager.start(arg.images.map { Pair.create(it.key, it.value_.toByteArray()) }, config)
 	}
 
 	@Throws(FlutterError::class)
@@ -137,5 +159,12 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 		return managers[address].guard {
 			throw UpdateManagerDoesNotExist("Update manager does not exist")
 		}
+	}
+
+	private fun kill(@NonNull call: MethodCall) {
+		val address = (call.arguments as? String).guard {
+			throw WrongArguments("Device Address expected")
+		}
+		managers.remove(address)
 	}
 }

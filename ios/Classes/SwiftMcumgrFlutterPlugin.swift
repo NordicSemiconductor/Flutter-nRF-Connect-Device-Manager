@@ -1,6 +1,7 @@
 import Flutter
 import UIKit
 import CoreBluetooth
+import iOSMcuManagerLibrary
 
 public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
     static let namespace = "mcumgr_flutter"
@@ -10,32 +11,43 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
     
     private let updateStateEventChannel: FlutterEventChannel
     private let updateProgressEventChannel: FlutterEventChannel
+    
+    // Log channels
     private let logEventChannel: FlutterEventChannel
+    private let liveLogEnabled: FlutterEventChannel
     
     private let updateStateStreamHandler = StreamHandler()
     private let updateProgressStreamHandler = StreamHandler()
     private let logStreamHandler = StreamHandler()
+    private let liveLogStreamHandler = StreamHandler()
     
-    public init(updateStateEventChannel: FlutterEventChannel, updateProgressEventChannel: FlutterEventChannel, logEventChannel: FlutterEventChannel) {
+    public init(updateStateEventChannel: FlutterEventChannel, updateProgressEventChannel: FlutterEventChannel, logEventChannel: FlutterEventChannel, liveLogEnabled: FlutterEventChannel) {
         self.updateStateEventChannel = updateStateEventChannel
         self.updateProgressEventChannel = updateProgressEventChannel
         self.logEventChannel = logEventChannel
+        self.liveLogEnabled = liveLogEnabled
         
         super.init()
         
         updateStateEventChannel.setStreamHandler(updateStateStreamHandler)
         updateProgressEventChannel.setStreamHandler(updateProgressStreamHandler)
         logEventChannel.setStreamHandler(logStreamHandler)
+        liveLogEnabled.setStreamHandler(liveLogStreamHandler)
     }
     
     public static func register(with registrar: FlutterPluginRegistrar) {
         let channel = FlutterMethodChannel(name: namespace + "/method_channel", binaryMessenger: registrar.messenger())
         
-        let updateStateEventChannel = FlutterEventChannel(name: namespace + "/update_state_event_channel", binaryMessenger: registrar.messenger())
-        let updateProgressEventChannel = FlutterEventChannel(name: namespace + "/update_progress_event_channel", binaryMessenger: registrar.messenger())
-        let logEventChannel = FlutterEventChannel(name: namespace + "/log_event_channel", binaryMessenger: registrar.messenger())
+        let updateStateEventChannel = FlutterEventChannel(channel: .updateStateEventChannel, binaryMessenger: registrar.messenger())
+        let updateProgressEventChannel = FlutterEventChannel(channel: .updateProgressEventChannel, binaryMessenger: registrar.messenger())
+        let logEventChannel = FlutterEventChannel(channel: .logEventChannel, binaryMessenger: registrar.messenger())
+        let liveLogEnabled = FlutterEventChannel(channel: .liveLogEnabledChannel, binaryMessenger: registrar.messenger())
         
-        let instance = SwiftMcumgrFlutterPlugin(updateStateEventChannel: updateStateEventChannel, updateProgressEventChannel: updateProgressEventChannel, logEventChannel: logEventChannel)
+        let instance = SwiftMcumgrFlutterPlugin(
+            updateStateEventChannel: updateStateEventChannel,
+            updateProgressEventChannel: updateProgressEventChannel,
+            logEventChannel: logEventChannel,
+            liveLogEnabled: liveLogEnabled)
         registrar.addMethodCallDelegate(instance, channel: channel)
     }
     
@@ -51,9 +63,6 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
             switch method {
             case .update:
                 try update(call: call)
-                result(nil)
-            case .multicoreUpdate:
-                try multicoreUpdate(call: call)
                 result(nil)
             case .initializeUpdateManager:
                 try initializeUpdateManager(call: call)
@@ -74,7 +83,21 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
             case .kill:
                 try kill(call: call)
                 result(nil)
-                
+            case .toggleLiveLoggs:
+                let m = try retrieveManager(call: call)
+                result(m.updateLogger.toggleLiveLoggs())
+            case .setLiveLoggsEnabled:
+                try setLiveLoggEnabled(call: call)
+                result(nil)
+            case .readLogs:
+                result(try readLogs(call: call))
+            case .clearLogs:
+                try retrieveManager(call: call).updateLogger.clearLogs()
+                result(nil)
+            case .getAllLogs:
+                let arg = try retrieveManager(call: call).updateLogger.getAllLogs()
+                let data = FlutterStandardTypedData(bytes: try arg.serializedData())
+                result(data)
             }
         } catch let e {
             if e is FlutterError {
@@ -99,11 +122,11 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
             throw FlutterError(code: ErrorCode.updateManagerExists.rawValue, message: "Updated manager for provided peripheral already exists", details: call)
         }
         
-        let um = UpdateManager(peripheral: peripheral, progressStreamHandler: updateProgressStreamHandler, stateStreamHandler: updateStateStreamHandler, logStreamHandler: logStreamHandler)
-        um.delegate = self
-        updateManagers[uuidString] = um
+        let logger = UpdateLogger(identifier: uuidString, streamHandler: logStreamHandler, liveLogEnabledStreamHandler: liveLogStreamHandler)
+        let updateManager = UpdateManager(peripheral: peripheral, progressStreamHandler: updateProgressStreamHandler, stateStreamHandler: updateStateStreamHandler, updateLogger: logger)
+        updateManagers[uuidString] = updateManager
     }
-
+    
     private func retrieveManager(call: FlutterMethodCall) throws -> UpdateManager {
         guard let uuid = call.arguments as? String else {
             throw FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can't retrieve UUID of the device", details: call)
@@ -114,6 +137,15 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
         }
 
         return manager;
+    }
+    
+    private func setLiveLoggEnabled(call: FlutterMethodCall) throws {
+        guard let data = call.arguments as? FlutterStandardTypedData else {
+            throw FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can not parse provided arguments", details: call)
+        }
+        
+        let args = try ProtoMessageLiveLogEnabled(serializedData: data.data)
+        updateManagers[args.uuid]?.updateLogger.liveUpdateEnabled = args.enabled
     }
 
     private func pause(call: FlutterMethodCall) throws {
@@ -141,40 +173,25 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
             throw FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can not parse provided arguments", details: call)
         }
         
-        let args = try ProtoUpdateCallArgument(serializedData: data.data)
-        
-        guard let manager = updateManagers[args.deviceUuid] else {
-            throw FlutterError(code: ErrorCode.updateManagerDoesNotExist.rawValue, message: "Update manager does not exist", details: call)
-        }
-        
-        try manager.update(data: args.firmwareData)
-    }
-    
-    private func multicoreUpdate(call: FlutterMethodCall) throws {
-        guard let data = call.arguments as? FlutterStandardTypedData else {
-            throw FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can not parse provided arguments", details: call)
-        }
-        
         let args = try ProtoUpdateWithImageCallArguments(serializedData: data.data)
         guard let manager = updateManagers[args.deviceUuid] else {
             throw FlutterError(code: ErrorCode.updateManagerDoesNotExist.rawValue, message: "Update manager does not exist", details: call)
         }
         
         let images = args.images.map { (Int($0.key), $0.value) }
-        try manager.update(images: images)
+        let config = args.hasConfiguration ? FirmwareUpgradeConfiguration(proto: args.configuration) : FirmwareUpgradeConfiguration()
+        
+        try manager.update(images: images, config: config)
     }
     
     private func kill(call: FlutterMethodCall) throws {
         let uuid = try retrieveManager(call: call).peripheral.identifier.uuidString
         updateManagers.removeValue(forKey: uuid)
     }
-}
-
-extension SwiftMcumgrFlutterPlugin: UpdateManagerDelegate {
-    func updateCompleted(manager: UpdateManager) {
-//        let uuid = manager.peripheral.identifier.uuidString
-//        updateManagers.removeValue(forKey: uuid)
+    
+    // MARK: Logs
+    private func readLogs(call: FlutterMethodCall) throws -> ProtoLogMessageStreamArg {
+        let um = try retrieveManager(call: call)
+        return um.updateLogger.readLogs()
     }
-    
-    
 }

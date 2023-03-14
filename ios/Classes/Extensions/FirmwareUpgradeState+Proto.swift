@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import McuManager
+import iOSMcuManagerLibrary
 import Flutter
 
 extension FirmwareUpgradeState {
@@ -19,6 +19,12 @@ extension FirmwareUpgradeState {
         case .test: return .test
         case .upload: return .upload
         case .validate: return .validate
+        case .requestMcuMgrParameters:
+            // TODO: new state.
+            return .validate
+        case .eraseAppSettings:
+            // TODO: New state
+            fatalError()
         }
     }
 }

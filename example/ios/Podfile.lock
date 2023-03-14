@@ -3,36 +3,29 @@ PODS:
   - flutter_archive (0.0.1):
     - Flutter
     - ZIPFoundation (= 0.9.11)
-  - flutter_blue (0.0.1):
-    - Flutter
-    - flutter_blue/Protos (= 0.0.1)
-  - flutter_blue/Protos (0.0.1):
-    - Flutter
-    - Protobuf (~> 3.11.4)
-  - McuManager (0.12.0):
-    - SwiftCBOR (= 0.4.3)
+  - iOSMcuManagerLibrary (1.3):
+    - SwiftCBOR (= 0.4.4)
   - mcumgr_flutter (0.0.1):
     - Flutter
-    - McuManager
+    - iOSMcuManagerLibrary (~> 1.3)
     - SwiftProtobuf
-  - path_provider (0.0.1):
+  - path_provider_foundation (0.0.1):
     - Flutter
-  - Protobuf (3.11.4)
-  - SwiftCBOR (0.4.3)
-  - SwiftProtobuf (1.18.0)
+    - FlutterMacOS
+  - SwiftCBOR (0.4.4)
+  - SwiftProtobuf (1.21.0)
   - ZIPFoundation (0.9.11)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_archive (from `.symlinks/plugins/flutter_archive/ios`)
-  - flutter_blue (from `.symlinks/plugins/flutter_blue/ios`)
-  - McuManager (from `https://github.com/NickKibish/IOS-nRF-Connect-Device-Manager.git`)
+  - iOSMcuManagerLibrary
   - mcumgr_flutter (from `.symlinks/plugins/mcumgr_flutter/ios`)
-  - path_provider (from `.symlinks/plugins/path_provider/ios`)
+  - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/ios`)
 
 SPEC REPOS:
   trunk:
-    - Protobuf
+    - iOSMcuManagerLibrary
     - SwiftCBOR
     - SwiftProtobuf
     - ZIPFoundation
@@ -42,32 +35,21 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_archive:
     :path: ".symlinks/plugins/flutter_archive/ios"
-  flutter_blue:
-    :path: ".symlinks/plugins/flutter_blue/ios"
-  McuManager:
-    :git: https://github.com/NickKibish/IOS-nRF-Connect-Device-Manager.git
   mcumgr_flutter:
     :path: ".symlinks/plugins/mcumgr_flutter/ios"
-  path_provider:
-    :path: ".symlinks/plugins/path_provider/ios"
-
-CHECKOUT OPTIONS:
-  McuManager:
-    :commit: ee7850b028a6aafb9f3dd7e6b508fadcb7e3404b
-    :git: https://github.com/NickKibish/IOS-nRF-Connect-Device-Manager.git
+  path_provider_foundation:
+    :path: ".symlinks/plugins/path_provider_foundation/ios"
 
 SPEC CHECKSUMS:
-  Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
-  flutter_archive: e7010a2779b4ff1483b00386bfb4e847f5836182
-  flutter_blue: eeb381dc4727a0954dede73515f683865494b370
-  McuManager: 04fbec94566eaaf5508175246b1d5b0c5f1b83dd
-  mcumgr_flutter: b510e6767929b8a75d52644a0384001cf1405c65
-  path_provider: d1e9807085df1f9cc9318206cd649dc0b76be3de
-  Protobuf: 176220c526ad8bd09ab1fb40a978eac3fef665f7
-  SwiftCBOR: c7d740966575e0fd5d971466de2b6776db3f10c3
-  SwiftProtobuf: c3c12645230d9b09c72267e0de89468c5543bd86
+  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  flutter_archive: 141014f758a0b31fde29add54952729eb1d61c95
+  iOSMcuManagerLibrary: d5207f03fbc43e64e194ee4c36a08dececb4a06c
+  mcumgr_flutter: e76856a151a3afe3a306ba8eabeed094ff1cc288
+  path_provider_foundation: c68054786f1b4f3343858c1e1d0caaded73f0be9
+  SwiftCBOR: ce5354ec8b660da2d6fc754462881119dbe1f963
+  SwiftProtobuf: afced68785854575756db965e9da52bbf3dc45e7
   ZIPFoundation: b1f0de4eed33e74a676f76e12559ab6b75990197
 
-PODFILE CHECKSUM: dcb3d74a218fe3feeb57719f99a05b544aa413bf
+PODFILE CHECKSUM: 1315786ddf366067751b65b2e4de6e6ef828e50b
 
-COCOAPODS: 1.10.0
+COCOAPODS: 1.11.3

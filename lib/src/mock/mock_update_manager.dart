@@ -3,7 +3,9 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:mcumgr_flutter/mcumgr_flutter.dart';
+import 'package:mcumgr_flutter/src/mock/mock_update_logger.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:tuple/tuple.dart';
 
 class _UpdateTupple {
   final ProgressUpdate progressUpdate;
@@ -17,15 +19,9 @@ class MockUpdateManager extends UpdateManager {
       BehaviorSubject();
   final BehaviorSubject<FirmwareUpgradeState> _updateStateStreamController =
       BehaviorSubject.seeded(FirmwareUpgradeState.none);
-  final BehaviorSubject<McuLogMessage> _logMessageStreamController =
-      BehaviorSubject();
   final BehaviorSubject<bool> _updateInProgressStreamController =
       BehaviorSubject.seeded(true);
   final StreamController<bool> _cancelTrigger = StreamController.broadcast();
-
-  @override
-  Stream<McuLogMessage> get logMessageStream =>
-      _logMessageStreamController.stream;
 
   @override
   Stream<ProgressUpdate> get progressStream => _progressStreamController.stream;
@@ -44,10 +40,8 @@ class MockUpdateManager extends UpdateManager {
 
   void _close() {
     _cancelTrigger.close();
-    _logMessageStreamController.close();
     _progressStreamController.close();
     _updateStateStreamController.close();
-    _logMessageStreamController.close();
     _updateInProgressStreamController.close();
   }
 
@@ -79,23 +73,12 @@ class MockUpdateManager extends UpdateManager {
 
   Future<void> _startUpdate() async {
     _updateStateStreamController.add(FirmwareUpgradeState.validate);
-
-    final rand = Random();
-    Stream.periodic(Duration(seconds: 1), (i) {
-      final category = McuMgrLogCategory
-          .values[rand.nextInt(McuMgrLogCategory.values.length)];
-      final level =
-          McuMgrLogLevel.values[rand.nextInt(McuMgrLogLevel.values.length)];
-      final msg = McuLogMessage('message', category, level, DateTime.now());
-      return msg;
-    }).listen((event) => _logMessageStreamController.add(event));
-
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(Duration(milliseconds: 10));
 
     _updateStateStreamController.add(FirmwareUpgradeState.upload);
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(Duration(milliseconds: 1000));
 
-    final progStream = Stream.periodic(Duration(milliseconds: 200),
+    final progStream = Stream.periodic(Duration(milliseconds: 20),
         (i) => ProgressUpdate(i, 100, DateTime.now()));
 
     final queue = Rx.combineLatest2(progStream, updateInProgressStream,
@@ -103,7 +86,6 @@ class MockUpdateManager extends UpdateManager {
         .bufferTest((event) => event.inProgress)
         .flatMap((value) => Stream.fromIterable(value))
         .map((event) => event.progressUpdate)
-        .interval(Duration(milliseconds: 100))
         .take(100)
         .takeUntil(_cancelTrigger.stream);
 
@@ -120,28 +102,37 @@ class MockUpdateManager extends UpdateManager {
 
     await for (var e in Stream.fromIterable(states)
         .takeUntil(_cancelTrigger.stream)
-        .interval(Duration(seconds: 3))) {
+        .interval(Duration(milliseconds: 10))) {
       _updateStateStreamController.add(e);
     }
     _progressStreamController.close();
     _updateStateStreamController.close();
-    _logMessageStreamController.close();
+    // _logMessageStreamController.close();
   }
 
   @override
-  Future<void> kill() {
-    // TODO: implement kill
-    throw UnimplementedError();
-  }
+  Future<void> kill() async {}
 
   @override
   Stream<FirmwareUpgradeState> setup() {
-    // TODO: implement setup
-    throw UnimplementedError();
+    return _updateStateStreamController.stream;
   }
 
   @override
-  Future<void> update(Map<int, Uint8List> images) async {
+  Future<void> updateMap(Map<int, Uint8List> images) async {
     await _startUpdate();
+  }
+
+  @override
+  UpdateLogger get logger => MockUpdateLogger();
+
+  @override
+  Future<void> update(List<Tuple2<int, Uint8List>> images,
+      {FirmwareUpgradeConfiguration configuration =
+          const FirmwareUpgradeConfiguration()}) {
+    Map<int, Uint8List> imageMap =
+        Map.fromIterable(images, key: (e) => e.item1, value: (e) => e.item2);
+
+    return updateMap(imageMap);
   }
 }
