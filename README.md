@@ -9,7 +9,7 @@ nRF Connect Device Manager library is a Flutter plugin based on [Android](https:
 Use `UpdateManagerFactory` to create an instance of `FirmwareUpdateManager`:
 
 ```dart
-final managerFactory: Up = FirmwareUpdateManagerFactory()
+final managerFactory: UpdateManagerFactory = FirmwareUpdateManagerFactory()
 // `deviceId` is a String with the device's MAC address (on Android) or UUID (on iOS)
 final updateManager = await managerFactory.getUpdateManager(deviceId);
 // call `setup` before using the manager
