@@ -1,7 +1,12 @@
 {
     "cSpell.words": [
         "CBOR",
-        "Protobuf"
+        "fixnum",
+        "MCUBOOT",
+        "mcumgr",
+        "modtime",
+        "Protobuf",
+        "rxdart"
     ],
     "C_Cpp.default.configurationProvider": "nrf-connect",
     "nrf-connect.toolchain.path": "${nrf-connect.toolchain:1.9.1}"

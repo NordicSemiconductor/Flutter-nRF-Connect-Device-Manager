@@ -10,11 +10,11 @@ import '../mcumgr_flutter.dart';
 import '../proto/extensions/proto_ext.dart';
 import 'method_channels.dart';
 
-class McuMgrUpdateManager extends UpdateManager {
+class DeviceUpdateManager extends FirmwareUpdateManager {
   final String _deviceId;
   final McuMgrLogger _logger;
 
-  McuMgrUpdateManager._deviceIdentifier(this._deviceId)
+  DeviceUpdateManager._deviceIdentifier(this._deviceId)
       : this._logger = McuMgrLogger.deviceIdentifier(_deviceId);
 
   // STREAM CONTROLLERS
@@ -54,7 +54,7 @@ class McuMgrUpdateManager extends UpdateManager {
 
   // Stream<ProgressUpdate> get
 
-  static Future<McuMgrUpdateManager> getInstance(String deviceId) async {
+  static Future<DeviceUpdateManager> getInstance(String deviceId) async {
     try {
       await methodChannel.invokeMethod(
           UpdateManagerMethod.initializeUpdateManager.rawValue, deviceId);
@@ -63,7 +63,7 @@ class McuMgrUpdateManager extends UpdateManager {
       print(e);
     }
 
-    final um = McuMgrUpdateManager._deviceIdentifier(deviceId);
+    final um = DeviceUpdateManager._deviceIdentifier(deviceId);
     um._setupStreams();
     return um;
   }
@@ -197,5 +197,5 @@ class McuMgrUpdateManager extends UpdateManager {
   }
 
   @override
-  UpdateLogger get logger => _logger;
+  FirmwareUpdateLogger get logger => _logger;
 }

@@ -33,9 +33,9 @@ class FirmwareUpgradeConfiguration {
 }
 
 /// Object that handles update process.
-abstract class UpdateManager {
+abstract class FirmwareUpdateManager {
   /// Get logger related to this update manager.
-  UpdateLogger get logger;
+  FirmwareUpdateLogger get logger;
 
   /// Stream emits `ProgressUpdate` events.
   Stream<ProgressUpdate> get progressStream;
@@ -95,7 +95,7 @@ abstract class UpdateManager {
   Future<void> kill();
 }
 
-abstract class UpdateLogger {
+abstract class FirmwareUpdateLogger {
   /// Stream emits Log Messages
   Stream<List<McuLogMessage>> get logMessageStream;
 
@@ -116,7 +116,7 @@ abstract class UpdateLogger {
   /// Set live logging
   Future<void> setLiveLoggingEnabled(bool value);
 
-  /// New logs will be sent thgrough `logMessageStream`
+  /// New logs will be sent through `logMessageStream`
   Future<List<McuLogMessage>> readLogs();
 
   /// Get all available log messages
@@ -129,14 +129,14 @@ abstract class UpdateLogger {
 
 /// Object that creates `UpdateManager` instance.
 abstract class UpdateManagerFactory {
-  Future<UpdateManager> getUpdateManager(String deviceId);
+  Future<FirmwareUpdateManager> getUpdateManager(String deviceId);
 }
 
 /// Implementation of `UpdateManagerFactory` that creates `UpdateManager` instance for production.
-class McuMgrUpdateManagerFactory extends UpdateManagerFactory {
+class FirmwareUpdateManagerFactory extends UpdateManagerFactory {
   @override
-  Future<UpdateManager> getUpdateManager(String deviceId) async {
-    return await McuMgrUpdateManager.getInstance(deviceId);
+  Future<FirmwareUpdateManager> getUpdateManager(String deviceId) async {
+    return await DeviceUpdateManager.getInstance(deviceId);
   }
 }
 
@@ -145,7 +145,7 @@ class McuMgrUpdateManagerFactory extends UpdateManagerFactory {
 /// This implementation creates `MockUpdateManager` instance which emulates update process.
 class MockUpdateManagerFactory extends UpdateManagerFactory {
   @override
-  Future<UpdateManager> getUpdateManager(String deviceId) async {
+  Future<FirmwareUpdateManager> getUpdateManager(String deviceId) async {
     return MockUpdateManager();
   }
 }
@@ -157,5 +157,5 @@ class IntegrationTestUpdateManagerFactory extends UpdateManagerFactory {
   final um = MockManualUpdateManager();
 
   @override
-  Future<UpdateManager> getUpdateManager(String deviceId) async => um;
+  Future<FirmwareUpdateManager> getUpdateManager(String deviceId) async => um;
 }

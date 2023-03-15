@@ -51,8 +51,8 @@ class UpdateLoggerMethod {
   String get rawValue => _rawValue;
 
   static const readLogs = const UpdateLoggerMethod('readLogs');
-  static const toggleLiveLoggs = const UpdateLoggerMethod('toggleLiveLoggs');
-  static const setLiveLoggsEnabled =
+  static const toggleLiveLogs = const UpdateLoggerMethod('toggleLiveLoggs');
+  static const setLiveLogsEnabled =
       const UpdateLoggerMethod('setLiveLoggsEnabled');
 
   static const getAllLogs = const UpdateLoggerMethod('getAllLogs');

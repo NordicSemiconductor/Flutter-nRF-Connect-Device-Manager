@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:collection';
-import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:mcumgr_flutter/mcumgr_flutter.dart';
@@ -19,7 +18,7 @@ class _FWState extends LinkedListEntry<_FWState> {
   String toString() => state.toString();
 }
 
-class MockManualUpdateManager extends UpdateManager {
+class MockManualUpdateManager extends FirmwareUpdateManager {
   final BehaviorSubject<ProgressUpdate> _progressStreamController =
       BehaviorSubject();
   final BehaviorSubject<FirmwareUpgradeState> _updateStateStreamController =
@@ -68,7 +67,7 @@ class MockManualUpdateManager extends UpdateManager {
   Future<void> kill() async {}
 
   @override
-  UpdateLogger get logger => MockUpdateLogger();
+  FirmwareUpdateLogger get logger => MockUpdateLogger();
 
   @override
   Future<void> pause() async => await resume();
@@ -93,7 +92,6 @@ class MockManualUpdateManager extends UpdateManager {
     return _updateStateStreamController.stream;
   }
 
-  @override
   Future<void> updateMap(Map<int, Uint8List> images) async {}
 
   @override

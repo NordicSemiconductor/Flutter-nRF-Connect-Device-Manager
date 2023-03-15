@@ -27,7 +27,7 @@ class UpdateScreen extends StatefulWidget {
 class _UpdateScreenState extends State<UpdateScreen> {
   List<Tuple2<int, Uint8List>> fwScheme = [];
   late Stream<FirmwareUpgradeState>? stateStream;
-  UpdateManager? uManager;
+  FirmwareUpdateManager? uManager;
   late Stream<ProgressUpdate> progressStream;
 
   @override
@@ -52,7 +52,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
           future: _unpackData(context, widget.asset),
           builder: (c, a) {
             if (a.hasData) {
-              uManager = a.data as UpdateManager;
+              uManager = a.data as FirmwareUpdateManager;
 
               stateStream = uManager!.updateStateStream;
               progressStream = uManager!.progressStream;
@@ -100,7 +100,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
   }
 
   StreamBuilder<FirmwareUpgradeState> _buildStateStreamBuilder(
-          Stream<FirmwareUpgradeState> stateStream, UpdateManager um) =>
+          Stream<FirmwareUpgradeState> stateStream, FirmwareUpdateManager um) =>
       StreamBuilder(
           stream: stateStream,
           builder: (c, a) {
@@ -130,7 +130,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
             }
           });
 
-  Future<UpdateManager> _unpackData(BuildContext context, String asset) async {
+  Future<FirmwareUpdateManager> _unpackData(
+      BuildContext context, String asset) async {
     final d = await DefaultAssetBundle.of(context).load(asset);
     final buffer = d.buffer;
     final tmpDir = await getTemporaryDirectory();
@@ -162,7 +163,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
     });
 
     final updateManager =
-        await McuMgrUpdateManagerFactory().getUpdateManager(widget.deviceId);
+        await FirmwareUpdateManagerFactory().getUpdateManager(widget.deviceId);
     updateManager.setup();
     await updateManager.update(fwScheme);
     return updateManager;

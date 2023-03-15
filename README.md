@@ -2,15 +2,14 @@
 
 nRF Connect Device Manager library is a Flutter plugin based on [Android](https://github.com/NordicSemiconductor/Android-nRF-Connect-Device-Manager) and [iOS](https://github.com/NordicSemiconductor/IOS-nRF-Connect-Device-Manager) nRF Connect Device Manager libraries.
 
-## Contributing
-This is an early beta version of the library. We are working on improving it and adding more features. If you have any suggestions or find any bugs, please create an issue or a pull request.
+> **BETA 🧪:** This library is still in beta. We are working on improving it and adding more features. If you have any suggestions or find any bugs, please create an issue or a pull request. Also future versions of this library may introduce breaking changes.
 
 ## Getting Started
 ### Creating a manager
-Use `UpdateManagerFactory` to create an instance of `UpdateManager`:
+Use `UpdateManagerFactory` to create an instance of `FirmwareUpdateManager`:
 
 ```dart
-final managerFactory: Up = McuMgrUpdateManagerFactory()
+final managerFactory: Up = FirmwareUpdateManagerFactory()
 // `deviceId` is a String with the device's MAC address (on Android) or UUID (on iOS)
 final updateManager = await managerFactory.getUpdateManager(deviceId);
 // call `setup` before using the manager
@@ -18,7 +17,7 @@ final updateStream = updateManager.setup();
 ```
 
 ### Updating the device
-To update the device, call `update` method on the `UpdateManager` instance:
+To update the device, call `update` method on the `FirmwareUpdateManager` instance:
 
 ```dart
 // `firmware` is a List of data and index pairs
@@ -50,8 +49,8 @@ updateManager.progressStream.listen((event) {
 });
 ```
 
-### Controling the update
-To control the update, use `UpdateManager` methods:
+### Controlling the update
+To control the update, use `FirmwareUpdateManager` methods:
 
 ```dart
   /// Pause the update process.
@@ -78,7 +77,7 @@ updateManager.kill();
 ```
 
 ## Reading logs
-To read logs from the device, use `LogManager`:
+To read logs from the device, use `FirmwareUpdateLogger`:
 
 ```dart
 final logger = updateManager.logger;

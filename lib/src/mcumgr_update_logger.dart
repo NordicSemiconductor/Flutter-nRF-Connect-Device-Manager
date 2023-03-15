@@ -13,7 +13,7 @@ extension _Invocation on MethodChannel {
   }
 }
 
-class McuMgrLogger extends UpdateLogger {
+class McuMgrLogger extends FirmwareUpdateLogger {
   StreamController<List<McuLogMessage>> _logMessageStreamController =
       StreamController.broadcast();
   StreamController<bool> _liveLogEnabled = StreamController.broadcast();
@@ -33,11 +33,11 @@ class McuMgrLogger extends UpdateLogger {
 
   @override
   Future<List<McuLogMessage>> readLogs() =>
-      _retreiveLogs(UpdateLoggerMethod.readLogs);
+      _retrieveLogs(UpdateLoggerMethod.readLogs);
 
   @override
   Future<bool> toggleLiveLogging() async =>
-      await methodChannel.invoke(UpdateLoggerMethod.toggleLiveLoggs, _deviceId);
+      await methodChannel.invoke(UpdateLoggerMethod.toggleLiveLogs, _deviceId);
 
   void _setupLogStream() => UpdateLoggerChannel.logEventChannel
       .receiveBroadcastStream()
@@ -62,7 +62,7 @@ class McuMgrLogger extends UpdateLogger {
       ..enabled = value
       ..uuid = _deviceId;
     await methodChannel.invoke(
-        UpdateLoggerMethod.setLiveLoggsEnabled, msg.writeToBuffer());
+        UpdateLoggerMethod.setLiveLogsEnabled, msg.writeToBuffer());
   }
 
   @override
@@ -72,9 +72,9 @@ class McuMgrLogger extends UpdateLogger {
 
   @override
   Future<List<McuLogMessage>> getAllLogs() =>
-      _retreiveLogs(UpdateLoggerMethod.getAllLogs);
+      _retrieveLogs(UpdateLoggerMethod.getAllLogs);
 
-  Future<List<McuLogMessage>> _retreiveLogs(UpdateLoggerMethod method) async {
+  Future<List<McuLogMessage>> _retrieveLogs(UpdateLoggerMethod method) async {
     final streamArg = ProtoLogMessageStreamArg.fromBuffer(
         await methodChannel.invoke(method, _deviceId));
     return streamArg.protoLogMessage.map((e) => e.convent()).toList();

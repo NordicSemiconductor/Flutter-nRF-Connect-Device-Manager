@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:mcumgr_flutter/mcumgr_flutter.dart';
@@ -7,14 +6,14 @@ import 'package:mcumgr_flutter/src/mock/mock_update_logger.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:tuple/tuple.dart';
 
-class _UpdateTupple {
+class _UpdateTuple {
   final ProgressUpdate progressUpdate;
   final bool inProgress;
 
-  _UpdateTupple(this.progressUpdate, this.inProgress);
+  _UpdateTuple(this.progressUpdate, this.inProgress);
 }
 
-class MockUpdateManager extends UpdateManager {
+class MockUpdateManager extends FirmwareUpdateManager {
   final BehaviorSubject<ProgressUpdate> _progressStreamController =
       BehaviorSubject();
   final BehaviorSubject<FirmwareUpgradeState> _updateStateStreamController =
@@ -82,7 +81,7 @@ class MockUpdateManager extends UpdateManager {
         (i) => ProgressUpdate(i, 100, DateTime.now()));
 
     final queue = Rx.combineLatest2(progStream, updateInProgressStream,
-            (a, b) => _UpdateTupple(a as ProgressUpdate, b as bool))
+            (a, b) => _UpdateTuple(a as ProgressUpdate, b as bool))
         .bufferTest((event) => event.inProgress)
         .flatMap((value) => Stream.fromIterable(value))
         .map((event) => event.progressUpdate)
@@ -118,13 +117,12 @@ class MockUpdateManager extends UpdateManager {
     return _updateStateStreamController.stream;
   }
 
-  @override
   Future<void> updateMap(Map<int, Uint8List> images) async {
     await _startUpdate();
   }
 
   @override
-  UpdateLogger get logger => MockUpdateLogger();
+  FirmwareUpdateLogger get logger => MockUpdateLogger();
 
   @override
   Future<void> update(List<Tuple2<int, Uint8List>> images,

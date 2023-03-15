@@ -2,7 +2,7 @@ import 'package:flutter/services.dart';
 
 import '../../mcumgr_flutter.dart';
 
-class MockUpdateLogger extends UpdateLogger {
+class MockUpdateLogger extends FirmwareUpdateLogger {
   bool _liveUpdate = true;
 
   @override
