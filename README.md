@@ -1,4 +1,4 @@
-# mcumgr_flutter
+# nRF Connect Device Manager
 
 nRF Connect Device Manager library is a Flutter plugin based on [Android](https://github.com/NordicSemiconductor/Android-nRF-Connect-Device-Manager) and [iOS](https://github.com/NordicSemiconductor/IOS-nRF-Connect-Device-Manager) nRF Connect Device Manager libraries.
 
@@ -11,7 +11,7 @@ Use `UpdateManagerFactory` to create an instance of `UpdateManager`:
 
 ```dart
 final managerFactory: Up = McuMgrUpdateManagerFactory()
-// `deviceId` is a String with the device's MAC address (on Android) or UUID (on iOS
+// `deviceId` is a String with the device's MAC address (on Android) or UUID (on iOS)
 final updateManager = await managerFactory.getUpdateManager(deviceId);
 // call `setup` before using the manager
 final updateStream = updateManager.setup();
