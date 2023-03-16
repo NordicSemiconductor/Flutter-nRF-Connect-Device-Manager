@@ -1,3 +1,4 @@
-## 0.0.1
+## 0.1.1+1
 
-* TODO: Describe initial release.
+* First public beta release
+* Added library to pub.dev

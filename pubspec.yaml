@@ -1,6 +1,6 @@
 name: mcumgr_flutter
 description: A new flutter plugin project.
-version: 0.1.0+1
+version: 0.1.1+1
 homepage: "https://docs.flutter.dev/development/tools/sdk/upgrading"
 
 environment:
@@ -8,6 +8,7 @@ environment:
   flutter: ">=2.0.0"
 
 dependencies:
+  fixnum: ^1.1.0
   flutter:
     sdk: flutter
   protobuf: ^2.1.0

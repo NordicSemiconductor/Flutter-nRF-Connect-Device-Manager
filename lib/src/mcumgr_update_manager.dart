@@ -79,7 +79,6 @@ class DeviceUpdateManager extends FirmwareUpdateManager {
     return _updateStateStreamController!.stream;
   }
 
-  @override
   Future<void> updateMap(Map<int, Uint8List> images) async {
     await methodChannel.invokeMethod(
         UpdateManagerMethod.update.rawValue,
