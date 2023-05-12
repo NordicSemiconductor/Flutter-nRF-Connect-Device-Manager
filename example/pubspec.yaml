@@ -15,7 +15,7 @@ dependencies:
   flutter_archive: ^4.0.1
   path_provider: ^2.0.5
   uuid: ^3.0.4
-  json_serializable: ^5.0.2
+  json_serializable: ^6.0.0
   flutter:
     sdk: flutter
 
