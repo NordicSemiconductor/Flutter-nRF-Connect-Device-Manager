@@ -8,7 +8,7 @@ ___
 ## Supported Platforms
 - Android: `minSdkVersion 19`
 - iOS: `13.0`
-___
+
 ## Getting Started
 ### Creating a manager
 Use `UpdateManagerFactory` to create an instance of `FirmwareUpdateManager`:

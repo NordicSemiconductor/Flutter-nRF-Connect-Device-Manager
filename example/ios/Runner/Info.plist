@@ -43,5 +43,9 @@
 	<false/>
 	<key>NSBluetoothAlwaysUsageDescription</key>
 	<string>Grant the permition for using Bluetooth to have an ability find and connect the devices.</string>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
 </dict>
 </plist>

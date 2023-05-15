@@ -47,11 +47,13 @@ class McuMgrLogger extends FirmwareUpdateLogger {
           .add(msg.protoLogMessage.map((m) => m.convent()).toList()));
 
   void _setupLiveLogStatusStream() {
+    /*
     UpdateLoggerChannel.liveLogEnabledChannel
         .receiveBroadcastStream()
         .map((data) => ProtoMessageLiveLogEnabled.fromBuffer(data))
         .where((arg) => (arg.uuid == _deviceId))
         .listen((arg) => _liveLogEnabled.add(arg.enabled));
+        */
   }
 
   @override

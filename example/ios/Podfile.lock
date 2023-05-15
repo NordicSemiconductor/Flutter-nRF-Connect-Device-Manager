@@ -9,9 +9,8 @@ PODS:
     - Flutter
     - iOSMcuManagerLibrary (~> 1.3)
     - SwiftProtobuf
-  - path_provider_foundation (0.0.1):
+  - path_provider_ios (0.0.1):
     - Flutter
-    - FlutterMacOS
   - SwiftCBOR (0.4.4)
   - SwiftProtobuf (1.21.0)
   - ZIPFoundation (0.9.11)
@@ -21,7 +20,7 @@ DEPENDENCIES:
   - flutter_archive (from `.symlinks/plugins/flutter_archive/ios`)
   - iOSMcuManagerLibrary
   - mcumgr_flutter (from `.symlinks/plugins/mcumgr_flutter/ios`)
-  - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/ios`)
+  - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
 
 SPEC REPOS:
   trunk:
@@ -37,19 +36,19 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_archive/ios"
   mcumgr_flutter:
     :path: ".symlinks/plugins/mcumgr_flutter/ios"
-  path_provider_foundation:
-    :path: ".symlinks/plugins/path_provider_foundation/ios"
+  path_provider_ios:
+    :path: ".symlinks/plugins/path_provider_ios/ios"
 
 SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_archive: 141014f758a0b31fde29add54952729eb1d61c95
   iOSMcuManagerLibrary: d5207f03fbc43e64e194ee4c36a08dececb4a06c
   mcumgr_flutter: e76856a151a3afe3a306ba8eabeed094ff1cc288
-  path_provider_foundation: c68054786f1b4f3343858c1e1d0caaded73f0be9
+  path_provider_ios: 14f3d2fd28c4fdb42f44e0f751d12861c43cee02
   SwiftCBOR: ce5354ec8b660da2d6fc754462881119dbe1f963
   SwiftProtobuf: afced68785854575756db965e9da52bbf3dc45e7
   ZIPFoundation: b1f0de4eed33e74a676f76e12559ab6b75990197
 
-PODFILE CHECKSUM: 1315786ddf366067751b65b2e4de6e6ef828e50b
+PODFILE CHECKSUM: 8b72c395e7f82f92c0838bcd4f65ae7af3ed0163
 
 COCOAPODS: 1.11.3

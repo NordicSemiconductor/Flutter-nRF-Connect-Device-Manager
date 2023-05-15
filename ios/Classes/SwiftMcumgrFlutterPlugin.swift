@@ -14,25 +14,30 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
     
     // Log channels
     private let logEventChannel: FlutterEventChannel
-    private let liveLogEnabled: FlutterEventChannel
+//    private let liveLogEnabled: FlutterEventChannel
     
     private let updateStateStreamHandler = StreamHandler()
     private let updateProgressStreamHandler = StreamHandler()
     private let logStreamHandler = StreamHandler()
     private let liveLogStreamHandler = StreamHandler()
     
-    public init(updateStateEventChannel: FlutterEventChannel, updateProgressEventChannel: FlutterEventChannel, logEventChannel: FlutterEventChannel, liveLogEnabled: FlutterEventChannel) {
+    public init(
+        updateStateEventChannel: FlutterEventChannel, 
+        updateProgressEventChannel: FlutterEventChannel, 
+        logEventChannel: FlutterEventChannel
+    // liveLogEnabled: FlutterEventChannel
+    ) {
         self.updateStateEventChannel = updateStateEventChannel
         self.updateProgressEventChannel = updateProgressEventChannel
         self.logEventChannel = logEventChannel
-        self.liveLogEnabled = liveLogEnabled
+        // self.liveLogEnabled = liveLogEnabled
         
         super.init()
         
         updateStateEventChannel.setStreamHandler(updateStateStreamHandler)
         updateProgressEventChannel.setStreamHandler(updateProgressStreamHandler)
         logEventChannel.setStreamHandler(logStreamHandler)
-        liveLogEnabled.setStreamHandler(liveLogStreamHandler)
+//        liveLogEnabled.setStreamHandler(liveLogStreamHandler)
     }
     
     public static func register(with registrar: FlutterPluginRegistrar) {
@@ -41,13 +46,15 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
         let updateStateEventChannel = FlutterEventChannel(channel: .updateStateEventChannel, binaryMessenger: registrar.messenger())
         let updateProgressEventChannel = FlutterEventChannel(channel: .updateProgressEventChannel, binaryMessenger: registrar.messenger())
         let logEventChannel = FlutterEventChannel(channel: .logEventChannel, binaryMessenger: registrar.messenger())
-        let liveLogEnabled = FlutterEventChannel(channel: .liveLogEnabledChannel, binaryMessenger: registrar.messenger())
+        // TBD: It will be implemented in the future
+        // let liveLogEnabled = FlutterEventChannel(channel: .liveLogEnabledChannel, binaryMessenger: registrar.messenger())
         
         let instance = SwiftMcumgrFlutterPlugin(
             updateStateEventChannel: updateStateEventChannel,
             updateProgressEventChannel: updateProgressEventChannel,
-            logEventChannel: logEventChannel,
-            liveLogEnabled: liveLogEnabled)
+            logEventChannel: logEventChannel
+            // liveLogEnabled: liveLogEnabled
+            )
         registrar.addMethodCallDelegate(instance, channel: channel)
     }
     

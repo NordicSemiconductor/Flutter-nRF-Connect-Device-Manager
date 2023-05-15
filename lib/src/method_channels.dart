@@ -18,9 +18,10 @@ class UpdateLoggerChannel {
   static const EventChannel logEventChannel =
       const EventChannel(_namespace + '/log_event_channel');
 
+  // TBD: This channel is not implemented yet
   // emit bool value
-  static const EventChannel liveLogEnabledChannel =
-      const EventChannel(_namespace + '/live_log_enabled_channel');
+  // static const EventChannel liveLogEnabledChannel =
+      // const EventChannel(_namespace + '/live_log_enabled_channel');
 }
 
 /// Channel methods related to UpdateManager
