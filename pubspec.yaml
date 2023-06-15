@@ -11,7 +11,7 @@ dependencies:
   fixnum: ^1.1.0
   flutter:
     sdk: flutter
-  protobuf: ^2.1.0
+  protobuf: ^3.0.0
   rxdart: ^0.27.7
   tuple: ^2.0.1
 
