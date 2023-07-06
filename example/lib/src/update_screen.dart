@@ -108,12 +108,12 @@ class _UpdateScreenState extends State<UpdateScreen> {
               final state = a.data!;
               return Text(
                 state.toString(),
-                style: Theme.of(c).textTheme.subtitle1,
+                style: Theme.of(c).textTheme.titleMedium,
               );
             } else if (a.connectionState == ConnectionState.done) {
               return Text(
                 'Done',
-                style: Theme.of(c).textTheme.subtitle1,
+                style: Theme.of(c).textTheme.titleMedium,
               );
             } else if (a.hasError) {
               return Column(
@@ -125,7 +125,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
             } else {
               return Text(
                 'Waiting',
-                style: Theme.of(c).textTheme.subtitle1,
+                style: Theme.of(c).textTheme.titleMedium,
               );
             }
           });
