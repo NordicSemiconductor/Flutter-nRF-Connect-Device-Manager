@@ -106,6 +106,10 @@ class UpdateManager(
 		return (manager.transporter as? LoggableMcuMgrBleTransport)!!.readLogs()
 	}
 
+	fun releaseTransport() {
+		transport.release();
+	}
+
 	override fun onUpgradeStarted(controller: FirmwareUpgradeController?) {
 		transport.setLoggingEnabled(true)
 	}

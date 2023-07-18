@@ -165,6 +165,9 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 		val address = (call.arguments as? String).guard {
 			throw WrongArguments("Device Address expected")
 		}
+		if (managers.containsKey(address)) {
+			managers[address]!!.releaseTransport();
+		}
 		managers.remove(address)
 	}
 }
