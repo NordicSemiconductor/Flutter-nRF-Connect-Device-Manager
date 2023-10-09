@@ -66,6 +66,15 @@ abstract class FirmwareUpdateManager {
       {FirmwareUpgradeConfiguration configuration =
           const FirmwareUpgradeConfiguration()});
 
+  /// Start update process
+  /// 
+  /// This is the API to start DFU update for single image.
+  /// 
+  /// `image` is a `Uint8List` with image data
+  Future<void> updateSingleImage(Uint8List image,
+      {FirmwareUpgradeConfiguration configuration =
+          const FirmwareUpgradeConfiguration()});
+
   /// Pause the update process.
   Future<void> pause();
 

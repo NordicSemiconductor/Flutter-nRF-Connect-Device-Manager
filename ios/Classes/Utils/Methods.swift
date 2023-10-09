@@ -10,6 +10,7 @@ import Foundation
 /// Methods which Flutter sends to platform side
 public enum FlutterMethod: String {
     case update
+    case updateSingleImage
     case initializeUpdateManager
     case pause
     case resume

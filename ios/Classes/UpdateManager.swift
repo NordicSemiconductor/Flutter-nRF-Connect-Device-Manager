@@ -30,9 +30,10 @@ class UpdateManager {
         self.updateLogger = updateLogger
     }
     
-    func update(data: Data) throws {
+    func update(data: Data, config: FirmwareUpgradeConfiguration) throws {
+        dfuManager.mode = .confirmOnly
         dfuManager.logDelegate = updateLogger
-        try dfuManager.start(data: data)
+        try dfuManager.start(data: data, using: config)
     }
     
     func update(images: [(Int, Data)], config: FirmwareUpgradeConfiguration) throws {

@@ -24,6 +24,12 @@ message ProtoUpdateWithImageCallArguments {
     ProtoFirmwareUpgradeConfiguration configuration = 3;
 }
 
+message ProtoUpdateWithSingleImageCallArguments {
+    string device_uuid = 1;
+    bytes image = 2;
+    ProtoFirmwareUpgradeConfiguration configuration = 3;
+}
+
 // STATE
 message ProtoUpdateStateChangesStreamArg {
     string uuid = 1;

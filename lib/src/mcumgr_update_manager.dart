@@ -101,6 +101,18 @@ class DeviceUpdateManager extends FirmwareUpdateManager {
           ).writeToBuffer());
 
   @override
+  Future<void> updateSingleImage(Uint8List image,
+          {FirmwareUpgradeConfiguration configuration =
+              const FirmwareUpgradeConfiguration()}) async =>
+      await methodChannel.invokeMethod(
+          UpdateManagerMethod.updateSingleImage.rawValue,
+          ProtoUpdateWithSingleImageCallArguments(
+            deviceUuid: _deviceId,
+            image: image,
+            configuration: configuration.proto(),
+          ).writeToBuffer());
+
+  @override
   Future<void> pause() async {
     await methodChannel.invokeMethod(
         UpdateManagerMethod.pause.rawValue, _deviceId);

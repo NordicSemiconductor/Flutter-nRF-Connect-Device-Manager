@@ -71,6 +71,9 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
             case .update:
                 try update(call: call)
                 result(nil)
+            case .updateSingleImage:
+                try updateSingleImage(call: call)
+                result(nil)
             case .initializeUpdateManager:
                 try initializeUpdateManager(call: call)
                 result(nil)
@@ -189,6 +192,22 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
         let config = args.hasConfiguration ? FirmwareUpgradeConfiguration(proto: args.configuration) : FirmwareUpgradeConfiguration()
         
         try manager.update(images: images, config: config)
+    }
+    
+    private func updateSingleImage(call: FlutterMethodCall) throws {
+        guard let data = call.arguments as? FlutterStandardTypedData else {
+            throw FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can not parse provided arguments", details: call)
+        }
+        
+        let args = try ProtoUpdateWithSingleImageCallArguments(serializedData: data.data)
+        guard let manager = updateManagers[args.deviceUuid] else {
+            throw FlutterError(code: ErrorCode.updateManagerDoesNotExist.rawValue, message: "Update manager does not exist", details: call)
+        }
+        
+        let imageData = args.image
+        let config = args.hasConfiguration ? FirmwareUpgradeConfiguration(proto: args.configuration) : FirmwareUpgradeConfiguration()
+        
+        try manager.update(data: imageData, config: config)
     }
     
     private func kill(call: FlutterMethodCall) throws {

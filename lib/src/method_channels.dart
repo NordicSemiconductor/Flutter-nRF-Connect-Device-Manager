@@ -21,7 +21,7 @@ class UpdateLoggerChannel {
   // TBD: This channel is not implemented yet
   // emit bool value
   // static const EventChannel liveLogEnabledChannel =
-      // const EventChannel(_namespace + '/live_log_enabled_channel');
+  // const EventChannel(_namespace + '/live_log_enabled_channel');
 }
 
 /// Channel methods related to UpdateManager
@@ -33,6 +33,8 @@ class UpdateManagerMethod {
   String get rawValue => _rawValue;
 
   static const update = const UpdateManagerMethod('update');
+  static const updateSingleImage =
+      const UpdateManagerMethod('updateSingleImage');
   static const initializeUpdateManager =
       const UpdateManagerMethod('initializeUpdateManager');
   static const pause = const UpdateManagerMethod('pause');

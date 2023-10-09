@@ -133,4 +133,10 @@ class MockUpdateManager extends FirmwareUpdateManager {
 
     return updateMap(imageMap);
   }
+  
+  @override
+  Future<void> updateSingleImage(Uint8List image, {FirmwareUpgradeConfiguration configuration = const FirmwareUpgradeConfiguration()}) {
+    // TODO: implement updateSingleImage
+    throw UnimplementedError();
+  }
 }
