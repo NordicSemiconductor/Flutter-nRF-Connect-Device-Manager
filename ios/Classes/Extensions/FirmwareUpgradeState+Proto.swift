@@ -23,8 +23,7 @@ extension FirmwareUpgradeState {
             // TODO: new state.
             return .validate
         case .eraseAppSettings:
-            // TODO: New state
-            fatalError()
+            return .eraseAppSettings
         }
     }
 }
