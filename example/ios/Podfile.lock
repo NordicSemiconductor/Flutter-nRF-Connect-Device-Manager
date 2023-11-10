@@ -3,16 +3,16 @@ PODS:
   - flutter_archive (0.0.1):
     - Flutter
     - ZIPFoundation (= 0.9.11)
-  - iOSMcuManagerLibrary (1.3):
+  - iOSMcuManagerLibrary (1.4.3):
     - SwiftCBOR (= 0.4.4)
-  - mcumgr_flutter (0.0.1):
+  - mcumgr_flutter (0.0.2):
     - Flutter
-    - iOSMcuManagerLibrary (~> 1.3)
+    - iOSMcuManagerLibrary (~> 1.4)
     - SwiftProtobuf
   - path_provider_ios (0.0.1):
     - Flutter
   - SwiftCBOR (0.4.4)
-  - SwiftProtobuf (1.21.0)
+  - SwiftProtobuf (1.25.1)
   - ZIPFoundation (0.9.11)
 
 DEPENDENCIES:
@@ -42,13 +42,13 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_archive: 141014f758a0b31fde29add54952729eb1d61c95
-  iOSMcuManagerLibrary: d5207f03fbc43e64e194ee4c36a08dececb4a06c
-  mcumgr_flutter: e76856a151a3afe3a306ba8eabeed094ff1cc288
+  iOSMcuManagerLibrary: 6c2ff04a23bd9dbfddce95374638fe28c32f406c
+  mcumgr_flutter: a7271ae4127b403d1fb6a4d6ec065699d5a68347
   path_provider_ios: 14f3d2fd28c4fdb42f44e0f751d12861c43cee02
   SwiftCBOR: ce5354ec8b660da2d6fc754462881119dbe1f963
-  SwiftProtobuf: afced68785854575756db965e9da52bbf3dc45e7
+  SwiftProtobuf: 69f02cd54fb03201c5e6bf8b76f687c5ef7541a3
   ZIPFoundation: b1f0de4eed33e74a676f76e12559ab6b75990197
 
 PODFILE CHECKSUM: 8b72c395e7f82f92c0838bcd4f65ae7af3ed0163
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.12.1

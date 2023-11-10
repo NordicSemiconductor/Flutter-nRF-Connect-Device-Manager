@@ -36,9 +36,9 @@ class UpdateManager {
     }
     
     func update(images: [(Int, Data)], config: FirmwareUpgradeConfiguration) throws {
-        dfuManager.mode = .confirmOnly
         dfuManager.logDelegate = updateLogger
-        try dfuManager.start(images: images, using: config)
+        let imgs = images.map { ImageManager.Image(image: $0.0, data: $0.1) }
+        try dfuManager.start(images: imgs, using: config)
     }
     
     func pause() {

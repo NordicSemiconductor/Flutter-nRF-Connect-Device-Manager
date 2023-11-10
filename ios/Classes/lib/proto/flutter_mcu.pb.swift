@@ -7,8 +7,6 @@
 // For information on using the generated types, please see the documentation:
 //   https://github.com/apple/swift-protobuf/
 
-/// package no.nordicsemi.android.mcumgr_flutter.gen;
-
 import Foundation
 import SwiftProtobuf
 
@@ -149,6 +147,7 @@ struct ProtoUpdateStateChanges {
     case success // = 6
     case requestMcuMgrParameters // = 7
     case eraseAppSettings // = 8
+    case bootloaderInfo // = 9
     case UNRECOGNIZED(Int)
 
     init() {
@@ -166,6 +165,7 @@ struct ProtoUpdateStateChanges {
       case 6: self = .success
       case 7: self = .requestMcuMgrParameters
       case 8: self = .eraseAppSettings
+      case 9: self = .bootloaderInfo
       default: self = .UNRECOGNIZED(rawValue)
       }
     }
@@ -181,6 +181,7 @@ struct ProtoUpdateStateChanges {
       case .success: return 6
       case .requestMcuMgrParameters: return 7
       case .eraseAppSettings: return 8
+      case .bootloaderInfo: return 9
       case .UNRECOGNIZED(let i): return i
       }
     }
@@ -204,6 +205,7 @@ extension ProtoUpdateStateChanges.FirmwareUpgradeState: CaseIterable {
     .success,
     .requestMcuMgrParameters,
     .eraseAppSettings,
+    .bootloaderInfo,
   ]
 }
 
@@ -223,6 +225,8 @@ struct ProtoFirmwareUpgradeConfiguration {
   var byteAlignment: ProtoFirmwareUpgradeConfiguration.ImageUploadAlignment = .disabled
 
   var reassemblyBufferSize: UInt64 = 0
+
+  var firmwareUpgradeMode: ProtoFirmwareUpgradeConfiguration.FirmwareUpgradeMode = .testOnly
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -263,6 +267,40 @@ struct ProtoFirmwareUpgradeConfiguration {
 
   }
 
+  enum FirmwareUpgradeMode: SwiftProtobuf.Enum {
+    typealias RawValue = Int
+    case testOnly // = 0
+    case confirmOnly // = 1
+    case testAndConfirm // = 2
+    case uploadOnly // = 3
+    case UNRECOGNIZED(Int)
+
+    init() {
+      self = .testOnly
+    }
+
+    init?(rawValue: Int) {
+      switch rawValue {
+      case 0: self = .testOnly
+      case 1: self = .confirmOnly
+      case 2: self = .testAndConfirm
+      case 3: self = .uploadOnly
+      default: self = .UNRECOGNIZED(rawValue)
+      }
+    }
+
+    var rawValue: Int {
+      switch self {
+      case .testOnly: return 0
+      case .confirmOnly: return 1
+      case .testAndConfirm: return 2
+      case .uploadOnly: return 3
+      case .UNRECOGNIZED(let i): return i
+      }
+    }
+
+  }
+
   init() {}
 }
 
@@ -276,6 +314,16 @@ extension ProtoFirmwareUpgradeConfiguration.ImageUploadAlignment: CaseIterable {
     .fourByte,
     .eightByte,
     .sixteenByte,
+  ]
+}
+
+extension ProtoFirmwareUpgradeConfiguration.FirmwareUpgradeMode: CaseIterable {
+  // The compiler won't synthesize support with the UNRECOGNIZED case.
+  static var allCases: [ProtoFirmwareUpgradeConfiguration.FirmwareUpgradeMode] = [
+    .testOnly,
+    .confirmOnly,
+    .testAndConfirm,
+    .uploadOnly,
   ]
 }
 
@@ -526,6 +574,7 @@ extension ProtoUpdateStateChanges: @unchecked Sendable {}
 extension ProtoUpdateStateChanges.FirmwareUpgradeState: @unchecked Sendable {}
 extension ProtoFirmwareUpgradeConfiguration: @unchecked Sendable {}
 extension ProtoFirmwareUpgradeConfiguration.ImageUploadAlignment: @unchecked Sendable {}
+extension ProtoFirmwareUpgradeConfiguration.FirmwareUpgradeMode: @unchecked Sendable {}
 extension ProtoProgressUpdateStreamArg: @unchecked Sendable {}
 extension ProtoProgressUpdate: @unchecked Sendable {}
 extension ProtoLogMessageStreamArg: @unchecked Sendable {}
@@ -802,6 +851,7 @@ extension ProtoUpdateStateChanges.FirmwareUpgradeState: SwiftProtobuf._ProtoName
     6: .same(proto: "SUCCESS"),
     7: .same(proto: "REQUEST_MCU_MGR_PARAMETERS"),
     8: .same(proto: "ERASE_APP_SETTINGS"),
+    9: .same(proto: "BOOTLOADER_INFO"),
   ]
 }
 
@@ -813,6 +863,7 @@ extension ProtoFirmwareUpgradeConfiguration: SwiftProtobuf.Message, SwiftProtobu
     3: .same(proto: "pipelineDepth"),
     4: .same(proto: "byteAlignment"),
     5: .same(proto: "reassemblyBufferSize"),
+    6: .same(proto: "firmwareUpgradeMode"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -826,6 +877,7 @@ extension ProtoFirmwareUpgradeConfiguration: SwiftProtobuf.Message, SwiftProtobu
       case 3: try { try decoder.decodeSingularInt64Field(value: &self.pipelineDepth) }()
       case 4: try { try decoder.decodeSingularEnumField(value: &self.byteAlignment) }()
       case 5: try { try decoder.decodeSingularUInt64Field(value: &self.reassemblyBufferSize) }()
+      case 6: try { try decoder.decodeSingularEnumField(value: &self.firmwareUpgradeMode) }()
       default: break
       }
     }
@@ -847,6 +899,9 @@ extension ProtoFirmwareUpgradeConfiguration: SwiftProtobuf.Message, SwiftProtobu
     if self.reassemblyBufferSize != 0 {
       try visitor.visitSingularUInt64Field(value: self.reassemblyBufferSize, fieldNumber: 5)
     }
+    if self.firmwareUpgradeMode != .testOnly {
+      try visitor.visitSingularEnumField(value: self.firmwareUpgradeMode, fieldNumber: 6)
+    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
@@ -856,6 +911,7 @@ extension ProtoFirmwareUpgradeConfiguration: SwiftProtobuf.Message, SwiftProtobu
     if lhs.pipelineDepth != rhs.pipelineDepth {return false}
     if lhs.byteAlignment != rhs.byteAlignment {return false}
     if lhs.reassemblyBufferSize != rhs.reassemblyBufferSize {return false}
+    if lhs.firmwareUpgradeMode != rhs.firmwareUpgradeMode {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -868,6 +924,15 @@ extension ProtoFirmwareUpgradeConfiguration.ImageUploadAlignment: SwiftProtobuf.
     2: .same(proto: "FOUR_BYTE"),
     3: .same(proto: "EIGHT_BYTE"),
     4: .same(proto: "SIXTEEN_BYTE"),
+  ]
+}
+
+extension ProtoFirmwareUpgradeConfiguration.FirmwareUpgradeMode: SwiftProtobuf._ProtoNameProviding {
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    0: .same(proto: "TEST_ONLY"),
+    1: .same(proto: "CONFIRM_ONLY"),
+    2: .same(proto: "TEST_AND_CONFIRM"),
+    3: .same(proto: "UPLOAD_ONLY"),
   ]
 }
 

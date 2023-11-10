@@ -1,5 +1,6 @@
 import 'package:mcumgr_flutter/mcumgr_flutter.dart';
 import 'package:mcumgr_flutter/models/image_upload_alignment.dart';
+import 'package:mcumgr_flutter/models/firmware_upgrade_mode.dart';
 import '../flutter_mcu.pb.dart';
 import 'package:fixnum/fixnum.dart';
 
@@ -119,6 +120,24 @@ extension ProtoFirmwareUpgradeConfiguration_ImageUploadAlignmentToModel
   }
 }
 
+extension ProtoFirmwareUpgradeConfiguration_FirmwareUpgradeModeToModel
+    on ProtoFirmwareUpgradeConfiguration_FirmwareUpgradeMode {
+  FirmwareUpgradeMode convent() {
+    switch (this) {
+      case ProtoFirmwareUpgradeConfiguration_FirmwareUpgradeMode.CONFIRM_ONLY:
+        return FirmwareUpgradeMode.confirmOnly;
+      case ProtoFirmwareUpgradeConfiguration_FirmwareUpgradeMode.TEST_ONLY:
+        return FirmwareUpgradeMode.testOnly;
+      case ProtoFirmwareUpgradeConfiguration_FirmwareUpgradeMode.TEST_AND_CONFIRM:
+        return FirmwareUpgradeMode.testAndConfirm;
+      case ProtoFirmwareUpgradeConfiguration_FirmwareUpgradeMode.UPLOAD_ONLY:
+        return FirmwareUpgradeMode.uploadOnly;
+      default:
+        throw 'Unsupported FirmwareUpgradeMode';
+    }
+  }
+}
+
 extension ImageUploadAlignmentModel on ImageUploadAlignment {
   ProtoFirmwareUpgradeConfiguration_ImageUploadAlignment convent() {
     switch (this) {
@@ -138,6 +157,23 @@ extension ImageUploadAlignmentModel on ImageUploadAlignment {
   }
 }
 
+extension FirmwareUpgradeModeModel on FirmwareUpgradeMode {
+  ProtoFirmwareUpgradeConfiguration_FirmwareUpgradeMode convent() {
+    switch (this) {
+      case FirmwareUpgradeMode.confirmOnly:
+        return ProtoFirmwareUpgradeConfiguration_FirmwareUpgradeMode.CONFIRM_ONLY;
+      case FirmwareUpgradeMode.testOnly:
+        return ProtoFirmwareUpgradeConfiguration_FirmwareUpgradeMode.TEST_ONLY;
+      case FirmwareUpgradeMode.testAndConfirm:
+        return ProtoFirmwareUpgradeConfiguration_FirmwareUpgradeMode.TEST_AND_CONFIRM;
+      case FirmwareUpgradeMode.uploadOnly:
+        return ProtoFirmwareUpgradeConfiguration_FirmwareUpgradeMode.UPLOAD_ONLY;
+      default:
+        throw 'Unsupported FirmwareUpgradeMode';
+    }
+  }
+}
+
 extension FirmwareUpgradeConfigurationToModel on FirmwareUpgradeConfiguration {
   ProtoFirmwareUpgradeConfiguration proto() => ProtoFirmwareUpgradeConfiguration(
         estimatedSwapTimeMs: Int64(this.estimatedSwapTime.inMilliseconds),
@@ -145,6 +181,7 @@ extension FirmwareUpgradeConfigurationToModel on FirmwareUpgradeConfiguration {
         pipelineDepth: Int64(this.pipelineDepth),
         byteAlignment: this.byteAlignment.convent(),
         reassemblyBufferSize: Int64(this.reassemblyBufferSize),
+        firmwareUpgradeMode: this.firmwareUpgradeMode.convent(),
       );
 }
 
@@ -156,5 +193,6 @@ extension ProtoFirmwareUpgradeConfigurationToModel
     pipelineDepth: this.pipelineDepth as int,
     byteAlignment: this.byteAlignment.convent(),
     reassemblyBufferSize: this.reassemblyBufferSize as int,
+    firmwareUpgradeMode: this.firmwareUpgradeMode.convent(),
   );
 }
