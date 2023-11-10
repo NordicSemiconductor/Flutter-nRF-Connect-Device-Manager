@@ -21,8 +21,7 @@ extension FirmwareUpgradeState {
         case .validate: return .validate
         case .requestMcuMgrParameters: return .requestMcuMgrParameters
         case .eraseAppSettings: return .eraseAppSettings
-        case .bootloaderInfo:
-            fatalError()
+        case .bootloaderInfo: return .bootloaderInfo
         }
     }
 }
