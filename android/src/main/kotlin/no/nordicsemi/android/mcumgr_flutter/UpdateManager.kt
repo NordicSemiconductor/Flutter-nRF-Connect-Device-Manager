@@ -29,7 +29,8 @@ data class FirmwareUpgradeConfiguration(
 	val eraseAppSettings: Boolean = true,
 	val pipelineDepth: Int = 1,
 	val byteAlignment: Int = 4,
-	val reassemblyBufferSize: Long = 0
+	val reassemblyBufferSize: Long = 0,
+	val firmwareUpgradeMode: FirmwareUpgradeManager.Mode = FirmwareUpgradeManager.Mode.TEST_ONLY,
 )
 
 class UpdateManager(
@@ -46,7 +47,6 @@ class UpdateManager(
 		manager.setMemoryAlignment(4)
 		manager.setEstimatedSwapTime(5000)
 		manager.setWindowUploadCapacity(3)
-		manager.setMode(FirmwareUpgradeManager.Mode.CONFIRM_ONLY)
 	}
 
 	/**
@@ -68,6 +68,7 @@ class UpdateManager(
 			manager.setMemoryAlignment(config.byteAlignment)
 			manager.setEstimatedSwapTime(config.estimatedSwapTime.toInt())
 			manager.setWindowUploadCapacity(config.pipelineDepth)
+			manager.setMode(config.firmwareUpgradeMode)
 		}
 		// print images to log
 		images.forEach {
