@@ -2,9 +2,9 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'dart:convert';
 
+import 'package:archive/archive_io.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_archive/flutter_archive.dart';
 import 'package:mcumgr_flutter/mcumgr_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
@@ -144,11 +144,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
 
     final filePath = p.join(dirPath, '$uuid.zip');
 
-    final file = File(filePath);
-    await file
-        .writeAsBytes(buffer.asUint8List(d.offsetInBytes, d.lengthInBytes));
-
-    await ZipFile.extractToDirectory(zipFile: file, destinationDir: dir);
+    extractFileToDisk(filePath, dirPath);
 
     final manifestFile = File(p.join(dirPath, 'manifest.json'));
     final Map<String, dynamic> content =
