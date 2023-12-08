@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'dart:convert';
 
-import 'package:archive/archive_io.dart';
+// import 'package:archive/archive_io.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mcumgr_flutter/mcumgr_flutter.dart';
@@ -144,7 +144,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
 
     final filePath = p.join(dirPath, '$uuid.zip');
 
-    extractFileToDisk(filePath, dirPath);
+    // extractFileToDisk(filePath, dirPath);
 
     final manifestFile = File(p.join(dirPath, 'manifest.json'));
     final Map<String, dynamic> content =

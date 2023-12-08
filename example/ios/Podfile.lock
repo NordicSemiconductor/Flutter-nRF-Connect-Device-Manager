@@ -14,7 +14,6 @@ PODS:
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
-  - iOSMcuManagerLibrary
   - mcumgr_flutter (from `.symlinks/plugins/mcumgr_flutter/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
 
@@ -40,6 +39,6 @@ SPEC CHECKSUMS:
   SwiftCBOR: ce5354ec8b660da2d6fc754462881119dbe1f963
   SwiftProtobuf: 407a385e97fd206c4fbe880cc84123989167e0d1
 
-PODFILE CHECKSUM: 8b72c395e7f82f92c0838bcd4f65ae7af3ed0163
+PODFILE CHECKSUM: ef19549a9bc3046e7bb7d2fab4d021637c0c58a3
 
 COCOAPODS: 1.14.3
