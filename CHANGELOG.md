@@ -1,5 +1,7 @@
-## 0.1.4+1
-
+## 0.2.0+1
+- Direct XIP support added
+- `FirmwareUpgradeMode` can be passed as a parameter to `FirmwareUpgradeConfiguration`.
+- Upgraded dependencies.
 
 ## 0.1.1+1
 
