@@ -10,6 +10,7 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
+import io.runtime.mcumgr.dfu.FirmwareUpgradeManager
 
 import no.nordicsemi.android.mcumgr_flutter.logging.LoggableMcuMgrBleTransport
 import no.nordicsemi.android.mcumgr_flutter.utils.*
@@ -131,20 +132,25 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 			throw UpdateManagerDoesNotExist("Update manager does not exist")
 		}
 
-		val config = arg.configuration?.let {
+		val config = arg.configuration?.let { config ->
 			return@let FirmwareUpgradeConfiguration(
-				it.estimatedSwapTimeMs ?: 0,
-				it.eraseAppSettings ?: true,
-				(it.pipelineDepth ?: 1).toInt(),
-				when (it.byteAlignment) {
+				config.estimatedSwapTimeMs,
+				config.eraseAppSettings,
+				config.pipelineDepth.toInt(),
+				when (config.byteAlignment) {
 					ProtoFirmwareUpgradeConfiguration.ImageUploadAlignment.TWO_BYTE -> 2
 					ProtoFirmwareUpgradeConfiguration.ImageUploadAlignment.FOUR_BYTE -> 4
 					ProtoFirmwareUpgradeConfiguration.ImageUploadAlignment.EIGHT_BYTE -> 8
 					ProtoFirmwareUpgradeConfiguration.ImageUploadAlignment.SIXTEEN_BYTE -> 16
 					ProtoFirmwareUpgradeConfiguration.ImageUploadAlignment.DISABLED -> 0
-					else -> 4
 				},
-				it.reassemblyBufferSize ?: 0
+				config.reassemblyBufferSize,
+				when (config.firmwareUpgradeMode) {
+					ProtoFirmwareUpgradeConfiguration.FirmwareUpgradeMode.TEST_ONLY -> FirmwareUpgradeManager.Mode.TEST_ONLY
+					ProtoFirmwareUpgradeConfiguration.FirmwareUpgradeMode.TEST_AND_CONFIRM -> FirmwareUpgradeManager.Mode.TEST_AND_CONFIRM
+					ProtoFirmwareUpgradeConfiguration.FirmwareUpgradeMode.CONFIRM_ONLY -> FirmwareUpgradeManager.Mode.CONFIRM_ONLY
+					ProtoFirmwareUpgradeConfiguration.FirmwareUpgradeMode.UPLOAD_ONLY -> FirmwareUpgradeManager.Mode.NONE
+				}
 			)
 		}
 

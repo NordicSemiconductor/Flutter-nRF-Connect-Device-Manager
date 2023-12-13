@@ -6,7 +6,6 @@ import android.os.Handler
 import android.os.Looper
 import io.flutter.Log
 import io.runtime.mcumgr.ble.McuMgrBleTransport
-import no.nordicsemi.android.mcumgr_flutter.BuildConfig
 import no.nordicsemi.android.mcumgr_flutter.gen.*
 import no.nordicsemi.android.mcumgr_flutter.utils.StreamHandler
 
@@ -20,8 +19,6 @@ class LoggableMcuMgrBleTransport(
 	private var allMessages: MutableList<ProtoLogMessage> = mutableListOf()
 
 	fun log(message: String) {
-		if (BuildConfig.DEBUG)
-			Log.d("McuManager", message)
 		val log = ProtoLogMessage(
 			message = message,
 			logCategory = ProtoLogMessage.LogCategory.DFU,
@@ -32,9 +29,6 @@ class LoggableMcuMgrBleTransport(
 	}
 
 	override fun log(priority: Int, message: String) {
-		if (BuildConfig.DEBUG)
-			Log.d("McuManager", message)
-
 		// Supported since mcumgr-android 0.12.0:
 		val applicationLevel = message.startsWith("Sending") || message.startsWith("Received")
 

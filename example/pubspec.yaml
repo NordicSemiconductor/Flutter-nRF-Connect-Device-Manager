@@ -12,10 +12,10 @@ dependencies:
   platform: ^3.1.0
   # flutter_blue: ^0.8.0
   path: ^1.8.0
-  flutter_archive: ^4.0.1
+  archive: ^3.4.9
   path_provider: ^2.0.5
-  uuid: ^3.0.4
-  json_serializable: ^5.0.2
+  uuid: ^4.2.1
+  json_serializable: ^6.7.1
   flutter:
     sdk: flutter
 

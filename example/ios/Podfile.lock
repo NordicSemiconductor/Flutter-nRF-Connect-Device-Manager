@@ -1,54 +1,44 @@
 PODS:
   - Flutter (1.0.0)
-  - flutter_archive (0.0.1):
-    - Flutter
-    - ZIPFoundation (= 0.9.11)
-  - iOSMcuManagerLibrary (1.3):
+  - iOSMcuManagerLibrary (1.4.3):
     - SwiftCBOR (= 0.4.4)
-  - mcumgr_flutter (0.0.1):
+  - mcumgr_flutter (0.0.2):
     - Flutter
-    - iOSMcuManagerLibrary (~> 1.3)
+    - iOSMcuManagerLibrary (= 1.4.3)
     - SwiftProtobuf
-  - path_provider_ios (0.0.1):
+  - path_provider_foundation (0.0.1):
     - Flutter
+    - FlutterMacOS
   - SwiftCBOR (0.4.4)
-  - SwiftProtobuf (1.21.0)
-  - ZIPFoundation (0.9.11)
+  - SwiftProtobuf (1.25.2)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
-  - flutter_archive (from `.symlinks/plugins/flutter_archive/ios`)
-  - iOSMcuManagerLibrary
   - mcumgr_flutter (from `.symlinks/plugins/mcumgr_flutter/ios`)
-  - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
+  - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
 
 SPEC REPOS:
   trunk:
     - iOSMcuManagerLibrary
     - SwiftCBOR
     - SwiftProtobuf
-    - ZIPFoundation
 
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
-  flutter_archive:
-    :path: ".symlinks/plugins/flutter_archive/ios"
   mcumgr_flutter:
     :path: ".symlinks/plugins/mcumgr_flutter/ios"
-  path_provider_ios:
-    :path: ".symlinks/plugins/path_provider_ios/ios"
+  path_provider_foundation:
+    :path: ".symlinks/plugins/path_provider_foundation/darwin"
 
 SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
-  flutter_archive: 141014f758a0b31fde29add54952729eb1d61c95
-  iOSMcuManagerLibrary: d5207f03fbc43e64e194ee4c36a08dececb4a06c
-  mcumgr_flutter: e76856a151a3afe3a306ba8eabeed094ff1cc288
-  path_provider_ios: 14f3d2fd28c4fdb42f44e0f751d12861c43cee02
+  iOSMcuManagerLibrary: 6c2ff04a23bd9dbfddce95374638fe28c32f406c
+  mcumgr_flutter: e4703f2e33405ba3fef314b8c9a93563843a1520
+  path_provider_foundation: 29f094ae23ebbca9d3d0cec13889cd9060c0e943
   SwiftCBOR: ce5354ec8b660da2d6fc754462881119dbe1f963
-  SwiftProtobuf: afced68785854575756db965e9da52bbf3dc45e7
-  ZIPFoundation: b1f0de4eed33e74a676f76e12559ab6b75990197
+  SwiftProtobuf: 407a385e97fd206c4fbe880cc84123989167e0d1
 
-PODFILE CHECKSUM: 8b72c395e7f82f92c0838bcd4f65ae7af3ed0163
+PODFILE CHECKSUM: ef19549a9bc3046e7bb7d2fab4d021637c0c58a3
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.14.3

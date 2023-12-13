@@ -43,6 +43,7 @@ message ProtoUpdateStateChanges {
         SUCCESS = 6;
         REQUEST_MCU_MGR_PARAMETERS = 7;
         ERASE_APP_SETTINGS = 8;
+        BOOTLOADER_INFO = 9;
     }
 
     FirmwareUpgradeState oldState = 1;
@@ -59,11 +60,20 @@ message ProtoFirmwareUpgradeConfiguration {
         SIXTEEN_BYTE = 4;
     }
 
+    enum FirmwareUpgradeMode {
+        TEST_ONLY = 0;
+        CONFIRM_ONLY = 1;
+        TEST_AND_CONFIRM = 2;
+        UPLOAD_ONLY = 3;
+    }
+
+    
     int64 estimatedSwapTimeMs = 1;
     bool eraseAppSettings = 2;
     int64 pipelineDepth = 3;
     ImageUploadAlignment byteAlignment = 4;
     uint64 reassemblyBufferSize = 5;
+    FirmwareUpgradeMode firmwareUpgradeMode = 6;
 }
 
 message ProtoProgressUpdateStreamArg {
@@ -120,3 +130,4 @@ message ProtoMessageLiveLogEnabled {
     string uuid = 1;
     bool enabled = 2;
 }
+

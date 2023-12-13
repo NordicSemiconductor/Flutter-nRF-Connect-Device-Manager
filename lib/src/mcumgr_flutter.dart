@@ -22,12 +22,16 @@ class FirmwareUpgradeConfiguration {
   /// Can be used in conjunction with SMP Pipelining.
   final int reassemblyBufferSize;
 
+  /// Previously set directly in `FirmwareUpgradeManager`, it has since been moved here, to the Configuration. It modifies the steps after `upload` step in Firmware Upgrade that need to be performed for the Upgrade process to be considered Successful.
+  final FirmwareUpgradeMode firmwareUpgradeMode;
+
   const FirmwareUpgradeConfiguration({
     this.estimatedSwapTime = const Duration(seconds: 0),
     this.eraseAppSettings = true,
     this.pipelineDepth = 1,
     this.byteAlignment = ImageUploadAlignment.fourByte,
     this.reassemblyBufferSize = 0,
+    this.firmwareUpgradeMode = FirmwareUpgradeMode.confirmOnly,
   }) : assert(reassemblyBufferSize >= 0,
             "Reassembly Buffer Size must be a positive number or 0");
 }

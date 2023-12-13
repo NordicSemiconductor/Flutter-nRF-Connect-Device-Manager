@@ -25,10 +25,10 @@ extension McuMgrLogCategory {
     func toProto() -> ProtoLogMessage.LogCategory {
         switch self {
         case .transport: return .transport
-        case .config: return .config
+        case .settings: return .config
         case .crash: return .crash
         case .`default`: return .`default`
-        case .fs: return .fs
+        case .filesystemManager: return .fs
         case .image: return .image
         case .log: return .log
         case .runTest: return .runTest

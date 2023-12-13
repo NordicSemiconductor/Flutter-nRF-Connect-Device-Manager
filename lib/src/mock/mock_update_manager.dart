@@ -52,12 +52,12 @@ class MockUpdateManager extends FirmwareUpdateManager {
 
   @override
   Future<bool> inProgress() async {
-    return _updateInProgressStreamController.value!;
+    return _updateInProgressStreamController.value;
   }
 
   @override
   Future<bool> isPaused() async {
-    return !_updateInProgressStreamController.value!;
+    return !_updateInProgressStreamController.value;
   }
 
   @override
