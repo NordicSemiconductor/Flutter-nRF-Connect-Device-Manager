@@ -6,16 +6,12 @@ PODS:
     - Flutter
     - iOSMcuManagerLibrary (= 1.4.3)
     - SwiftProtobuf
-  - path_provider_foundation (0.0.1):
-    - Flutter
-    - FlutterMacOS
   - SwiftCBOR (0.4.4)
   - SwiftProtobuf (1.25.2)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - mcumgr_flutter (from `.symlinks/plugins/mcumgr_flutter/ios`)
-  - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
 
 SPEC REPOS:
   trunk:
@@ -28,14 +24,11 @@ EXTERNAL SOURCES:
     :path: Flutter
   mcumgr_flutter:
     :path: ".symlinks/plugins/mcumgr_flutter/ios"
-  path_provider_foundation:
-    :path: ".symlinks/plugins/path_provider_foundation/darwin"
 
 SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   iOSMcuManagerLibrary: 6c2ff04a23bd9dbfddce95374638fe28c32f406c
   mcumgr_flutter: e4703f2e33405ba3fef314b8c9a93563843a1520
-  path_provider_foundation: 29f094ae23ebbca9d3d0cec13889cd9060c0e943
   SwiftCBOR: ce5354ec8b660da2d6fc754462881119dbe1f963
   SwiftProtobuf: 407a385e97fd206c4fbe880cc84123989167e0d1
 
