@@ -3,7 +3,7 @@ import 'package:mcumgr_flutter_example/src/model/update_parameters.dart';
 import 'package:mcumgr_flutter_example/src/providers/update_parameters_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../firmware_list.dart';
+import '../firmware_select/firmware_list.dart';
 
 class FirmwareSelect extends StatelessWidget {
   const FirmwareSelect({Key? key}) : super(key: key);
@@ -15,7 +15,8 @@ class FirmwareSelect extends StatelessWidget {
 
     return Column(
       children: [
-        if (updateParameters.firmware != null) Text(updateParameters.firmware!),
+        if (updateParameters.firmware != null)
+          Text(updateParameters.firmware!.application.appName),
         ElevatedButton(
             onPressed: () {
               Navigator.push(

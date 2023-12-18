@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mcumgr_flutter_example/src/model/update_parameters.dart';
 import 'package:mcumgr_flutter_example/src/providers/update_parameters_provider.dart';
-import 'package:mcumgr_flutter_example/src/view/firmware_list.dart';
+import 'package:mcumgr_flutter_example/src/view/firmware_select/firmware_list.dart';
 import 'package:mcumgr_flutter_example/src/view/stepper_view/firmware_select.dart';
 import 'package:provider/provider.dart';
 

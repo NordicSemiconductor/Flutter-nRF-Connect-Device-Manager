@@ -9,7 +9,7 @@ class UpdateParametersProvider extends ChangeNotifier {
 
   UpdateParameters get value => _updateParameters;
 
-  void setFirmware(String firmware) {
+  void setFirmware(SelectedFirmware firmware) {
     _updateParameters.firmware = firmware;
     notifyListeners();
   }

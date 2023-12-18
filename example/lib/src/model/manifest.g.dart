@@ -31,7 +31,7 @@ ManifestFile _$ManifestFileFromJson(Map<String, dynamic> json) => ManifestFile(
       modtime: json['modtime'] as int?,
       version: json['version'] as String?,
       file: json['file'] as String,
-      image: int.parse(json['image_index'] as String),
+      image: json['image'] as int,
     );
 
 Map<String, dynamic> _$ManifestFileToJson(ManifestFile instance) =>
