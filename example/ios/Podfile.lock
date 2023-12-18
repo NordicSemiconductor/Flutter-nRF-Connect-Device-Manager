@@ -1,5 +1,7 @@
 PODS:
   - Flutter (1.0.0)
+  - flutter_blue_plus (0.0.1):
+    - Flutter
   - iOSMcuManagerLibrary (1.4.3):
     - SwiftCBOR (= 0.4.4)
   - mcumgr_flutter (0.0.2):
@@ -11,6 +13,7 @@ PODS:
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
+  - flutter_blue_plus (from `.symlinks/plugins/flutter_blue_plus/ios`)
   - mcumgr_flutter (from `.symlinks/plugins/mcumgr_flutter/ios`)
 
 SPEC REPOS:
@@ -22,11 +25,14 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
+  flutter_blue_plus:
+    :path: ".symlinks/plugins/flutter_blue_plus/ios"
   mcumgr_flutter:
     :path: ".symlinks/plugins/mcumgr_flutter/ios"
 
 SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  flutter_blue_plus: 4837da7d00cf5d441fdd6635b3a57f936778ea96
   iOSMcuManagerLibrary: 6c2ff04a23bd9dbfddce95374638fe28c32f406c
   mcumgr_flutter: e4703f2e33405ba3fef314b8c9a93563843a1520
   SwiftCBOR: ce5354ec8b660da2d6fc754462881119dbe1f963

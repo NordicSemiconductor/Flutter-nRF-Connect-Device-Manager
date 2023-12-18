@@ -1,8 +1,8 @@
 import 'package:mcumgr_flutter_example/src/model/firmware_image.dart';
 
 class UpdateParameters {
-  String? deviceID;
   SelectedFirmware? firmware;
+  SelectedPeripheral? peripheral;
 }
 
 class SelectedFirmware {
@@ -16,5 +16,15 @@ class SelectedFirmware {
     required this.version,
     required this.board,
     required this.firmware,
+  });
+}
+
+class SelectedPeripheral {
+  final String name;
+  final String identifier;
+
+  SelectedPeripheral({
+    required this.name,
+    required this.identifier,
   });
 }

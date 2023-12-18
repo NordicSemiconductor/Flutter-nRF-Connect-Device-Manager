@@ -8,6 +8,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_blue_plus: ^1.30.6
   http: ^1.1.2
   json_annotation: ^4.8.1
   mcumgr_flutter:

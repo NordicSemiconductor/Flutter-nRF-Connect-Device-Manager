@@ -13,4 +13,9 @@ class UpdateParametersProvider extends ChangeNotifier {
     _updateParameters.firmware = firmware;
     notifyListeners();
   }
+
+  void setPeripheral(SelectedPeripheral peripheral) {
+    _updateParameters.peripheral = peripheral;
+    notifyListeners();
+  }
 }
