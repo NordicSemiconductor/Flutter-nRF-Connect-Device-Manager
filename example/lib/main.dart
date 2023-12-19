@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mcumgr_flutter_example/src/model/update_parameters.dart';
-import 'package:mcumgr_flutter_example/src/providers/update_parameters_provider.dart';
-import 'package:mcumgr_flutter_example/src/view/firmware_select/firmware_list.dart';
+import 'package:mcumgr_flutter_example/src/model/firmware_update_request.dart';
+import 'package:mcumgr_flutter_example/src/providers/firmware_update_request_provider.dart';
 import 'package:mcumgr_flutter_example/src/view/stepper_view/firmware_select.dart';
 import 'package:mcumgr_flutter_example/src/view/stepper_view/peripheral_select.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +19,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => UpdateParametersProvider(),
+      create: (context) => FirmwareUpdateRequestProvider(),
       builder: (context, child) => _materialApp(context),
     );
   }
@@ -37,8 +36,8 @@ class _MyAppState extends State<MyApp> {
   }
 
   Widget _body(BuildContext context) {
-    UpdateParameters parameters =
-        context.watch<UpdateParametersProvider>().value;
+    FirmwareUpdateRequest parameters =
+        context.watch<FirmwareUpdateRequestProvider>().value;
     return Stepper(
       currentStep: _currentStep,
       onStepContinue: () {
@@ -51,19 +50,60 @@ class _MyAppState extends State<MyApp> {
           _currentStep--;
         });
       },
+      controlsBuilder: (context, details) {
+        switch (_currentStep) {
+          case 0:
+            if (parameters.firmware == null) {
+              return Container();
+            }
+            return Row(
+              children: [
+                ElevatedButton(
+                  onPressed: details.onStepContinue,
+                  child: Text('Next'),
+                ),
+              ],
+            );
+          case 1:
+            if (parameters.peripheral == null) {
+              return Container();
+            }
+            return Row(
+              children: [
+                TextButton(
+                  onPressed: details.onStepCancel,
+                  child: Text('Back'),
+                ),
+                ElevatedButton(
+                  onPressed: details.onStepContinue,
+                  child: Text('Next'),
+                ),
+              ],
+            );
+          case 2:
+            return ElevatedButton(
+              onPressed: details.onStepContinue,
+              child: Text('Update'),
+            );
+          default:
+            throw Exception('Unknown step');
+        }
+      },
       steps: [
         Step(
           title: Text('Select Firmware'),
           content: Center(child: FirmwareSelect()),
-          isActive: false,
+          isActive: _currentStep == 0,
         ),
         Step(
           title: Text('Select Device'),
           content: Center(child: PeripheralSelect()),
+          isActive: _currentStep == 1,
         ),
         Step(
           title: Text('Update'),
           content: Text('Update'),
+          isActive: _currentStep == 2,
         ),
       ],
     );

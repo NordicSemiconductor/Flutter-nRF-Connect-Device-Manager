@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
-import 'package:mcumgr_flutter_example/src/model/update_parameters.dart';
-import 'package:mcumgr_flutter_example/src/providers/update_parameters_provider.dart';
+import 'package:mcumgr_flutter_example/src/model/firmware_update_request.dart';
+import 'package:mcumgr_flutter_example/src/providers/firmware_update_request_provider.dart';
 import 'package:mcumgr_flutter_example/src/repository/peripheral_repository.dart';
 import 'package:provider/provider.dart';
 
@@ -81,7 +81,7 @@ class PeripheralList extends StatelessWidget {
           onTap: () {
             ScanResult p = peripherals[index];
 
-            context.read<UpdateParametersProvider>().setPeripheral(
+            context.read<FirmwareUpdateRequestProvider>().setPeripheral(
                 SelectedPeripheral(
                     name: p.advertisementData.advName,
                     identifier: p.device.remoteId.toString()));

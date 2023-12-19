@@ -1,6 +1,6 @@
 import 'package:mcumgr_flutter_example/src/model/firmware_image.dart';
 
-class UpdateParameters {
+class FirmwareUpdateRequest {
   SelectedFirmware? firmware;
   SelectedPeripheral? peripheral;
 }

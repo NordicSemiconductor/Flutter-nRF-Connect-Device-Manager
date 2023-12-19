@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mcumgr_flutter_example/src/model/update_parameters.dart';
-import 'package:mcumgr_flutter_example/src/providers/update_parameters_provider.dart';
+import 'package:mcumgr_flutter_example/src/model/firmware_update_request.dart';
+import 'package:mcumgr_flutter_example/src/providers/firmware_update_request_provider.dart';
 import 'package:mcumgr_flutter_example/src/view/peripheral_select/peripheral_list.dart';
 import 'package:provider/provider.dart';
 
@@ -9,8 +9,8 @@ class PeripheralSelect extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    UpdateParameters updateParameters =
-        context.watch<UpdateParametersProvider>().value;
+    FirmwareUpdateRequest updateParameters =
+        context.watch<FirmwareUpdateRequestProvider>().value;
 
     return Column(
       children: [

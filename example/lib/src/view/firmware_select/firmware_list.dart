@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mcumgr_flutter_example/src/model/firmware_image.dart';
-import 'package:mcumgr_flutter_example/src/model/update_parameters.dart';
-import 'package:mcumgr_flutter_example/src/providers/update_parameters_provider.dart';
+import 'package:mcumgr_flutter_example/src/model/firmware_update_request.dart';
+import 'package:mcumgr_flutter_example/src/providers/firmware_update_request_provider.dart';
 import 'package:mcumgr_flutter_example/src/repository/firmware_image_repository.dart';
 import 'package:provider/provider.dart';
 
@@ -49,7 +49,9 @@ class FirmwareList extends StatelessWidget {
                 version: version,
                 board: board,
                 firmware: firmware);
-            context.read<UpdateParametersProvider>().setFirmware(selectedFW);
+            context
+                .read<FirmwareUpdateRequestProvider>()
+                .setFirmware(selectedFW);
             Navigator.pop(context, 'Firmware $index');
           },
         );
