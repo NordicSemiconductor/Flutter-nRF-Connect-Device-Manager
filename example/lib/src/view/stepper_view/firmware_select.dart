@@ -11,7 +11,7 @@ class FirmwareSelect extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     FirmwareUpdateRequest updateParameters =
-        context.watch<FirmwareUpdateRequestProvider>().value;
+        context.watch<FirmwareUpdateRequestProvider>().updateParameters;
 
     return Column(
       children: [

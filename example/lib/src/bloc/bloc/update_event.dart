@@ -3,9 +3,14 @@ part of 'update_bloc.dart';
 @immutable
 sealed class UpdateEvent {}
 
-class StatusUpdateEvent extends UpdateEvent {
-  final String status;
-  final int? progress;
+class DownloadStarted extends UpdateEvent {}
+class DownloadFinished extends UpdateEvent {}
+class UnpackStarted extends UpdateEvent {}
+class UnpackFinished extends UpdateEvent {}
+class UploadStarted extends UpdateEvent {}
+class UploadProgress extends UpdateEvent {
+  final int progress;
 
-  StatusUpdateEvent(this.status, this.progress);
+  UploadProgress(this.progress);
 }
+class UploadFinished extends UpdateEvent {}

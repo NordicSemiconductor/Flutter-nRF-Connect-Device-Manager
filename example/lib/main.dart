@@ -36,8 +36,6 @@ class _MyAppState extends State<MyApp> {
   }
 
   Widget _body(BuildContext context) {
-    FirmwareUpdateRequest parameters =
-        context.watch<FirmwareUpdateRequestProvider>().value;
     return Stepper(
       currentStep: _currentStep,
       onStepContinue: () {
@@ -50,45 +48,7 @@ class _MyAppState extends State<MyApp> {
           _currentStep--;
         });
       },
-      controlsBuilder: (context, details) {
-        switch (_currentStep) {
-          case 0:
-            if (parameters.firmware == null) {
-              return Container();
-            }
-            return Row(
-              children: [
-                ElevatedButton(
-                  onPressed: details.onStepContinue,
-                  child: Text('Next'),
-                ),
-              ],
-            );
-          case 1:
-            if (parameters.peripheral == null) {
-              return Container();
-            }
-            return Row(
-              children: [
-                TextButton(
-                  onPressed: details.onStepCancel,
-                  child: Text('Back'),
-                ),
-                ElevatedButton(
-                  onPressed: details.onStepContinue,
-                  child: Text('Next'),
-                ),
-              ],
-            );
-          case 2:
-            return ElevatedButton(
-              onPressed: details.onStepContinue,
-              child: Text('Update'),
-            );
-          default:
-            throw Exception('Unknown step');
-        }
-      },
+      controlsBuilder: _controlBuilder,
       steps: [
         Step(
           title: Text('Select Firmware'),
@@ -107,5 +67,47 @@ class _MyAppState extends State<MyApp> {
         ),
       ],
     );
+  }
+
+  Widget _controlBuilder(BuildContext context, ControlsDetails details) {
+    FirmwareUpdateRequest parameters =
+        context.watch<FirmwareUpdateRequestProvider>().updateParameters;
+    switch (_currentStep) {
+      case 0:
+        if (parameters.firmware == null) {
+          return Container();
+        }
+        return Row(
+          children: [
+            ElevatedButton(
+              onPressed: details.onStepContinue,
+              child: Text('Next'),
+            ),
+          ],
+        );
+      case 1:
+        if (parameters.peripheral == null) {
+          return Container();
+        }
+        return Row(
+          children: [
+            TextButton(
+              onPressed: details.onStepCancel,
+              child: Text('Back'),
+            ),
+            ElevatedButton(
+              onPressed: details.onStepContinue,
+              child: Text('Next'),
+            ),
+          ],
+        );
+      case 2:
+        return ElevatedButton(
+          onPressed: details.onStepContinue,
+          child: Text('Update'),
+        );
+      default:
+        throw Exception('Unknown step');
+    }
   }
 }
