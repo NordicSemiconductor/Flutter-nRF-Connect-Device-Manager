@@ -9,8 +9,9 @@ typedef FirmwareUpdateCallback = void Function(FirmwareUpdateState state);
 
 abstract class FirmwareUpdateHandler {
   FirmwareUpdateHandler? _nextHandler;
-  Future<void> handleFirmwareUpdate(FirmwareUpdateRequest request);
-  FirmwareUpdateCallback? callback;
+  Future<void> handleFirmwareUpdate(
+      FirmwareUpdateRequest request, FirmwareUpdateCallback? callback);
+
   Future<void> setNextHandler(FirmwareUpdateHandler handler) async {
     _nextHandler = handler;
   }
@@ -18,7 +19,8 @@ abstract class FirmwareUpdateHandler {
 
 class FirmwareDownloader extends FirmwareUpdateHandler {
   @override
-  Future<void> handleFirmwareUpdate(FirmwareUpdateRequest request) async {
+  Future<void> handleFirmwareUpdate(
+      FirmwareUpdateRequest request, FirmwareUpdateCallback? callback) async {
     if (request.firmware == null) {
       throw Exception('Firmware is not selected');
     }
@@ -29,15 +31,15 @@ class FirmwareDownloader extends FirmwareUpdateHandler {
     request.zipFile = Uint8List(0);
 
     if (_nextHandler != null) {
-      _nextHandler!.callback = callback;
-      await _nextHandler!.handleFirmwareUpdate(request);
+      await _nextHandler!.handleFirmwareUpdate(request, callback);
     }
   }
 }
 
 class FirmwareUnpacker extends FirmwareUpdateHandler {
   @override
-  Future<void> handleFirmwareUpdate(FirmwareUpdateRequest request) async {
+  Future<void> handleFirmwareUpdate(
+      FirmwareUpdateRequest request, FirmwareUpdateCallback? callback) async {
     if (request.firmware == null) {
       throw Exception('Firmware is not selected');
     }
@@ -48,15 +50,15 @@ class FirmwareUnpacker extends FirmwareUpdateHandler {
     request.firmwareImages = {};
 
     if (_nextHandler != null) {
-      _nextHandler!.callback = callback;
-      await _nextHandler!.handleFirmwareUpdate(request);
+      await _nextHandler!.handleFirmwareUpdate(request, callback);
     }
   }
 }
 
 class FirmwareUpdater extends FirmwareUpdateHandler {
   @override
-  Future<void> handleFirmwareUpdate(FirmwareUpdateRequest request) async {
+  Future<void> handleFirmwareUpdate(
+      FirmwareUpdateRequest request, FirmwareUpdateCallback? callback) async {
     if (request.firmware == null) {
       throw Exception('Firmware is not selected');
     }

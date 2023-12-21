@@ -13,12 +13,11 @@ class UpdateBloc extends Bloc<UpdateEvent, UpdateState> {
     on<BeginUpdateProcess>((event, emit) async {
       emit(UpdateFirmware('Begin update process'));
       final handler = createFirmwareUpdateHandler();
-      handler.callback = (FirmwareUpdateState state) {
-        UpdateEvent event = _StateConverter.convert(state);
-        add(event);
-      };
 
-      await handler.handleFirmwareUpdate(firmwareUpdateRequest);
+      await handler.handleFirmwareUpdate(
+        firmwareUpdateRequest,
+        (FirmwareUpdateState state) => add(_StateConverter.convert(state)),
+      );
     });
     on<DownloadStarted>((event, emit) {
       emit(UpdateFirmware('Downloading firmware'));
@@ -45,11 +44,6 @@ class UpdateBloc extends Bloc<UpdateEvent, UpdateState> {
             FirmwareUpdater(),
           ),
       );
-
-    handler.callback = (FirmwareUpdateState state) {
-      UpdateEvent event = _StateConverter.convert(state);
-      add(event);
-    };
 
     return handler;
   }
