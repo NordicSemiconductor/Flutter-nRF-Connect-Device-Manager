@@ -6,7 +6,7 @@ class FirmwareUpdateRequest {
   SelectedFirmware? firmware;
   SelectedPeripheral? peripheral;
   Uint8List? zipFile;
-  Map<int, Uint8List>? firmwareImages;
+  Map<String, Uint8List>? firmwareImages;
 }
 
 class SelectedFirmware {

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mcumgr_flutter_example/src/bloc/bloc/update_bloc.dart';
 import 'package:mcumgr_flutter_example/src/model/firmware_update_request.dart';
 import 'package:mcumgr_flutter_example/src/providers/firmware_update_request_provider.dart';
 import 'package:mcumgr_flutter_example/src/view/stepper_view/firmware_select.dart';
 import 'package:mcumgr_flutter_example/src/view/stepper_view/peripheral_select.dart';
+import 'package:mcumgr_flutter_example/src/view/stepper_view/update_view.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -102,9 +105,9 @@ class _MyAppState extends State<MyApp> {
           ],
         );
       case 2:
-        return ElevatedButton(
-          onPressed: details.onStepContinue,
-          child: Text('Update'),
+        return BlocProvider(
+          create: (context) => UpdateBloc(firmwareUpdateRequest: parameters),
+          child: UpdateStepView(),
         );
       default:
         throw Exception('Unknown step');

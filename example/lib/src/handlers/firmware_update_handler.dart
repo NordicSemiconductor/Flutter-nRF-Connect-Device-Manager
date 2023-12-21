@@ -25,10 +25,11 @@ class FirmwareDownloader extends FirmwareUpdateHandler {
 
     callback?.call(FirmwareDownloadStarted());
     // TODO: Download firmware
+    await Future.delayed(Duration(seconds: 1));
     request.zipFile = Uint8List(0);
-    callback?.call(FirmwareDownloadFinished());
 
     if (_nextHandler != null) {
+      _nextHandler!.callback = callback;
       await _nextHandler!.handleFirmwareUpdate(request);
     }
   }
@@ -40,13 +41,14 @@ class FirmwareUnpacker extends FirmwareUpdateHandler {
     if (request.firmware == null) {
       throw Exception('Firmware is not selected');
     }
-
+    await Future.delayed(Duration(seconds: 1));
     callback?.call(FirmwareUnpackStarted());
     // TODO: Unzip firmware
+    await Future.delayed(Duration(seconds: 1));
     request.firmwareImages = {};
-    callback?.call(FirmwareUnpackFinished());
 
     if (_nextHandler != null) {
+      _nextHandler!.callback = callback;
       await _nextHandler!.handleFirmwareUpdate(request);
     }
   }
@@ -59,7 +61,10 @@ class FirmwareUpdater extends FirmwareUpdateHandler {
       throw Exception('Firmware is not selected');
     }
 
+    await Future.delayed(Duration(seconds: 1));
+
     callback?.call(FirmwareUploadStarted());
+    await Future.delayed(Duration(seconds: 1));
     // TODO: Upload firmware
     callback?.call(FirmwareUploadFinished());
   }
