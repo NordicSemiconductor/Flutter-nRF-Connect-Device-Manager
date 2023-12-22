@@ -5,8 +5,9 @@ import 'package:http/http.dart' as http;
 import 'package:mcumgr_flutter_example/src/model/firmware_image.dart';
 
 class FirmwareImageRepository {
-  String get url =>
-      'https://nordicsemiconductor.github.io/nrfprogrammer-firmware-images/manifest.json';
+  static const String baseUrl =
+      'https://nordicsemiconductor.github.io/nrfprogrammer-firmware-images/';
+  String get url => '$baseUrl/manifest.json';
 
   Future<ApplicationResponse> getFirmwareImages() async {
     final response = await http.get(Uri.parse(url));

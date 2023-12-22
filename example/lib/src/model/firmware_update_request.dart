@@ -6,7 +6,7 @@ class FirmwareUpdateRequest {
   SelectedFirmware? firmware;
   SelectedPeripheral? peripheral;
   Uint8List? zipFile;
-  Map<String, Uint8List>? firmwareImages;
+  Map<int, Uint8List>? firmwareImages;
 }
 
 class SelectedFirmware {
@@ -21,6 +21,11 @@ class SelectedFirmware {
     required this.board,
     required this.firmware,
   });
+
+  @override
+  String toString() {
+    return 'SelectedFirmware{application: $application, version: $version, board: $board, firmware: $firmware}';
+  }
 }
 
 class SelectedPeripheral {
