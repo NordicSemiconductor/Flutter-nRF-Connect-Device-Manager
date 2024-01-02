@@ -1,12 +1,13 @@
 import 'dart:typed_data';
 
 import 'package:mcumgr_flutter_example/src/model/firmware_image.dart';
+import 'package:tuple/tuple.dart';
 
 class FirmwareUpdateRequest {
   SelectedFirmware? firmware;
   SelectedPeripheral? peripheral;
   Uint8List? zipFile;
-  Map<int, Uint8List>? firmwareImages;
+  List<Tuple2<int, Uint8List>>? firmwareImages;
 }
 
 class SelectedFirmware {

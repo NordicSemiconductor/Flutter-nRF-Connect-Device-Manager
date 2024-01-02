@@ -30,8 +30,21 @@ class UpdateStepView extends StatelessWidget {
                 ),
               ],
             );
-          case UpdateFirmware():
-            return Text(state.state);
+          case UpdateFirmwareStateHistory():
+            return Column(
+              children: [
+                for (var state in state.history)
+                  Row(
+                    children: [
+                      Icon(Icons.check_circle_outline, color: Colors.green),
+                      Text(state.state),
+                      if (state.progress != null)
+                        Text(' ${state.progress}%'),
+                    ],
+                  ),
+                  Text(state.currentState.state),
+              ],
+            );
           default:
             return Text('Unknown state');
         }

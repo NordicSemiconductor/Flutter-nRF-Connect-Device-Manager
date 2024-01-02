@@ -8,7 +8,10 @@ import 'package:mcumgr_flutter_example/src/repository/firmware_image_repository.
 
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart' as path_provider;
+import 'package:tuple/tuple.dart';
 import 'package:uuid/uuid.dart';
+
+import 'package:mcumgr_flutter/mcumgr_flutter.dart';
 
 part 'firmware_update_state.dart';
 
@@ -16,7 +19,7 @@ typedef FirmwareUpdateCallback = void Function(FirmwareUpdateState state);
 
 abstract class FirmwareUpdateHandler {
   FirmwareUpdateHandler? _nextHandler;
-  Future<void> handleFirmwareUpdate(
+  Future<FirmwareUpdateManager> handleFirmwareUpdate(
       FirmwareUpdateRequest request, FirmwareUpdateCallback? callback);
 
   Future<void> setNextHandler(FirmwareUpdateHandler handler) async {
@@ -26,7 +29,7 @@ abstract class FirmwareUpdateHandler {
 
 class FirmwareDownloader extends FirmwareUpdateHandler {
   @override
-  Future<void> handleFirmwareUpdate(
+  Future<FirmwareUpdateManager> handleFirmwareUpdate(
       FirmwareUpdateRequest request, FirmwareUpdateCallback? callback) async {
     callback?.call(FirmwareDownloadStarted());
 
@@ -42,15 +45,13 @@ class FirmwareDownloader extends FirmwareUpdateHandler {
       throw Exception('Failed to download firmware');
     }
 
-    if (_nextHandler != null) {
-      await _nextHandler!.handleFirmwareUpdate(request, callback);
-    }
+    return await _nextHandler!.handleFirmwareUpdate(request, callback);
   }
 }
 
 class FirmwareUnpacker extends FirmwareUpdateHandler {
   @override
-  Future<void> handleFirmwareUpdate(
+  Future<FirmwareUpdateManager> handleFirmwareUpdate(
       FirmwareUpdateRequest request, FirmwareUpdateCallback? callback) async {
     callback?.call(FirmwareUnpackStarted());
 
@@ -89,35 +90,43 @@ class FirmwareUnpacker extends FirmwareUpdateHandler {
       throw Exception('Failed to parse manifest.json');
     }
 
-    request.firmwareImages = {};
+    request.firmwareImages = [];
     for (final file in manifest.files) {
       final firmwareFile = File('${destinationDir.path}/${file.file}');
       final firmwareFileData = await firmwareFile.readAsBytes();
-      request.firmwareImages![file.image] = firmwareFileData;
+      request.firmwareImages!.add(Tuple2(file.image, firmwareFileData));
     }
 
     // delete tempDir
     await tempDir.delete(recursive: true);
 
-    if (_nextHandler != null) {
-      await _nextHandler!.handleFirmwareUpdate(request, callback);
-    }
+    return await _nextHandler!.handleFirmwareUpdate(request, callback);
   }
 }
 
 class FirmwareUpdater extends FirmwareUpdateHandler {
+  final UpdateManagerFactory _updateManagerFactory =
+      FirmwareUpdateManagerFactory();
+
   @override
-  Future<void> handleFirmwareUpdate(
+  Future<FirmwareUpdateManager> handleFirmwareUpdate(
       FirmwareUpdateRequest request, FirmwareUpdateCallback? callback) async {
-    if (request.firmware == null) {
+    callback?.call(FirmwareUploadStarted());
+
+    if (request.firmwareImages == null) {
       throw Exception('Firmware is not selected');
     }
 
-    callback?.call(FirmwareUploadStarted());
-    await Future.delayed(Duration(seconds: 1));
+    if (request.peripheral == null) {
+      throw Exception('Peripheral is not selected');
+    }
 
-    await Future.delayed(Duration(seconds: 1));
-    // TODO: Upload firmware
-    callback?.call(FirmwareUploadFinished());
+    final updateManager = await _updateManagerFactory
+        .getUpdateManager(request.peripheral!.identifier);
+
+    updateManager.setup();
+    updateManager.update(request.firmwareImages!);
+
+    return updateManager;
   }
 }

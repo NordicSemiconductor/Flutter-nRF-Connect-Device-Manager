@@ -11,3 +11,10 @@ final class UpdateFirmware extends UpdateState {
 
   UpdateFirmware(this.state, [this.progress]);
 }
+
+class UpdateFirmwareStateHistory extends UpdateState {
+  final UpdateFirmware currentState;
+  final List<UpdateFirmware> history;
+
+  UpdateFirmwareStateHistory(this.currentState, this.history);
+}

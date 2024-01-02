@@ -9,12 +9,17 @@ class DownloadStarted extends UpdateEvent {}
 
 class UnpackStarted extends UpdateEvent {}
 
-class UploadStarted extends UpdateEvent {}
-
-class UploadProgress extends UpdateEvent {
+class UploadStarted extends UpdateEvent {
   final int progress;
 
-  UploadProgress(this.progress);
+  UploadStarted({this.progress = 0});
+}
+
+class UploadProgress extends UpdateEvent {
+  final String stage;
+  final int progress;
+
+  UploadProgress({required this.stage, this.progress = 0});
 }
 
 class UploadFinished extends UpdateEvent {}
