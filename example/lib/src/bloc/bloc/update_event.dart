@@ -17,9 +17,9 @@ class UploadStarted extends UpdateEvent {
 
 class UploadProgress extends UpdateEvent {
   final String stage;
-  final int progress;
+  final int? progress;
 
-  UploadProgress({required this.stage, this.progress = 0});
+  UploadProgress({required this.stage, this.progress = null});
 }
 
 class UploadFinished extends UpdateEvent {}

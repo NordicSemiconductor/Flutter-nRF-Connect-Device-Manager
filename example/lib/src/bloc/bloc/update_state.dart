@@ -5,11 +5,16 @@ sealed class UpdateState {}
 
 final class UpdateInitial extends UpdateState {}
 
-final class UpdateFirmware extends UpdateState {
+class UpdateFirmware extends UpdateState {
   final String state;
-  final int? progress;
 
-  UpdateFirmware(this.state, [this.progress]);
+  UpdateFirmware(this.state);
+}
+
+final class UpdateProgressFirmware extends UpdateFirmware {
+  final int progress;
+
+  UpdateProgressFirmware(String state, this.progress) : super(state);
 }
 
 class UpdateFirmwareStateHistory extends UpdateState {

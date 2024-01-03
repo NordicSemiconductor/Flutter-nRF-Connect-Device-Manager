@@ -38,7 +38,7 @@ class UpdateStepView extends StatelessWidget {
                     children: [
                       Icon(Icons.check_circle_outline, color: Colors.green),
                       Text(state.state),
-                      if (state.progress != null)
+                      if (state is UpdateProgressFirmware)
                         Text(' ${state.progress}%'),
                     ],
                   ),

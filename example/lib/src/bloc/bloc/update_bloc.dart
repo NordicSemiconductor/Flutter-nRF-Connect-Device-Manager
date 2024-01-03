@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:mcumgr_flutter/mcumgr_flutter.dart';
 import 'package:mcumgr_flutter_example/src/handlers/firmware_update_handler.dart';
@@ -26,13 +28,21 @@ class UpdateBloc extends Bloc<UpdateEvent, UpdateState> {
         (FirmwareUpdateState state) => add(_StateConverter.convert(state)),
       );
 
-      rx.CombineLatestStream.combine2(_firmwareUpdateManager!.progressStream,
-          _firmwareUpdateManager!.updateStateStream!, (a, b) => Tuple2(a, b))
-          .map((event) {
-            
-          })
+      final progressStream = _firmwareUpdateManager!.progressStream
+          .map((event) =>
+              event.bytesSent.toDouble() / event.imageSize.toDouble())
+          .startWith(-1);
 
-      stream.map((event) => null);
+      rx.CombineLatestStream.combine2(
+          progressStream,
+          _firmwareUpdateManager!.updateStateStream!,
+          (a, b) => Tuple2(a, b)).map((event) {
+        int? progress = event.item1 == -1 ? null : (event.item1 * 100).toInt();
+        return UploadProgress(
+            stage: event.item2.toString(), progress: progress);
+      }).listen((event) {
+        add(event);
+      });
     });
     on<DownloadStarted>((event, emit) {
       _state = _updatedState(UpdateFirmware('Download firmware'));
@@ -47,8 +57,14 @@ class UpdateBloc extends Bloc<UpdateEvent, UpdateState> {
       emit(_state!);
     });
     on<UploadProgress>((event, emit) {
-      _state = _updatedState(UpdateFirmware('Upload firmware', event.progress));
-      emit(_state!);
+      if (event.progress != null) {
+        _state =
+            _updatedState(UpdateProgressFirmware(event.stage, event.progress!));
+        emit(_state!);
+      } else {
+        _state = _updatedState(UpdateFirmware(event.stage));
+        emit(_state!);
+      }
     });
     on<UploadFinished>((event, emit) {
       _state = _updatedState(UpdateFirmware('Upload finished'));
@@ -59,10 +75,17 @@ class UpdateBloc extends Bloc<UpdateEvent, UpdateState> {
   UpdateFirmwareStateHistory _updatedState(UpdateFirmware currentState) {
     if (_state == null) {
       return UpdateFirmwareStateHistory(currentState, []);
-    } else {
-      return UpdateFirmwareStateHistory(
-          currentState, _state!.history + [_state!.currentState]);
+    } else if (_state!.history.isEmpty) {
+      return UpdateFirmwareStateHistory(currentState, [_state!.currentState]);
     }
+
+    final last = _state!.history.last;
+    if (last is UpdateProgressFirmware) {
+      return UpdateFirmwareStateHistory(currentState, _state!.history);
+    }
+
+    return UpdateFirmwareStateHistory(
+        currentState, _state!.history + [_state!.currentState]);
   }
 
   FirmwareUpdateHandler createFirmwareUpdateHandler() {
@@ -88,11 +111,5 @@ class _StateConverter {
         UploadProgress(stage: "Upload firmware", progress: progress),
       FirmwareUploadFinished() => UploadFinished(),
     };
-  }
-}
-
-class _FirmwareUpdateManagerStateConverter {
-  static UpdateEvent convert(FirmwareUpgradeState event) {
-    return UploadProgress(stage: event.toString());
   }
 }

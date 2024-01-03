@@ -34,10 +34,12 @@ extension ProtoUpdateStateToModel
       case (ProtoUpdateStateChanges_FirmwareUpgradeState.SUCCESS):
         return FirmwareUpgradeState.success;
       case (ProtoUpdateStateChanges_FirmwareUpgradeState
-          .REQUEST_MCU_MGR_PARAMETERS):
+            .REQUEST_MCU_MGR_PARAMETERS):
         return FirmwareUpgradeState.requestMcuMgrParameters;
       case (ProtoUpdateStateChanges_FirmwareUpgradeState.ERASE_APP_SETTINGS):
         return FirmwareUpgradeState.eraseAppSettings;
+      case (ProtoUpdateStateChanges_FirmwareUpgradeState.BOOTLOADER_INFO):
+        return FirmwareUpgradeState.bootloaderInfo;
       default:
         throw "Unsupported state";
     }
@@ -128,7 +130,8 @@ extension ProtoFirmwareUpgradeConfiguration_FirmwareUpgradeModeToModel
         return FirmwareUpgradeMode.confirmOnly;
       case ProtoFirmwareUpgradeConfiguration_FirmwareUpgradeMode.TEST_ONLY:
         return FirmwareUpgradeMode.testOnly;
-      case ProtoFirmwareUpgradeConfiguration_FirmwareUpgradeMode.TEST_AND_CONFIRM:
+      case ProtoFirmwareUpgradeConfiguration_FirmwareUpgradeMode
+            .TEST_AND_CONFIRM:
         return FirmwareUpgradeMode.testAndConfirm;
       case ProtoFirmwareUpgradeConfiguration_FirmwareUpgradeMode.UPLOAD_ONLY:
         return FirmwareUpgradeMode.uploadOnly;
@@ -148,9 +151,11 @@ extension ImageUploadAlignmentModel on ImageUploadAlignment {
       case ImageUploadAlignment.fourByte:
         return ProtoFirmwareUpgradeConfiguration_ImageUploadAlignment.FOUR_BYTE;
       case ImageUploadAlignment.eightByte:
-        return ProtoFirmwareUpgradeConfiguration_ImageUploadAlignment.EIGHT_BYTE;
+        return ProtoFirmwareUpgradeConfiguration_ImageUploadAlignment
+            .EIGHT_BYTE;
       case ImageUploadAlignment.sixteenByte:
-        return ProtoFirmwareUpgradeConfiguration_ImageUploadAlignment.SIXTEEN_BYTE;
+        return ProtoFirmwareUpgradeConfiguration_ImageUploadAlignment
+            .SIXTEEN_BYTE;
       default:
         throw 'Unsupported ImageUploadAlignment';
     }
@@ -161,13 +166,16 @@ extension FirmwareUpgradeModeModel on FirmwareUpgradeMode {
   ProtoFirmwareUpgradeConfiguration_FirmwareUpgradeMode convent() {
     switch (this) {
       case FirmwareUpgradeMode.confirmOnly:
-        return ProtoFirmwareUpgradeConfiguration_FirmwareUpgradeMode.CONFIRM_ONLY;
+        return ProtoFirmwareUpgradeConfiguration_FirmwareUpgradeMode
+            .CONFIRM_ONLY;
       case FirmwareUpgradeMode.testOnly:
         return ProtoFirmwareUpgradeConfiguration_FirmwareUpgradeMode.TEST_ONLY;
       case FirmwareUpgradeMode.testAndConfirm:
-        return ProtoFirmwareUpgradeConfiguration_FirmwareUpgradeMode.TEST_AND_CONFIRM;
+        return ProtoFirmwareUpgradeConfiguration_FirmwareUpgradeMode
+            .TEST_AND_CONFIRM;
       case FirmwareUpgradeMode.uploadOnly:
-        return ProtoFirmwareUpgradeConfiguration_FirmwareUpgradeMode.UPLOAD_ONLY;
+        return ProtoFirmwareUpgradeConfiguration_FirmwareUpgradeMode
+            .UPLOAD_ONLY;
       default:
         throw 'Unsupported FirmwareUpgradeMode';
     }
@@ -175,7 +183,8 @@ extension FirmwareUpgradeModeModel on FirmwareUpgradeMode {
 }
 
 extension FirmwareUpgradeConfigurationToModel on FirmwareUpgradeConfiguration {
-  ProtoFirmwareUpgradeConfiguration proto() => ProtoFirmwareUpgradeConfiguration(
+  ProtoFirmwareUpgradeConfiguration proto() =>
+      ProtoFirmwareUpgradeConfiguration(
         estimatedSwapTimeMs: Int64(this.estimatedSwapTime.inMilliseconds),
         eraseAppSettings: this.eraseAppSettings,
         pipelineDepth: Int64(this.pipelineDepth),
@@ -188,11 +197,12 @@ extension FirmwareUpgradeConfigurationToModel on FirmwareUpgradeConfiguration {
 extension ProtoFirmwareUpgradeConfigurationToModel
     on ProtoFirmwareUpgradeConfiguration {
   FirmwareUpgradeConfiguration convert() => FirmwareUpgradeConfiguration(
-    estimatedSwapTime: Duration(milliseconds: this.estimatedSwapTimeMs as int),
-    eraseAppSettings: this.eraseAppSettings,
-    pipelineDepth: this.pipelineDepth as int,
-    byteAlignment: this.byteAlignment.convent(),
-    reassemblyBufferSize: this.reassemblyBufferSize as int,
-    firmwareUpgradeMode: this.firmwareUpgradeMode.convent(),
-  );
+        estimatedSwapTime:
+            Duration(milliseconds: this.estimatedSwapTimeMs as int),
+        eraseAppSettings: this.eraseAppSettings,
+        pipelineDepth: this.pipelineDepth as int,
+        byteAlignment: this.byteAlignment.convent(),
+        reassemblyBufferSize: this.reassemblyBufferSize as int,
+        firmwareUpgradeMode: this.firmwareUpgradeMode.convent(),
+      );
 }
