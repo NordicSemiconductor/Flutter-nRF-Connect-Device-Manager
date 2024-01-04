@@ -9,8 +9,8 @@ class UpdateStepView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final request =
-        context.watch<FirmwareUpdateRequestProvider>().updateParameters;
+    final provider = context.watch<FirmwareUpdateRequestProvider>();
+    final request = provider.updateParameters;
     return BlocBuilder<UpdateBloc, UpdateState>(
       builder: (context, state) {
         switch (state) {
@@ -36,13 +36,24 @@ class UpdateStepView extends StatelessWidget {
                 for (var state in state.history)
                   Row(
                     children: [
-                      Icon(Icons.check_circle_outline, color: Colors.green),
-                      Text(state.state),
-                      if (state is UpdateProgressFirmware)
-                        Text(' ${state.progress}%'),
+                      _stateIcon(state),
+                      Text(state.stage),
                     ],
                   ),
-                  Text(state.currentState.state),
+                if (state.currentState != null)
+                  Row(
+                    children: [
+                      CircularProgressIndicator(),
+                      _currentState(state),
+                    ],
+                  ),
+                if (state.isComplete)
+                  ElevatedButton(
+                    onPressed: () {
+                      provider.reset();
+                    },
+                    child: Text('Update Again'),
+                  ),
               ],
             );
           default:
@@ -50,5 +61,24 @@ class UpdateStepView extends StatelessWidget {
         }
       },
     );
+  }
+
+  Icon _stateIcon(UpdateFirmware state) {
+    if (state is UpdateCompleteFailure) {
+      return Icon(Icons.error_outline, color: Colors.red);
+    } else {
+      return Icon(Icons.check_circle_outline, color: Colors.green);
+    }
+  }
+
+  Text _currentState(UpdateFirmwareStateHistory state) {
+    final currentState = state.currentState;
+    if (currentState == null) {
+      return Text('Unknown state');
+    } else if (currentState is UpdateProgressFirmware) {
+      return Text("Uploading ${currentState.progress}%");
+    } else {
+      return Text(currentState.stage);
+    }
   }
 }

@@ -9,20 +9,25 @@ class DownloadStarted extends UpdateEvent {}
 
 class UnpackStarted extends UpdateEvent {}
 
-class UploadStarted extends UpdateEvent {
-  final int progress;
+class UploadState extends UpdateEvent {
+  final String state;
 
-  UploadStarted({this.progress = 0});
+  UploadState(this.state);
 }
 
-class UploadProgress extends UpdateEvent {
-  final String stage;
-  final int? progress;
+class UploadProgress extends UploadState {
+  final int progress;
 
-  UploadProgress({required this.stage, this.progress = null});
+  UploadProgress({required String stage, required this.progress}) : super(stage);
 }
 
 class UploadFinished extends UpdateEvent {}
+
+class UploadFailed extends UpdateEvent {
+  final String error;
+
+  UploadFailed(this.error);
+}
 
 class FirmwareSelected extends UpdateEvent {
   final SelectedFirmware firmware;

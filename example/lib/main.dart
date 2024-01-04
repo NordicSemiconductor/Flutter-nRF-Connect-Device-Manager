@@ -18,7 +18,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  int _currentStep = 0;
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -39,16 +38,17 @@ class _MyAppState extends State<MyApp> {
   }
 
   Widget _body(BuildContext context) {
+    final provider = context.watch<FirmwareUpdateRequestProvider>();
     return Stepper(
-      currentStep: _currentStep,
+      currentStep: provider.currentStep,
       onStepContinue: () {
         setState(() {
-          _currentStep++;
+          provider.nextStep();
         });
       },
       onStepCancel: () {
         setState(() {
-          _currentStep--;
+          provider.previousStep();
         });
       },
       controlsBuilder: _controlBuilder,
@@ -56,26 +56,26 @@ class _MyAppState extends State<MyApp> {
         Step(
           title: Text('Select Firmware'),
           content: Center(child: FirmwareSelect()),
-          isActive: _currentStep == 0,
+          isActive: provider.currentStep == 0,
         ),
         Step(
           title: Text('Select Device'),
           content: Center(child: PeripheralSelect()),
-          isActive: _currentStep == 1,
+          isActive: provider.currentStep == 1,
         ),
         Step(
           title: Text('Update'),
           content: Text('Update'),
-          isActive: _currentStep == 2,
+          isActive: provider.currentStep == 2,
         ),
       ],
     );
   }
 
   Widget _controlBuilder(BuildContext context, ControlsDetails details) {
-    FirmwareUpdateRequest parameters =
-        context.watch<FirmwareUpdateRequestProvider>().updateParameters;
-    switch (_currentStep) {
+    final provider = context.watch<FirmwareUpdateRequestProvider>();
+    FirmwareUpdateRequest parameters = provider.updateParameters;
+    switch (provider.currentStep) {
       case 0:
         if (parameters.firmware == null) {
           return Container();
