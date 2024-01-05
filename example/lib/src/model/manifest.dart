@@ -34,7 +34,9 @@ class ManifestFile {
 
   // Required properties
   String file;
-  int image;
+  String imageIndex;
+
+  int get image => int.parse(imageIndex);
 
   factory ManifestFile.fromJson(Map<String, dynamic> json) =>
       _$ManifestFileFromJson(json);
@@ -50,6 +52,6 @@ class ManifestFile {
     this.modtime,
     this.version,
     required this.file,
-    required this.image,
+    required this.imageIndex,
   });
 }
