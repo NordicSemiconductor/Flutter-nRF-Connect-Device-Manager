@@ -133,4 +133,10 @@ class MockUpdateManager extends FirmwareUpdateManager {
 
     return updateMap(imageMap);
   }
+
+  @override
+  Future<void> updateWithImageData({required Uint8List image}) {
+    // TODO: implement updateWithImageData
+    throw UnimplementedError();
+  }
 }

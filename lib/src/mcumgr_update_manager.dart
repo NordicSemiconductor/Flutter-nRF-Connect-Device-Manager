@@ -106,6 +106,12 @@ class DeviceUpdateManager extends FirmwareUpdateManager {
           ).writeToBuffer());
 
   @override
+  Future<void> updateWithImageData({required Uint8List image}) {
+    // TODO: implement updateWithImageData
+    throw UnimplementedError();
+  }
+
+  @override
   Future<void> pause() async {
     await methodChannel.invokeMethod(
         UpdateManagerMethod.pause.rawValue, _deviceId);
@@ -150,8 +156,6 @@ class DeviceUpdateManager extends FirmwareUpdateManager {
         .receiveBroadcastStream()
         .map((event) => ProtoUpdateStateChangesStreamArg.fromBuffer(event))
         .where((event) => event.uuid == _deviceId)
-        // TODO: check if this works
-        // .where((event) => event.hasUpdateStateChanges())
         .listen((data) async {
       if (data.hasError()) {
         _updateStateStreamController!.addError(data.error.localizedDescription);

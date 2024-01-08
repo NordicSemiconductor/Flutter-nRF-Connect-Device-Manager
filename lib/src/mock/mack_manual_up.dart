@@ -111,4 +111,10 @@ class MockManualUpdateManager extends FirmwareUpdateManager {
     images.forEach((e) => imageMap[e.item1] = e.item2);
     return updateMap(imageMap);
   }
+
+  @override
+  Future<void> updateWithImageData({required Uint8List image}) {
+    // TODO: implement updateWithImageData
+    throw UnimplementedError();
+  }
 }
