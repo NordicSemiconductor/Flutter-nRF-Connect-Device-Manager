@@ -108,29 +108,16 @@ abstract class FirmwareUpdateLogger {
   /// Stream emits Log Messages
   Stream<List<McuLogMessage>> get logMessageStream;
 
-  /// Time window for log messages
-  ///
-  /// Default value is `const Duration(seconds: 1)`
-  // Future<Duration> get logMessageTimeWindow;
+  /// Set live logging configurations
+  Future<void> setConfiguration(LiveLogConfiguration configuration);
 
-  /// Set time window for log messages
-  // void setLogMessageTimeWindow(Duration value);
-
-  /// Subscribe to detect if live logging is enabled
-  Stream<bool> get liveLoggingEnabled;
-
-  /// Enable/Disable live logging
-  Future<bool> toggleLiveLogging();
-
-  /// Set live logging
-  Future<void> setLiveLoggingEnabled(bool value);
+  /// Get live logging configurations
+  Future<LiveLogConfiguration> getConfiguration();
 
   /// New logs will be sent through `logMessageStream`
-  Future<List<McuLogMessage>> readLogs();
-
-  /// Get all available log messages
-  /// If `clearLogs` method wos called, this method will return empty list.
-  Future<List<McuLogMessage>> getAllLogs();
+  ///
+  /// [clearLogs] if true, all logs will be cleared after reading. Default value is `false`
+  Future<List<McuLogMessage>> readLogs({bool clearLogs = false});
 
   /// Clear all log messages
   Future<void> clearLogs();

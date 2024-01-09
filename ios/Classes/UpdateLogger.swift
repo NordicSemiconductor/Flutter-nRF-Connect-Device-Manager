@@ -13,17 +13,10 @@ class UpdateLogger {
     let liveLogEnabledStreamHandler: StreamHandler
     let identifier: String
     
-    private var allMessages: [ProtoLogMessage] = []
     private var messages: [ProtoLogMessage] = []
     
-    var timeInterval: TimeInterval = 1.0 {
-        didSet {
-            setTimer(enabled: !liveUpdateEnabled, timeInterval: timeInterval)
-        }
-    }
     var liveUpdateEnabled = false {
         didSet {
-            setTimer(enabled: !liveUpdateEnabled, timeInterval: timeInterval)
             sendLiveUpdateStatus()
         }
     }
@@ -33,7 +26,6 @@ class UpdateLogger {
         self.identifier = identifier
         self.logStreamHandler = streamHandler
         self.liveLogEnabledStreamHandler = liveLogEnabledStreamHandler
-        setTimer(enabled: true, timeInterval: 1.0)
         
         sendLiveUpdateStatus()
     }
@@ -43,34 +35,22 @@ class UpdateLogger {
         return liveUpdateEnabled
     }
     
-    func readLogs() -> ProtoLogMessageStreamArg {
+    func readLogs(clearMessages: Bool = false) -> ProtoLogMessageStreamArg {
         let logStreamArg = ProtoLogMessageStreamArg(uuid: identifier, logs: messages)
         sendMessages()
+        if clearMessages {
+            messages.removeAll()
+        }
         return logStreamArg
     }
-    
-    func getAllLogs() -> ProtoLogMessageStreamArg {
-        return ProtoLogMessageStreamArg(uuid: identifier, logs: allMessages)
-    }
-    
+   
     func clearLogs() {
         messages.removeAll()
-        allMessages.removeAll()
         sendMessages()
     }
 }
 
 extension UpdateLogger {
-    private func setTimer(enabled: Bool, timeInterval: TimeInterval) {
-        if enabled {
-            timer = Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: true, block: { [weak self] t in
-                self?.sendMessages()
-                self?.messages.removeAll()
-            })
-        } else if let t = timer {
-            t.invalidate()
-        }
-    }
     
     private func sendMessages() {
         do {
@@ -102,6 +82,5 @@ extension UpdateLogger: McuMgrLogDelegate {
         let log = ProtoLogMessage(message: msg, category: category.toProto(), level: level.toProto(), timeInterval: Date().timeIntervalSince1970)
         
         messages.append(log)
-        allMessages.append(log)
     }
 }

@@ -550,7 +550,7 @@ extension ProtoLogMessage.LogLevel: CaseIterable {
 
 #endif  // swift(>=4.2)
 
-struct ProtoMessageLiveLogEnabled {
+struct ProtoLiveLogConfiguration {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
@@ -558,6 +558,22 @@ struct ProtoMessageLiveLogEnabled {
   var uuid: String = String()
 
   var enabled: Bool = false
+
+  var logLevel: ProtoLogMessage.LogLevel = .debug
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+}
+
+struct ProtoReadLogCallArguments {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var uuid: String = String()
+
+  var clearLogs_p: Bool = false
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -581,7 +597,8 @@ extension ProtoLogMessageStreamArg: @unchecked Sendable {}
 extension ProtoLogMessage: @unchecked Sendable {}
 extension ProtoLogMessage.LogCategory: @unchecked Sendable {}
 extension ProtoLogMessage.LogLevel: @unchecked Sendable {}
-extension ProtoMessageLiveLogEnabled: @unchecked Sendable {}
+extension ProtoLiveLogConfiguration: @unchecked Sendable {}
+extension ProtoReadLogCallArguments: @unchecked Sendable {}
 #endif  // swift(>=5.5) && canImport(_Concurrency)
 
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
@@ -1164,11 +1181,12 @@ extension ProtoLogMessage.LogLevel: SwiftProtobuf._ProtoNameProviding {
   ]
 }
 
-extension ProtoMessageLiveLogEnabled: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
-  static let protoMessageName: String = "ProtoMessageLiveLogEnabled"
+extension ProtoLiveLogConfiguration: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = "ProtoLiveLogConfiguration"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "uuid"),
     2: .same(proto: "enabled"),
+    3: .same(proto: "logLevel"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -1179,6 +1197,7 @@ extension ProtoMessageLiveLogEnabled: SwiftProtobuf.Message, SwiftProtobuf._Mess
       switch fieldNumber {
       case 1: try { try decoder.decodeSingularStringField(value: &self.uuid) }()
       case 2: try { try decoder.decodeSingularBoolField(value: &self.enabled) }()
+      case 3: try { try decoder.decodeSingularEnumField(value: &self.logLevel) }()
       default: break
       }
     }
@@ -1191,12 +1210,54 @@ extension ProtoMessageLiveLogEnabled: SwiftProtobuf.Message, SwiftProtobuf._Mess
     if self.enabled != false {
       try visitor.visitSingularBoolField(value: self.enabled, fieldNumber: 2)
     }
+    if self.logLevel != .debug {
+      try visitor.visitSingularEnumField(value: self.logLevel, fieldNumber: 3)
+    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: ProtoMessageLiveLogEnabled, rhs: ProtoMessageLiveLogEnabled) -> Bool {
+  static func ==(lhs: ProtoLiveLogConfiguration, rhs: ProtoLiveLogConfiguration) -> Bool {
     if lhs.uuid != rhs.uuid {return false}
     if lhs.enabled != rhs.enabled {return false}
+    if lhs.logLevel != rhs.logLevel {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension ProtoReadLogCallArguments: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = "ProtoReadLogCallArguments"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "uuid"),
+    2: .same(proto: "clearLogs"),
+  ]
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.uuid) }()
+      case 2: try { try decoder.decodeSingularBoolField(value: &self.clearLogs_p) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.uuid.isEmpty {
+      try visitor.visitSingularStringField(value: self.uuid, fieldNumber: 1)
+    }
+    if self.clearLogs_p != false {
+      try visitor.visitSingularBoolField(value: self.clearLogs_p, fieldNumber: 2)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: ProtoReadLogCallArguments, rhs: ProtoReadLogCallArguments) -> Bool {
+    if lhs.uuid != rhs.uuid {return false}
+    if lhs.clearLogs_p != rhs.clearLogs_p {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }

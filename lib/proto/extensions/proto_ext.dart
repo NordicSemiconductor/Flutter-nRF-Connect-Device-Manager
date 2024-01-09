@@ -1,6 +1,7 @@
 import 'package:mcumgr_flutter/mcumgr_flutter.dart';
 import 'package:mcumgr_flutter/models/image_upload_alignment.dart';
 import 'package:mcumgr_flutter/models/firmware_upgrade_mode.dart';
+import 'package:mcumgr_flutter/models/live_log_configuration.dart';
 import '../flutter_mcu.pb.dart';
 import 'package:fixnum/fixnum.dart';
 
@@ -55,24 +56,8 @@ extension ProtoLogMessageToModel on ProtoLogMessage {
         DateTime.fromMillisecondsSinceEpoch(this.logDateTime.toInt()));
   }
 
-  McuMgrLogLevel conventLevel(ProtoLogMessage_LogLevel level) {
-    switch (level) {
-      case ProtoLogMessage_LogLevel.DEBUG:
-        return McuMgrLogLevel.debug;
-      case ProtoLogMessage_LogLevel.VERBOSE:
-        return McuMgrLogLevel.verbose;
-      case ProtoLogMessage_LogLevel.INFO:
-        return McuMgrLogLevel.info;
-      case ProtoLogMessage_LogLevel.APPLICATION:
-        return McuMgrLogLevel.application;
-      case ProtoLogMessage_LogLevel.WARNING:
-        return McuMgrLogLevel.warning;
-      case ProtoLogMessage_LogLevel.ERROR:
-        return McuMgrLogLevel.error;
-      default:
-        throw 'Unsupported log level';
-    }
-  }
+  McuMgrLogLevel conventLevel(ProtoLogMessage_LogLevel level) =>
+      level.convent();
 
   McuMgrLogCategory conventCategory(ProtoLogMessage_LogCategory category) {
     switch (category) {
@@ -118,6 +103,48 @@ extension ProtoFirmwareUpgradeConfiguration_ImageUploadAlignmentToModel
         return ImageUploadAlignment.sixteenByte;
       default:
         throw 'Unsupported ImageUploadAlignment';
+    }
+  }
+}
+
+extension McuMgrLogLevelToProto on McuMgrLogLevel {
+  ProtoLogMessage_LogLevel convent() {
+    switch (this) {
+      case McuMgrLogLevel.debug:
+        return ProtoLogMessage_LogLevel.DEBUG;
+      case McuMgrLogLevel.verbose:
+        return ProtoLogMessage_LogLevel.VERBOSE;
+      case McuMgrLogLevel.info:
+        return ProtoLogMessage_LogLevel.INFO;
+      case McuMgrLogLevel.application:
+        return ProtoLogMessage_LogLevel.APPLICATION;
+      case McuMgrLogLevel.warning:
+        return ProtoLogMessage_LogLevel.WARNING;
+      case McuMgrLogLevel.error:
+        return ProtoLogMessage_LogLevel.ERROR;
+      default:
+        throw 'Unsupported log level';
+    }
+  }
+}
+
+extension ProtoLogMessage_LogLevelToModel on ProtoLogMessage_LogLevel {
+  McuMgrLogLevel convent() {
+    switch (this) {
+      case ProtoLogMessage_LogLevel.DEBUG:
+        return McuMgrLogLevel.debug;
+      case ProtoLogMessage_LogLevel.VERBOSE:
+        return McuMgrLogLevel.verbose;
+      case ProtoLogMessage_LogLevel.INFO:
+        return McuMgrLogLevel.info;
+      case ProtoLogMessage_LogLevel.APPLICATION:
+        return McuMgrLogLevel.application;
+      case ProtoLogMessage_LogLevel.WARNING:
+        return McuMgrLogLevel.warning;
+      case ProtoLogMessage_LogLevel.ERROR:
+        return McuMgrLogLevel.error;
+      default:
+        throw 'Unsupported log level';
     }
   }
 }
@@ -205,4 +232,27 @@ extension ProtoFirmwareUpgradeConfigurationToModel
         reassemblyBufferSize: this.reassemblyBufferSize as int,
         firmwareUpgradeMode: this.firmwareUpgradeMode.convent(),
       );
+}
+
+extension LiveLogConfigurationToModel on LiveLogConfiguration {
+  ProtoLiveLogConfiguration proto() {
+    final config = ProtoLiveLogConfiguration();
+
+    if (this.level != null) {
+      config.logLevel = this.level!.convent();
+    }
+    if (this.enabled != null) {
+      config.enabled = this.enabled!;
+    }
+
+    return config;
+  }
+}
+
+extension ProtoLiveLogConfigurationToModel on ProtoLiveLogConfiguration {
+  LiveLogConfiguration convert() {
+    bool? enabled = this.hasEnabled() ? this.enabled : null;
+    McuMgrLogLevel? level = this.hasLogLevel() ? this.logLevel.convent() : null;
+    return LiveLogConfiguration(enabled: enabled, level: level);
+  }
 }

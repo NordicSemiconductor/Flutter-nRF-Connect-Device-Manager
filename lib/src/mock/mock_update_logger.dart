@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:mcumgr_flutter/models/live_log_configuration.dart';
 
 import '../../mcumgr_flutter.dart';
 
@@ -14,7 +15,7 @@ class MockUpdateLogger extends FirmwareUpdateLogger {
   @override
 
   /// Get cashed log messages.
-  Future<List<McuLogMessage>> readLogs() async {
+  Future<List<McuLogMessage>> readLogs({bool clearLogs = false}) async {
     return [
       McuLogMessage(
           'msg', McuMgrLogCategory.dfu, McuMgrLogLevel.info, DateTime.now()),
@@ -64,5 +65,17 @@ class MockUpdateLogger extends FirmwareUpdateLogger {
               return McuLogMessage(
                   message, McuMgrLogCategory.dfu, logLevel, dateTime);
             }).toList());
+  }
+  
+  @override
+  Future<LiveLogConfiguration> getConfiguration() {
+    // TODO: implement getConfiguration
+    throw UnimplementedError();
+  }
+  
+  @override
+  Future<void> setConfiguration(LiveLogConfiguration configuration) {
+    // TODO: implement setConfiguration
+    throw UnimplementedError();
   }
 }

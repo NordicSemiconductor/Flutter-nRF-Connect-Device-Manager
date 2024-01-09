@@ -922,10 +922,11 @@ class ProtoLogMessage extends $pb.GeneratedMessage {
   void clearLogDateTime() => clearField(4);
 }
 
-class ProtoMessageLiveLogEnabled extends $pb.GeneratedMessage {
-  factory ProtoMessageLiveLogEnabled({
+class ProtoLiveLogConfiguration extends $pb.GeneratedMessage {
+  factory ProtoLiveLogConfiguration({
     $core.String? uuid,
     $core.bool? enabled,
+    ProtoLogMessage_LogLevel? logLevel,
   }) {
     final $result = create();
     if (uuid != null) {
@@ -934,15 +935,19 @@ class ProtoMessageLiveLogEnabled extends $pb.GeneratedMessage {
     if (enabled != null) {
       $result.enabled = enabled;
     }
+    if (logLevel != null) {
+      $result.logLevel = logLevel;
+    }
     return $result;
   }
-  ProtoMessageLiveLogEnabled._() : super();
-  factory ProtoMessageLiveLogEnabled.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory ProtoMessageLiveLogEnabled.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  ProtoLiveLogConfiguration._() : super();
+  factory ProtoLiveLogConfiguration.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ProtoLiveLogConfiguration.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ProtoMessageLiveLogEnabled', createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ProtoLiveLogConfiguration', createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'uuid')
     ..aOB(2, _omitFieldNames ? '' : 'enabled')
+    ..e<ProtoLogMessage_LogLevel>(3, _omitFieldNames ? '' : 'logLevel', $pb.PbFieldType.OE, protoName: 'logLevel', defaultOrMaker: ProtoLogMessage_LogLevel.DEBUG, valueOf: ProtoLogMessage_LogLevel.valueOf, enumValues: ProtoLogMessage_LogLevel.values)
     ..hasRequiredFields = false
   ;
 
@@ -950,22 +955,22 @@ class ProtoMessageLiveLogEnabled extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  ProtoMessageLiveLogEnabled clone() => ProtoMessageLiveLogEnabled()..mergeFromMessage(this);
+  ProtoLiveLogConfiguration clone() => ProtoLiveLogConfiguration()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  ProtoMessageLiveLogEnabled copyWith(void Function(ProtoMessageLiveLogEnabled) updates) => super.copyWith((message) => updates(message as ProtoMessageLiveLogEnabled)) as ProtoMessageLiveLogEnabled;
+  ProtoLiveLogConfiguration copyWith(void Function(ProtoLiveLogConfiguration) updates) => super.copyWith((message) => updates(message as ProtoLiveLogConfiguration)) as ProtoLiveLogConfiguration;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static ProtoMessageLiveLogEnabled create() => ProtoMessageLiveLogEnabled._();
-  ProtoMessageLiveLogEnabled createEmptyInstance() => create();
-  static $pb.PbList<ProtoMessageLiveLogEnabled> createRepeated() => $pb.PbList<ProtoMessageLiveLogEnabled>();
+  static ProtoLiveLogConfiguration create() => ProtoLiveLogConfiguration._();
+  ProtoLiveLogConfiguration createEmptyInstance() => create();
+  static $pb.PbList<ProtoLiveLogConfiguration> createRepeated() => $pb.PbList<ProtoLiveLogConfiguration>();
   @$core.pragma('dart2js:noInline')
-  static ProtoMessageLiveLogEnabled getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ProtoMessageLiveLogEnabled>(create);
-  static ProtoMessageLiveLogEnabled? _defaultInstance;
+  static ProtoLiveLogConfiguration getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ProtoLiveLogConfiguration>(create);
+  static ProtoLiveLogConfiguration? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get uuid => $_getSZ(0);
@@ -984,6 +989,79 @@ class ProtoMessageLiveLogEnabled extends $pb.GeneratedMessage {
   $core.bool hasEnabled() => $_has(1);
   @$pb.TagNumber(2)
   void clearEnabled() => clearField(2);
+
+  @$pb.TagNumber(3)
+  ProtoLogMessage_LogLevel get logLevel => $_getN(2);
+  @$pb.TagNumber(3)
+  set logLevel(ProtoLogMessage_LogLevel v) { setField(3, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasLogLevel() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearLogLevel() => clearField(3);
+}
+
+class ProtoReadLogCallArguments extends $pb.GeneratedMessage {
+  factory ProtoReadLogCallArguments({
+    $core.String? uuid,
+    $core.bool? clearLogs,
+  }) {
+    final $result = create();
+    if (uuid != null) {
+      $result.uuid = uuid;
+    }
+    if (clearLogs != null) {
+      $result.clearLogs = clearLogs;
+    }
+    return $result;
+  }
+  ProtoReadLogCallArguments._() : super();
+  factory ProtoReadLogCallArguments.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ProtoReadLogCallArguments.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ProtoReadLogCallArguments', createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'uuid')
+    ..aOB(2, _omitFieldNames ? '' : 'clearLogs', protoName: 'clearLogs')
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  ProtoReadLogCallArguments clone() => ProtoReadLogCallArguments()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  ProtoReadLogCallArguments copyWith(void Function(ProtoReadLogCallArguments) updates) => super.copyWith((message) => updates(message as ProtoReadLogCallArguments)) as ProtoReadLogCallArguments;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static ProtoReadLogCallArguments create() => ProtoReadLogCallArguments._();
+  ProtoReadLogCallArguments createEmptyInstance() => create();
+  static $pb.PbList<ProtoReadLogCallArguments> createRepeated() => $pb.PbList<ProtoReadLogCallArguments>();
+  @$core.pragma('dart2js:noInline')
+  static ProtoReadLogCallArguments getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ProtoReadLogCallArguments>(create);
+  static ProtoReadLogCallArguments? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get uuid => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set uuid($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasUuid() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearUuid() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.bool get clearLogs => $_getBF(1);
+  @$pb.TagNumber(2)
+  set clearLogs($core.bool v) { $_setBool(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasClearLogs() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearClearLogs() => clearField(2);
 }
 
 

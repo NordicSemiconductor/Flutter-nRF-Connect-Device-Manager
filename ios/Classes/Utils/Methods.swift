@@ -19,10 +19,9 @@ public enum FlutterMethod: String {
     case kill
     
     case toggleLiveLoggs
-    case setLiveLoggsEnabled
+    case setLiveLogConfiguration
     case readLogs
     
-    case getAllLogs
     case clearLogs
 }
 

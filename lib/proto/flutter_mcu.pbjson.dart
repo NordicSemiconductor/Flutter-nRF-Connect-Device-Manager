@@ -282,17 +282,33 @@ final $typed_data.Uint8List protoLogMessageDescriptor = $convert.base64Decode(
     'dmVsEgkKBURFQlVHEAASCwoHVkVSQk9TRRABEggKBElORk8QAhIPCgtBUFBMSUNBVElPThADEg'
     'sKB1dBUk5JTkcQBBIJCgVFUlJPUhAF');
 
-@$core.Deprecated('Use protoMessageLiveLogEnabledDescriptor instead')
-const ProtoMessageLiveLogEnabled$json = {
-  '1': 'ProtoMessageLiveLogEnabled',
+@$core.Deprecated('Use protoLiveLogConfigurationDescriptor instead')
+const ProtoLiveLogConfiguration$json = {
+  '1': 'ProtoLiveLogConfiguration',
   '2': [
     {'1': 'uuid', '3': 1, '4': 1, '5': 9, '10': 'uuid'},
     {'1': 'enabled', '3': 2, '4': 1, '5': 8, '10': 'enabled'},
+    {'1': 'logLevel', '3': 3, '4': 1, '5': 14, '6': '.ProtoLogMessage.LogLevel', '10': 'logLevel'},
   ],
 };
 
-/// Descriptor for `ProtoMessageLiveLogEnabled`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List protoMessageLiveLogEnabledDescriptor = $convert.base64Decode(
-    'ChpQcm90b01lc3NhZ2VMaXZlTG9nRW5hYmxlZBISCgR1dWlkGAEgASgJUgR1dWlkEhgKB2VuYW'
-    'JsZWQYAiABKAhSB2VuYWJsZWQ=');
+/// Descriptor for `ProtoLiveLogConfiguration`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List protoLiveLogConfigurationDescriptor = $convert.base64Decode(
+    'ChlQcm90b0xpdmVMb2dDb25maWd1cmF0aW9uEhIKBHV1aWQYASABKAlSBHV1aWQSGAoHZW5hYm'
+    'xlZBgCIAEoCFIHZW5hYmxlZBI1Cghsb2dMZXZlbBgDIAEoDjIZLlByb3RvTG9nTWVzc2FnZS5M'
+    'b2dMZXZlbFIIbG9nTGV2ZWw=');
+
+@$core.Deprecated('Use protoReadLogCallArgumentsDescriptor instead')
+const ProtoReadLogCallArguments$json = {
+  '1': 'ProtoReadLogCallArguments',
+  '2': [
+    {'1': 'uuid', '3': 1, '4': 1, '5': 9, '10': 'uuid'},
+    {'1': 'clearLogs', '3': 2, '4': 1, '5': 8, '10': 'clearLogs'},
+  ],
+};
+
+/// Descriptor for `ProtoReadLogCallArguments`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List protoReadLogCallArgumentsDescriptor = $convert.base64Decode(
+    'ChlQcm90b1JlYWRMb2dDYWxsQXJndW1lbnRzEhIKBHV1aWQYASABKAlSBHV1aWQSHAoJY2xlYX'
+    'JMb2dzGAIgASgIUgljbGVhckxvZ3M=');
 

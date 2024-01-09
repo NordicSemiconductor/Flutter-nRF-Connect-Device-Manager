@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mcumgr_flutter_example/src/providers/firmware_update_request_provider.dart';
+import 'package:mcumgr_flutter_example/src/view/logger_screen/logger_screen.dart';
 
 import '../../bloc/bloc/update_bloc.dart';
 
@@ -47,6 +48,17 @@ class UpdateStepView extends StatelessWidget {
                       _currentState(state),
                     ],
                   ),
+                if (state.isComplete && state.updateManager?.logger != null)
+                  ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoggerScreen(
+                                      logger: state.updateManager!.logger,
+                                    )));
+                      },
+                      child: Text('Show Log')),
                 if (state.isComplete)
                   ElevatedButton(
                     onPressed: () {
