@@ -106,7 +106,7 @@ abstract class FirmwareUpdateManager {
 
 abstract class FirmwareUpdateLogger {
   /// Stream emits Log Messages
-  Stream<List<McuLogMessage>> get logMessageStream;
+  Stream<McuLogMessage> get logMessageStream;
 
   /// Set live logging configurations
   Future<void> setConfiguration(LiveLogConfiguration configuration);

@@ -15,7 +15,7 @@ extension _Invocation on MethodChannel {
 }
 
 class McuMgrLogger extends FirmwareUpdateLogger {
-  StreamController<List<McuLogMessage>> _logMessageStreamController =
+  StreamController<McuLogMessage> _logMessageStreamController =
       StreamController.broadcast();
   final String _deviceId;
 
@@ -24,7 +24,7 @@ class McuMgrLogger extends FirmwareUpdateLogger {
   }
 
   @override
-  Stream<List<McuLogMessage>> get logMessageStream =>
+  Stream<McuLogMessage> get logMessageStream =>
       _logMessageStreamController.stream;
 
   @override
@@ -34,9 +34,9 @@ class McuMgrLogger extends FirmwareUpdateLogger {
   void _setupLogStream() => UpdateLoggerChannel.logEventChannel
       .receiveBroadcastStream()
       .map((data) => ProtoLogMessageStreamArg.fromBuffer(data))
-      .where((arg) => (arg.uuid == _deviceId) && arg.protoLogMessage.isNotEmpty)
-      .listen((msg) => _logMessageStreamController
-          .add(msg.protoLogMessage.map((m) => m.convent()).toList()));
+      .where((arg) => arg.uuid == _deviceId)
+      .listen((msg) =>
+          _logMessageStreamController.add(msg.protoLogMessage.convent()));
 
   @override
   Future<void> clearLogs() async {
@@ -48,16 +48,19 @@ class McuMgrLogger extends FirmwareUpdateLogger {
     final readLogCallArguments = ProtoReadLogCallArguments()
       ..uuid = _deviceId
       ..clearLogs = clearLogs;
-    
-    final streamArg = ProtoLogMessageStreamArg.fromBuffer(await methodChannel
-        .invoke(method, readLogCallArguments.writeToBuffer()));
-    return streamArg.protoLogMessage.map((e) => e.convent()).toList();
+
+    final data = await methodChannel.invoke(
+        UpdateLoggerMethod.readLogs, readLogCallArguments.writeToBuffer());
+
+    final proto = ProtoReadMessagesResponse.fromBuffer(data);
+    return proto.protoLogMessage.map((e) => e.convent()).toList();
   }
 
   @override
   Future<LiveLogConfiguration> getConfiguration() {
-    // TODO: implement getConfiguration
-    throw UnimplementedError();
+    return methodChannel
+        .invoke(UpdateLoggerMethod.getLiveLogConfiguration, _deviceId)
+        .then((data) => ProtoLiveLogConfiguration.fromBuffer(data).convert());
   }
 
   @override

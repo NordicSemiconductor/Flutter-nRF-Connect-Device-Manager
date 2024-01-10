@@ -87,7 +87,8 @@ extension UpdateManager: FirmwareUpgradeDelegate {
         var progressArg = ProtoProgressUpdateStreamArg(progressUpdate: nil, peripheral: peripheral)
         progressArg.done = true
         
-        var logArg = ProtoLogMessageStreamArg(uuid: peripheral.identifier.uuidString, logs: [])
+        var logArg = ProtoLogMessageStreamArg()
+        logArg.uuid = peripheral.identifier.uuidString
         logArg.done = true
         
         do {

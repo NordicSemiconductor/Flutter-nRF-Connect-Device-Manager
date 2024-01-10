@@ -219,15 +219,19 @@ const ProtoLogMessageStreamArg$json = {
     {'1': 'uuid', '3': 1, '4': 1, '5': 9, '10': 'uuid'},
     {'1': 'done', '3': 2, '4': 1, '5': 8, '10': 'done'},
     {'1': 'error', '3': 3, '4': 1, '5': 11, '6': '.ProtoError', '10': 'error'},
-    {'1': 'protoLogMessage', '3': 4, '4': 3, '5': 11, '6': '.ProtoLogMessage', '10': 'protoLogMessage'},
+    {'1': 'protoLogMessage', '3': 4, '4': 1, '5': 11, '6': '.ProtoLogMessage', '9': 0, '10': 'protoLogMessage', '17': true},
+  ],
+  '8': [
+    {'1': '_protoLogMessage'},
   ],
 };
 
 /// Descriptor for `ProtoLogMessageStreamArg`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List protoLogMessageStreamArgDescriptor = $convert.base64Decode(
     'ChhQcm90b0xvZ01lc3NhZ2VTdHJlYW1BcmcSEgoEdXVpZBgBIAEoCVIEdXVpZBISCgRkb25lGA'
-    'IgASgIUgRkb25lEiEKBWVycm9yGAMgASgLMgsuUHJvdG9FcnJvclIFZXJyb3ISOgoPcHJvdG9M'
-    'b2dNZXNzYWdlGAQgAygLMhAuUHJvdG9Mb2dNZXNzYWdlUg9wcm90b0xvZ01lc3NhZ2U=');
+    'IgASgIUgRkb25lEiEKBWVycm9yGAMgASgLMgsuUHJvdG9FcnJvclIFZXJyb3ISPwoPcHJvdG9M'
+    'b2dNZXNzYWdlGAQgASgLMhAuUHJvdG9Mb2dNZXNzYWdlSABSD3Byb3RvTG9nTWVzc2FnZYgBAU'
+    'ISChBfcHJvdG9Mb2dNZXNzYWdl');
 
 @$core.Deprecated('Use protoLogMessageDescriptor instead')
 const ProtoLogMessage$json = {
@@ -287,16 +291,20 @@ const ProtoLiveLogConfiguration$json = {
   '1': 'ProtoLiveLogConfiguration',
   '2': [
     {'1': 'uuid', '3': 1, '4': 1, '5': 9, '10': 'uuid'},
-    {'1': 'enabled', '3': 2, '4': 1, '5': 8, '10': 'enabled'},
-    {'1': 'logLevel', '3': 3, '4': 1, '5': 14, '6': '.ProtoLogMessage.LogLevel', '10': 'logLevel'},
+    {'1': 'enabled', '3': 2, '4': 1, '5': 8, '9': 0, '10': 'enabled', '17': true},
+    {'1': 'logLevel', '3': 3, '4': 1, '5': 14, '6': '.ProtoLogMessage.LogLevel', '9': 1, '10': 'logLevel', '17': true},
+  ],
+  '8': [
+    {'1': '_enabled'},
+    {'1': '_logLevel'},
   ],
 };
 
 /// Descriptor for `ProtoLiveLogConfiguration`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List protoLiveLogConfigurationDescriptor = $convert.base64Decode(
-    'ChlQcm90b0xpdmVMb2dDb25maWd1cmF0aW9uEhIKBHV1aWQYASABKAlSBHV1aWQSGAoHZW5hYm'
-    'xlZBgCIAEoCFIHZW5hYmxlZBI1Cghsb2dMZXZlbBgDIAEoDjIZLlByb3RvTG9nTWVzc2FnZS5M'
-    'b2dMZXZlbFIIbG9nTGV2ZWw=');
+    'ChlQcm90b0xpdmVMb2dDb25maWd1cmF0aW9uEhIKBHV1aWQYASABKAlSBHV1aWQSHQoHZW5hYm'
+    'xlZBgCIAEoCEgAUgdlbmFibGVkiAEBEjoKCGxvZ0xldmVsGAMgASgOMhkuUHJvdG9Mb2dNZXNz'
+    'YWdlLkxvZ0xldmVsSAFSCGxvZ0xldmVsiAEBQgoKCF9lbmFibGVkQgsKCV9sb2dMZXZlbA==');
 
 @$core.Deprecated('Use protoReadLogCallArgumentsDescriptor instead')
 const ProtoReadLogCallArguments$json = {
@@ -311,4 +319,18 @@ const ProtoReadLogCallArguments$json = {
 final $typed_data.Uint8List protoReadLogCallArgumentsDescriptor = $convert.base64Decode(
     'ChlQcm90b1JlYWRMb2dDYWxsQXJndW1lbnRzEhIKBHV1aWQYASABKAlSBHV1aWQSHAoJY2xlYX'
     'JMb2dzGAIgASgIUgljbGVhckxvZ3M=');
+
+@$core.Deprecated('Use protoReadMessagesResponseDescriptor instead')
+const ProtoReadMessagesResponse$json = {
+  '1': 'ProtoReadMessagesResponse',
+  '2': [
+    {'1': 'uuid', '3': 1, '4': 1, '5': 9, '10': 'uuid'},
+    {'1': 'protoLogMessage', '3': 2, '4': 3, '5': 11, '6': '.ProtoLogMessage', '10': 'protoLogMessage'},
+  ],
+};
+
+/// Descriptor for `ProtoReadMessagesResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List protoReadMessagesResponseDescriptor = $convert.base64Decode(
+    'ChlQcm90b1JlYWRNZXNzYWdlc1Jlc3BvbnNlEhIKBHV1aWQYASABKAlSBHV1aWQSOgoPcHJvdG'
+    '9Mb2dNZXNzYWdlGAIgAygLMhAuUHJvdG9Mb2dNZXNzYWdlUg9wcm90b0xvZ01lc3NhZ2U=');
 

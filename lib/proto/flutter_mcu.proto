@@ -94,7 +94,7 @@ message ProtoLogMessageStreamArg {
     string uuid = 1;
     bool done = 2;
     ProtoError error = 3;
-    repeated ProtoLogMessage protoLogMessage = 4;
+    optional ProtoLogMessage protoLogMessage = 4;
 }
 
 message ProtoLogMessage {
@@ -128,8 +128,8 @@ message ProtoLogMessage {
 
 message ProtoLiveLogConfiguration {
     string uuid = 1;
-    bool enabled = 2;
-    ProtoLogMessage.LogLevel logLevel = 3;
+    optional bool enabled = 2;
+    optional ProtoLogMessage.LogLevel logLevel = 3;
 }
 
 message ProtoReadLogCallArguments {
@@ -137,3 +137,7 @@ message ProtoReadLogCallArguments {
     bool clearLogs = 2;
 }
 
+message ProtoReadMessagesResponse {
+    string uuid = 1;
+    repeated ProtoLogMessage protoLogMessage = 2;
+}

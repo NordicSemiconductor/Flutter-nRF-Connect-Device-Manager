@@ -10,24 +10,17 @@ import iOSMcuManagerLibrary
 
 class UpdateLogger {
     let logStreamHandler: StreamHandler
-    let liveLogEnabledStreamHandler: StreamHandler
     let identifier: String
     
     private var messages: [ProtoLogMessage] = []
     
-    var liveUpdateEnabled = false {
-        didSet {
-            sendLiveUpdateStatus()
-        }
-    }
+    var liveUpdateEnabled = false
+    var liveLogLevel: McuMgrLogLevel = .debug
     private var timer: Timer!
     
     init(identifier: String, streamHandler: StreamHandler, liveLogEnabledStreamHandler: StreamHandler) {
         self.identifier = identifier
         self.logStreamHandler = streamHandler
-        self.liveLogEnabledStreamHandler = liveLogEnabledStreamHandler
-        
-        sendLiveUpdateStatus()
     }
     
     func toggleLiveLoggs() -> Bool {
@@ -35,41 +28,16 @@ class UpdateLogger {
         return liveUpdateEnabled
     }
     
-    func readLogs(clearMessages: Bool = false) -> ProtoLogMessageStreamArg {
-        let logStreamArg = ProtoLogMessageStreamArg(uuid: identifier, logs: messages)
-        sendMessages()
+    func readLogs(clearMessages: Bool = false) -> ProtoReadMessagesResponse {
+        let response = ProtoReadMessagesResponse(uuid: identifier, messages: messages)
         if clearMessages {
-            messages.removeAll()
+            clearLogs()
         }
-        return logStreamArg
+        return response
     }
    
     func clearLogs() {
         messages.removeAll()
-        sendMessages()
-    }
-}
-
-extension UpdateLogger {
-    
-    private func sendMessages() {
-        do {
-            let logStreamArg = ProtoLogMessageStreamArg(uuid: identifier, logs: messages)
-            logStreamHandler.sink?(FlutterStandardTypedData(bytes: try logStreamArg.serializedData()))
-        } catch let e {
-            let error = FlutterError(error: e, code: ErrorCode.flutterTypeError)
-            logStreamHandler.sink?(error)
-        }
-    }
-    
-    private func sendLiveUpdateStatus() {
-        do {
-            let enabledArgs = ProtoMessageLiveLogEnabled(uuid: identifier, enabled: liveUpdateEnabled)
-            liveLogEnabledStreamHandler.sink?(FlutterStandardTypedData(bytes: try enabledArgs.serializedData()))
-        } catch let e {
-            let error = FlutterError(error: e, code: ErrorCode.flutterTypeError)
-            logStreamHandler.sink?(error)
-        }
     }
 }
 
@@ -80,7 +48,15 @@ extension UpdateLogger: McuMgrLogDelegate {
         }
 
         let log = ProtoLogMessage(message: msg, category: category.toProto(), level: level.toProto(), timeInterval: Date().timeIntervalSince1970)
-        
         messages.append(log)
+        
+        if liveUpdateEnabled && level.rawValue >= liveLogLevel.rawValue {
+            do {
+                let data = try log.serializedData()
+                logStreamHandler.sink?(FlutterStandardTypedData(bytes: data))
+            } catch let e {
+                print(e.localizedDescription)
+            }
+        }
     }
 }

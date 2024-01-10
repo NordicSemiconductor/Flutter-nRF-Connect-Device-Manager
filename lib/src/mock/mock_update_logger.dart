@@ -7,7 +7,8 @@ class MockUpdateLogger extends FirmwareUpdateLogger {
   bool _liveUpdate = true;
 
   @override
-  Stream<List<McuLogMessage>> get logMessageStream => getAllLogs().asStream();
+  Stream<McuLogMessage> get logMessageStream =>
+      throw UnimplementedError(); // getAllLogs().asStream();
 
   @override
   Stream<bool> get liveLoggingEnabled => Stream.value(_liveUpdate);
@@ -66,13 +67,13 @@ class MockUpdateLogger extends FirmwareUpdateLogger {
                   message, McuMgrLogCategory.dfu, logLevel, dateTime);
             }).toList());
   }
-  
+
   @override
   Future<LiveLogConfiguration> getConfiguration() {
     // TODO: implement getConfiguration
     throw UnimplementedError();
   }
-  
+
   @override
   Future<void> setConfiguration(LiveLogConfiguration configuration) {
     // TODO: implement setConfiguration

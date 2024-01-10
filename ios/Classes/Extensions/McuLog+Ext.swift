@@ -41,9 +41,9 @@ extension McuMgrLogCategory {
 }
 
 extension ProtoLogMessageStreamArg {
-    init(uuid: String, logs: [ProtoLogMessage]) {
+    init(uuid: String, msg: ProtoLogMessage) {
         self.uuid = uuid
-        self.protoLogMessage = logs
+        self.protoLogMessage = msg
     }
 }
 

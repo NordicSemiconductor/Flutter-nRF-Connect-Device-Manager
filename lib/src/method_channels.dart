@@ -55,6 +55,9 @@ class UpdateLoggerMethod {
  
   static const setLiveLogConfiguration =
       const UpdateLoggerMethod('setLiveLogConfiguration');
+  
+  static const getLiveLogConfiguration =
+      const UpdateLoggerMethod('getLiveLogConfiguration');
 
   static const clearLogs = const UpdateLoggerMethod('clearLogs');
 }
