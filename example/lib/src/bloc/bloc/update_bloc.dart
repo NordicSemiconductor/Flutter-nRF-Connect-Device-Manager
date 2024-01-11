@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:mcumgr_flutter/mcumgr_flutter.dart';
+import 'package:mcumgr_flutter/models/live_log_configuration.dart';
 import 'package:mcumgr_flutter_example/src/handlers/firmware_update_handler.dart';
 import 'package:mcumgr_flutter_example/src/model/firmware_update_request.dart';
 import 'package:meta/meta.dart';
@@ -26,6 +27,13 @@ class UpdateBloc extends Bloc<UpdateEvent, UpdateState> {
         firmwareUpdateRequest,
         (FirmwareUpdateState state) => add(_StateConverter.convert(state)),
       );
+
+      await _firmwareUpdateManager?.logger.setConfiguration(
+          LiveLogConfiguration(enabled: true, level: McuMgrLogLevel.info));
+
+      _firmwareUpdateManager?.logger.logMessageStream.listen((event) {
+        print("Log message: ${event.message}");
+      });
 
       final progressStream = _firmwareUpdateManager!.progressStream
           .map((event) =>

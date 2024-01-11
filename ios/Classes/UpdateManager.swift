@@ -17,17 +17,19 @@ class UpdateManager {
     let transport: McuMgrBleTransport
     let progressStreamHandler: StreamHandler
     let stateStreamHandler: StreamHandler
+    let logStreamHandler: StreamHandler
     let peripheral: CBPeripheral
     let updateLogger: UpdateLogger
     
     private (set) lazy var dfuManager: FirmwareUpgradeManager = FirmwareUpgradeManager(transporter: self.transport, delegate: self)
     
-    init(peripheral: CBPeripheral, progressStreamHandler: StreamHandler, stateStreamHandler: StreamHandler, updateLogger: UpdateLogger) {
+    init(peripheral: CBPeripheral, progressStreamHandler: StreamHandler, stateStreamHandler: StreamHandler, logStreamHandler: StreamHandler, updateLogger: UpdateLogger) {
         self.peripheral = peripheral
         self.transport = McuMgrBleTransport(peripheral)
         self.progressStreamHandler = progressStreamHandler
         self.stateStreamHandler = stateStreamHandler
         self.updateLogger = updateLogger
+        self.logStreamHandler = logStreamHandler
     }
     
     func update(data: Data) throws {
@@ -99,7 +101,7 @@ extension UpdateManager: FirmwareUpgradeDelegate {
             progressStreamHandler.sink?(FlutterStandardTypedData(bytes: progressData))
             
             let logData = try logArg.serializedData()
-//            logStreamHandler.sink?(FlutterStandardTypedData(bytes: logData))
+            logStreamHandler.sink?(FlutterStandardTypedData(bytes: logData))
         } catch let e {
             let error = FlutterError(error: e, code: ErrorCode.flutterTypeError)
             stateStreamHandler.sink?(error)

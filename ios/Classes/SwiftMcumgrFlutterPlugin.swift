@@ -14,12 +14,10 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
     
     // Log channels
     private let logEventChannel: FlutterEventChannel
-//    private let liveLogEnabled: FlutterEventChannel
     
     private let updateStateStreamHandler = StreamHandler()
     private let updateProgressStreamHandler = StreamHandler()
     private let logStreamHandler = StreamHandler()
-    private let liveLogStreamHandler = StreamHandler()
     
     public init(
         updateStateEventChannel: FlutterEventChannel, 
@@ -121,8 +119,8 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
             throw FlutterError(code: ErrorCode.updateManagerExists.rawValue, message: "Updated manager for provided peripheral already exists", details: call)
         }
         
-        let logger = UpdateLogger(identifier: uuidString, streamHandler: logStreamHandler, liveLogEnabledStreamHandler: liveLogStreamHandler)
-        let updateManager = UpdateManager(peripheral: peripheral, progressStreamHandler: updateProgressStreamHandler, stateStreamHandler: updateStateStreamHandler, updateLogger: logger)
+        let logger = UpdateLogger(identifier: uuidString, streamHandler: logStreamHandler)
+        let updateManager = UpdateManager(peripheral: peripheral, progressStreamHandler: updateProgressStreamHandler, stateStreamHandler: updateStateStreamHandler, logStreamHandler: logStreamHandler, updateLogger: logger)
         updateManagers[uuidString] = updateManager
     }
     

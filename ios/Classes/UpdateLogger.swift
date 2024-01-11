@@ -18,7 +18,7 @@ class UpdateLogger {
     var liveLogLevel: McuMgrLogLevel = .debug
     private var timer: Timer!
     
-    init(identifier: String, streamHandler: StreamHandler, liveLogEnabledStreamHandler: StreamHandler) {
+    init(identifier: String, streamHandler: StreamHandler) {
         self.identifier = identifier
         self.logStreamHandler = streamHandler
     }
@@ -48,11 +48,13 @@ extension UpdateLogger: McuMgrLogDelegate {
         }
 
         let log = ProtoLogMessage(message: msg, category: category.toProto(), level: level.toProto(), timeInterval: Date().timeIntervalSince1970)
+        
         messages.append(log)
         
         if liveUpdateEnabled && level.rawValue >= liveLogLevel.rawValue {
             do {
-                let data = try log.serializedData()
+                let container = ProtoLogMessageStreamArg(uuid: identifier, msg: log)
+                let data = try container.serializedData()
                 logStreamHandler.sink?(FlutterStandardTypedData(bytes: data))
             } catch let e {
                 print(e.localizedDescription)

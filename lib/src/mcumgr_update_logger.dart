@@ -20,7 +20,7 @@ class McuMgrLogger extends FirmwareUpdateLogger {
   final String _deviceId;
 
   McuMgrLogger.deviceIdentifier(this._deviceId) {
-    _setupLogStream();
+    _setupLogMessageStream();
   }
 
   @override
@@ -30,13 +30,6 @@ class McuMgrLogger extends FirmwareUpdateLogger {
   @override
   Future<List<McuLogMessage>> readLogs({bool clearLogs = false}) =>
       _retrieveLogs(UpdateLoggerMethod.readLogs);
-
-  void _setupLogStream() => UpdateLoggerChannel.logEventChannel
-      .receiveBroadcastStream()
-      .map((data) => ProtoLogMessageStreamArg.fromBuffer(data))
-      .where((arg) => arg.uuid == _deviceId)
-      .listen((msg) =>
-          _logMessageStreamController.add(msg.protoLogMessage.convent()));
 
   @override
   Future<void> clearLogs() async {
@@ -71,5 +64,30 @@ class McuMgrLogger extends FirmwareUpdateLogger {
       UpdateLoggerMethod.setLiveLogConfiguration,
       proto.writeToBuffer(),
     );
+  }
+
+  void _setupLogMessageStream() {
+    UpdateLoggerChannel.logEventChannel
+        .receiveBroadcastStream()
+        .map((event) => ProtoLogMessageStreamArg.fromBuffer(event))
+        .map((event) { 
+          print('event: ${event.uuid}');
+          return event;
+        })
+        .where((event) => event.uuid == _deviceId)
+        .where((event) => event.hasProtoLogMessage())
+        .listen((data) {
+      if (data.hasError()) {
+        _logMessageStreamController.addError(data.error.localizedDescription);
+      }
+
+      if (data.done) {
+        _logMessageStreamController.close();
+      }
+
+      if (data.hasProtoLogMessage()) {
+        _logMessageStreamController.add(data.protoLogMessage.convent());
+      }
+    });
   }
 }
