@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_archive/flutter_archive.dart';
-import 'package:mcumgr_flutter/models/firmware_upgrade_mode.dart';
 import 'package:mcumgr_flutter_example/src/model/firmware_update_request.dart';
 import 'package:mcumgr_flutter_example/src/model/manifest.dart';
 import 'package:mcumgr_flutter_example/src/repository/firmware_image_repository.dart';
@@ -129,6 +128,7 @@ class FirmwareUpdater extends FirmwareUpdateHandler {
     updateManager.update(
       request.firmwareImages!,
       configuration: FirmwareUpgradeConfiguration(
+        // Here you can set one of the following modes:
         // firmwareUpgradeMode: FirmwareUpgradeMode.confirmOnly,
         // firmwareUpgradeMode: FirmwareUpgradeMode.testAndConfirm,
         // firmwareUpgradeMode: FirmwareUpgradeMode.testOnly,

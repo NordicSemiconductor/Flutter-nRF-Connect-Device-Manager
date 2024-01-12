@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:mcumgr_flutter/mcumgr_flutter.dart';
 import 'package:mcumgr_flutter_example/src/handlers/firmware_update_handler.dart';
 import 'package:mcumgr_flutter_example/src/model/firmware_update_request.dart';
