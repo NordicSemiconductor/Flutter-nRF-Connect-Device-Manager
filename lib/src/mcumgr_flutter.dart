@@ -129,23 +129,3 @@ class FirmwareUpdateManagerFactory extends UpdateManagerFactory {
     return await DeviceUpdateManager.getInstance(deviceId);
   }
 }
-
-/// Implementation of `UpdateManagerFactory` that creates `UpdateManager` instance for testing.
-///
-/// This implementation creates `MockUpdateManager` instance which emulates update process.
-class MockUpdateManagerFactory extends UpdateManagerFactory {
-  @override
-  Future<FirmwareUpdateManager> getUpdateManager(String deviceId) async {
-    return MockUpdateManager();
-  }
-}
-
-/// Implementation of `UpdateManagerFactory` that creates `UpdateManager` instance for testing.
-///
-/// Created update manager allows to switch between states by calling `resume()` method.
-class IntegrationTestUpdateManagerFactory extends UpdateManagerFactory {
-  final um = MockManualUpdateManager();
-
-  @override
-  Future<FirmwareUpdateManager> getUpdateManager(String deviceId) async => um;
-}
