@@ -8,7 +8,31 @@ class FirmwareUpdateRequestProvider extends ChangeNotifier {
   int currentStep = 0;
 
   void setFirmware(SelectedFirmware? firmware) {
-    _updateParameters.firmware = firmware;
+    if (firmware == null) {
+      _updateParameters =
+          FirmwareUpdateRequest(peripheral: _updateParameters.peripheral);
+      return;
+    }
+
+    if (firmware is RemoteFirmware) {
+      _updateParameters = MultiImageFirmwareUpdateRequest(
+        peripheral: _updateParameters.peripheral,
+        firmware: firmware,
+      );
+    } else if (firmware is LocalFirmware) {
+      if (firmware.type == FirmwareType.singleImage) {
+        _updateParameters = SingleImageFirmwareUpdateRequest(
+          peripheral: _updateParameters.peripheral,
+          firmware: firmware,
+        );
+      } else {
+        _updateParameters = MultiImageFirmwareUpdateRequest(
+          peripheral: _updateParameters.peripheral,
+          firmware: firmware,
+        );
+      }
+    }
+
     notifyListeners();
   }
 

@@ -27,9 +27,11 @@ class UpdateManagerMethod {
 
   String get rawValue => _rawValue;
 
-  static const update = const UpdateManagerMethod('update');
   static const initializeUpdateManager =
       const UpdateManagerMethod('initializeUpdateManager');
+  static const update = const UpdateManagerMethod('update');
+  static const updateSingleImage =
+      const UpdateManagerMethod('updateSingleImage');
   static const pause = const UpdateManagerMethod('pause');
   static const resume = const UpdateManagerMethod('resume');
   static const isPaused = const UpdateManagerMethod('isPaused');

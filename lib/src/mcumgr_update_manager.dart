@@ -100,8 +100,12 @@ class DeviceUpdateManager extends FirmwareUpdateManager {
 
   @override
   Future<void> updateWithImageData({required Uint8List image}) {
-    // TODO: implement updateWithImageData
-    throw UnimplementedError();
+    final model = ProtoUpdateCallArgument()
+      ..deviceUuid = _deviceId
+      ..firmwareData = image;
+
+    return methodChannel.invokeMethod(
+        UpdateManagerMethod.updateSingleImage.rawValue, model.writeToBuffer());
   }
 
   @override
