@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:mcumgr_flutter/mcumgr_flutter.dart';
-import 'package:mcumgr_flutter/models/live_log_configuration.dart';
 import 'package:mcumgr_flutter_example/src/handlers/firmware_update_handler.dart';
 import 'package:mcumgr_flutter_example/src/model/firmware_update_request.dart';
 import 'package:meta/meta.dart';
@@ -28,17 +28,21 @@ class UpdateBloc extends Bloc<UpdateEvent, UpdateState> {
         (FirmwareUpdateState state) => add(_StateConverter.convert(state)),
       );
 
-      await _firmwareUpdateManager?.logger.setConfiguration(
-          LiveLogConfiguration(enabled: true, level: McuMgrLogLevel.info));
-
-      _firmwareUpdateManager?.logger.logMessageStream.listen((event) {
-        print("Log message: ${event.message}");
-      });
-
       final progressStream = _firmwareUpdateManager!.progressStream
           .map((event) =>
               event.bytesSent.toDouble() / event.imageSize.toDouble())
           .startWith(0);
+
+      final logManager = _firmwareUpdateManager!.logger;
+      
+      logManager.logMessageStream.where((log) => log.level.rawValue > 1).listen(
+          (log) {
+        print(log.message);
+      }, onDone: () {
+        print('done');
+      }, onError: (error) {
+        print('error: $error');
+      });
 
       rx.CombineLatestStream.combine2(
           progressStream,
@@ -89,6 +93,9 @@ class UpdateBloc extends Bloc<UpdateEvent, UpdateState> {
       _state = _updatedState(UpdateCompleteFailure(event.error),
           updateManager: _firmwareUpdateManager);
       emit(_state!);
+    });
+    on<ResetUpdate>((event, emit) {
+      _firmwareUpdateManager?.kill();
     });
   }
 

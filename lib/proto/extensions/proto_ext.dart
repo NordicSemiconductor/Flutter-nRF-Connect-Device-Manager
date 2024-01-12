@@ -1,7 +1,6 @@
 import 'package:mcumgr_flutter/mcumgr_flutter.dart';
 import 'package:mcumgr_flutter/models/image_upload_alignment.dart';
 import 'package:mcumgr_flutter/models/firmware_upgrade_mode.dart';
-import 'package:mcumgr_flutter/models/live_log_configuration.dart';
 import '../flutter_mcu.pb.dart';
 import 'package:fixnum/fixnum.dart';
 
@@ -232,27 +231,4 @@ extension ProtoFirmwareUpgradeConfigurationToModel
         reassemblyBufferSize: this.reassemblyBufferSize as int,
         firmwareUpgradeMode: this.firmwareUpgradeMode.convent(),
       );
-}
-
-extension LiveLogConfigurationToModel on LiveLogConfiguration {
-  ProtoLiveLogConfiguration proto() {
-    final config = ProtoLiveLogConfiguration();
-
-    if (this.level != null) {
-      config.logLevel = this.level!.convent();
-    }
-    if (this.enabled != null) {
-      config.enabled = this.enabled!;
-    }
-
-    return config;
-  }
-}
-
-extension ProtoLiveLogConfigurationToModel on ProtoLiveLogConfiguration {
-  LiveLogConfiguration convert() {
-    bool? enabled = this.hasEnabled() ? this.enabled : null;
-    McuMgrLogLevel? level = this.hasLogLevel() ? this.logLevel.convent() : null;
-    return LiveLogConfiguration(enabled: enabled, level: level);
-  }
 }

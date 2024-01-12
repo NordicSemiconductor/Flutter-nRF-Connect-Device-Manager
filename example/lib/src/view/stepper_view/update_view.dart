@@ -62,6 +62,7 @@ class UpdateStepView extends StatelessWidget {
                 if (state.isComplete)
                   ElevatedButton(
                     onPressed: () {
+                      BlocProvider.of<UpdateBloc>(context).add(ResetUpdate());
                       provider.reset();
                     },
                     child: Text('Update Again'),

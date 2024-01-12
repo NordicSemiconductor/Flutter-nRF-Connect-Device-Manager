@@ -82,19 +82,11 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
             case .kill:
                 try kill(call: call)
                 result(nil)
-            case .toggleLiveLoggs:
-                let m = try retrieveManager(call: call)
-                result(m.updateLogger.toggleLiveLoggs())
             case .readLogs:
-                result(try readLogs(call: call))
+                result(try readLogs(call: call).serializedData())
             case .clearLogs:
                 try retrieveManager(call: call).updateLogger.clearLogs()
                 result(nil)
-            case .setLiveLogConfiguration:
-                try setLiveLogConfiguration(call: call)
-                result(nil)
-            case .getLiveLogConfiguration:
-                result(try getLiveLogConfiguration(call: call))
             }
         } catch let e {
             if e is FlutterError {
@@ -177,31 +169,7 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
         updateManagers.removeValue(forKey: uuid)
     }
     
-    // MARK: Logs
-    private func setLiveLogConfiguration(call: FlutterMethodCall) throws {
-        guard let data = call.arguments as? FlutterStandardTypedData else {
-            throw FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can not parse provided arguments", details: call)
-        }
-        
-        let args = try ProtoLiveLogConfiguration(serializedData: data.data)
-        guard let manager = updateManagers[args.uuid] else {
-            throw FlutterError(code: ErrorCode.updateManagerDoesNotExist.rawValue, message: "Update manager does not exist", details: call)
-        }
-        
-        if args.hasEnabled {
-            manager.updateLogger.liveUpdateEnabled = args.enabled
-        }
-        
-        if args.hasLogLevel {
-            manager.updateLogger.liveLogLevel = args.logLevel.toModel()
-        }
-    }
-    
-    private func getLiveLogConfiguration(call: FlutterMethodCall) throws -> ProtoLiveLogConfiguration {
-        let logger = try retrieveManager(call: call).updateLogger
-        return ProtoLiveLogConfiguration(uuid: logger.identifier, enabled: logger.liveUpdateEnabled, logLevel: logger.liveLogLevel)
-    }
-    
+    // MARK: Logs 
     private func readLogs(call: FlutterMethodCall) throws -> ProtoReadMessagesResponse {
         guard let data = call.arguments as? FlutterStandardTypedData else {
             throw FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can not parse provided arguments", details: call)

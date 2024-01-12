@@ -27,14 +27,6 @@ extension ProtoUpdateStateChangesStreamArg {
     }
 }
 
-extension ProtoLiveLogConfiguration {
-    init(uuid: String, enabled: Bool, logLevel: McuMgrLogLevel) {
-        self.uuid = uuid
-        self.enabled = enabled
-        self.logLevel = logLevel.toProto()
-    }
-}
-
 extension ProtoLogMessage.LogLevel {
     func toModel() -> McuMgrLogLevel {
         switch self {

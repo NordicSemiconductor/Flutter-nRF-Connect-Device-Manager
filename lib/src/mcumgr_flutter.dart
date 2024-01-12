@@ -108,12 +108,6 @@ abstract class FirmwareUpdateLogger {
   /// Stream emits Log Messages
   Stream<McuLogMessage> get logMessageStream;
 
-  /// Set live logging configurations
-  Future<void> setConfiguration(LiveLogConfiguration configuration);
-
-  /// Get live logging configurations
-  Future<LiveLogConfiguration> getConfiguration();
-
   /// New logs will be sent through `logMessageStream`
   ///
   /// [clearLogs] if true, all logs will be cleared after reading. Default value is `false`

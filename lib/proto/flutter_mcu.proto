@@ -126,12 +126,6 @@ message ProtoLogMessage {
     int64 logDateTime = 4;
 }
 
-message ProtoLiveLogConfiguration {
-    string uuid = 1;
-    optional bool enabled = 2;
-    optional ProtoLogMessage.LogLevel logLevel = 3;
-}
-
 message ProtoReadLogCallArguments {
     string uuid = 1;
     bool clearLogs = 2;

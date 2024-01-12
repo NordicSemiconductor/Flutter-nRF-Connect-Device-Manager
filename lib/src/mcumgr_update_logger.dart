@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:mcumgr_flutter/mcumgr_flutter.dart';
-import 'package:mcumgr_flutter/models/live_log_configuration.dart';
 import 'package:mcumgr_flutter/proto/flutter_mcu.pb.dart';
 
 import 'method_channels.dart';
@@ -49,33 +48,11 @@ class McuMgrLogger extends FirmwareUpdateLogger {
     return proto.protoLogMessage.map((e) => e.convent()).toList();
   }
 
-  @override
-  Future<LiveLogConfiguration> getConfiguration() {
-    return methodChannel
-        .invoke(UpdateLoggerMethod.getLiveLogConfiguration, _deviceId)
-        .then((data) => ProtoLiveLogConfiguration.fromBuffer(data).convert());
-  }
-
-  @override
-  Future<void> setConfiguration(LiveLogConfiguration configuration) {
-    final proto = configuration.proto();
-    proto.uuid = _deviceId;
-    return methodChannel.invoke(
-      UpdateLoggerMethod.setLiveLogConfiguration,
-      proto.writeToBuffer(),
-    );
-  }
-
   void _setupLogMessageStream() {
     UpdateLoggerChannel.logEventChannel
         .receiveBroadcastStream()
         .map((event) => ProtoLogMessageStreamArg.fromBuffer(event))
-        .map((event) { 
-          print('event: ${event.uuid}');
-          return event;
-        })
         .where((event) => event.uuid == _deviceId)
-        .where((event) => event.hasProtoLogMessage())
         .listen((data) {
       if (data.hasError()) {
         _logMessageStreamController.addError(data.error.localizedDescription);

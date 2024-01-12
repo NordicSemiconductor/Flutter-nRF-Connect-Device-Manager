@@ -14,20 +14,13 @@ class UpdateLogger {
     
     private var messages: [ProtoLogMessage] = []
     
-    var liveUpdateEnabled = false
-    var liveLogLevel: McuMgrLogLevel = .debug
     private var timer: Timer!
     
     init(identifier: String, streamHandler: StreamHandler) {
         self.identifier = identifier
         self.logStreamHandler = streamHandler
     }
-    
-    func toggleLiveLoggs() -> Bool {
-        liveUpdateEnabled = !liveUpdateEnabled
-        return liveUpdateEnabled
-    }
-    
+   
     func readLogs(clearMessages: Bool = false) -> ProtoReadMessagesResponse {
         let response = ProtoReadMessagesResponse(uuid: identifier, messages: messages)
         if clearMessages {
@@ -51,14 +44,12 @@ extension UpdateLogger: McuMgrLogDelegate {
         
         messages.append(log)
         
-        if liveUpdateEnabled && level.rawValue >= liveLogLevel.rawValue {
-            do {
-                let container = ProtoLogMessageStreamArg(uuid: identifier, msg: log)
-                let data = try container.serializedData()
-                logStreamHandler.sink?(FlutterStandardTypedData(bytes: data))
-            } catch let e {
-                print(e.localizedDescription)
-            }
+        do {
+            let container = ProtoLogMessageStreamArg(uuid: identifier, msg: log)
+            let data = try container.serializedData()
+            logStreamHandler.sink?(FlutterStandardTypedData(bytes: data))
+        } catch let e {
+            print(e.localizedDescription)
         }
     }
 }

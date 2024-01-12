@@ -115,10 +115,23 @@ extension UpdateManager: FirmwareUpgradeDelegate {
         
         var arg = ProtoUpdateStateChangesStreamArg(updateStateChanges: changes, peripheral: peripheral)
         arg.error = ProtoError(localizedDescription: error.localizedDescription)
-
+        
+        var progressArg = ProtoProgressUpdateStreamArg(progressUpdate: nil, peripheral: peripheral)
+        progressArg.done = true
+        
+        var logArg = ProtoLogMessageStreamArg()
+        logArg.uuid = peripheral.identifier.uuidString
+        logArg.done = true
+        
         do {
             let data = try arg.serializedData()
             stateStreamHandler.sink?(FlutterStandardTypedData(bytes: data))
+            
+            let progressData = try progressArg.serializedData()
+            progressStreamHandler.sink?(FlutterStandardTypedData(bytes: progressData))
+            
+            let logData = try logArg.serializedData()
+            logStreamHandler.sink?(FlutterStandardTypedData(bytes: logData))
         } catch let e {
             let error = FlutterError(error: e, code: ErrorCode.flutterTypeError)
             stateStreamHandler.sink?(error)

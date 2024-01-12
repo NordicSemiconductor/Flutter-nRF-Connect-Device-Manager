@@ -286,26 +286,6 @@ final $typed_data.Uint8List protoLogMessageDescriptor = $convert.base64Decode(
     'dmVsEgkKBURFQlVHEAASCwoHVkVSQk9TRRABEggKBElORk8QAhIPCgtBUFBMSUNBVElPThADEg'
     'sKB1dBUk5JTkcQBBIJCgVFUlJPUhAF');
 
-@$core.Deprecated('Use protoLiveLogConfigurationDescriptor instead')
-const ProtoLiveLogConfiguration$json = {
-  '1': 'ProtoLiveLogConfiguration',
-  '2': [
-    {'1': 'uuid', '3': 1, '4': 1, '5': 9, '10': 'uuid'},
-    {'1': 'enabled', '3': 2, '4': 1, '5': 8, '9': 0, '10': 'enabled', '17': true},
-    {'1': 'logLevel', '3': 3, '4': 1, '5': 14, '6': '.ProtoLogMessage.LogLevel', '9': 1, '10': 'logLevel', '17': true},
-  ],
-  '8': [
-    {'1': '_enabled'},
-    {'1': '_logLevel'},
-  ],
-};
-
-/// Descriptor for `ProtoLiveLogConfiguration`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List protoLiveLogConfigurationDescriptor = $convert.base64Decode(
-    'ChlQcm90b0xpdmVMb2dDb25maWd1cmF0aW9uEhIKBHV1aWQYASABKAlSBHV1aWQSHQoHZW5hYm'
-    'xlZBgCIAEoCEgAUgdlbmFibGVkiAEBEjoKCGxvZ0xldmVsGAMgASgOMhkuUHJvdG9Mb2dNZXNz'
-    'YWdlLkxvZ0xldmVsSAFSCGxvZ0xldmVsiAEBQgoKCF9lbmFibGVkQgsKCV9sb2dMZXZlbA==');
-
 @$core.Deprecated('Use protoReadLogCallArgumentsDescriptor instead')
 const ProtoReadLogCallArguments$json = {
   '1': 'ProtoReadLogCallArguments',

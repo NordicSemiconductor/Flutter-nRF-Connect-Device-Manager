@@ -3,7 +3,6 @@ library mcumgr_flutter;
 import 'dart:async';
 import 'dart:typed_data';
 
-import 'package:mcumgr_flutter/models/live_log_configuration.dart';
 import 'package:mcumgr_flutter/src/mock/mack_manual_up.dart';
 import 'package:tuple/tuple.dart';
 

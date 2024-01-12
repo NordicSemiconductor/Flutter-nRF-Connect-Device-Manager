@@ -18,26 +18,45 @@ class LoggerScreen extends StatelessWidget {
     return FutureBuilder(
       future: logger.readLogs(),
       builder: (context, snapshot) {
-        /*
-          if (snapshot.hasData) {
-            return Text(snapshot.data!.length
-                .toString()); // _messageList(snapshot.data as List<McuLogMessage>);
-          } else if (snapshot.hasError) {
-            return Text(snapshot.error.toString());
-          }
-          return CircularProgressIndicator();
-          */
-        return Text('TODO');
+        if (snapshot.hasData) {
+          final messages = (snapshot.data as List<McuLogMessage>)
+              .where((element) => element.level.rawValue >= 1)
+              .toList();
+          return _messageList(messages);
+        } else if (snapshot.hasError) {
+          return Text(snapshot.error.toString());
+        }
+        return CircularProgressIndicator();
       },
     );
   }
 
-  Widget _messageList(List<McuLogMessage> messages) =>
-      ListView.builder(itemBuilder: (context, index) {
+  Widget _messageList(List<McuLogMessage> messages) => ListView.builder(
+      itemCount: messages.length,
+      itemBuilder: (context, index) {
         final message = messages[index];
-        return ListTile(
-          title: Text(message.message),
-          subtitle: Text(message.level.toString()),
+        return Text(
+          message.message,
+          style: TextStyle(color: _colorForLevel(message.level)),
         );
       });
+
+  Color _colorForLevel(McuMgrLogLevel level) {
+    switch (level) {
+      case McuMgrLogLevel.verbose:
+        return Colors.grey;
+      case McuMgrLogLevel.application:
+        return Colors.purple;
+      case McuMgrLogLevel.debug:
+        return Colors.blue;
+      case McuMgrLogLevel.info:
+        return Colors.green;
+      case McuMgrLogLevel.warning:
+        return Colors.orange;
+      case McuMgrLogLevel.error:
+        return Colors.red;
+      default:
+        return Colors.black;
+    }
+  }
 }
