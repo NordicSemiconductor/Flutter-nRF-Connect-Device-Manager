@@ -10,86 +10,27 @@ import iOSMcuManagerLibrary
 
 class UpdateLogger {
     let logStreamHandler: StreamHandler
-    let liveLogEnabledStreamHandler: StreamHandler
     let identifier: String
     
-    private var allMessages: [ProtoLogMessage] = []
     private var messages: [ProtoLogMessage] = []
     
-    var timeInterval: TimeInterval = 1.0 {
-        didSet {
-            setTimer(enabled: !liveUpdateEnabled, timeInterval: timeInterval)
-        }
-    }
-    var liveUpdateEnabled = false {
-        didSet {
-            setTimer(enabled: !liveUpdateEnabled, timeInterval: timeInterval)
-            sendLiveUpdateStatus()
-        }
-    }
     private var timer: Timer!
     
-    init(identifier: String, streamHandler: StreamHandler, liveLogEnabledStreamHandler: StreamHandler) {
+    init(identifier: String, streamHandler: StreamHandler) {
         self.identifier = identifier
         self.logStreamHandler = streamHandler
-        self.liveLogEnabledStreamHandler = liveLogEnabledStreamHandler
-        setTimer(enabled: true, timeInterval: 1.0)
-        
-        sendLiveUpdateStatus()
     }
-    
-    func toggleLiveLoggs() -> Bool {
-        liveUpdateEnabled = !liveUpdateEnabled
-        return liveUpdateEnabled
+   
+    func readLogs(clearMessages: Bool = false) -> ProtoReadMessagesResponse {
+        let response = ProtoReadMessagesResponse(uuid: identifier, messages: messages)
+        if clearMessages {
+            clearLogs()
+        }
+        return response
     }
-    
-    func readLogs() -> ProtoLogMessageStreamArg {
-        let logStreamArg = ProtoLogMessageStreamArg(uuid: identifier, logs: messages)
-        sendMessages()
-        return logStreamArg
-    }
-    
-    func getAllLogs() -> ProtoLogMessageStreamArg {
-        return ProtoLogMessageStreamArg(uuid: identifier, logs: allMessages)
-    }
-    
+   
     func clearLogs() {
         messages.removeAll()
-        allMessages.removeAll()
-        sendMessages()
-    }
-}
-
-extension UpdateLogger {
-    private func setTimer(enabled: Bool, timeInterval: TimeInterval) {
-        if enabled {
-            timer = Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: true, block: { [weak self] t in
-                self?.sendMessages()
-                self?.messages.removeAll()
-            })
-        } else if let t = timer {
-            t.invalidate()
-        }
-    }
-    
-    private func sendMessages() {
-        do {
-            let logStreamArg = ProtoLogMessageStreamArg(uuid: identifier, logs: messages)
-            logStreamHandler.sink?(FlutterStandardTypedData(bytes: try logStreamArg.serializedData()))
-        } catch let e {
-            let error = FlutterError(error: e, code: ErrorCode.flutterTypeError)
-            logStreamHandler.sink?(error)
-        }
-    }
-    
-    private func sendLiveUpdateStatus() {
-        do {
-            let enabledArgs = ProtoMessageLiveLogEnabled(uuid: identifier, enabled: liveUpdateEnabled)
-            liveLogEnabledStreamHandler.sink?(FlutterStandardTypedData(bytes: try enabledArgs.serializedData()))
-        } catch let e {
-            let error = FlutterError(error: e, code: ErrorCode.flutterTypeError)
-            logStreamHandler.sink?(error)
-        }
     }
 }
 
@@ -102,6 +43,13 @@ extension UpdateLogger: McuMgrLogDelegate {
         let log = ProtoLogMessage(message: msg, category: category.toProto(), level: level.toProto(), timeInterval: Date().timeIntervalSince1970)
         
         messages.append(log)
-        allMessages.append(log)
+        
+        do {
+            let container = ProtoLogMessageStreamArg(uuid: identifier, msg: log)
+            let data = try container.serializedData()
+            logStreamHandler.sink?(FlutterStandardTypedData(bytes: data))
+        } catch let e {
+            print(e.localizedDescription)
+        }
     }
 }

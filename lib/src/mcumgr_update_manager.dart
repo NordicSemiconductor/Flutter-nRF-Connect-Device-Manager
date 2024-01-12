@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
 import 'package:mcumgr_flutter/proto/flutter_mcu.pb.dart';
@@ -26,9 +25,6 @@ class DeviceUpdateManager extends FirmwareUpdateManager {
   // ignore: close_sinks
   StreamController<FirmwareUpgradeState>? _updateStateStreamController;
   // ignore: close_sinks
-  final StreamController<McuLogMessage> _logMessageStreamController =
-      StreamController.broadcast();
-  // ignore: close_sinks
   final StreamController<bool>? _updateInProgressStreamController =
       BehaviorSubject.seeded(false);
 
@@ -39,10 +35,6 @@ class DeviceUpdateManager extends FirmwareUpdateManager {
 
   Stream<FirmwareUpgradeState>? get updateStateStream {
     return _updateStateStreamController?.stream;
-  }
-
-  Stream<McuLogMessage> get logMessageStream {
-    return _logMessageStreamController.stream;
   }
 
   Stream<bool>? get updateInProgressStream {
@@ -69,7 +61,8 @@ class DeviceUpdateManager extends FirmwareUpdateManager {
     }
 
     final um = DeviceUpdateManager._deviceIdentifier(deviceId);
-    um._setupStreams();
+    um._setupUpdateStateStream();
+    um._setupProgressUpdateStream();
     return um;
   }
 
@@ -106,6 +99,12 @@ class DeviceUpdateManager extends FirmwareUpdateManager {
           ).writeToBuffer());
 
   @override
+  Future<void> updateWithImageData({required Uint8List image}) {
+    // TODO: implement updateWithImageData
+    throw UnimplementedError();
+  }
+
+  @override
   Future<void> pause() async {
     await methodChannel.invokeMethod(
         UpdateManagerMethod.pause.rawValue, _deviceId);
@@ -131,10 +130,6 @@ class DeviceUpdateManager extends FirmwareUpdateManager {
   Future<bool> isPaused() async => await methodChannel.invokeMethod(
       UpdateManagerMethod.isPaused.rawValue, _deviceId);
 
-  void _setupStreams() {
-    _setupProgressUpdateStream();
-  }
-
   void _setupProgressUpdateStream() {
     UpdateManagerChannel.progressStream
         .receiveBroadcastStream()
@@ -150,8 +145,6 @@ class DeviceUpdateManager extends FirmwareUpdateManager {
         .receiveBroadcastStream()
         .map((event) => ProtoUpdateStateChangesStreamArg.fromBuffer(event))
         .where((event) => event.uuid == _deviceId)
-        // TODO: check if this works
-        // .where((event) => event.hasUpdateStateChanges())
         .listen((data) async {
       if (data.hasError()) {
         _updateStateStreamController!.addError(data.error.localizedDescription);
@@ -189,7 +182,6 @@ class DeviceUpdateManager extends FirmwareUpdateManager {
       _progressStreamController,
       _updateInProgressStreamController,
       _updateStateStreamController,
-      _logMessageStreamController
     ].forEach((sc) {
       if (!(sc?.isClosed == true)) {
         sc?.close();

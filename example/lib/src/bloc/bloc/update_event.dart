@@ -40,3 +40,5 @@ class PeripheralSelected extends UpdateEvent {
 
   PeripheralSelected(this.peripheral);
 }
+
+class ResetUpdate extends UpdateEvent {}

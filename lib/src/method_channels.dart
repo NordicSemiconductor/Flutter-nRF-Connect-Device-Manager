@@ -17,11 +17,6 @@ class UpdateLoggerChannel {
   // channel for log messages
   static const EventChannel logEventChannel =
       const EventChannel(_namespace + '/log_event_channel');
-
-  // TBD: This channel is not implemented yet
-  // emit bool value
-  // static const EventChannel liveLogEnabledChannel =
-      // const EventChannel(_namespace + '/live_log_enabled_channel');
 }
 
 /// Channel methods related to UpdateManager
@@ -52,10 +47,5 @@ class UpdateLoggerMethod {
   String get rawValue => _rawValue;
 
   static const readLogs = const UpdateLoggerMethod('readLogs');
-  static const toggleLiveLogs = const UpdateLoggerMethod('toggleLiveLoggs');
-  static const setLiveLogsEnabled =
-      const UpdateLoggerMethod('setLiveLoggsEnabled');
-
-  static const getAllLogs = const UpdateLoggerMethod('getAllLogs');
   static const clearLogs = const UpdateLoggerMethod('clearLogs');
 }

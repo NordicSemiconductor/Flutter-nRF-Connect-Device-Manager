@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreBluetooth
+import iOSMcuManagerLibrary
 
 extension ProtoProgressUpdateStreamArg {
     init(progressUpdate: ProtoProgressUpdate?, peripheral: CBPeripheral) {
@@ -26,9 +27,30 @@ extension ProtoUpdateStateChangesStreamArg {
     }
 }
 
-extension ProtoMessageLiveLogEnabled {
-    init(uuid: String, enabled: Bool) {
+extension ProtoLogMessage.LogLevel {
+    func toModel() -> McuMgrLogLevel {
+        switch self {
+        case .debug:
+            return .debug
+        case .verbose:
+            return .verbose
+        case .info:
+            return .info
+        case .application:
+            return .application
+        case .warning:
+            return .warning
+        case .error:
+            return .error
+        case .UNRECOGNIZED(_):
+            fatalError("Unrecognized Log Level")
+        }
+    }
+}
+
+extension ProtoReadMessagesResponse {
+    init(uuid: String, messages: [ProtoLogMessage]) {
         self.uuid = uuid
-        self.enabled = enabled
+        self.protoLogMessage = messages
     }
 }

@@ -15,9 +15,8 @@ dart pub install
 export PATH="$PATH":"$HOME/.pub-cache/bin"
 dart pub global activate protoc_plugin 
 
-# ANDR_OUT_DIR=lite:android/src/main/kotlin/no/nordicsemi/android/mcumgr_flutter/gen
+protoc --dart_out=./ --experimental_allow_proto3_optional lib/proto/flutter_mcu.proto
+protoc --swift_out=ios/Classes/ lib/proto/flutter_mcu.proto --experimental_allow_proto3_optional
 
-protoc --swift_out=ios/Classes/ \
-    --dart_out=./ \
-    lib/proto/flutter_mcu.proto # --experimental_allow_proto3_optional
-    # --kotlin_out=$ANDR_OUT_DIR \
+# ANDR_OUT_DIR=lite:android/src/main/kotlin/no/nordicsemi/android/mcumgr_flutter/gen
+# protoc --kotlin_out=$ANDR_OUT_DIR lib/proto/flutter_mcu.proto --experimental_allow_proto3_optional

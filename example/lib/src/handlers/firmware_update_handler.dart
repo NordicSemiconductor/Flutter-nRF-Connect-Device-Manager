@@ -125,7 +125,16 @@ class FirmwareUpdater extends FirmwareUpdateHandler {
         .getUpdateManager(request.peripheral!.identifier);
 
     updateManager.setup();
-    updateManager.update(request.firmwareImages!);
+    updateManager.update(
+      request.firmwareImages!,
+      configuration: FirmwareUpgradeConfiguration(
+        // Here you can set one of the following modes:
+        // firmwareUpgradeMode: FirmwareUpgradeMode.confirmOnly,
+        // firmwareUpgradeMode: FirmwareUpgradeMode.testAndConfirm,
+        // firmwareUpgradeMode: FirmwareUpgradeMode.testOnly,
+        // firmwareUpgradeMode: FirmwareUpgradeMode.uploadOnly,
+      ),
+    );
 
     return updateManager;
   }

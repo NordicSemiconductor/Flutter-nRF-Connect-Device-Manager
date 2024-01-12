@@ -18,11 +18,8 @@ public enum FlutterMethod: String {
     case cancel
     case kill
     
-    case toggleLiveLoggs
-    case setLiveLoggsEnabled
     case readLogs
     
-    case getAllLogs
     case clearLogs
 }
 

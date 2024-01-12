@@ -1,6 +1,3 @@
-import 'dart:async';
-import 'dart:math';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:mcumgr_flutter/mcumgr_flutter.dart';
@@ -34,6 +31,17 @@ class UpdateBloc extends Bloc<UpdateEvent, UpdateState> {
           .map((event) =>
               event.bytesSent.toDouble() / event.imageSize.toDouble())
           .startWith(0);
+
+      final logManager = _firmwareUpdateManager!.logger;
+      
+      logManager.logMessageStream.where((log) => log.level.rawValue > 1).listen(
+          (log) {
+        print(log.message);
+      }, onDone: () {
+        print('done');
+      }, onError: (error) {
+        print('error: $error');
+      });
 
       rx.CombineLatestStream.combine2(
           progressStream,
@@ -76,26 +84,47 @@ class UpdateBloc extends Bloc<UpdateEvent, UpdateState> {
       }
     });
     on<UploadFinished>((event, emit) {
-      _state = _updatedState(UpdateCompleteSuccess());
+      _state = _updatedState(UpdateCompleteSuccess(),
+          updateManager: _firmwareUpdateManager);
       emit(_state!);
     });
     on<UploadFailed>((event, emit) {
-      _state = _updatedState(UpdateCompleteFailure(event.error));
+      _state = _updatedState(UpdateCompleteFailure(event.error),
+          updateManager: _firmwareUpdateManager);
       emit(_state!);
+    });
+    on<ResetUpdate>((event, emit) {
+      _firmwareUpdateManager?.kill();
     });
   }
 
-  UpdateFirmwareStateHistory _updatedState(UpdateFirmware currentState) {
+  UpdateFirmwareStateHistory _updatedState(UpdateFirmware currentState,
+      {FirmwareUpdateManager? updateManager}) {
     if (_state == null) {
-      return UpdateFirmwareStateHistory(currentState, []);
+      return UpdateFirmwareStateHistory(
+        currentState,
+        [],
+        updateManager: updateManager,
+      );
     } else if (_state!.history.isEmpty) {
-      return UpdateFirmwareStateHistory(currentState, [_state!.currentState!]);
+      return UpdateFirmwareStateHistory(
+        currentState,
+        [_state!.currentState!],
+        updateManager: updateManager,
+      );
     } else if (currentState is UpdateProgressFirmware) {
       if (_state!.currentState is UpdateProgressFirmware) {
-        return UpdateFirmwareStateHistory(currentState, _state!.history);
+        return UpdateFirmwareStateHistory(
+          currentState,
+          _state!.history,
+          updateManager: updateManager,
+        );
       } else {
         return UpdateFirmwareStateHistory(
-            currentState, _state!.history + [_state!.currentState!]);
+          currentState,
+          _state!.history + [_state!.currentState!],
+          updateManager: updateManager,
+        );
       }
     } else if (currentState is UpdateCompleteSuccess ||
         currentState is UpdateCompleteFailure) {
@@ -103,10 +132,14 @@ class UpdateBloc extends Bloc<UpdateEvent, UpdateState> {
         null,
         _state!.history + [currentState],
         isComplete: true,
+        updateManager: updateManager,
       );
     } else {
       return UpdateFirmwareStateHistory(
-          currentState, _state!.history + [_state!.currentState!]);
+        currentState,
+        _state!.history + [_state!.currentState!],
+        updateManager: updateManager,
+      );
     }
   }
 
