@@ -6,13 +6,15 @@ import java.lang.IllegalArgumentException
 @Suppress("EnumEntryName")
 enum class FlutterMethod {
 	update,
+	updateSingleImage,
 	initializeUpdateManager,
 	pause,
 	resume,
 	isPaused,
 	isInProgress,
 	cancel,
-	getAllLogs,
+	readLogs,
+	clearLogs,
 	kill;
 
 	companion object {

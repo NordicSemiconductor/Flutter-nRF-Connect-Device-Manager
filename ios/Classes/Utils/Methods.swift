@@ -20,7 +20,6 @@ public enum FlutterMethod: String {
     case kill
     
     case readLogs
-    
     case clearLogs
 }
 
