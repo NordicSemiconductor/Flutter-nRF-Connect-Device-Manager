@@ -37,6 +37,12 @@ final configuration = const FirmwareUpgradeConfiguration(
 updateManager.update(firmware.firmwareScheme, configuration: configuration);
 ```
 
+Alternatively, you can use `updateWithImageData` to update the device with a single image data:
+
+```dart
+await updateManager.updateWithImageData(image: fwImage!);
+```
+
 ### Listening for updates
 To listen for updates, subscribe to the `updateStream` and `progressStream`:
 
@@ -82,13 +88,19 @@ updateManager.kill();
 ```
 
 ## Reading logs
-To read logs from the device, use `FirmwareUpdateLogger`:
+To listen for logs, subscribe to the `logger.logMessageStream`:
 
 ```dart
-final logger = updateManager.logger;
-logger.logMessageStream.listen((event) {
-    for (var msg in event) {
-        print("${msg.level.shortName} ${msg.message}");
-    }
-});
+updateManager.logger.logMessageStream
+        .where((log) => log.level.rawValue > 1) // filter out debug messages
+        .listen((log) {
+      print(log.message);
+    });
+```
+
+To read logs from the device, use `readLog` method:
+
+```dart
+List<McuLogMessage> logs =
+        await updateManager.logger.readLogs(clearLogs: false);
 ```

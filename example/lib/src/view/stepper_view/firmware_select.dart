@@ -16,7 +16,7 @@ class FirmwareSelect extends StatelessWidget {
     return Column(
       children: [
         if (updateParameters.firmware != null)
-          Text(updateParameters.firmware!.application.appName),
+          Text(updateParameters.firmware!.name),
         ElevatedButton(
             onPressed: () {
               Navigator.push(

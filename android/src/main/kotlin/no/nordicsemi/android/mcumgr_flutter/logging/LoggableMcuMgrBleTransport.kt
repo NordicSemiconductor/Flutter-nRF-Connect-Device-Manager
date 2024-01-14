@@ -48,16 +48,27 @@ class LoggableMcuMgrBleTransport(
 			logLevel = priority.toLogLevel(),
 			logDateTime = System.currentTimeMillis(),
 		)
+
+		val streamArg = ProtoLogMessageStreamArg(
+			uuid = bluetoothDevice.address,
+			protoLogMessage = log,
+		)
+
 		allMessages.add(log)
+
+		handler.post { logStreamHandler.sink?.success(streamArg.encode()) }
 	}
 
-	fun readLogs(): ProtoLogMessageStreamArg {
-
-//		handler.post { logStreamHandler.sink?.success(arg.toByteArray()) }
-
-		return ProtoLogMessageStreamArg(
+	fun readLogs(clearLogs: Boolean = false): ProtoReadMessagesResponse {
+		val response = ProtoReadMessagesResponse(
 			uuid = bluetoothDevice.address,
 			protoLogMessage = allMessages
 		)
+		if (clearLogs) allMessages.clear()
+		return response
+	}
+
+	fun clearLogs() {
+		allMessages.clear()
 	}
 }

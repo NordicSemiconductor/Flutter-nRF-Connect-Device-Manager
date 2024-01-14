@@ -43,9 +43,10 @@ class UpdateFirmwareStateHistory extends UpdateState {
   final UpdateFirmware? currentState;
   final List<UpdateFirmware> history;
   final bool isComplete;
+  final FirmwareUpdateManager? updateManager;
 
   UpdateFirmwareStateHistory(this.currentState, this.history,
-      {this.isComplete = false});
+      {this.isComplete = false, this.updateManager});
 
   @override
   List<Object?> get props => [currentState, history];

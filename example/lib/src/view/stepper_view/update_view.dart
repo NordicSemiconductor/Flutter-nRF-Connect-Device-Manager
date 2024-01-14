@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mcumgr_flutter_example/src/model/firmware_update_request.dart';
 import 'package:mcumgr_flutter_example/src/providers/firmware_update_request_provider.dart';
+import 'package:mcumgr_flutter_example/src/view/logger_screen/logger_screen.dart';
 
 import '../../bloc/bloc/update_bloc.dart';
 
@@ -18,10 +20,7 @@ class UpdateStepView extends StatelessWidget {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text('Firmware: ${request.firmware?.application.appName}'),
-                Text('Version: ${request.firmware?.version.version}'),
-                Text('Board: ${request.firmware?.board.name}'),
-                Text('Firmware: ${request.firmware?.firmware.name}'),
+                _firmwareInfo(context, request.firmware!),
                 ElevatedButton(
                   onPressed: () {
                     context.read<UpdateBloc>().add(BeginUpdateProcess());
@@ -47,9 +46,21 @@ class UpdateStepView extends StatelessWidget {
                       _currentState(state),
                     ],
                   ),
+                if (state.isComplete && state.updateManager?.logger != null)
+                  ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoggerScreen(
+                                      logger: state.updateManager!.logger,
+                                    )));
+                      },
+                      child: Text('Show Log')),
                 if (state.isComplete)
                   ElevatedButton(
                     onPressed: () {
+                      BlocProvider.of<UpdateBloc>(context).add(ResetUpdate());
                       provider.reset();
                     },
                     child: Text('Update Again'),
@@ -80,5 +91,30 @@ class UpdateStepView extends StatelessWidget {
     } else {
       return Text(currentState.stage);
     }
+  }
+
+  Widget _firmwareInfo(BuildContext context, SelectedFirmware firmware) {
+    if (firmware is LocalFirmware) {
+      return _localFirmwareInfo(context, firmware);
+    } else if (firmware is RemoteFirmware) {
+      return _remoteFirmwareInfo(context, firmware);
+    } else {
+      return Text('Unknown firmware type');
+    }
+  }
+
+  Widget _localFirmwareInfo(BuildContext context, LocalFirmware firmware) {
+    return Text('Firmware: ${firmware.name}');
+  }
+
+  Widget _remoteFirmwareInfo(BuildContext context, RemoteFirmware firmware) {
+    return Column(
+      children: [
+        Text('Firmware: ${firmware.application.appName}'),
+        Text('Version: ${firmware.version.version}'),
+        Text('Board: ${firmware.board.name}'),
+        Text('Firmware: ${firmware.firmware.name}'),
+      ],
+    );
   }
 }

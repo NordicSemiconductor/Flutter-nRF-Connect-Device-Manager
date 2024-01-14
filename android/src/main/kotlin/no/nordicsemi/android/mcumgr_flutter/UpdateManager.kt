@@ -82,6 +82,10 @@ class UpdateManager(
 		}
 		manager.start(images, config?.eraseAppSettings ?: true)
 	}
+
+	fun start(imageData: ByteArray) {
+		manager.start(imageData)
+	}
 	/** Pause the firmware upgrade. */
 	fun pause() {
 		if (!isPaused) {
@@ -103,8 +107,12 @@ class UpdateManager(
 	/**	True if the firmware upgrade is in progress, false otherwise. */
 	var isInProgress = manager.isInProgress
 	/** Read all logs */
-	fun readAllLogs() : ProtoLogMessageStreamArg {
-		return (manager.transporter as? LoggableMcuMgrBleTransport)!!.readLogs()
+	fun readAllLogs(clearLogs: Boolean = false) : ProtoReadMessagesResponse {
+		return (manager.transporter as? LoggableMcuMgrBleTransport)!!.readLogs(clearLogs)
+	}
+
+	fun clearLogs() {
+		(manager.transporter as? LoggableMcuMgrBleTransport)!!.clearLogs()
 	}
 
 	fun releaseTransport() {

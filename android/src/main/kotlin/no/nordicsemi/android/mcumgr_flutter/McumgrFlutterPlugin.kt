@@ -71,6 +71,9 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 					update(call)
 					result.success(null)
 				}
+				FlutterMethod.updateSingleImage -> {
+					result.success(null)
+				}
 				FlutterMethod.pause -> {
 					retrieveManager(call).pause()
 					result.success(null)
@@ -91,8 +94,12 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 					val isPaused = retrieveManager(call).isInProgress
 					result.success(isPaused)
 				}
-				FlutterMethod.getAllLogs -> {
-					result.success(retrieveManager(call).readAllLogs().encode())
+				FlutterMethod.readLogs -> {
+					result.success(readLogs(call))
+				}
+				FlutterMethod.clearLogs -> {
+					retrieveManager(call).clearLogs()
+					result.success(null)
 				}
 				FlutterMethod.kill -> {
 					kill(call)
@@ -158,6 +165,20 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 	}
 
 	@Throws(FlutterError::class)
+	private fun updateSingleImage(@NonNull call: MethodCall) {
+		val bytes = (call.arguments as? ByteArray).guard {
+			throw WrongArguments("Can not parse provided arguments: ${call.arguments.javaClass}")
+		}
+		val args = ProtoUpdateCallArgument.ADAPTER.decode(bytes)
+		val updateManager = managers[args.device_uuid].guard {
+			throw UpdateManagerDoesNotExist("Update manager does not exist")
+		}
+		val image = args.firmware_data.toByteArray()
+
+		updateManager.start(args.firmware_data.toByteArray())
+	}
+
+	@Throws(FlutterError::class)
 	private fun retrieveManager(@NonNull call: MethodCall): UpdateManager {
 		val address = (call.arguments as? String).guard {
 			throw WrongArguments("Device address expected")
@@ -165,6 +186,21 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 		return managers[address].guard {
 			throw UpdateManagerDoesNotExist("Update manager does not exist")
 		}
+	}
+
+	@Throws(FlutterError::class)
+	private fun readLogs(@NonNull call: MethodCall): ByteArray {
+		val data = (call.arguments as? ByteArray).guard {
+			throw WrongArguments("Device address expected")
+		}
+		val arg = ProtoReadLogCallArguments.ADAPTER.decode(data)
+		val address = arg.uuid
+		val clearLogs = arg.clearLogs
+		val updateManager = managers[address].guard {
+			throw UpdateManagerDoesNotExist("Update manager does not exist")
+		}
+
+		return updateManager.readAllLogs(clearLogs).encode()
 	}
 
 	private fun kill(@NonNull call: MethodCall) {

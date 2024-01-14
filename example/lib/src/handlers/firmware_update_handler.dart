@@ -31,21 +31,33 @@ class FirmwareDownloader extends FirmwareUpdateHandler {
   @override
   Future<FirmwareUpdateManager> handleFirmwareUpdate(
       FirmwareUpdateRequest request, FirmwareUpdateCallback? callback) async {
+    if (request.firmware is LocalFirmware) {
+      if (request is MultiImageFirmwareUpdateRequest) {
+        request.zipFile = (request.firmware as LocalFirmware).data;
+      }
+      return await _nextHandler!.handleFirmwareUpdate(request, callback);
+    }
+
+    final multiImageRequest = request as MultiImageFirmwareUpdateRequest;
+
     callback?.call(FirmwareDownloadStarted());
 
     if (request.firmware == null) {
       throw Exception('Firmware is not selected');
     }
 
+    final remoteFirmware = multiImageRequest.remoteFirmware!;
+
     final response = await http.get(Uri.parse(
-        '${FirmwareImageRepository.baseUrl}${request.firmware!.firmware.file}'));
+        '${FirmwareImageRepository.baseUrl}${remoteFirmware.firmware.file}'));
     if (response.statusCode == 200) {
-      request.zipFile = response.bodyBytes;
+      multiImageRequest.zipFile = response.bodyBytes;
     } else {
       throw Exception('Failed to download firmware');
     }
 
-    return await _nextHandler!.handleFirmwareUpdate(request, callback);
+    return await _nextHandler!
+        .handleFirmwareUpdate(multiImageRequest, callback);
   }
 }
 
@@ -59,13 +71,18 @@ class FirmwareUnpacker extends FirmwareUpdateHandler {
       throw Exception('Firmware is not selected');
     }
 
+    if (request is SingleImageFirmwareUpdateRequest) {
+      return await _nextHandler!.handleFirmwareUpdate(request, callback);
+    }
+
     final prefix = 'firmware_${Uuid().v4()}';
     final systemTempDir = await path_provider.getTemporaryDirectory();
 
     final tempDir = Directory('${systemTempDir.path}/$prefix');
     await tempDir.create();
 
-    final firmwareFileData = request.zipFile!;
+    final firmware = request as MultiImageFirmwareUpdateRequest;
+    final firmwareFileData = firmware.zipFile!;
     final firmwareFile = File('${tempDir.path}/firmware.zip');
     await firmwareFile.writeAsBytes(firmwareFileData);
 
@@ -90,11 +107,11 @@ class FirmwareUnpacker extends FirmwareUpdateHandler {
       throw Exception('Failed to parse manifest.json');
     }
 
-    request.firmwareImages = [];
+    firmware.firmwareImages = [];
     for (final file in manifest.files) {
       final firmwareFile = File('${destinationDir.path}/${file.file}');
       final firmwareFileData = await firmwareFile.readAsBytes();
-      request.firmwareImages!.add(Tuple2(file.image, firmwareFileData));
+      firmware.firmwareImages!.add(Tuple2(file.image, firmwareFileData));
     }
 
     // delete tempDir
@@ -113,10 +130,6 @@ class FirmwareUpdater extends FirmwareUpdateHandler {
       FirmwareUpdateRequest request, FirmwareUpdateCallback? callback) async {
     callback?.call(FirmwareUploadStarted());
 
-    if (request.firmwareImages == null) {
-      throw Exception('Firmware is not selected');
-    }
-
     if (request.peripheral == null) {
       throw Exception('Peripheral is not selected');
     }
@@ -125,7 +138,15 @@ class FirmwareUpdater extends FirmwareUpdateHandler {
         .getUpdateManager(request.peripheral!.identifier);
 
     updateManager.setup();
-    updateManager.update(request.firmwareImages!);
+
+    if (request is SingleImageFirmwareUpdateRequest) {
+      final fwImage = request.firmwareImage;
+      await updateManager.updateWithImageData(image: fwImage!);
+      return updateManager;
+    } else {
+      final multiImageRequest = request as MultiImageFirmwareUpdateRequest;
+      updateManager.update(multiImageRequest.firmwareImages!);
+    }
 
     return updateManager;
   }
