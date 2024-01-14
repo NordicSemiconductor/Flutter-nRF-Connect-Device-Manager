@@ -2,8 +2,6 @@
 
 nRF Connect Device Manager library is a Flutter plugin based on [Android](https://github.com/NordicSemiconductor/Android-nRF-Connect-Device-Manager) and [iOS](https://github.com/NordicSemiconductor/IOS-nRF-Connect-Device-Manager) nRF Connect Device Manager libraries.
 
-> **BETA 🧪:** This library is still in beta. We are working on improving it and adding more features. If you have any suggestions or find any bugs, please create an issue or a pull request. Also future versions of this library may introduce breaking changes.
-
 ___
 ## Supported Platforms
 - Android: `minSdkVersion 19`
