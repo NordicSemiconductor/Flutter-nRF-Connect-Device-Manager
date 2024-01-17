@@ -9,8 +9,19 @@ class Manifest {
   int time;
   List<ManifestFile> files;
 
-  factory Manifest.fromJson(Map<String, dynamic> json) =>
-      _$ManifestFromJson(json);
+  factory Manifest.fromJson(Map<String, dynamic> json) {
+    final manifest = _$ManifestFromJson(json);
+
+    if (manifest.files.length > 1) {
+      for (final file in manifest.files) {
+        if (file.imageIndex == null) {
+          throw Exception('imageIndex is required for multi-image firmware');
+        }
+      }
+    }
+
+    return manifest;
+  }
 
   Manifest({
     required this.formatVersion,
@@ -34,9 +45,9 @@ class ManifestFile {
 
   // Required properties
   String file;
-  String imageIndex;
+  String? imageIndex;
 
-  int get image => int.parse(imageIndex);
+  int get image => int.parse(imageIndex ?? "0");
 
   factory ManifestFile.fromJson(Map<String, dynamic> json) =>
       _$ManifestFileFromJson(json);
