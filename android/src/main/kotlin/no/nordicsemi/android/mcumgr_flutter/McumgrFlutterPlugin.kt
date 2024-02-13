@@ -72,6 +72,7 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 					result.success(null)
 				}
 				FlutterMethod.updateSingleImage -> {
+					updateSingleImage(call)
 					result.success(null)
 				}
 				FlutterMethod.pause -> {
