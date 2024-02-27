@@ -1,3 +1,6 @@
+## 0.3.2+1
+- Fixed crash on iOS when sending 'error' event from native code.
+
 ## 0.3.0+1
 - New Log System
 - Method `FirmwareUpdateManager.updateWithImageData` added to update firmware with single image data (Single Core)
