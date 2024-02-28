@@ -1,5 +1,10 @@
-## 0.3.2+1
-- Fixed crash on iOS when sending 'error' event from native code.
+## 0.3.3
+Feature/config for single image update (#61)
+
+* Added configuration parameter for single image update to protobuf definition
+* Added configuration parameter in ios code
+* Added configuration parameter in android
+* Added configuration parameter in flutter
 
 ## 0.3.0+1
 - New Log System
