@@ -54,7 +54,7 @@ class McuMgrLogger extends FirmwareUpdateLogger {
         .map((event) => ProtoLogMessageStreamArg.fromBuffer(event))
         .where((event) => event.uuid == _deviceId)
         .listen((data) {
-      if (data.hasError()) {
+      if (data.hasError() && !_logMessageStreamController.isClosed) {
         _logMessageStreamController.addError(data.error.localizedDescription);
       }
 
@@ -62,7 +62,7 @@ class McuMgrLogger extends FirmwareUpdateLogger {
         _logMessageStreamController.close();
       }
 
-      if (data.hasProtoLogMessage()) {
+      if (data.hasProtoLogMessage() && !_logMessageStreamController.isClosed) {
         _logMessageStreamController.add(data.protoLogMessage.convent());
       }
     });

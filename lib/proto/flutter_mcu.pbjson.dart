@@ -19,13 +19,16 @@ const ProtoUpdateCallArgument$json = {
   '2': [
     {'1': 'device_uuid', '3': 1, '4': 1, '5': 9, '10': 'deviceUuid'},
     {'1': 'firmware_data', '3': 2, '4': 1, '5': 12, '10': 'firmwareData'},
+    {'1': 'configuration', '3': 3, '4': 1, '5': 11, '6': '.ProtoFirmwareUpgradeConfiguration', '10': 'configuration'},
   ],
 };
 
 /// Descriptor for `ProtoUpdateCallArgument`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List protoUpdateCallArgumentDescriptor = $convert.base64Decode(
     'ChdQcm90b1VwZGF0ZUNhbGxBcmd1bWVudBIfCgtkZXZpY2VfdXVpZBgBIAEoCVIKZGV2aWNlVX'
-    'VpZBIjCg1maXJtd2FyZV9kYXRhGAIgASgMUgxmaXJtd2FyZURhdGE=');
+    'VpZBIjCg1maXJtd2FyZV9kYXRhGAIgASgMUgxmaXJtd2FyZURhdGESSAoNY29uZmlndXJhdGlv'
+    'bhgDIAEoCzIiLlByb3RvRmlybXdhcmVVcGdyYWRlQ29uZmlndXJhdGlvblINY29uZmlndXJhdG'
+    'lvbg==');
 
 @$core.Deprecated('Use protoErrorDescriptor instead')
 const ProtoError$json = {

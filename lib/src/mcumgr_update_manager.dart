@@ -99,13 +99,17 @@ class DeviceUpdateManager extends FirmwareUpdateManager {
           ).writeToBuffer());
 
   @override
-  Future<void> updateWithImageData({required Uint8List image}) {
-    final model = ProtoUpdateCallArgument()
-      ..deviceUuid = _deviceId
-      ..firmwareData = image;
-
+  Future<void> updateWithImageData({
+    required Uint8List image,
+    FirmwareUpgradeConfiguration? configuration,
+  }) {
     return methodChannel.invokeMethod(
-        UpdateManagerMethod.updateSingleImage.rawValue, model.writeToBuffer());
+        UpdateManagerMethod.updateSingleImage.rawValue,
+        ProtoUpdateCallArgument(
+          deviceUuid: _deviceId,
+          firmwareData: image,
+          configuration: configuration?.proto(),
+        ).writeToBuffer());
   }
 
   @override

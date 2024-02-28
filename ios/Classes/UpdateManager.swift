@@ -32,9 +32,9 @@ class UpdateManager {
         self.logStreamHandler = logStreamHandler
     }
     
-    func update(data: Data) throws {
+    func update(data: Data, config: FirmwareUpgradeConfiguration) throws {
         dfuManager.logDelegate = updateLogger
-        try dfuManager.start(data: data)
+        try dfuManager.start(data: data, using: config)
     }
     
     func update(images: [(Int, Data)], config: FirmwareUpgradeConfiguration) throws {

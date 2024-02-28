@@ -176,7 +176,29 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 		}
 		val image = args.firmware_data.toByteArray()
 
-		updateManager.start(args.firmware_data.toByteArray())
+		val config = args.configuration?.let { config ->
+			return@let FirmwareUpgradeConfiguration(
+				config.estimatedSwapTimeMs,
+				config.eraseAppSettings,
+				config.pipelineDepth.toInt(),
+				when (config.byteAlignment) {
+					ProtoFirmwareUpgradeConfiguration.ImageUploadAlignment.TWO_BYTE -> 2
+					ProtoFirmwareUpgradeConfiguration.ImageUploadAlignment.FOUR_BYTE -> 4
+					ProtoFirmwareUpgradeConfiguration.ImageUploadAlignment.EIGHT_BYTE -> 8
+					ProtoFirmwareUpgradeConfiguration.ImageUploadAlignment.SIXTEEN_BYTE -> 16
+					ProtoFirmwareUpgradeConfiguration.ImageUploadAlignment.DISABLED -> 0
+				},
+				config.reassemblyBufferSize,
+				when (config.firmwareUpgradeMode) {
+					ProtoFirmwareUpgradeConfiguration.FirmwareUpgradeMode.TEST_ONLY -> FirmwareUpgradeManager.Mode.TEST_ONLY
+					ProtoFirmwareUpgradeConfiguration.FirmwareUpgradeMode.TEST_AND_CONFIRM -> FirmwareUpgradeManager.Mode.TEST_AND_CONFIRM
+					ProtoFirmwareUpgradeConfiguration.FirmwareUpgradeMode.CONFIRM_ONLY -> FirmwareUpgradeManager.Mode.CONFIRM_ONLY
+					ProtoFirmwareUpgradeConfiguration.FirmwareUpgradeMode.UPLOAD_ONLY -> FirmwareUpgradeManager.Mode.NONE
+				}
+			)
+		}
+
+		updateManager.start(args.firmware_data.toByteArray(), config)
 	}
 
 	@Throws(FlutterError::class)
