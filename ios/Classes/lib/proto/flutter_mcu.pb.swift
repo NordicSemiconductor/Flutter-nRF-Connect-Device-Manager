@@ -30,9 +30,20 @@ struct ProtoUpdateCallArgument {
 
   var firmwareData: Data = Data()
 
+  var configuration: ProtoFirmwareUpgradeConfiguration {
+    get {return _configuration ?? ProtoFirmwareUpgradeConfiguration()}
+    set {_configuration = newValue}
+  }
+  /// Returns true if `configuration` has been explicitly set.
+  var hasConfiguration: Bool {return self._configuration != nil}
+  /// Clears the value of `configuration`. Subsequent reads from it will return its default value.
+  mutating func clearConfiguration() {self._configuration = nil}
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
+
+  fileprivate var _configuration: ProtoFirmwareUpgradeConfiguration? = nil
 }
 
 struct ProtoError {
@@ -195,7 +206,7 @@ struct ProtoUpdateStateChanges {
 
 extension ProtoUpdateStateChanges.FirmwareUpgradeState: CaseIterable {
   // The compiler won't synthesize support with the UNRECOGNIZED case.
-  static var allCases: [ProtoUpdateStateChanges.FirmwareUpgradeState] = [
+  static let allCases: [ProtoUpdateStateChanges.FirmwareUpgradeState] = [
     .none,
     .validate,
     .upload,
@@ -308,7 +319,7 @@ struct ProtoFirmwareUpgradeConfiguration {
 
 extension ProtoFirmwareUpgradeConfiguration.ImageUploadAlignment: CaseIterable {
   // The compiler won't synthesize support with the UNRECOGNIZED case.
-  static var allCases: [ProtoFirmwareUpgradeConfiguration.ImageUploadAlignment] = [
+  static let allCases: [ProtoFirmwareUpgradeConfiguration.ImageUploadAlignment] = [
     .disabled,
     .twoByte,
     .fourByte,
@@ -319,7 +330,7 @@ extension ProtoFirmwareUpgradeConfiguration.ImageUploadAlignment: CaseIterable {
 
 extension ProtoFirmwareUpgradeConfiguration.FirmwareUpgradeMode: CaseIterable {
   // The compiler won't synthesize support with the UNRECOGNIZED case.
-  static var allCases: [ProtoFirmwareUpgradeConfiguration.FirmwareUpgradeMode] = [
+  static let allCases: [ProtoFirmwareUpgradeConfiguration.FirmwareUpgradeMode] = [
     .testOnly,
     .confirmOnly,
     .testAndConfirm,
@@ -530,7 +541,7 @@ struct ProtoLogMessage {
 
 extension ProtoLogMessage.LogCategory: CaseIterable {
   // The compiler won't synthesize support with the UNRECOGNIZED case.
-  static var allCases: [ProtoLogMessage.LogCategory] = [
+  static let allCases: [ProtoLogMessage.LogCategory] = [
     .transport,
     .config,
     .crash,
@@ -546,7 +557,7 @@ extension ProtoLogMessage.LogCategory: CaseIterable {
 
 extension ProtoLogMessage.LogLevel: CaseIterable {
   // The compiler won't synthesize support with the UNRECOGNIZED case.
-  static var allCases: [ProtoLogMessage.LogLevel] = [
+  static let allCases: [ProtoLogMessage.LogLevel] = [
     .debug,
     .verbose,
     .info,
@@ -614,6 +625,7 @@ extension ProtoUpdateCallArgument: SwiftProtobuf.Message, SwiftProtobuf._Message
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .standard(proto: "device_uuid"),
     2: .standard(proto: "firmware_data"),
+    3: .same(proto: "configuration"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -624,24 +636,33 @@ extension ProtoUpdateCallArgument: SwiftProtobuf.Message, SwiftProtobuf._Message
       switch fieldNumber {
       case 1: try { try decoder.decodeSingularStringField(value: &self.deviceUuid) }()
       case 2: try { try decoder.decodeSingularBytesField(value: &self.firmwareData) }()
+      case 3: try { try decoder.decodeSingularMessageField(value: &self._configuration) }()
       default: break
       }
     }
   }
 
   func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
     if !self.deviceUuid.isEmpty {
       try visitor.visitSingularStringField(value: self.deviceUuid, fieldNumber: 1)
     }
     if !self.firmwareData.isEmpty {
       try visitor.visitSingularBytesField(value: self.firmwareData, fieldNumber: 2)
     }
+    try { if let v = self._configuration {
+      try visitor.visitSingularMessageField(value: v, fieldNumber: 3)
+    } }()
     try unknownFields.traverse(visitor: &visitor)
   }
 
   static func ==(lhs: ProtoUpdateCallArgument, rhs: ProtoUpdateCallArgument) -> Bool {
     if lhs.deviceUuid != rhs.deviceUuid {return false}
     if lhs.firmwareData != rhs.firmwareData {return false}
+    if lhs._configuration != rhs._configuration {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }

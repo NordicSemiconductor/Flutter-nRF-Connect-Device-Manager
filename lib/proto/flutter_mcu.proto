@@ -4,8 +4,9 @@ option java_package = "no.nordicsemi.android.mcumgr_flutter.gen";
 
 // Flutter call arguments
 message ProtoUpdateCallArgument {
-  string device_uuid = 1;
-  bytes firmware_data = 2;
+    string device_uuid = 1;
+    bytes firmware_data = 2;
+    ProtoFirmwareUpgradeConfiguration configuration = 3;
 }
 
 message ProtoError {

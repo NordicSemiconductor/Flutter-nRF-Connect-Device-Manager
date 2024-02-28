@@ -3,6 +3,7 @@ package no.nordicsemi.android.mcumgr_flutter
 import android.util.Log
 import android.util.Pair
 import io.runtime.mcumgr.ble.McuMgrBleTransport
+import io.runtime.mcumgr.dfu.model.McuMgrImageSet;
 import io.runtime.mcumgr.dfu.FirmwareUpgradeCallback
 import io.runtime.mcumgr.dfu.FirmwareUpgradeController
 import io.runtime.mcumgr.dfu.FirmwareUpgradeManager
@@ -83,8 +84,14 @@ class UpdateManager(
 		manager.start(images, config?.eraseAppSettings ?: true)
 	}
 
-	fun start(imageData: ByteArray) {
-		manager.start(imageData)
+	fun start(imageData: ByteArray, config: FirmwareUpgradeConfiguration?) {
+		if (config != null) {
+			manager.setMemoryAlignment(config.byteAlignment)
+			manager.setEstimatedSwapTime(config.estimatedSwapTime.toInt())
+			manager.setWindowUploadCapacity(config.pipelineDepth)
+			manager.setMode(config.firmwareUpgradeMode)
+		}
+		manager.start(McuMgrImageSet().add(imageData), config?.eraseAppSettings ?: false)
 	}
 	/** Pause the firmware upgrade. */
 	fun pause() {
