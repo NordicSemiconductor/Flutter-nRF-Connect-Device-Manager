@@ -175,7 +175,9 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
             throw FlutterError(code: ErrorCode.updateManagerDoesNotExist.rawValue, message: "Update manager does not exist", details: call.debugDetails)
         }
         
-        try manager.update(data: args.firmwareData)
+        let config = args.hasConfiguration ? FirmwareUpgradeConfiguration(proto: args.configuration) : FirmwareUpgradeConfiguration()
+        
+        try manager.update(data: args.firmwareData, config: config)
     }
     
     private func kill(call: FlutterMethodCall) throws {

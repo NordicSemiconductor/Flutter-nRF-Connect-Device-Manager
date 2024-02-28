@@ -23,6 +23,7 @@ class ProtoUpdateCallArgument extends $pb.GeneratedMessage {
   factory ProtoUpdateCallArgument({
     $core.String? deviceUuid,
     $core.List<$core.int>? firmwareData,
+    ProtoFirmwareUpgradeConfiguration? configuration,
   }) {
     final $result = create();
     if (deviceUuid != null) {
@@ -30,6 +31,9 @@ class ProtoUpdateCallArgument extends $pb.GeneratedMessage {
     }
     if (firmwareData != null) {
       $result.firmwareData = firmwareData;
+    }
+    if (configuration != null) {
+      $result.configuration = configuration;
     }
     return $result;
   }
@@ -40,6 +44,7 @@ class ProtoUpdateCallArgument extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ProtoUpdateCallArgument', createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'deviceUuid')
     ..a<$core.List<$core.int>>(2, _omitFieldNames ? '' : 'firmwareData', $pb.PbFieldType.OY)
+    ..aOM<ProtoFirmwareUpgradeConfiguration>(3, _omitFieldNames ? '' : 'configuration', subBuilder: ProtoFirmwareUpgradeConfiguration.create)
     ..hasRequiredFields = false
   ;
 
@@ -81,6 +86,17 @@ class ProtoUpdateCallArgument extends $pb.GeneratedMessage {
   $core.bool hasFirmwareData() => $_has(1);
   @$pb.TagNumber(2)
   void clearFirmwareData() => clearField(2);
+
+  @$pb.TagNumber(3)
+  ProtoFirmwareUpgradeConfiguration get configuration => $_getN(2);
+  @$pb.TagNumber(3)
+  set configuration(ProtoFirmwareUpgradeConfiguration v) { setField(3, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasConfiguration() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearConfiguration() => clearField(3);
+  @$pb.TagNumber(3)
+  ProtoFirmwareUpgradeConfiguration ensureConfiguration() => $_ensure(2);
 }
 
 class ProtoError extends $pb.GeneratedMessage {
