@@ -13,15 +13,18 @@ message ProtoError {
     string localizedDescription = 1;
 }
 
-// Firmware image pair
-message Pair {
-    int32 key = 1;
-    bytes value = 2;
+message ImageManager {
+    message Image {
+        int32 image = 1;
+        int32 slot = 2;
+        bytes hash = 3;
+        bytes data = 4;
+    }
 }
 
 message ProtoUpdateWithImageCallArguments {
     string device_uuid = 1;
-    repeated Pair images = 2;
+    repeated ImageManager.Image images = 2;
     ProtoFirmwareUpgradeConfiguration configuration = 3;
 }
 
