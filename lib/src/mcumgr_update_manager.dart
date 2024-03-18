@@ -78,6 +78,7 @@ class DeviceUpdateManager extends FirmwareUpdateManager {
   }
 
   Future<void> updateMap(Map<int, Uint8List> images) async {
+    ImageManager_Image
     await methodChannel.invokeMethod(
         UpdateManagerMethod.update.rawValue,
         ProtoUpdateWithImageCallArguments(
