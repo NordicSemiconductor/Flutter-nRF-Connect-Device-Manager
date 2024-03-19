@@ -4,9 +4,9 @@ import 'package:flutter/foundation.dart';
 import 'package:mcumgr_flutter/proto/flutter_mcu.pb.dart';
 import 'package:mcumgr_flutter/src/mcumgr_update_logger.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:tuple/tuple.dart';
 
 import '../mcumgr_flutter.dart';
+import '../models/image.dart';
 import '../proto/extensions/proto_ext.dart';
 import 'method_channels.dart';
 
@@ -76,32 +76,34 @@ class DeviceUpdateManager extends FirmwareUpdateManager {
     _setupUpdateStateStream();
     return _updateStateStreamController!.stream;
   }
-
-  Future<void> updateMap(Map<int, Uint8List> images) async {
-    ImageManager_Image
-    await methodChannel.invokeMethod(
+/*
+  Future<void> updateMap(List<Image> images) async {
+    return await methodChannel.invokeMethod(
         UpdateManagerMethod.update.rawValue,
         ProtoUpdateWithImageCallArguments(
             deviceUuid: this._deviceId,
             images: images.entries
                 .map((e) => Pair(key: e.key, value: e.value))).writeToBuffer());
   }
+  */
 
   @override
-  Future<void> update(List<Tuple2<int, Uint8List>> images,
-          {FirmwareUpgradeConfiguration configuration =
-              const FirmwareUpgradeConfiguration()}) async =>
-      await methodChannel.invokeMethod(
-          UpdateManagerMethod.update.rawValue,
-          ProtoUpdateWithImageCallArguments(
-            deviceUuid: _deviceId,
-            images: images.map((e) => Pair(key: e.item1, value: e.item2)),
-            configuration: configuration.proto(),
-          ).writeToBuffer());
+  Future<void> update(List<Image> images,
+      {FirmwareUpgradeConfiguration configuration =
+          const FirmwareUpgradeConfiguration()}) async {
+    return await methodChannel.invokeMethod(
+        UpdateManagerMethod.update.rawValue,
+        ProtoUpdateWithImageCallArguments(
+          deviceUuid: _deviceId,
+          images: images.map((e) => e.toProto()).toList(),
+          configuration: configuration.proto(),
+        ).writeToBuffer());
+  }
 
   @override
   Future<void> updateWithImageData({
     required Uint8List image,
+    required Uint8List hash,
     FirmwareUpgradeConfiguration? configuration,
   }) {
     return methodChannel.invokeMethod(
@@ -109,6 +111,7 @@ class DeviceUpdateManager extends FirmwareUpdateManager {
         ProtoUpdateCallArgument(
           deviceUuid: _deviceId,
           firmwareData: image,
+          hash: hash,
           configuration: configuration?.proto(),
         ).writeToBuffer());
   }

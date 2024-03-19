@@ -3,8 +3,8 @@ library mcumgr_flutter;
 import 'dart:async';
 import 'dart:typed_data';
 
-import 'package:tuple/tuple.dart';
 
+import 'models/image.dart';
 import 'models/image_upload_alignment.dart';
 import 'models/firmware_upgrade_mode.dart';
 import 'src/mcumgr_update_manager.dart';
