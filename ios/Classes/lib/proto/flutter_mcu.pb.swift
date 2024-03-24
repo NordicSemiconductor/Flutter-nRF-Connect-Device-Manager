@@ -28,7 +28,14 @@ struct ProtoUpdateCallArgument {
 
   var deviceUuid: String = String()
 
-  var hash: Data = Data()
+  var hash: Data {
+    get {return _hash ?? Data()}
+    set {_hash = newValue}
+  }
+  /// Returns true if `hash` has been explicitly set.
+  var hasHash: Bool {return self._hash != nil}
+  /// Clears the value of `hash`. Subsequent reads from it will return its default value.
+  mutating func clearHash() {self._hash = nil}
 
   var firmwareData: Data = Data()
 
@@ -45,6 +52,7 @@ struct ProtoUpdateCallArgument {
 
   init() {}
 
+  fileprivate var _hash: Data? = nil
   fileprivate var _configuration: ProtoFirmwareUpgradeConfiguration? = nil
 }
 
@@ -76,7 +84,14 @@ struct ProtoImage {
   /// Clears the value of `slot`. Subsequent reads from it will return its default value.
   mutating func clearSlot() {self._slot = nil}
 
-  var hash: Data = Data()
+  var hash: Data {
+    get {return _hash ?? Data()}
+    set {_hash = newValue}
+  }
+  /// Returns true if `hash` has been explicitly set.
+  var hasHash: Bool {return self._hash != nil}
+  /// Clears the value of `hash`. Subsequent reads from it will return its default value.
+  mutating func clearHash() {self._hash = nil}
 
   var data: Data = Data()
 
@@ -85,6 +100,7 @@ struct ProtoImage {
   init() {}
 
   fileprivate var _slot: Int32? = nil
+  fileprivate var _hash: Data? = nil
 }
 
 struct ProtoUpdateWithImageCallArguments {
@@ -650,7 +666,7 @@ extension ProtoUpdateCallArgument: SwiftProtobuf.Message, SwiftProtobuf._Message
       // enabled. https://github.com/apple/swift-protobuf/issues/1034
       switch fieldNumber {
       case 1: try { try decoder.decodeSingularStringField(value: &self.deviceUuid) }()
-      case 2: try { try decoder.decodeSingularBytesField(value: &self.hash) }()
+      case 2: try { try decoder.decodeSingularBytesField(value: &self._hash) }()
       case 3: try { try decoder.decodeSingularBytesField(value: &self.firmwareData) }()
       case 4: try { try decoder.decodeSingularMessageField(value: &self._configuration) }()
       default: break
@@ -666,9 +682,9 @@ extension ProtoUpdateCallArgument: SwiftProtobuf.Message, SwiftProtobuf._Message
     if !self.deviceUuid.isEmpty {
       try visitor.visitSingularStringField(value: self.deviceUuid, fieldNumber: 1)
     }
-    if !self.hash.isEmpty {
-      try visitor.visitSingularBytesField(value: self.hash, fieldNumber: 2)
-    }
+    try { if let v = self._hash {
+      try visitor.visitSingularBytesField(value: v, fieldNumber: 2)
+    } }()
     if !self.firmwareData.isEmpty {
       try visitor.visitSingularBytesField(value: self.firmwareData, fieldNumber: 3)
     }
@@ -680,7 +696,7 @@ extension ProtoUpdateCallArgument: SwiftProtobuf.Message, SwiftProtobuf._Message
 
   static func ==(lhs: ProtoUpdateCallArgument, rhs: ProtoUpdateCallArgument) -> Bool {
     if lhs.deviceUuid != rhs.deviceUuid {return false}
-    if lhs.hash != rhs.hash {return false}
+    if lhs._hash != rhs._hash {return false}
     if lhs.firmwareData != rhs.firmwareData {return false}
     if lhs._configuration != rhs._configuration {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
@@ -737,7 +753,7 @@ extension ProtoImage: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementatio
       switch fieldNumber {
       case 1: try { try decoder.decodeSingularInt32Field(value: &self.image) }()
       case 2: try { try decoder.decodeSingularInt32Field(value: &self._slot) }()
-      case 3: try { try decoder.decodeSingularBytesField(value: &self.hash) }()
+      case 3: try { try decoder.decodeSingularBytesField(value: &self._hash) }()
       case 4: try { try decoder.decodeSingularBytesField(value: &self.data) }()
       default: break
       }
@@ -755,9 +771,9 @@ extension ProtoImage: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementatio
     try { if let v = self._slot {
       try visitor.visitSingularInt32Field(value: v, fieldNumber: 2)
     } }()
-    if !self.hash.isEmpty {
-      try visitor.visitSingularBytesField(value: self.hash, fieldNumber: 3)
-    }
+    try { if let v = self._hash {
+      try visitor.visitSingularBytesField(value: v, fieldNumber: 3)
+    } }()
     if !self.data.isEmpty {
       try visitor.visitSingularBytesField(value: self.data, fieldNumber: 4)
     }
@@ -767,7 +783,7 @@ extension ProtoImage: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementatio
   static func ==(lhs: ProtoImage, rhs: ProtoImage) -> Bool {
     if lhs.image != rhs.image {return false}
     if lhs._slot != rhs._slot {return false}
-    if lhs.hash != rhs.hash {return false}
+    if lhs._hash != rhs._hash {return false}
     if lhs.data != rhs.data {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true

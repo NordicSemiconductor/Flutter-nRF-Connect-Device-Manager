@@ -176,8 +176,14 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
         }
         
         let config = args.hasConfiguration ? FirmwareUpgradeConfiguration(proto: args.configuration) : FirmwareUpgradeConfiguration()
+        let hash: Data
+        if args.hasHash {
+            hash = args.hash
+        } else {
+            hash = try McuMgrImage(data: args.firmwareData).hash
+        }
         
-        try manager.update(hash: args.hash, data: args.firmwareData, config: config)
+        try manager.update(hash: hash, data: args.firmwareData, config: config)
     }
     
     private func kill(call: FlutterMethodCall) throws {

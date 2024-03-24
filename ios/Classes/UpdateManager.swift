@@ -34,7 +34,7 @@ class UpdateManager {
     
     func update(hash: Data, data: Data, config: FirmwareUpgradeConfiguration) throws {
         dfuManager.logDelegate = updateLogger
-//        try dfuManager.start(hash: , data: data, using: config)
+        try dfuManager.start(hash: hash, data: data, using: config)
     }
     
     func update(images: [ImageManager.Image], config: FirmwareUpgradeConfiguration) throws {

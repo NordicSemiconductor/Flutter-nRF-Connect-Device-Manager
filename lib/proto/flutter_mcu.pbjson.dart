@@ -18,18 +18,21 @@ const ProtoUpdateCallArgument$json = {
   '1': 'ProtoUpdateCallArgument',
   '2': [
     {'1': 'device_uuid', '3': 1, '4': 1, '5': 9, '10': 'deviceUuid'},
-    {'1': 'hash', '3': 2, '4': 1, '5': 12, '10': 'hash'},
+    {'1': 'hash', '3': 2, '4': 1, '5': 12, '9': 0, '10': 'hash', '17': true},
     {'1': 'firmware_data', '3': 3, '4': 1, '5': 12, '10': 'firmwareData'},
     {'1': 'configuration', '3': 4, '4': 1, '5': 11, '6': '.ProtoFirmwareUpgradeConfiguration', '10': 'configuration'},
+  ],
+  '8': [
+    {'1': '_hash'},
   ],
 };
 
 /// Descriptor for `ProtoUpdateCallArgument`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List protoUpdateCallArgumentDescriptor = $convert.base64Decode(
     'ChdQcm90b1VwZGF0ZUNhbGxBcmd1bWVudBIfCgtkZXZpY2VfdXVpZBgBIAEoCVIKZGV2aWNlVX'
-    'VpZBISCgRoYXNoGAIgASgMUgRoYXNoEiMKDWZpcm13YXJlX2RhdGEYAyABKAxSDGZpcm13YXJl'
-    'RGF0YRJICg1jb25maWd1cmF0aW9uGAQgASgLMiIuUHJvdG9GaXJtd2FyZVVwZ3JhZGVDb25maW'
-    'd1cmF0aW9uUg1jb25maWd1cmF0aW9u');
+    'VpZBIXCgRoYXNoGAIgASgMSABSBGhhc2iIAQESIwoNZmlybXdhcmVfZGF0YRgDIAEoDFIMZmly'
+    'bXdhcmVEYXRhEkgKDWNvbmZpZ3VyYXRpb24YBCABKAsyIi5Qcm90b0Zpcm13YXJlVXBncmFkZU'
+    'NvbmZpZ3VyYXRpb25SDWNvbmZpZ3VyYXRpb25CBwoFX2hhc2g=');
 
 @$core.Deprecated('Use protoErrorDescriptor instead')
 const ProtoError$json = {
@@ -50,18 +53,20 @@ const ProtoImage$json = {
   '2': [
     {'1': 'image', '3': 1, '4': 1, '5': 5, '10': 'image'},
     {'1': 'slot', '3': 2, '4': 1, '5': 5, '9': 0, '10': 'slot', '17': true},
-    {'1': 'hash', '3': 3, '4': 1, '5': 12, '10': 'hash'},
+    {'1': 'hash', '3': 3, '4': 1, '5': 12, '9': 1, '10': 'hash', '17': true},
     {'1': 'data', '3': 4, '4': 1, '5': 12, '10': 'data'},
   ],
   '8': [
     {'1': '_slot'},
+    {'1': '_hash'},
   ],
 };
 
 /// Descriptor for `ProtoImage`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List protoImageDescriptor = $convert.base64Decode(
     'CgpQcm90b0ltYWdlEhQKBWltYWdlGAEgASgFUgVpbWFnZRIXCgRzbG90GAIgASgFSABSBHNsb3'
-    'SIAQESEgoEaGFzaBgDIAEoDFIEaGFzaBISCgRkYXRhGAQgASgMUgRkYXRhQgcKBV9zbG90');
+    'SIAQESFwoEaGFzaBgDIAEoDEgBUgRoYXNoiAEBEhIKBGRhdGEYBCABKAxSBGRhdGFCBwoFX3Ns'
+    'b3RCBwoFX2hhc2g=');
 
 @$core.Deprecated('Use protoUpdateWithImageCallArgumentsDescriptor instead')
 const ProtoUpdateWithImageCallArguments$json = {

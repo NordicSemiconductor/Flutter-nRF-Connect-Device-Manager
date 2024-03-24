@@ -6,7 +6,6 @@ import 'package:mcumgr_flutter/src/mcumgr_update_logger.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../mcumgr_flutter.dart';
-import '../models/image.dart';
 import '../proto/extensions/proto_ext.dart';
 import 'method_channels.dart';
 
@@ -102,15 +101,16 @@ class DeviceUpdateManager extends FirmwareUpdateManager {
 
   @override
   Future<void> updateWithImageData({
-    required Uint8List image,
-    required Uint8List hash,
+    required Uint8List imageData,
+    Uint8List? hash,
     FirmwareUpgradeConfiguration? configuration,
   }) {
+    
     return methodChannel.invokeMethod(
         UpdateManagerMethod.updateSingleImage.rawValue,
         ProtoUpdateCallArgument(
           deviceUuid: _deviceId,
-          firmwareData: image,
+          firmwareData: imageData,
           hash: hash,
           configuration: configuration?.proto(),
         ).writeToBuffer());

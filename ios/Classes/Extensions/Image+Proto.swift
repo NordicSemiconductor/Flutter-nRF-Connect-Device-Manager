@@ -12,8 +12,15 @@ extension ImageManager.Image {
     init(proto: ProtoImage) {
         let image = Int(proto.image)
         let slot = Int(proto.slot)
-        let hash = proto.hash
         let data = proto.data
+        
+        let hash: Data
+        if proto.hasHash {
+            hash = proto.hash
+        } else {
+            hash = try! McuMgrImage(data: data).hash
+        }
+        
         
         if proto.hasSlot {
             self.init(image: image, slot: slot, hash: hash, data: data)

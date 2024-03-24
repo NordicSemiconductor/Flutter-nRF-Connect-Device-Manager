@@ -75,7 +75,7 @@ abstract class FirmwareUpdateManager {
   /// This is the simplified API to start DFU update for single image.
   Future<void> updateWithImageData({
     required Uint8List imageData,
-    required Uint8List hash,
+    Uint8List? hash,
     FirmwareUpgradeConfiguration? configuration,
   });
 
