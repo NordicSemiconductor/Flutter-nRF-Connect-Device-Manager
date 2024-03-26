@@ -162,7 +162,8 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 			)
 		}
 
-		updateManager.start(arg.images.map { Pair.create(it.key, it.value_.toByteArray()) }, config)
+		val images = arg.images.map { Pair.create(it.image, it.data_.toByteArray()) }
+		updateManager.start(images, config)
 	}
 
 	@Throws(FlutterError::class)
