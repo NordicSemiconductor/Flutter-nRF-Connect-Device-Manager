@@ -627,6 +627,60 @@ struct ProtoReadMessagesResponse {
   init() {}
 }
 
+/// IMAGE MANAGER
+struct ProtoListImagesResponse {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var uuid: String = String()
+
+  var existing: Bool = false
+
+  var images: [ProtoImageSlot] = []
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+}
+
+struct ProtoImageSlot {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var image: UInt64 = 0
+
+  var slot: UInt64 = 0
+
+  var version: String {
+    get {return _version ?? String()}
+    set {_version = newValue}
+  }
+  /// Returns true if `version` has been explicitly set.
+  var hasVersion: Bool {return self._version != nil}
+  /// Clears the value of `version`. Subsequent reads from it will return its default value.
+  mutating func clearVersion() {self._version = nil}
+
+  var hash: Data = Data()
+
+  var bootable: Bool = false
+
+  var pending: Bool = false
+
+  var confirmed: Bool = false
+
+  var active: Bool = false
+
+  var permanent: Bool = false
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+
+  fileprivate var _version: String? = nil
+}
+
 #if swift(>=5.5) && canImport(_Concurrency)
 extension ProtoUpdateCallArgument: @unchecked Sendable {}
 extension ProtoError: @unchecked Sendable {}
@@ -646,6 +700,8 @@ extension ProtoLogMessage.LogCategory: @unchecked Sendable {}
 extension ProtoLogMessage.LogLevel: @unchecked Sendable {}
 extension ProtoReadLogCallArguments: @unchecked Sendable {}
 extension ProtoReadMessagesResponse: @unchecked Sendable {}
+extension ProtoListImagesResponse: @unchecked Sendable {}
+extension ProtoImageSlot: @unchecked Sendable {}
 #endif  // swift(>=5.5) && canImport(_Concurrency)
 
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
@@ -1331,6 +1387,134 @@ extension ProtoReadMessagesResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
   static func ==(lhs: ProtoReadMessagesResponse, rhs: ProtoReadMessagesResponse) -> Bool {
     if lhs.uuid != rhs.uuid {return false}
     if lhs.protoLogMessage != rhs.protoLogMessage {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension ProtoListImagesResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = "ProtoListImagesResponse"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "uuid"),
+    2: .same(proto: "existing"),
+    3: .same(proto: "images"),
+  ]
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.uuid) }()
+      case 2: try { try decoder.decodeSingularBoolField(value: &self.existing) }()
+      case 3: try { try decoder.decodeRepeatedMessageField(value: &self.images) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.uuid.isEmpty {
+      try visitor.visitSingularStringField(value: self.uuid, fieldNumber: 1)
+    }
+    if self.existing != false {
+      try visitor.visitSingularBoolField(value: self.existing, fieldNumber: 2)
+    }
+    if !self.images.isEmpty {
+      try visitor.visitRepeatedMessageField(value: self.images, fieldNumber: 3)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: ProtoListImagesResponse, rhs: ProtoListImagesResponse) -> Bool {
+    if lhs.uuid != rhs.uuid {return false}
+    if lhs.existing != rhs.existing {return false}
+    if lhs.images != rhs.images {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension ProtoImageSlot: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = "ProtoImageSlot"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "image"),
+    2: .same(proto: "slot"),
+    3: .same(proto: "version"),
+    4: .same(proto: "hash"),
+    5: .same(proto: "bootable"),
+    6: .same(proto: "pending"),
+    7: .same(proto: "confirmed"),
+    8: .same(proto: "active"),
+    9: .same(proto: "permanent"),
+  ]
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularUInt64Field(value: &self.image) }()
+      case 2: try { try decoder.decodeSingularUInt64Field(value: &self.slot) }()
+      case 3: try { try decoder.decodeSingularStringField(value: &self._version) }()
+      case 4: try { try decoder.decodeSingularBytesField(value: &self.hash) }()
+      case 5: try { try decoder.decodeSingularBoolField(value: &self.bootable) }()
+      case 6: try { try decoder.decodeSingularBoolField(value: &self.pending) }()
+      case 7: try { try decoder.decodeSingularBoolField(value: &self.confirmed) }()
+      case 8: try { try decoder.decodeSingularBoolField(value: &self.active) }()
+      case 9: try { try decoder.decodeSingularBoolField(value: &self.permanent) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    // The use of inline closures is to circumvent an issue where the compiler
+    // allocates stack space for every if/case branch local when no optimizations
+    // are enabled. https://github.com/apple/swift-protobuf/issues/1034 and
+    // https://github.com/apple/swift-protobuf/issues/1182
+    if self.image != 0 {
+      try visitor.visitSingularUInt64Field(value: self.image, fieldNumber: 1)
+    }
+    if self.slot != 0 {
+      try visitor.visitSingularUInt64Field(value: self.slot, fieldNumber: 2)
+    }
+    try { if let v = self._version {
+      try visitor.visitSingularStringField(value: v, fieldNumber: 3)
+    } }()
+    if !self.hash.isEmpty {
+      try visitor.visitSingularBytesField(value: self.hash, fieldNumber: 4)
+    }
+    if self.bootable != false {
+      try visitor.visitSingularBoolField(value: self.bootable, fieldNumber: 5)
+    }
+    if self.pending != false {
+      try visitor.visitSingularBoolField(value: self.pending, fieldNumber: 6)
+    }
+    if self.confirmed != false {
+      try visitor.visitSingularBoolField(value: self.confirmed, fieldNumber: 7)
+    }
+    if self.active != false {
+      try visitor.visitSingularBoolField(value: self.active, fieldNumber: 8)
+    }
+    if self.permanent != false {
+      try visitor.visitSingularBoolField(value: self.permanent, fieldNumber: 9)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: ProtoImageSlot, rhs: ProtoImageSlot) -> Bool {
+    if lhs.image != rhs.image {return false}
+    if lhs.slot != rhs.slot {return false}
+    if lhs._version != rhs._version {return false}
+    if lhs.hash != rhs.hash {return false}
+    if lhs.bootable != rhs.bootable {return false}
+    if lhs.pending != rhs.pending {return false}
+    if lhs.confirmed != rhs.confirmed {return false}
+    if lhs.active != rhs.active {return false}
+    if lhs.permanent != rhs.permanent {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }

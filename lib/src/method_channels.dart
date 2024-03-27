@@ -38,6 +38,7 @@ class UpdateManagerMethod {
   static const isInProgress = const UpdateManagerMethod('isInProgress');
   static const cancel = const UpdateManagerMethod('cancel');
   static const kill = const UpdateManagerMethod('kill');
+  static const readImageList = const UpdateManagerMethod('readImageList');
 }
 
 /// Channel methods related to Logger

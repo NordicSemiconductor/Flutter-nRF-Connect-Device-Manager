@@ -90,6 +90,8 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
             case .clearLogs:
                 try retrieveManager(call: call).updateLogger.clearLogs()
                 result(nil)
+            case .readImageList:
+                try readImages(call: call, result: result)
             }
         } catch let e as FlutterError {
             result(e)
@@ -203,5 +205,36 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
         }
         
         return manager.updateLogger.readLogs()
+    }
+    
+    private func readImages(call: FlutterMethodCall, result: @escaping FlutterResult) throws {
+        guard let uuid = call.arguments as? String else {
+            throw FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can't retrieve UUID of the device", details: call.debugDetails)
+        }
+        
+        let manager = try retrieveManager(call: call)
+        
+        manager.imageManager.list { response, error in
+            if let error {
+                result(FlutterError(error: error, call: call))
+                return
+            }
+            
+            var protoResponse = ProtoListImagesResponse()
+            if let images = response?.images {
+                protoResponse.images = images.map { $0.toProto() }
+                protoResponse.existing = true
+            } else {
+                protoResponse.existing = false
+            }
+            
+            protoResponse.uuid = uuid
+            
+            do {
+                result(try protoResponse.serializedData())
+            } catch {
+                result(FlutterError(error: error, call: call))
+            }
+        }
     }
 }

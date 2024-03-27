@@ -251,3 +251,31 @@ extension ImageModelToProto on Image {
         data: this.data.toList(),
       );
 }
+
+extension ImageSlotProtoToModel on ProtoImageSlot {
+  ImageSlot convert() => ImageSlot(
+        image: this.image.toInt(),
+        slot: this.slot.toInt(),
+        version: this.version,
+        hash: Uint8List.fromList(this.hash),
+        bootable: this.bootable,
+        pending: this.pending,
+        confirmed: this.confirmed,
+        active: this.active,
+        permanent: this.permanent,
+      );
+}
+
+extension ImageSlotModelToProto on ImageSlot {
+  ProtoImageSlot toProto() => ProtoImageSlot(
+        image: Int64(this.image),
+        slot: Int64(this.slot),
+        version: this.version,
+        hash: this.hash.toList(),
+        bootable: this.bootable,
+        pending: this.pending,
+        confirmed: this.confirmed,
+        active: this.active,
+        permanent: this.permanent,
+      );
+}

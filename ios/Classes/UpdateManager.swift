@@ -21,6 +21,8 @@ class UpdateManager {
     let peripheral: CBPeripheral
     let updateLogger: UpdateLogger
     
+    let imageManager: ImageManager
+    
     private (set) lazy var dfuManager: FirmwareUpgradeManager = FirmwareUpgradeManager(transporter: self.transport, delegate: self)
     
     init(peripheral: CBPeripheral, progressStreamHandler: StreamHandler, stateStreamHandler: StreamHandler, logStreamHandler: StreamHandler, updateLogger: UpdateLogger) {
@@ -30,6 +32,7 @@ class UpdateManager {
         self.stateStreamHandler = stateStreamHandler
         self.updateLogger = updateLogger
         self.logStreamHandler = logStreamHandler
+        self.imageManager = ImageManager(transporter: self.transport)
     }
     
     func update(hash: Data, data: Data, config: FirmwareUpgradeConfiguration) throws {

@@ -138,3 +138,22 @@ message ProtoReadMessagesResponse {
     string uuid = 1;
     repeated ProtoLogMessage protoLogMessage = 2;
 }
+
+// IMAGE MANAGER
+message ProtoListImagesResponse {
+    string uuid = 1;
+    bool existing = 2;
+    repeated ProtoImageSlot images = 3;
+}
+
+message ProtoImageSlot {
+    uint64 image = 1;
+    uint64 slot = 2;
+    optional string version = 3;
+    bytes hash = 4;
+    bool bootable = 5;
+    bool pending = 6;
+    bool confirmed = 7;
+    bool active = 8;
+    bool permanent = 9;
+}

@@ -105,7 +105,6 @@ class DeviceUpdateManager extends FirmwareUpdateManager {
     Uint8List? hash,
     FirmwareUpgradeConfiguration? configuration,
   }) {
-    
     return methodChannel.invokeMethod(
         UpdateManagerMethod.updateSingleImage.rawValue,
         ProtoUpdateCallArgument(
@@ -206,4 +205,17 @@ class DeviceUpdateManager extends FirmwareUpdateManager {
 
   @override
   FirmwareUpdateLogger get logger => _logger;
+
+  @override
+  Future<List<ImageSlot>?> readImageList() async {
+    final response = await methodChannel.invokeMethod(
+        UpdateManagerMethod.readImageList.rawValue, _deviceId);
+
+    final listImagesResponse = ProtoListImagesResponse.fromBuffer(response);
+    if (listImagesResponse.existing) {
+      return listImagesResponse.images.map((e) => e.convert()).toList();
+    } else {
+      return null;
+    }
+  }
 }

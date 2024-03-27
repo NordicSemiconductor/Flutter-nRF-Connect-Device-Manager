@@ -106,6 +106,9 @@ abstract class FirmwareUpdateManager {
   ///
   /// This method also closes all streams if they were not closed.
   Future<void> kill();
+
+  /// Read current image list from the device.
+  Future<List<ImageSlot>?> readImageList();
 }
 
 abstract class FirmwareUpdateLogger {

@@ -329,3 +329,46 @@ final $typed_data.Uint8List protoReadMessagesResponseDescriptor = $convert.base6
     'ChlQcm90b1JlYWRNZXNzYWdlc1Jlc3BvbnNlEhIKBHV1aWQYASABKAlSBHV1aWQSOgoPcHJvdG'
     '9Mb2dNZXNzYWdlGAIgAygLMhAuUHJvdG9Mb2dNZXNzYWdlUg9wcm90b0xvZ01lc3NhZ2U=');
 
+@$core.Deprecated('Use protoListImagesResponseDescriptor instead')
+const ProtoListImagesResponse$json = {
+  '1': 'ProtoListImagesResponse',
+  '2': [
+    {'1': 'uuid', '3': 1, '4': 1, '5': 9, '10': 'uuid'},
+    {'1': 'existing', '3': 2, '4': 1, '5': 8, '10': 'existing'},
+    {'1': 'images', '3': 3, '4': 3, '5': 11, '6': '.ProtoImageSlot', '10': 'images'},
+  ],
+};
+
+/// Descriptor for `ProtoListImagesResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List protoListImagesResponseDescriptor = $convert.base64Decode(
+    'ChdQcm90b0xpc3RJbWFnZXNSZXNwb25zZRISCgR1dWlkGAEgASgJUgR1dWlkEhoKCGV4aXN0aW'
+    '5nGAIgASgIUghleGlzdGluZxInCgZpbWFnZXMYAyADKAsyDy5Qcm90b0ltYWdlU2xvdFIGaW1h'
+    'Z2Vz');
+
+@$core.Deprecated('Use protoImageSlotDescriptor instead')
+const ProtoImageSlot$json = {
+  '1': 'ProtoImageSlot',
+  '2': [
+    {'1': 'image', '3': 1, '4': 1, '5': 4, '10': 'image'},
+    {'1': 'slot', '3': 2, '4': 1, '5': 4, '10': 'slot'},
+    {'1': 'version', '3': 3, '4': 1, '5': 9, '9': 0, '10': 'version', '17': true},
+    {'1': 'hash', '3': 4, '4': 1, '5': 12, '10': 'hash'},
+    {'1': 'bootable', '3': 5, '4': 1, '5': 8, '10': 'bootable'},
+    {'1': 'pending', '3': 6, '4': 1, '5': 8, '10': 'pending'},
+    {'1': 'confirmed', '3': 7, '4': 1, '5': 8, '10': 'confirmed'},
+    {'1': 'active', '3': 8, '4': 1, '5': 8, '10': 'active'},
+    {'1': 'permanent', '3': 9, '4': 1, '5': 8, '10': 'permanent'},
+  ],
+  '8': [
+    {'1': '_version'},
+  ],
+};
+
+/// Descriptor for `ProtoImageSlot`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List protoImageSlotDescriptor = $convert.base64Decode(
+    'Cg5Qcm90b0ltYWdlU2xvdBIUCgVpbWFnZRgBIAEoBFIFaW1hZ2USEgoEc2xvdBgCIAEoBFIEc2'
+    'xvdBIdCgd2ZXJzaW9uGAMgASgJSABSB3ZlcnNpb26IAQESEgoEaGFzaBgEIAEoDFIEaGFzaBIa'
+    'Cghib290YWJsZRgFIAEoCFIIYm9vdGFibGUSGAoHcGVuZGluZxgGIAEoCFIHcGVuZGluZxIcCg'
+    'ljb25maXJtZWQYByABKAhSCWNvbmZpcm1lZBIWCgZhY3RpdmUYCCABKAhSBmFjdGl2ZRIcCglw'
+    'ZXJtYW5lbnQYCSABKAhSCXBlcm1hbmVudEIKCghfdmVyc2lvbg==');
+

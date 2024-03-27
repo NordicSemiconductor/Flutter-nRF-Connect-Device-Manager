@@ -11,4 +11,4 @@ part 'src/mcumgr_flutter.dart';
 part 'models/progress_update.dart';
 part 'models/mcu_log_message.dart';
 part 'models/image.dart';
-
+part 'models/image_slot.dart';
