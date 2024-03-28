@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:mcumgr_flutter/mcumgr_flutter.dart';
 import 'package:mcumgr_flutter/models/image_upload_alignment.dart';
 import 'package:mcumgr_flutter/models/firmware_upgrade_mode.dart';
@@ -230,5 +231,51 @@ extension ProtoFirmwareUpgradeConfigurationToModel
         byteAlignment: this.byteAlignment.convent(),
         reassemblyBufferSize: this.reassemblyBufferSize as int,
         firmwareUpgradeMode: this.firmwareUpgradeMode.convent(),
+      );
+}
+
+extension ImageProtoToModel on ProtoImage {
+  Image convert() => Image(
+        image: this.image,
+        slot: this.slot,
+        hash: Uint8List.fromList(this.hash),
+        data: Uint8List.fromList(this.data),
+      );
+}
+
+extension ImageModelToProto on Image {
+  ProtoImage toProto() => ProtoImage(
+        image: this.image,
+        slot: this.slot,
+        hash: this.hash?.toList(),
+        data: this.data.toList(),
+      );
+}
+
+extension ImageSlotProtoToModel on ProtoImageSlot {
+  ImageSlot convert() => ImageSlot(
+        image: this.image.toInt(),
+        slot: this.slot.toInt(),
+        version: this.version,
+        hash: Uint8List.fromList(this.hash),
+        bootable: this.bootable,
+        pending: this.pending,
+        confirmed: this.confirmed,
+        active: this.active,
+        permanent: this.permanent,
+      );
+}
+
+extension ImageSlotModelToProto on ImageSlot {
+  ProtoImageSlot toProto() => ProtoImageSlot(
+        image: Int64(this.image),
+        slot: Int64(this.slot),
+        version: this.version,
+        hash: this.hash.toList(),
+        bootable: this.bootable,
+        pending: this.pending,
+        confirmed: this.confirmed,
+        active: this.active,
+        permanent: this.permanent,
       );
 }

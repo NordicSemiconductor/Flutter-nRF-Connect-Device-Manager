@@ -21,6 +21,7 @@ public enum FlutterMethod: String {
     
     case readLogs
     case clearLogs
+    case readImageList
 }
 
 /// Methods which platform sends to Flutter

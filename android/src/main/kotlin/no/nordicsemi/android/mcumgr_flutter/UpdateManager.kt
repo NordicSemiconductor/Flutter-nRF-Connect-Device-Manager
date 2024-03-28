@@ -2,12 +2,15 @@ package no.nordicsemi.android.mcumgr_flutter
 
 import android.util.Log
 import android.util.Pair
+import io.runtime.mcumgr.McuMgrCallback
 import io.runtime.mcumgr.ble.McuMgrBleTransport
 import io.runtime.mcumgr.dfu.model.McuMgrImageSet;
 import io.runtime.mcumgr.dfu.FirmwareUpgradeCallback
 import io.runtime.mcumgr.dfu.FirmwareUpgradeController
 import io.runtime.mcumgr.dfu.FirmwareUpgradeManager
 import io.runtime.mcumgr.exception.McuMgrException
+import io.runtime.mcumgr.managers.ImageManager
+import io.runtime.mcumgr.response.img.McuMgrImageStateResponse
 import no.nordicsemi.android.mcumgr_flutter.ext.shouldLog
 import no.nordicsemi.android.mcumgr_flutter.ext.toProto
 import no.nordicsemi.android.mcumgr_flutter.gen.*
@@ -43,6 +46,7 @@ class UpdateManager(
 	private val manager: FirmwareUpgradeManager = FirmwareUpgradeManager(transport, this)
 	private val address: String = transport.bluetoothDevice.address
 	private val transport: LoggableMcuMgrBleTransport = transport as LoggableMcuMgrBleTransport
+	val imageManager: ImageManager = ImageManager(transport)
 
 	init {
 		manager.setMemoryAlignment(4)

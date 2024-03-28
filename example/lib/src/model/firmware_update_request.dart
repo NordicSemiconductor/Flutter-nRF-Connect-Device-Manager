@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
+import 'package:mcumgr_flutter/mcumgr_flutter.dart';
 import 'package:mcumgr_flutter_example/src/model/firmware_image.dart';
-import 'package:tuple/tuple.dart';
 
 class FirmwareUpdateRequest {
   SelectedFirmware? firmware;
@@ -25,7 +25,7 @@ class SingleImageFirmwareUpdateRequest extends FirmwareUpdateRequest {
 
 class MultiImageFirmwareUpdateRequest extends FirmwareUpdateRequest {
   Uint8List? zipFile;
-  List<Tuple2<int, Uint8List>>? firmwareImages;
+  List<Image>? firmwareImages;
 
   RemoteFirmware? get remoteFirmware => firmware as RemoteFirmware?;
 

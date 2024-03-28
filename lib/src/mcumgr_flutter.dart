@@ -66,7 +66,7 @@ abstract class FirmwareUpdateManager {
   /// This is the full-featured API to start DFU update, including support for Multi-Image uploads.
   ///
   /// [images] is a `List<Tuple2<int, Uint8List>>` where `int` is the image number and `Uint8List` is the image data.
-  Future<void> update(List<Tuple2<int, Uint8List>> images,
+  Future<void> update(List<Image> images,
       {FirmwareUpgradeConfiguration configuration =
           const FirmwareUpgradeConfiguration()});
 
@@ -74,7 +74,8 @@ abstract class FirmwareUpdateManager {
   ///
   /// This is the simplified API to start DFU update for single image.
   Future<void> updateWithImageData({
-    required Uint8List image,
+    required Uint8List imageData,
+    Uint8List? hash,
     FirmwareUpgradeConfiguration? configuration,
   });
 
@@ -105,6 +106,9 @@ abstract class FirmwareUpdateManager {
   ///
   /// This method also closes all streams if they were not closed.
   Future<void> kill();
+
+  /// Read current image list from the device.
+  Future<List<ImageSlot>?> readImageList();
 }
 
 abstract class FirmwareUpdateLogger {
