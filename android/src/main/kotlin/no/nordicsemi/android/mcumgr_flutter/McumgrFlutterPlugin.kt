@@ -15,6 +15,7 @@ import io.runtime.mcumgr.McuMgrCallback
 import io.runtime.mcumgr.dfu.FirmwareUpgradeManager
 import io.runtime.mcumgr.exception.McuMgrException
 import io.runtime.mcumgr.response.img.McuMgrImageStateResponse
+import no.nordicsemi.android.mcumgr_flutter.ext.toProto
 
 import no.nordicsemi.android.mcumgr_flutter.logging.LoggableMcuMgrBleTransport
 import no.nordicsemi.android.mcumgr_flutter.utils.*
@@ -266,12 +267,21 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 
 		val callback = object : McuMgrCallback<McuMgrImageStateResponse> {
 			override fun onResponse(response: McuMgrImageStateResponse) {
-				response.images?.let {
-					result.success(it.toProto().encode())
-					it.map {  }
-
-					val p: ProtoImageSlot = response.toProto()
+				var protoResponse: ProtoListImagesResponse
+				if (response.images != null) {
+					val images = response.images.map { it.toProto() }
+					protoResponse = ProtoListImagesResponse(
+						uuid = address,
+						images = images,
+						existing = true
+					)
+				} else {
+					protoResponse = ProtoListImagesResponse(
+						uuid = address,
+						existing = false
+					)
 				}
+				result.success(protoResponse.encode())
 			}
 
 			override fun onError(exception: McuMgrException) {
