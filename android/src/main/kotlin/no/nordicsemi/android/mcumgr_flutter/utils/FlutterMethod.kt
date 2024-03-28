@@ -15,7 +15,8 @@ enum class FlutterMethod {
 	cancel,
 	readLogs,
 	clearLogs,
-	kill;
+	kill,
+	readImageList;
 
 	companion object {
 		fun valueOfOrNull(string: String) = try {

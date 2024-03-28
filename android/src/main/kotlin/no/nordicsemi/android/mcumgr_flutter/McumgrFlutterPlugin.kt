@@ -4,13 +4,17 @@ import android.bluetooth.BluetoothAdapter
 import android.content.Context
 import android.util.Pair
 import androidx.annotation.NonNull
+import com.google.protobuf.kotlin.toByteString
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
+import io.runtime.mcumgr.McuMgrCallback
 import io.runtime.mcumgr.dfu.FirmwareUpgradeManager
+import io.runtime.mcumgr.exception.McuMgrException
+import io.runtime.mcumgr.response.img.McuMgrImageStateResponse
 
 import no.nordicsemi.android.mcumgr_flutter.logging.LoggableMcuMgrBleTransport
 import no.nordicsemi.android.mcumgr_flutter.utils.*
@@ -67,44 +71,58 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 					initializeUpdateManager(call)
 					result.success(null)
 				}
+
 				FlutterMethod.update -> {
 					update(call)
 					result.success(null)
 				}
+
 				FlutterMethod.updateSingleImage -> {
 					updateSingleImage(call)
 					result.success(null)
 				}
+
 				FlutterMethod.pause -> {
 					retrieveManager(call).pause()
 					result.success(null)
 				}
+
 				FlutterMethod.resume -> {
 					retrieveManager(call).resume()
 					result.success(null)
 				}
+
 				FlutterMethod.cancel -> {
 					retrieveManager(call).cancel()
 					result.success(null)
 				}
+
 				FlutterMethod.isPaused -> {
 					val isPaused = retrieveManager(call).isPaused
 					result.success(isPaused)
 				}
+
 				FlutterMethod.isInProgress -> {
 					val isPaused = retrieveManager(call).isInProgress
 					result.success(isPaused)
 				}
+
 				FlutterMethod.readLogs -> {
 					result.success(readLogs(call))
 				}
+
 				FlutterMethod.clearLogs -> {
 					retrieveManager(call).clearLogs()
 					result.success(null)
 				}
+
 				FlutterMethod.kill -> {
 					kill(call)
 					result.success(null)
+				}
+
+				FlutterMethod.readImageList -> {
+					imageList(call, result)
 				}
 			}
 		} catch (e: FlutterError) {
@@ -235,5 +253,32 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 			managers[address]!!.releaseTransport();
 		}
 		managers.remove(address)
+	}
+
+	/** Image Manager */
+	private fun imageList(@NonNull call: MethodCall, result: Result) {
+		val address = (call.arguments as? String).guard {
+			throw WrongArguments("Device address expected")
+		}
+		val updateManager = managers[address].guard {
+			throw UpdateManagerDoesNotExist("Update manager does not exist")
+		}
+
+		val callback = object : McuMgrCallback<McuMgrImageStateResponse> {
+			override fun onResponse(response: McuMgrImageStateResponse) {
+				response.images?.let {
+					result.success(it.toProto().encode())
+					it.map {  }
+
+					val p: ProtoImageSlot = response.toProto()
+				}
+			}
+
+			override fun onError(exception: McuMgrException) {
+				result.error("mcumgr_error", exception.message, null)
+			}
+		}
+
+		updateManager.imageManager.list(callback)
 	}
 }
