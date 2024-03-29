@@ -24,13 +24,13 @@ To update the device, call `update` method on the `FirmwareUpdateManager` instan
 
 ```dart
 // `firmware` is a List of Image objects
-List<Image> firmwareScheme = [];
+List<Image> firmwareImages = [];
 for (final file in manifest.files) {
   final image = Image(
     image: file.image,
     data: firmwareFileData,
   );
-  firmware.firmwareImages!.add(image);
+  firmwareImages.add(image);
 }
 
 final configuration = const FirmwareUpgradeConfiguration(
@@ -40,7 +40,7 @@ final configuration = const FirmwareUpgradeConfiguration(
       pipelineDepth: 1,
     );
 // `configuration` is an optional parameter. If not provided, default values will be used.
-updateManager.update(firmware.firmwareScheme, configuration: configuration);
+updateManager.update(firmwareImages, configuration: configuration);
 ```
 
 Alternatively, you can use `updateWithImageData` to update the device with a single image data:
