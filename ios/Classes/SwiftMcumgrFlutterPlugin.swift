@@ -90,6 +90,8 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
             case .clearLogs:
                 try retrieveManager(call: call).updateLogger.clearLogs()
                 result(nil)
+            case .readImageList:
+                try readImages(call: call, result: result)
             }
         } catch let e as FlutterError {
             result(e)
@@ -159,7 +161,7 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
             throw FlutterError(code: ErrorCode.updateManagerDoesNotExist.rawValue, message: "Update manager does not exist", details: call.debugDetails)
         }
         
-        let images = args.images.map { (Int($0.key), $0.value) }
+        let images = args.images.map { ImageManager.Image(proto: $0) }
         let config = args.hasConfiguration ? FirmwareUpgradeConfiguration(proto: args.configuration) : FirmwareUpgradeConfiguration()
         
         try manager.update(images: images, config: config)
@@ -176,8 +178,14 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
         }
         
         let config = args.hasConfiguration ? FirmwareUpgradeConfiguration(proto: args.configuration) : FirmwareUpgradeConfiguration()
+        let hash: Data
+        if args.hasHash {
+            hash = args.hash
+        } else {
+            hash = try McuMgrImage(data: args.firmwareData).hash
+        }
         
-        try manager.update(data: args.firmwareData, config: config)
+        try manager.update(hash: hash, data: args.firmwareData, config: config)
     }
     
     private func kill(call: FlutterMethodCall) throws {
@@ -197,5 +205,36 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
         }
         
         return manager.updateLogger.readLogs()
+    }
+    
+    private func readImages(call: FlutterMethodCall, result: @escaping FlutterResult) throws {
+        guard let uuid = call.arguments as? String else {
+            throw FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can't retrieve UUID of the device", details: call.debugDetails)
+        }
+        
+        let manager = try retrieveManager(call: call)
+        
+        manager.imageManager.list { response, error in
+            if let error {
+                result(FlutterError(error: error, call: call))
+                return
+            }
+            
+            var protoResponse = ProtoListImagesResponse()
+            if let images = response?.images {
+                protoResponse.images = images.map { $0.toProto() }
+                protoResponse.existing = true
+            } else {
+                protoResponse.existing = false
+            }
+            
+            protoResponse.uuid = uuid
+            
+            do {
+                result(try protoResponse.serializedData())
+            } catch {
+                result(FlutterError(error: error, call: call))
+            }
+        }
     }
 }

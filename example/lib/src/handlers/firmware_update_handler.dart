@@ -8,7 +8,6 @@ import 'package:mcumgr_flutter_example/src/repository/firmware_image_repository.
 
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart' as path_provider;
-import 'package:tuple/tuple.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:mcumgr_flutter/mcumgr_flutter.dart';
@@ -111,7 +110,11 @@ class FirmwareUnpacker extends FirmwareUpdateHandler {
     for (final file in manifest.files) {
       final firmwareFile = File('${destinationDir.path}/${file.file}');
       final firmwareFileData = await firmwareFile.readAsBytes();
-      firmware.firmwareImages!.add(Tuple2(file.image, firmwareFileData));
+      final image = Image(
+        image: file.image,
+        data: firmwareFileData,
+      );
+      firmware.firmwareImages!.add(image);
     }
 
     // delete tempDir
@@ -141,7 +144,7 @@ class FirmwareUpdater extends FirmwareUpdateHandler {
 
     if (request is SingleImageFirmwareUpdateRequest) {
       final fwImage = request.firmwareImage;
-      await updateManager.updateWithImageData(image: fwImage!);
+      await updateManager.updateWithImageData(imageData: fwImage!);
       return updateManager;
     } else {
       final multiImageRequest = request as MultiImageFirmwareUpdateRequest;
