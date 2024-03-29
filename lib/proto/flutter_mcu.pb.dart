@@ -22,12 +22,16 @@ export 'flutter_mcu.pbenum.dart';
 class ProtoUpdateCallArgument extends $pb.GeneratedMessage {
   factory ProtoUpdateCallArgument({
     $core.String? deviceUuid,
+    $core.List<$core.int>? hash,
     $core.List<$core.int>? firmwareData,
     ProtoFirmwareUpgradeConfiguration? configuration,
   }) {
     final $result = create();
     if (deviceUuid != null) {
       $result.deviceUuid = deviceUuid;
+    }
+    if (hash != null) {
+      $result.hash = hash;
     }
     if (firmwareData != null) {
       $result.firmwareData = firmwareData;
@@ -43,8 +47,9 @@ class ProtoUpdateCallArgument extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ProtoUpdateCallArgument', createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'deviceUuid')
-    ..a<$core.List<$core.int>>(2, _omitFieldNames ? '' : 'firmwareData', $pb.PbFieldType.OY)
-    ..aOM<ProtoFirmwareUpgradeConfiguration>(3, _omitFieldNames ? '' : 'configuration', subBuilder: ProtoFirmwareUpgradeConfiguration.create)
+    ..a<$core.List<$core.int>>(2, _omitFieldNames ? '' : 'hash', $pb.PbFieldType.OY)
+    ..a<$core.List<$core.int>>(3, _omitFieldNames ? '' : 'firmwareData', $pb.PbFieldType.OY)
+    ..aOM<ProtoFirmwareUpgradeConfiguration>(4, _omitFieldNames ? '' : 'configuration', subBuilder: ProtoFirmwareUpgradeConfiguration.create)
     ..hasRequiredFields = false
   ;
 
@@ -79,24 +84,33 @@ class ProtoUpdateCallArgument extends $pb.GeneratedMessage {
   void clearDeviceUuid() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.List<$core.int> get firmwareData => $_getN(1);
+  $core.List<$core.int> get hash => $_getN(1);
   @$pb.TagNumber(2)
-  set firmwareData($core.List<$core.int> v) { $_setBytes(1, v); }
+  set hash($core.List<$core.int> v) { $_setBytes(1, v); }
   @$pb.TagNumber(2)
-  $core.bool hasFirmwareData() => $_has(1);
+  $core.bool hasHash() => $_has(1);
   @$pb.TagNumber(2)
-  void clearFirmwareData() => clearField(2);
+  void clearHash() => clearField(2);
 
   @$pb.TagNumber(3)
-  ProtoFirmwareUpgradeConfiguration get configuration => $_getN(2);
+  $core.List<$core.int> get firmwareData => $_getN(2);
   @$pb.TagNumber(3)
-  set configuration(ProtoFirmwareUpgradeConfiguration v) { setField(3, v); }
+  set firmwareData($core.List<$core.int> v) { $_setBytes(2, v); }
   @$pb.TagNumber(3)
-  $core.bool hasConfiguration() => $_has(2);
+  $core.bool hasFirmwareData() => $_has(2);
   @$pb.TagNumber(3)
-  void clearConfiguration() => clearField(3);
-  @$pb.TagNumber(3)
-  ProtoFirmwareUpgradeConfiguration ensureConfiguration() => $_ensure(2);
+  void clearFirmwareData() => clearField(3);
+
+  @$pb.TagNumber(4)
+  ProtoFirmwareUpgradeConfiguration get configuration => $_getN(3);
+  @$pb.TagNumber(4)
+  set configuration(ProtoFirmwareUpgradeConfiguration v) { setField(4, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasConfiguration() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearConfiguration() => clearField(4);
+  @$pb.TagNumber(4)
+  ProtoFirmwareUpgradeConfiguration ensureConfiguration() => $_ensure(3);
 }
 
 class ProtoError extends $pb.GeneratedMessage {
@@ -149,28 +163,37 @@ class ProtoError extends $pb.GeneratedMessage {
   void clearLocalizedDescription() => clearField(1);
 }
 
-/// Firmware image pair
-class Pair extends $pb.GeneratedMessage {
-  factory Pair({
-    $core.int? key,
-    $core.List<$core.int>? value,
+class ProtoImage extends $pb.GeneratedMessage {
+  factory ProtoImage({
+    $core.int? image,
+    $core.int? slot,
+    $core.List<$core.int>? hash,
+    $core.List<$core.int>? data,
   }) {
     final $result = create();
-    if (key != null) {
-      $result.key = key;
+    if (image != null) {
+      $result.image = image;
     }
-    if (value != null) {
-      $result.value = value;
+    if (slot != null) {
+      $result.slot = slot;
+    }
+    if (hash != null) {
+      $result.hash = hash;
+    }
+    if (data != null) {
+      $result.data = data;
     }
     return $result;
   }
-  Pair._() : super();
-  factory Pair.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory Pair.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  ProtoImage._() : super();
+  factory ProtoImage.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ProtoImage.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'Pair', createEmptyInstance: create)
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'key', $pb.PbFieldType.O3)
-    ..a<$core.List<$core.int>>(2, _omitFieldNames ? '' : 'value', $pb.PbFieldType.OY)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ProtoImage', createEmptyInstance: create)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'image', $pb.PbFieldType.O3)
+    ..a<$core.int>(2, _omitFieldNames ? '' : 'slot', $pb.PbFieldType.O3)
+    ..a<$core.List<$core.int>>(3, _omitFieldNames ? '' : 'hash', $pb.PbFieldType.OY)
+    ..a<$core.List<$core.int>>(4, _omitFieldNames ? '' : 'data', $pb.PbFieldType.OY)
     ..hasRequiredFields = false
   ;
 
@@ -178,46 +201,64 @@ class Pair extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  Pair clone() => Pair()..mergeFromMessage(this);
+  ProtoImage clone() => ProtoImage()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  Pair copyWith(void Function(Pair) updates) => super.copyWith((message) => updates(message as Pair)) as Pair;
+  ProtoImage copyWith(void Function(ProtoImage) updates) => super.copyWith((message) => updates(message as ProtoImage)) as ProtoImage;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static Pair create() => Pair._();
-  Pair createEmptyInstance() => create();
-  static $pb.PbList<Pair> createRepeated() => $pb.PbList<Pair>();
+  static ProtoImage create() => ProtoImage._();
+  ProtoImage createEmptyInstance() => create();
+  static $pb.PbList<ProtoImage> createRepeated() => $pb.PbList<ProtoImage>();
   @$core.pragma('dart2js:noInline')
-  static Pair getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Pair>(create);
-  static Pair? _defaultInstance;
+  static ProtoImage getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ProtoImage>(create);
+  static ProtoImage? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.int get key => $_getIZ(0);
+  $core.int get image => $_getIZ(0);
   @$pb.TagNumber(1)
-  set key($core.int v) { $_setSignedInt32(0, v); }
+  set image($core.int v) { $_setSignedInt32(0, v); }
   @$pb.TagNumber(1)
-  $core.bool hasKey() => $_has(0);
+  $core.bool hasImage() => $_has(0);
   @$pb.TagNumber(1)
-  void clearKey() => clearField(1);
+  void clearImage() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.List<$core.int> get value => $_getN(1);
+  $core.int get slot => $_getIZ(1);
   @$pb.TagNumber(2)
-  set value($core.List<$core.int> v) { $_setBytes(1, v); }
+  set slot($core.int v) { $_setSignedInt32(1, v); }
   @$pb.TagNumber(2)
-  $core.bool hasValue() => $_has(1);
+  $core.bool hasSlot() => $_has(1);
   @$pb.TagNumber(2)
-  void clearValue() => clearField(2);
+  void clearSlot() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.List<$core.int> get hash => $_getN(2);
+  @$pb.TagNumber(3)
+  set hash($core.List<$core.int> v) { $_setBytes(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasHash() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearHash() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $core.List<$core.int> get data => $_getN(3);
+  @$pb.TagNumber(4)
+  set data($core.List<$core.int> v) { $_setBytes(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasData() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearData() => clearField(4);
 }
 
 class ProtoUpdateWithImageCallArguments extends $pb.GeneratedMessage {
   factory ProtoUpdateWithImageCallArguments({
     $core.String? deviceUuid,
-    $core.Iterable<Pair>? images,
+    $core.Iterable<ProtoImage>? images,
     ProtoFirmwareUpgradeConfiguration? configuration,
   }) {
     final $result = create();
@@ -238,7 +279,7 @@ class ProtoUpdateWithImageCallArguments extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ProtoUpdateWithImageCallArguments', createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'deviceUuid')
-    ..pc<Pair>(2, _omitFieldNames ? '' : 'images', $pb.PbFieldType.PM, subBuilder: Pair.create)
+    ..pc<ProtoImage>(2, _omitFieldNames ? '' : 'images', $pb.PbFieldType.PM, subBuilder: ProtoImage.create)
     ..aOM<ProtoFirmwareUpgradeConfiguration>(3, _omitFieldNames ? '' : 'configuration', subBuilder: ProtoFirmwareUpgradeConfiguration.create)
     ..hasRequiredFields = false
   ;
@@ -274,7 +315,7 @@ class ProtoUpdateWithImageCallArguments extends $pb.GeneratedMessage {
   void clearDeviceUuid() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.List<Pair> get images => $_getList(1);
+  $core.List<ProtoImage> get images => $_getList(1);
 
   @$pb.TagNumber(3)
   ProtoFirmwareUpgradeConfiguration get configuration => $_getN(2);
@@ -1066,6 +1107,241 @@ class ProtoReadMessagesResponse extends $pb.GeneratedMessage {
 
   @$pb.TagNumber(2)
   $core.List<ProtoLogMessage> get protoLogMessage => $_getList(1);
+}
+
+/// IMAGE MANAGER
+class ProtoListImagesResponse extends $pb.GeneratedMessage {
+  factory ProtoListImagesResponse({
+    $core.String? uuid,
+    $core.bool? existing,
+    $core.Iterable<ProtoImageSlot>? images,
+  }) {
+    final $result = create();
+    if (uuid != null) {
+      $result.uuid = uuid;
+    }
+    if (existing != null) {
+      $result.existing = existing;
+    }
+    if (images != null) {
+      $result.images.addAll(images);
+    }
+    return $result;
+  }
+  ProtoListImagesResponse._() : super();
+  factory ProtoListImagesResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ProtoListImagesResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ProtoListImagesResponse', createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'uuid')
+    ..aOB(2, _omitFieldNames ? '' : 'existing')
+    ..pc<ProtoImageSlot>(3, _omitFieldNames ? '' : 'images', $pb.PbFieldType.PM, subBuilder: ProtoImageSlot.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  ProtoListImagesResponse clone() => ProtoListImagesResponse()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  ProtoListImagesResponse copyWith(void Function(ProtoListImagesResponse) updates) => super.copyWith((message) => updates(message as ProtoListImagesResponse)) as ProtoListImagesResponse;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static ProtoListImagesResponse create() => ProtoListImagesResponse._();
+  ProtoListImagesResponse createEmptyInstance() => create();
+  static $pb.PbList<ProtoListImagesResponse> createRepeated() => $pb.PbList<ProtoListImagesResponse>();
+  @$core.pragma('dart2js:noInline')
+  static ProtoListImagesResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ProtoListImagesResponse>(create);
+  static ProtoListImagesResponse? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get uuid => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set uuid($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasUuid() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearUuid() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.bool get existing => $_getBF(1);
+  @$pb.TagNumber(2)
+  set existing($core.bool v) { $_setBool(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasExisting() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearExisting() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.List<ProtoImageSlot> get images => $_getList(2);
+}
+
+class ProtoImageSlot extends $pb.GeneratedMessage {
+  factory ProtoImageSlot({
+    $fixnum.Int64? image,
+    $fixnum.Int64? slot,
+    $core.String? version,
+    $core.List<$core.int>? hash,
+    $core.bool? bootable,
+    $core.bool? pending,
+    $core.bool? confirmed,
+    $core.bool? active,
+    $core.bool? permanent,
+  }) {
+    final $result = create();
+    if (image != null) {
+      $result.image = image;
+    }
+    if (slot != null) {
+      $result.slot = slot;
+    }
+    if (version != null) {
+      $result.version = version;
+    }
+    if (hash != null) {
+      $result.hash = hash;
+    }
+    if (bootable != null) {
+      $result.bootable = bootable;
+    }
+    if (pending != null) {
+      $result.pending = pending;
+    }
+    if (confirmed != null) {
+      $result.confirmed = confirmed;
+    }
+    if (active != null) {
+      $result.active = active;
+    }
+    if (permanent != null) {
+      $result.permanent = permanent;
+    }
+    return $result;
+  }
+  ProtoImageSlot._() : super();
+  factory ProtoImageSlot.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ProtoImageSlot.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ProtoImageSlot', createEmptyInstance: create)
+    ..a<$fixnum.Int64>(1, _omitFieldNames ? '' : 'image', $pb.PbFieldType.OU6, defaultOrMaker: $fixnum.Int64.ZERO)
+    ..a<$fixnum.Int64>(2, _omitFieldNames ? '' : 'slot', $pb.PbFieldType.OU6, defaultOrMaker: $fixnum.Int64.ZERO)
+    ..aOS(3, _omitFieldNames ? '' : 'version')
+    ..a<$core.List<$core.int>>(4, _omitFieldNames ? '' : 'hash', $pb.PbFieldType.OY)
+    ..aOB(5, _omitFieldNames ? '' : 'bootable')
+    ..aOB(6, _omitFieldNames ? '' : 'pending')
+    ..aOB(7, _omitFieldNames ? '' : 'confirmed')
+    ..aOB(8, _omitFieldNames ? '' : 'active')
+    ..aOB(9, _omitFieldNames ? '' : 'permanent')
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  ProtoImageSlot clone() => ProtoImageSlot()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  ProtoImageSlot copyWith(void Function(ProtoImageSlot) updates) => super.copyWith((message) => updates(message as ProtoImageSlot)) as ProtoImageSlot;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static ProtoImageSlot create() => ProtoImageSlot._();
+  ProtoImageSlot createEmptyInstance() => create();
+  static $pb.PbList<ProtoImageSlot> createRepeated() => $pb.PbList<ProtoImageSlot>();
+  @$core.pragma('dart2js:noInline')
+  static ProtoImageSlot getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ProtoImageSlot>(create);
+  static ProtoImageSlot? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $fixnum.Int64 get image => $_getI64(0);
+  @$pb.TagNumber(1)
+  set image($fixnum.Int64 v) { $_setInt64(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasImage() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearImage() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $fixnum.Int64 get slot => $_getI64(1);
+  @$pb.TagNumber(2)
+  set slot($fixnum.Int64 v) { $_setInt64(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasSlot() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearSlot() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get version => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set version($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasVersion() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearVersion() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $core.List<$core.int> get hash => $_getN(3);
+  @$pb.TagNumber(4)
+  set hash($core.List<$core.int> v) { $_setBytes(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasHash() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearHash() => clearField(4);
+
+  @$pb.TagNumber(5)
+  $core.bool get bootable => $_getBF(4);
+  @$pb.TagNumber(5)
+  set bootable($core.bool v) { $_setBool(4, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasBootable() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearBootable() => clearField(5);
+
+  @$pb.TagNumber(6)
+  $core.bool get pending => $_getBF(5);
+  @$pb.TagNumber(6)
+  set pending($core.bool v) { $_setBool(5, v); }
+  @$pb.TagNumber(6)
+  $core.bool hasPending() => $_has(5);
+  @$pb.TagNumber(6)
+  void clearPending() => clearField(6);
+
+  @$pb.TagNumber(7)
+  $core.bool get confirmed => $_getBF(6);
+  @$pb.TagNumber(7)
+  set confirmed($core.bool v) { $_setBool(6, v); }
+  @$pb.TagNumber(7)
+  $core.bool hasConfirmed() => $_has(6);
+  @$pb.TagNumber(7)
+  void clearConfirmed() => clearField(7);
+
+  @$pb.TagNumber(8)
+  $core.bool get active => $_getBF(7);
+  @$pb.TagNumber(8)
+  set active($core.bool v) { $_setBool(7, v); }
+  @$pb.TagNumber(8)
+  $core.bool hasActive() => $_has(7);
+  @$pb.TagNumber(8)
+  void clearActive() => clearField(8);
+
+  @$pb.TagNumber(9)
+  $core.bool get permanent => $_getBF(8);
+  @$pb.TagNumber(9)
+  set permanent($core.bool v) { $_setBool(8, v); }
+  @$pb.TagNumber(9)
+  $core.bool hasPermanent() => $_has(8);
+  @$pb.TagNumber(9)
+  void clearPermanent() => clearField(9);
 }
 
 

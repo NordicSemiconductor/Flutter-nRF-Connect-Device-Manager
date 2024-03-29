@@ -23,8 +23,16 @@ final updateStream = updateManager.setup();
 To update the device, call `update` method on the `FirmwareUpdateManager` instance:
 
 ```dart
-// `firmware` is a List of data and index pairs
-final List<Tuple2<int, Uint8List>> firmwareScheme = ...;
+// `firmware` is a List of Image objects
+List<Image> firmwareScheme = [];
+for (final file in manifest.files) {
+  final image = Image(
+    image: file.image,
+    data: firmwareFileData,
+  );
+  firmware.firmwareImages!.add(image);
+}
+
 final configuration = const FirmwareUpgradeConfiguration(
       estimatedSwapTime: const Duration(seconds: 0),
       byteAlignment: ImageUploadAlignment.fourByte,
@@ -40,6 +48,9 @@ Alternatively, you can use `updateWithImageData` to update the device with a sin
 ```dart
 await updateManager.updateWithImageData(image: fwImage!);
 ```
+
+> [!TIP]
+> `update` and `updateWithImageData` methods are asynchronous, however, they do not return a result of the update process. They only start the update process. To listen for updates, subscribe to the `updateStream` and `progressStream`. See also [Issue #63](https://github.com/NordicSemiconductor/Flutter-nRF-Connect-Device-Manager/issues/63) for more information.
 
 ### Listening for updates
 To listen for updates, subscribe to the `updateStream` and `progressStream`:

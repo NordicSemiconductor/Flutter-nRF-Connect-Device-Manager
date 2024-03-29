@@ -5,23 +5,25 @@ option java_package = "no.nordicsemi.android.mcumgr_flutter.gen";
 // Flutter call arguments
 message ProtoUpdateCallArgument {
     string device_uuid = 1;
-    bytes firmware_data = 2;
-    ProtoFirmwareUpgradeConfiguration configuration = 3;
+    optional bytes hash = 2;
+    bytes firmware_data = 3;
+    ProtoFirmwareUpgradeConfiguration configuration = 4;
 }
 
 message ProtoError {
     string localizedDescription = 1;
 }
 
-// Firmware image pair
-message Pair {
-    int32 key = 1;
-    bytes value = 2;
+message ProtoImage {
+    int32 image = 1;
+    optional int32 slot = 2;
+    optional bytes hash = 3;
+    bytes data = 4;
 }
 
 message ProtoUpdateWithImageCallArguments {
     string device_uuid = 1;
-    repeated Pair images = 2;
+    repeated ProtoImage images = 2;
     ProtoFirmwareUpgradeConfiguration configuration = 3;
 }
 
@@ -135,4 +137,23 @@ message ProtoReadLogCallArguments {
 message ProtoReadMessagesResponse {
     string uuid = 1;
     repeated ProtoLogMessage protoLogMessage = 2;
+}
+
+// IMAGE MANAGER
+message ProtoListImagesResponse {
+    string uuid = 1;
+    bool existing = 2;
+    repeated ProtoImageSlot images = 3;
+}
+
+message ProtoImageSlot {
+    uint64 image = 1;
+    uint64 slot = 2;
+    optional string version = 3;
+    bytes hash = 4;
+    bool bootable = 5;
+    bool pending = 6;
+    bool confirmed = 7;
+    bool active = 8;
+    bool permanent = 9;
 }
