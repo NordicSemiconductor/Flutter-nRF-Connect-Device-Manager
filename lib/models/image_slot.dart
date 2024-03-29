@@ -11,6 +11,9 @@ class ImageSlot {
   final bool active;
   final bool permanent;
 
+  String get hashString =>
+      hash.map((e) => e.toRadixString(16).padLeft(2, '0')).join();
+
   ImageSlot({
     required this.image,
     required this.slot,

@@ -8,7 +8,6 @@ import 'package:mcumgr_flutter_example/src/repository/firmware_image_repository.
 
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart' as path_provider;
-import 'package:tuple/tuple.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:mcumgr_flutter/mcumgr_flutter.dart';
