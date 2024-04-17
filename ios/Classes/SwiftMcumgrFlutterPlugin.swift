@@ -7,7 +7,7 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
     static let namespace = "mcumgr_flutter"
     
     private var updateManagers: [String : UpdateManager] = [:]
-    private let centralManager = CBCentralManager()
+    private var centralManager: CBCentralManager! = { CBCentralManager() }()
     
     private let updateStateEventChannel: FlutterEventChannel
     private let updateProgressEventChannel: FlutterEventChannel
