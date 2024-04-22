@@ -4,10 +4,12 @@ import CoreBluetooth
 import iOSMcuManagerLibrary
 
 public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
+    private var initManagerResultQueue = ConcurrentQueue<(call: FlutterMethodCall, result: FlutterResult)>()
+    
     static let namespace = "mcumgr_flutter"
     
     private var updateManagers: [String : UpdateManager] = [:]
-    private let centralManager = CBCentralManager()
+    private var centralManager: CBCentralManager? = nil
     
     private let updateStateEventChannel: FlutterEventChannel
     private let updateProgressEventChannel: FlutterEventChannel
@@ -67,8 +69,7 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
                 try updateSingleImage(call: call)
                 result(nil)
             case .initializeUpdateManager:
-                try initializeUpdateManager(call: call)
-                result(nil)
+                try initializeUpdateManager(call: call, result: result)
             case .pause:
                 try pause(call: call)
                 result(nil)
@@ -101,13 +102,29 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
         
     }
     
-    private func initializeUpdateManager(call: FlutterMethodCall) throws {
+    private func initializeUpdateManager(call: FlutterMethodCall, result: @escaping FlutterResult) throws {
         guard let uuidString = call.arguments as? String, let uuid = UUID(uuidString: uuidString) else {
             throw FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can not create UUID from provided arguments", details: call.debugDetails)
         }
         
-        guard let peripheral = centralManager.retrievePeripherals(withIdentifiers: [uuid]).first else {
-            throw FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can't retrieve peripheral with provided UUID", details: call.debugDetails)
+        if let centralManager {
+            guard let peripheral = centralManager.retrievePeripherals(withIdentifiers: [uuid]).first else {
+                throw FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can't retrieve peripheral with provided UUID", details: call.debugDetails)
+            }
+            
+            try handleUpdateManager(for: peripheral, call: call)
+            result(nil)
+        } else {
+            centralManager = CBCentralManager()
+            centralManager?.delegate = self
+            
+            initManagerResultQueue.enqueue((call: call, result: result))
+        }
+    }
+    
+    private func handleUpdateManager(for peripheral: CBPeripheral, call: FlutterMethodCall) throws {
+        guard let uuidString = call.arguments as? String else {
+            throw FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can not create UUID from provided arguments", details: call.debugDetails)
         }
         
         guard case .none = updateManagers[uuidString] else {
@@ -237,4 +254,54 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
             }
         }
     }
+}
+
+extension SwiftMcumgrFlutterPlugin: CBCentralManagerDelegate {
+    public func centralManagerDidUpdateState(_ central: CBCentralManager) {
+        switch central.state {
+        case .poweredOn:
+            while let managerRequest = initManagerResultQueue.dequeue() {
+                handlePostponedCall(call: managerRequest.call, result: managerRequest.result, central: central)
+            }
+            break
+        case .unsupported:
+            while let managerRequest = initManagerResultQueue.dequeue() {
+                let error = FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Unsupported bluetooth state", details: managerRequest.call.debugDetails)
+                managerRequest.result(error)
+            }
+        case .unauthorized:
+            while let managerRequest = initManagerResultQueue.dequeue() {
+                let error = FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Bluetooth is unauthorized", details: managerRequest.call.debugDetails)
+                managerRequest.result(error)
+            }
+        case .poweredOff:
+            while let managerRequest = initManagerResultQueue.dequeue() {
+                let error = FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Bluetooth is powered off", details: managerRequest.call.debugDetails)
+                managerRequest.result(error)
+            }
+        default:
+            break
+        }
+    }
+    
+    private func handlePostponedCall(call: FlutterMethodCall, result: FlutterResult, central: CBCentralManager) {
+        guard let uuidString = call.arguments as? String, let uuid = UUID(uuidString: uuidString) else {
+            let error = FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can not create UUID from provided arguments", details: call.debugDetails)
+            result(error)
+            return
+        }
+        if let peripheral = central.retrievePeripherals(withIdentifiers: [uuid]).first {
+            do {
+                try handleUpdateManager(for: peripheral, call: call)
+                result(nil)
+            } catch {
+                result(error)
+            }
+        } else {
+            let error = FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can not retreive peripheral to update", details: call.debugDetails)
+            result(error)
+        }
+    }
+    
+    
 }
