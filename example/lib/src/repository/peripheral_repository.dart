@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
@@ -24,6 +25,11 @@ class PeripheralRepository {
       print("Bluetooth not supported by this device");
       return;
     }
+
+    FlutterBluePlus.setLogLevel(LogLevel.verbose);
+    FlutterBluePlus.adapterState.listen((event) {
+      print(event);
+    });
 
     await FlutterBluePlus.adapterState
         .where(
