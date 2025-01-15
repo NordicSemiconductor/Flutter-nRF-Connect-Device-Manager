@@ -42,7 +42,7 @@ class UpdateManager {
     
     func update(images: [ImageManager.Image], config: FirmwareUpgradeConfiguration) throws {
         dfuManager.logDelegate = updateLogger
-        try dfuManager.start(images: images)
+        try dfuManager.start(images: images, using: config)
     }
     
     func pause() {
