@@ -1,3 +1,6 @@
+## 0.4.2
+fix(#84): thanks to @hkm5558
+
 ## 0.4.1
 Prevent request Bluetooth permission on iOS until it is required (#81):
 
