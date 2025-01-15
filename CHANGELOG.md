@@ -1,3 +1,7 @@
+## 0.4.2
+Fix bug on iOS that was not passing the `FirmwareUpgradeConfiguration` object to a certain `UpdateManager.update` overload.
+- This caused iOS to not adhere to settings that were provided via flutter code such as clearing app settings on the device.
+
 ## 0.4.1
 Prevent request Bluetooth permission on iOS until it is required (#81):
 
