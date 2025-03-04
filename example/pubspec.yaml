@@ -19,7 +19,7 @@ dependencies:
     path: ../
   path_provider: ^2.1.1
   provider: ^6.1.1
-  rxdart: ^0.27.7
+  rxdart: ^0.28.0
   tuple: ^2.0.2
   uuid: ^4.2.1
 
