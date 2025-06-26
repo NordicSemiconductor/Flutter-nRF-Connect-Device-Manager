@@ -232,10 +232,12 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
         let manager = try retrieveManager(call: call)
         
         manager.imageManager.list { response, error in
-            if let error {
-                result(code: "image_list_error",
-                message: err.localizedDescription,
-                details: nil ))
+            if let err = error {
+                result(FlutterError(
+                    code: "image_list_error",
+                    message: err.localizedDescription,
+                    details: nil
+                ))
                 return
             }
             
