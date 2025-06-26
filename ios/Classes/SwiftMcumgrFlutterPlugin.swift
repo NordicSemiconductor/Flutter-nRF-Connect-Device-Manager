@@ -234,7 +234,7 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
         manager.imageManager.list { response, error in
            DispatchQueue.main.async {
                 if let err = error {
-                    result(FlutterError(code: "image_list_error", message: err.localizedDescription, details: nil))
+                    //result(FlutterError(code: "image_list_error", message: err.localizedDescription, details: nil))
                     return
                 }
         
