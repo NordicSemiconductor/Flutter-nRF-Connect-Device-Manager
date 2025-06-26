@@ -237,6 +237,13 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
            DispatchQueue.main.async {
                 if let err = error {
                     //result(FlutterError(code: "image_list_error", message: err.localizedDescription, details: nil))
+                    result(
+                        FlutterError(
+                            code: "image_list_error",
+                            message: err.localizedDescription,
+                            details: nil        // <-- 別再傳 FlutterMethodCall
+                        )
+                    )
                     return
                 }
         
@@ -334,6 +341,17 @@ extension SwiftMcumgrFlutterPlugin: CBCentralManagerDelegate {
     }
     
     
+}
+
+extension FlutterError {
+    @available(*, deprecated, message: "Use init(code:message:details:) instead")
+    convenience init(error: Error, call: FlutterMethodCall) {
+        self.init(
+            code: "native_error",
+            message: (error as NSError).localizedDescription,
+            details: call.debugDetails    // ← 你想要帶回 Dart 的額外資訊
+        )
+    }
 }
 
 extension FlutterError {
