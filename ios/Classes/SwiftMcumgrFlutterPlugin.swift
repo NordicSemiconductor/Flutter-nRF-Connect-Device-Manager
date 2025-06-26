@@ -233,28 +233,32 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
         
         manager.imageManager.list { response, error in
             if let err = error {
-                result(FlutterError(
-                    code: "image_list_error",
-                    message: err.localizedDescription,
-                    details: nil
-                ))
+                result(
+                    FlutterError(
+                        code: "image_list_error",
+                        message: err.localizedDescription,
+                        details: nil        // <-- 別再傳 FlutterMethodCall
+                    )
+                )
                 return
             }
-            
-            var protoResponse = ProtoListImagesResponse()
-            if let images = response?.images {
-                protoResponse.images = images.map { $0.toProto() }
-                protoResponse.existing = true
+    
+            var proto = ProtoListImagesResponse()
+            if let imgs = response?.images {
+                proto.images = imgs.map { $0.toProto() }
+                proto.existing = true
             } else {
-                protoResponse.existing = false
+                proto.existing = false
             }
-            
-            protoResponse.uuid = uuid
-            
+            proto.uuid = uuid                // ← uuid 前面記得已宣告
+    
             do {
-                result(try protoResponse.serializedData())
-            } catch {
-                result(FlutterError(error: error, call: call))
+                result(try proto.serializedData())
+            } catch let e {
+                result(FlutterError(
+                    code: "serialization_error",
+                    message: e.localizedDescription,
+                    details: nil))
             }
         }
     }
