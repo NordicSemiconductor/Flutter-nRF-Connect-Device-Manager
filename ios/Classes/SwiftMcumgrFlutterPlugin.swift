@@ -232,33 +232,35 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
         let manager = try retrieveManager(call: call)
         
         manager.imageManager.list { response, error in
-            if let err = error {
-                result(
-                    FlutterError(
-                        code: "image_list_error",
-                        message: err.localizedDescription,
-                        details: nil        // <-- 別再傳 FlutterMethodCall
+           DispatchQueue.main.async {
+                if let err = error {
+                    result(
+                        FlutterError(
+                            code: "image_list_error",
+                            message: err.localizedDescription,
+                            details: nil        // <-- 別再傳 FlutterMethodCall
+                        )
                     )
-                )
-                return
-            }
-    
-            var proto = ProtoListImagesResponse()
-            if let imgs = response?.images {
-                proto.images = imgs.map { $0.toProto() }
-                proto.existing = true
-            } else {
-                proto.existing = false
-            }
-            proto.uuid = uuid                // ← uuid 前面記得已宣告
-    
-            do {
-                result(try proto.serializedData())
-            } catch let e {
-                result(FlutterError(
-                    code: "serialization_error",
-                    message: e.localizedDescription,
-                    details: nil))
+                    return
+                }
+        
+                var proto = ProtoListImagesResponse()
+                if let imgs = response?.images {
+                    proto.images = imgs.map { $0.toProto() }
+                    proto.existing = true
+                } else {
+                    proto.existing = false
+                }
+                proto.uuid = uuid                // ← uuid 前面記得已宣告
+        
+                do {
+                    result(try proto.serializedData())
+                } catch let e {
+                    result(FlutterError(
+                        code: "serialization_error",
+                        message: e.localizedDescription,
+                        details: nil))
+                }
             }
         }
     }
@@ -312,4 +314,15 @@ extension SwiftMcumgrFlutterPlugin: CBCentralManagerDelegate {
     }
     
     
+}
+
+extension FlutterError {
+    @available(*, deprecated, message: "Use init(code:message:details:) instead")
+    convenience init(error: Error, call: FlutterMethodCall) {
+        self.init(
+            code: "native_error",
+            message: (error as NSError).localizedDescription,
+            details: call.debugDetails    // ← 你想要帶回 Dart 的額外資訊
+        )
+    }
 }
