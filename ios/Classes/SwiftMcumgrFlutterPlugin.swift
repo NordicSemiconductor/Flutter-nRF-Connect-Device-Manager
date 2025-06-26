@@ -233,7 +233,9 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
         
         manager.imageManager.list { response, error in
             if let error {
-                result(FlutterError(error: error, call: call))
+                result(code: "image_list_error",
+                message: err.localizedDescription,
+                details: nil ))
                 return
             }
             
