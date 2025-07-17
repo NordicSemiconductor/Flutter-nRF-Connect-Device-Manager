@@ -3,11 +3,11 @@ description: Demonstrates how to use the mcumgr_flutter plugin.
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
+  sdk: ">=3.7.2 <4.0.0"
 
 dependencies:
   equatable: ^2.0.5
-  file_picker: ^6.1.1
+  file_picker: ^10.1.9
   flutter:
     sdk: flutter
   flutter_archive: ^6.0.0
