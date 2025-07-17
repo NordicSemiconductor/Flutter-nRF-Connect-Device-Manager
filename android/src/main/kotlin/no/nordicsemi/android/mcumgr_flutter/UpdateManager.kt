@@ -47,11 +47,7 @@ class UpdateManager(
 	private val address: String = transport.bluetoothDevice.address
 	private val transport: LoggableMcuMgrBleTransport = transport as LoggableMcuMgrBleTransport
 	val imageManager: ImageManager = ImageManager(transport)
-	private val defaultSettings = FirmwareUpgradeManager.Settings.Builder()
-		.setMemoryAlignment(4)
-		.setEstimatedSwapTime(5000)
-		.setWindowCapacity(3)
-		.build()
+
 	/**
 	 * Start the upgrade.
 	 *
