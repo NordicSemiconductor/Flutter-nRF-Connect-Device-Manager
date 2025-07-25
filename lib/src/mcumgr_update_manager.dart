@@ -211,11 +211,17 @@ class DeviceUpdateManager extends FirmwareUpdateManager {
     final response = await methodChannel.invokeMethod(
         UpdateManagerMethod.readImageList.rawValue, _deviceId);
 
-    final listImagesResponse = ProtoListImagesResponse.fromBuffer(response);
-    if (listImagesResponse.existing) {
-      return listImagesResponse.images.map((e) => e.convert()).toList();
+    if (response is Uint8List) {
+      final listImagesResponse = ProtoListImagesResponse.fromBuffer(response);
+      if (listImagesResponse.existing) {
+        return listImagesResponse.images.map((e) => e.convert()).toList();
+      } else {
+        return null;
+      }
     } else {
-      return null;
+      // Optionally handle error or unexpected response type
+      throw Exception(
+          'Unexpected response type from readImageList: ${response.runtimeType}');
     }
   }
 }

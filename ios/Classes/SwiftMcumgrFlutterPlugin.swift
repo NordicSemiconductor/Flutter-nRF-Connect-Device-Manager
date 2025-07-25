@@ -236,7 +236,6 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
                 result(FlutterError(error: error, call: call))
                 return
             }
-            
             var protoResponse = ProtoListImagesResponse()
             if let images = response?.images {
                 protoResponse.images = images.map { $0.toProto() }
@@ -244,11 +243,10 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
             } else {
                 protoResponse.existing = false
             }
-            
             protoResponse.uuid = uuid
-            
             do {
-                result(try protoResponse.serializedData())
+                let data = try protoResponse.serializedData()
+                result(FlutterStandardTypedData(bytes: data))
             } catch {
                 result(FlutterError(error: error, call: call))
             }
