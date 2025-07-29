@@ -14,6 +14,7 @@ import io.flutter.plugin.common.MethodChannel.Result
 import io.runtime.mcumgr.McuMgrCallback
 import io.runtime.mcumgr.dfu.FirmwareUpgradeManager
 import io.runtime.mcumgr.exception.McuMgrException
+import io.runtime.mcumgr.exception.McuMgrTimeoutException
 import io.runtime.mcumgr.response.img.McuMgrImageStateResponse
 import no.nordicsemi.android.mcumgr_flutter.ext.toProto
 
@@ -285,7 +286,16 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 			}
 
 			override fun onError(exception: McuMgrException) {
-				result.error("mcumgr_error", exception.message, null)
+				if (exception is McuMgrTimeoutException) {
+					val protoResponse = ProtoListImagesResponse(
+						uuid = address,
+						images = emptyList(),
+						existing = false
+					)
+					result.success(protoResponse.encode())
+				} else {
+					result.error("mcumgr_error", exception.message, null)
+				}
 			}
 		}
 

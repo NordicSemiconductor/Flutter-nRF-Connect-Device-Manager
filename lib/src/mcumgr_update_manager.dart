@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:mcumgr_flutter/proto/flutter_mcu.pb.dart';
 import 'package:mcumgr_flutter/src/mcumgr_update_logger.dart';
 import 'package:rxdart/rxdart.dart';
@@ -51,12 +52,18 @@ class DeviceUpdateManager extends FirmwareUpdateManager {
       await methodChannel.invokeMethod(
           UpdateManagerMethod.initializeUpdateManager.rawValue, deviceId);
     } catch (error, stack) {
-      FlutterError.reportError(FlutterErrorDetails(
-        exception: error,
-        stack: stack,
-        library: 'mcumgr_flutter',
-        context: ErrorDescription('getInstance: initialize Update Manager'),
-      ));
+      if (error is PlatformException && error.code == 'UpdateManagerExists') {
+        // If the manager already exists, we can ignore the error and proceed.
+        // The native side has already created it. We just need the Dart wrapper.
+      } else {
+        FlutterError.reportError(FlutterErrorDetails(
+          exception: error,
+          stack: stack,
+          library: 'mcumgr_flutter',
+          context: ErrorDescription('getInstance: initialize Update Manager'),
+        ));
+        rethrow;
+      }
     }
 
     final um = DeviceUpdateManager._deviceIdentifier(deviceId);
