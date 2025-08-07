@@ -7,3 +7,5 @@ sealed class FlutterError(val code: String, message: String): Exception(message)
 class WrongArguments(message: String): FlutterError("WrongArguments", message)
 class UpdateManagerExists(message: String): FlutterError("UpdateManagerExists", message)
 class UpdateManagerDoesNotExist(message: String): FlutterError("UpdateManagerDoesNotExist", message)
+
+class SettingsManagerExists(message: String): FlutterError("SettingsManagerExists", message)

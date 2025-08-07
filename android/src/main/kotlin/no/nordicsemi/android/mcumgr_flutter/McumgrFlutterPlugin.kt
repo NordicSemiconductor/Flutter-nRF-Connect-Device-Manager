@@ -1,10 +1,11 @@
 package no.nordicsemi.android.mcumgr_flutter
 
 import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothManager
 import android.content.Context
+import android.util.Log
 import android.util.Pair
 import androidx.annotation.NonNull
-import com.google.protobuf.kotlin.toByteString
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodCall
@@ -12,7 +13,7 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.runtime.mcumgr.McuMgrCallback
-import io.runtime.mcumgr.dfu.FirmwareUpgradeManager
+import io.runtime.mcumgr.dfu.mcuboot.FirmwareUpgradeManager
 import io.runtime.mcumgr.exception.McuMgrException
 import io.runtime.mcumgr.response.img.McuMgrImageStateResponse
 import no.nordicsemi.android.mcumgr_flutter.ext.toProto
@@ -20,6 +21,9 @@ import no.nordicsemi.android.mcumgr_flutter.ext.toProto
 import no.nordicsemi.android.mcumgr_flutter.logging.LoggableMcuMgrBleTransport
 import no.nordicsemi.android.mcumgr_flutter.utils.*
 import no.nordicsemi.android.mcumgr_flutter.gen.*
+import no.nordicsemi.android.mcumgr_flutter.manager.FirmwareUpgradeConfiguration
+import no.nordicsemi.android.mcumgr_flutter.manager.SettingsManager
+import no.nordicsemi.android.mcumgr_flutter.manager.UpdateManager
 
 /** McumgrFlutterPlugin */
 class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
@@ -43,7 +47,9 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 
 	private var managers: MutableMap<String, UpdateManager> = mutableMapOf()
 
-	override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
+	private var settingsManager: SettingsManager? = null
+
+	override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
 		context = flutterPluginBinding.applicationContext
 
 		methodChannel = MethodChannel(flutterPluginBinding.binaryMessenger, "$namespace/method_channel")
@@ -125,6 +131,54 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 				FlutterMethod.readImageList -> {
 					imageList(call, result)
 				}
+
+				FlutterMethod.initSettings -> {
+					initSettingsManager(call, result)
+				}
+				FlutterMethod.fetchSettings -> {
+					Log.e("GUPIEKURDE", settingsManager.toString())
+					settingsManager?.let {
+						val settings = it.fetchSettings(result)
+						Log.e("GUPIEKURDE", "Fetched settings: ${settings}")
+					} ?: run {
+						Log.e("GUPIEKURDE", "Settings manager is not initialized")
+						return result.error("SETTINGS_MANAGER_NOT_INITIALIZED", "Settings manager is not initialized", null)
+					}
+				}
+				FlutterMethod.readSetting -> {
+					settingsManager?.let {
+						val key = call.arguments as? String
+							?: return result.error("BAD_ARGS", "Expected key", null)
+						it.readSettings(key, result)
+
+					} ?: run {
+						return result.error(
+							"SETTINGS_MANAGER_NOT_INITIALIZED",
+							"Settings manager is not initialized",
+							null
+						)
+					}
+				}
+
+				FlutterMethod.writeSetting -> {
+					settingsManager?.let {
+						val args = call.arguments as? Map<*, *>
+							?: return result.error("BAD_ARGS", "Expected key-value map", null)
+						val key = args["key"] as? String
+							?: return result.error("BAD_ARGS", "Expected key in map", null)
+						val value = args["value"] as? ByteArray
+							?: return result.error("BAD_ARGS", "Expected value in map", null)
+						it.writeSetting(key, value, result)
+
+					} ?: run {
+						return result.error(
+							"SETTINGS_MANAGER_NOT_INITIALIZED",
+							"Settings manager is not initialized",
+							null
+						)
+					}
+				}
+
 			}
 		} catch (e: FlutterError) {
 			result.error(e.code, e.message, null)
@@ -139,18 +193,50 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 		if (managers.containsKey(address)) {
 			throw UpdateManagerExists("Updated manager for provided peripheral already exists")
 		}
-		val device = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(address)
+		val bluetoothManager = context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
+
+		val device = bluetoothManager.getAdapter().getRemoteDevice(address)
 		val transport = LoggableMcuMgrBleTransport(context, device , logStreamHandler)
-		val updateManager = UpdateManager(transport,
+		val updateManager = UpdateManager(
+			transport,
 			updateStateStreamHandler,
 			updateProgressStreamHandler,
-			logStreamHandler)
+			logStreamHandler
+		)
 
 		managers[address] = updateManager
 	}
 
 	@Throws(FlutterError::class)
-	private fun update(@NonNull call: MethodCall) {
+	private fun initSettingsManager(call: MethodCall, result: Result) {
+		val address = (call.arguments as? String).guard {
+			result.error("WrongArguments", "Device address expected", null)
+			throw WrongArguments("Device address expected")
+		}
+		if (settingsManager != null) {
+			result.error("SettingsManagerExists", "Settings manager for provided peripheral already existsd", null)
+			throw SettingsManagerExists("Settings manager for provided peripheral already exists")
+		}
+
+		val bluetoothManager = context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
+
+		val device = bluetoothManager.getAdapter().getRemoteDevice(address)
+		val transport = LoggableMcuMgrBleTransport(context, device , logStreamHandler)
+		settingsManager = SettingsManager(transport)
+
+		transport.connect(device)
+			.done {
+				settingsManager = SettingsManager(transport)
+				result.success(null)
+			}
+			.fail { _, errorCode ->
+				result.error("CONNECT_FAILED", "Could not connect to device, code=$errorCode", null)
+			}
+			.enqueue()
+	}
+
+	@Throws(FlutterError::class)
+	private fun update(call: MethodCall) {
 		val bytes = (call.arguments as? ByteArray).guard {
 			throw WrongArguments("Can not parse provided arguments: ${call.arguments.javaClass}")
 		}

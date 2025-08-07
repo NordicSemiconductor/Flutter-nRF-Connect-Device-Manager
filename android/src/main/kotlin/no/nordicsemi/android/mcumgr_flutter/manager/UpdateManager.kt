@@ -1,16 +1,14 @@
-package no.nordicsemi.android.mcumgr_flutter
+package no.nordicsemi.android.mcumgr_flutter.manager
 
 import android.util.Log
 import android.util.Pair
-import io.runtime.mcumgr.McuMgrCallback
 import io.runtime.mcumgr.ble.McuMgrBleTransport
-import io.runtime.mcumgr.dfu.model.McuMgrImageSet;
+import io.runtime.mcumgr.dfu.mcuboot.model.ImageSet;
 import io.runtime.mcumgr.dfu.FirmwareUpgradeCallback
 import io.runtime.mcumgr.dfu.FirmwareUpgradeController
-import io.runtime.mcumgr.dfu.FirmwareUpgradeManager
+import io.runtime.mcumgr.dfu.mcuboot.FirmwareUpgradeManager
 import io.runtime.mcumgr.exception.McuMgrException
 import io.runtime.mcumgr.managers.ImageManager
-import io.runtime.mcumgr.response.img.McuMgrImageStateResponse
 import no.nordicsemi.android.mcumgr_flutter.ext.shouldLog
 import no.nordicsemi.android.mcumgr_flutter.ext.toProto
 import no.nordicsemi.android.mcumgr_flutter.gen.*
@@ -42,17 +40,11 @@ class UpdateManager(
 		private val updateStateStreamHandler: StreamHandler,
 		private val updateProgressStreamHandler: StreamHandler,
 		private val logStreamHandler: StreamHandler
-): FirmwareUpgradeCallback {
+): FirmwareUpgradeCallback<FirmwareUpgradeManager.State> {
 	private val manager: FirmwareUpgradeManager = FirmwareUpgradeManager(transport, this)
 	private val address: String = transport.bluetoothDevice.address
 	private val transport: LoggableMcuMgrBleTransport = transport as LoggableMcuMgrBleTransport
 	val imageManager: ImageManager = ImageManager(transport)
-
-	init {
-		manager.setMemoryAlignment(4)
-		manager.setEstimatedSwapTime(5000)
-		manager.setWindowUploadCapacity(3)
-	}
 
 	/**
 	 * Start the upgrade.
@@ -69,12 +61,15 @@ class UpdateManager(
 	private val TAG: String? = "MyActivity"
 
 	fun start(images: List<Pair<Int, ByteArray>>, config: FirmwareUpgradeConfiguration?) {
-		if (config != null) {
-			manager.setMemoryAlignment(config.byteAlignment)
-			manager.setEstimatedSwapTime(config.estimatedSwapTime.toInt())
-			manager.setWindowUploadCapacity(config.pipelineDepth)
-			manager.setMode(config.firmwareUpgradeMode)
-		}
+        val settingsBuilder = FirmwareUpgradeManager.Settings.Builder()
+        if (config != null) {
+            settingsBuilder.setMemoryAlignment(config.byteAlignment)
+            settingsBuilder.setEstimatedSwapTime(config.estimatedSwapTime.toInt())
+            settingsBuilder.setWindowCapacity(config.pipelineDepth)
+            settingsBuilder.setEraseAppSettings(config.eraseAppSettings)
+            manager.setMode(config.firmwareUpgradeMode)
+        }
+
 		// print images to log
 		images.forEach {
 			val imageNumber = it.first
@@ -85,17 +80,20 @@ class UpdateManager(
 			// Log image and sha1
 			Log.d(TAG, "Image $imageNumber: ${image.size} bytes, sha1: $sha1")
 		}
-		manager.start(images, config?.eraseAppSettings ?: true)
+		manager.start(ImageSet().add(images), settingsBuilder.build())
 	}
 
 	fun start(imageData: ByteArray, config: FirmwareUpgradeConfiguration?) {
+		val settingsBuilder = FirmwareUpgradeManager.Settings.Builder()
 		if (config != null) {
-			manager.setMemoryAlignment(config.byteAlignment)
-			manager.setEstimatedSwapTime(config.estimatedSwapTime.toInt())
-			manager.setWindowUploadCapacity(config.pipelineDepth)
+			settingsBuilder.setMemoryAlignment(config.byteAlignment)
+			settingsBuilder.setEstimatedSwapTime(config.estimatedSwapTime.toInt())
+			settingsBuilder.setWindowCapacity(config.pipelineDepth)
+			settingsBuilder.setEraseAppSettings(config.eraseAppSettings)
 			manager.setMode(config.firmwareUpgradeMode)
 		}
-		manager.start(McuMgrImageSet().add(imageData), config?.eraseAppSettings ?: false)
+
+		manager.start(ImageSet().add(imageData), settingsBuilder.build())
 	}
 	/** Pause the firmware upgrade. */
 	fun pause() {
