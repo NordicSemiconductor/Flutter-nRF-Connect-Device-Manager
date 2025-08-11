@@ -47,7 +47,7 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 
 	private var managers: MutableMap<String, UpdateManager> = mutableMapOf()
 
-	private var settingsManager: SettingsManager? = null
+	private lateinit var settingsManager: SettingsManager
 
 	override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
 		context = flutterPluginBinding.applicationContext
@@ -136,22 +136,20 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 					initSettingsManager(call, result)
 				}
 				FlutterMethod.fetchSettings -> {
-					Log.e("GUPIEKURDE", settingsManager.toString())
-					settingsManager?.let {
-						val settings = it.fetchSettings(result)
-						Log.e("GUPIEKURDE", "Fetched settings: ${settings}")
-					} ?: run {
-						Log.e("GUPIEKURDE", "Settings manager is not initialized")
+
+					if (::settingsManager.isInitialized) {
+						val settings = settingsManager.fetchSettings(result)
+					} else {
 						return result.error("SETTINGS_MANAGER_NOT_INITIALIZED", "Settings manager is not initialized", null)
 					}
 				}
 				FlutterMethod.readSetting -> {
-					settingsManager?.let {
+					if (::settingsManager.isInitialized) {
 						val key = call.arguments as? String
 							?: return result.error("BAD_ARGS", "Expected key", null)
-						it.readSettings(key, result)
+						settingsManager.readSettings(key, result)
 
-					} ?: run {
+					} else {
 						return result.error(
 							"SETTINGS_MANAGER_NOT_INITIALIZED",
 							"Settings manager is not initialized",
@@ -161,16 +159,16 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 				}
 
 				FlutterMethod.writeSetting -> {
-					settingsManager?.let {
+					if (::settingsManager.isInitialized) {
 						val args = call.arguments as? Map<*, *>
 							?: return result.error("BAD_ARGS", "Expected key-value map", null)
 						val key = args["key"] as? String
 							?: return result.error("BAD_ARGS", "Expected key in map", null)
 						val value = args["value"] as? ByteArray
 							?: return result.error("BAD_ARGS", "Expected value in map", null)
-						it.writeSetting(key, value, result)
+						settingsManager.writeSetting(key, value, result)
 
-					} ?: run {
+					} else {
 						return result.error(
 							"SETTINGS_MANAGER_NOT_INITIALIZED",
 							"Settings manager is not initialized",
@@ -213,14 +211,10 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 			result.error("WrongArguments", "Device address expected", null)
 			throw WrongArguments("Device address expected")
 		}
-		if (settingsManager != null) {
-			result.error("SettingsManagerExists", "Settings manager for provided peripheral already existsd", null)
-			throw SettingsManagerExists("Settings manager for provided peripheral already exists")
-		}
 
 		val bluetoothManager = context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
 
-		val device = bluetoothManager.getAdapter().getRemoteDevice(address)
+		val device = bluetoothManager.adapter.getRemoteDevice(address)
 		val transport = LoggableMcuMgrBleTransport(context, device , logStreamHandler)
 		settingsManager = SettingsManager(transport)
 
