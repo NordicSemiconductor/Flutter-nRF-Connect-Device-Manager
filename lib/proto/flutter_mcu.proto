@@ -112,6 +112,8 @@ message ProtoLogMessage {
         RUN_TEST = 7;
         STATS = 8;
         DFU = 9;
+        SHELL = 10;
+        SUIT = 11;
     }
 
     enum LogLevel {

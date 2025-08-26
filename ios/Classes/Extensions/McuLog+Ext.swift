@@ -36,6 +36,8 @@ extension McuMgrLogCategory {
         case .dfu: return .dfu
         case .basic:
             return .`default`
+        case .shell: return .shell
+        case .suit: return .suit
         }
     }
 }
