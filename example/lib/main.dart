@@ -121,11 +121,14 @@ class _MyAppState extends State<MyApp> {
         InkWell(
           onTap: () async {
             try {
-              final rawBytes = await _mcumgrSettings.readSetting('app/alarm/en/val');
-              print('Raw bytes: $rawBytes');
+              final rawBytes = await _mcumgrSettings.readSetting('app/nfc/val');
 
-              final alarmEnabled = decodeBoolSetting(rawBytes);
-              print('Alarm enabled?: $alarmEnabled');
+              if (rawBytes case Uint8List()) {
+                String s = new String.fromCharCodes(List.from(rawBytes)..removeAt(0));
+              }
+
+              //  final alarmEnabled = decodeBoolSetting(rawBytes);
+              //   print('Alarm enabled?: $alarmEnabled');
             } catch (e) {
               print('Error reading setting: $e');
             }
@@ -135,8 +138,11 @@ class _MyAppState extends State<MyApp> {
         InkWell(
           onTap: () async {
             try {
-              final result = await _mcumgrSettings.writeSetting('app/alarm/en/val', Uint8List.fromList([0]));
+              final result = await _mcumgrSettings.writeSetting('app/nfc/val22', Uint8List.fromList([1]));
               print("Write result: $result");
+              if (result case Uint8List()) {
+                String s = new String.fromCharCodes(List.from(result));
+              }
             } catch (e) {
               print("Error writing setting: $e");
             }

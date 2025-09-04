@@ -18,8 +18,8 @@ final class McumgrSettings {
     ;
   }
 
-  Future<Uint8List> readSetting(String key) async {
-    final result = await _methodChannel.invokeMethod<Uint8List>('readSetting', key);
+  Future<T> readSetting<T>(String key) async {
+    final result = await _methodChannel.invokeMethod<T>('readSetting', key);
 
     if (result == null) {
       throw Exception("No response from native plugin");
