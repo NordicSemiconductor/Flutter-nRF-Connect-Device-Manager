@@ -13,7 +13,9 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
     
     private let updateStateEventChannel: FlutterEventChannel
     private let updateProgressEventChannel: FlutterEventChannel
-    
+
+    private let fsManagerPlugin: FsManagerPlugin
+
     // Log channels
     private let logEventChannel: FlutterEventChannel
     
@@ -24,14 +26,22 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
     public init(
         updateStateEventChannel: FlutterEventChannel, 
         updateProgressEventChannel: FlutterEventChannel, 
-        logEventChannel: FlutterEventChannel
+        logEventChannel: FlutterEventChannel,
+        binaryMessenger: FlutterBinaryMessenger
     ) {
+        let centralManager = CBCentralManager()
+        self.centralManager = centralManager
         self.updateStateEventChannel = updateStateEventChannel
         self.updateProgressEventChannel = updateProgressEventChannel
         self.logEventChannel = logEventChannel
-        
+        self.fsManagerPlugin = FsManagerPlugin(
+            centralManager: centralManager,
+            messenger: binaryMessenger
+        )
+
         super.init()
         
+        centralManager.delegate = self
         updateStateEventChannel.setStreamHandler(updateStateStreamHandler)
         updateProgressEventChannel.setStreamHandler(updateProgressStreamHandler)
         logEventChannel.setStreamHandler(logStreamHandler)
@@ -47,7 +57,8 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
         let instance = SwiftMcumgrFlutterPlugin(
             updateStateEventChannel: updateStateEventChannel,
             updateProgressEventChannel: updateProgressEventChannel,
-            logEventChannel: logEventChannel
+            logEventChannel: logEventChannel,
+            binaryMessenger: registrar.messenger()
         )
         registrar.addMethodCallDelegate(instance, channel: channel)
     }
@@ -302,6 +313,4 @@ extension SwiftMcumgrFlutterPlugin: CBCentralManagerDelegate {
             result(error)
         }
     }
-    
-    
 }

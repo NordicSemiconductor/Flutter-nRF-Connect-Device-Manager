@@ -2,6 +2,8 @@ package no.nordicsemi.android.mcumgr_flutter
 
 import android.bluetooth.BluetoothAdapter
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import android.util.Pair
 import androidx.annotation.NonNull
 import com.google.protobuf.kotlin.toByteString
@@ -16,6 +18,7 @@ import io.runtime.mcumgr.dfu.mcuboot.FirmwareUpgradeManager
 import io.runtime.mcumgr.exception.McuMgrException
 import io.runtime.mcumgr.response.img.McuMgrImageStateResponse
 import no.nordicsemi.android.mcumgr_flutter.ext.toProto
+import io.runtime.mcumgr.managers.FsManager
 
 import no.nordicsemi.android.mcumgr_flutter.logging.LoggableMcuMgrBleTransport
 import no.nordicsemi.android.mcumgr_flutter.utils.*
@@ -31,6 +34,8 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 	/// when the Flutter Engine is detached from the Activity
 	private lateinit var methodChannel: MethodChannel
 
+	private lateinit var mainHandler: Handler
+
 	private lateinit var updateStateEventChannel: EventChannel
 	private lateinit var updateProgressEventChannel: EventChannel
 	private lateinit var logEventChannel: EventChannel
@@ -42,9 +47,11 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 	private lateinit var context: Context
 
 	private var managers: MutableMap<String, UpdateManager> = mutableMapOf()
+	private lateinit var fsManagerPlugin: FsManagerPlugin
 
 	override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
 		context = flutterPluginBinding.applicationContext
+		mainHandler = Handler(Looper.getMainLooper())
 
 		methodChannel = MethodChannel(flutterPluginBinding.binaryMessenger, "$namespace/method_channel")
 		methodChannel.setMethodCallHandler(this)
@@ -55,6 +62,13 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 		updateProgressEventChannel.setStreamHandler(updateProgressStreamHandler)
 		logEventChannel = EventChannel(flutterPluginBinding.binaryMessenger, "$namespace/log_event_channel")
 		logEventChannel.setStreamHandler(logStreamHandler)
+
+		fsManagerPlugin = FsManagerPlugin(
+			context,
+			logStreamHandler,
+			flutterPluginBinding.binaryMessenger,
+			mainHandler
+		)
 	}
 
 	override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
