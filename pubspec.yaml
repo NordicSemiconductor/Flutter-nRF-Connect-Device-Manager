@@ -9,10 +9,10 @@ environment:
   flutter: ">=3.7.2"
 
 dependencies:
-  fixnum: ^1.1.0
+  fixnum: ^1.1.1
   flutter:
     sdk: flutter
-  protobuf: ^3.1.0
+  protobuf: ^4.2.0
   rxdart: ^0.28.0
   tuple: ^2.0.1
 
