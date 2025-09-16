@@ -5,9 +5,21 @@ import 'package:mcumgr_flutter_example/src/providers/firmware_update_request_pro
 import 'package:mcumgr_flutter_example/src/repository/peripheral_repository.dart';
 import 'package:provider/provider.dart';
 
-class PeripheralList extends StatelessWidget {
+class PeripheralList extends StatefulWidget {
+  const PeripheralList({Key? key}) : super(key: key);
+
+  @override
+  State<PeripheralList> createState() => _PeripheralListState();
+}
+
+class _PeripheralListState extends State<PeripheralList> {
   final repository = PeripheralRepository();
-  PeripheralList({Key? key}) : super(key: key);
+
+  @override
+  void dispose() {
+    repository.stopScan();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

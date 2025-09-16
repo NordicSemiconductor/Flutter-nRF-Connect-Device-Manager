@@ -65,7 +65,7 @@ class _MyAppState extends State<MyApp> {
         ),
         Step(
           title: Text('Update'),
-          content: Text('Update'),
+          content: Container(),
           isActive: provider.currentStep == 2,
         ),
       ],
@@ -80,19 +80,19 @@ class _MyAppState extends State<MyApp> {
         if (parameters.firmware == null) {
           return Container();
         }
-        return Row(
-          children: [
+        return Center(
+          child:
             ElevatedButton(
               onPressed: details.onStepContinue,
               child: Text('Next'),
             ),
-          ],
         );
       case 1:
         if (parameters.peripheral == null) {
           return Container();
         }
         return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextButton(
               onPressed: details.onStepCancel,
