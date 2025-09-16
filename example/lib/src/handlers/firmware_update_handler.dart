@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter_archive/flutter_archive.dart';
+import 'package:archive/archive_io.dart';
 import 'package:mcumgr_flutter_example/src/model/firmware_update_request.dart';
 import 'package:mcumgr_flutter_example/src/model/manifest.dart';
 import 'package:mcumgr_flutter_example/src/repository/firmware_image_repository.dart';
@@ -82,14 +82,12 @@ class FirmwareUnpacker extends FirmwareUpdateHandler {
 
     final firmware = request as MultiImageFirmwareUpdateRequest;
     final firmwareFileData = firmware.zipFile!;
-    final firmwareFile = File('${tempDir.path}/firmware.zip');
-    await firmwareFile.writeAsBytes(firmwareFileData);
+    final archive = ZipDecoder().decodeBytes(firmwareFileData);
 
     final destinationDir = Directory('${tempDir.path}/firmware');
     await destinationDir.create();
     try {
-      await ZipFile.extractToDirectory(
-          zipFile: firmwareFile, destinationDir: destinationDir);
+      await extractArchiveToDisk(archive, '${tempDir.path}/firmware');
     } catch (e) {
       throw Exception('Failed to unzip firmware');
     }

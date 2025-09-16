@@ -28,14 +28,14 @@ apply plugin: 'com.squareup.wire'
 
 android {
     namespace 'no.nordicsemi.android.mcumgr_flutter'
-    compileSdk 35
+    compileSdk 36
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
     defaultConfig {
         minSdk 19
-        targetSdk 35
+        targetSdk 36
     }
     lintOptions {
         disable 'InvalidPackage'
@@ -58,6 +58,6 @@ wire {
 }
 
 dependencies {
-    implementation 'no.nordicsemi.android:mcumgr-ble:2.6.0'
+    implementation 'no.nordicsemi.android:mcumgr-ble:2.7.2'
     implementation 'com.google.protobuf:protobuf-kotlin-lite:3.25.1'
 }
