@@ -1,3 +1,11 @@
+## 0.6.1
+FS Manager added (#101)
+Updated to Flutter >=3.7.2
+Migration from flutter_archive to archive package (#102)
+Android compileSdk set to 36
+Other dependencies updated (#102 and #100)
+rxdart updated to 0.28.0 (#95)
+
 ## 0.4.2
 fix(#84): thanks to @hkm5558
 
