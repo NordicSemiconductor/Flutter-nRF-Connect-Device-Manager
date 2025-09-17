@@ -184,7 +184,7 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
             throw FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can not parse provided arguments", details: call.debugDetails)
         }
         
-        let args = try ProtoUpdateWithImageCallArguments(serializedData: data.data)
+        let args = try ProtoUpdateWithImageCallArguments(serializedBytes: data.data)
         guard let manager = updateManagers[args.deviceUuid] else {
             throw FlutterError(code: ErrorCode.updateManagerDoesNotExist.rawValue, message: "Update manager does not exist", details: call.debugDetails)
         }
@@ -200,7 +200,7 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
             throw FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can not parse provided arguments", details: call.debugDetails)
         }
         
-        let args = try ProtoUpdateCallArgument(serializedData: data.data)
+        let args = try ProtoUpdateCallArgument(serializedBytes: data.data)
         guard let manager = updateManagers[args.deviceUuid] else {
             throw FlutterError(code: ErrorCode.updateManagerDoesNotExist.rawValue, message: "Update manager does not exist", details: call.debugDetails)
         }
@@ -227,7 +227,7 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
             throw FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can not parse provided arguments", details: call.debugDetails)
         }
         
-        let args = try ProtoReadLogCallArguments(serializedData: data.data)
+        let args = try ProtoReadLogCallArguments(serializedBytes: data.data)
         guard let manager = updateManagers[args.uuid] else {
             throw FlutterError(code: ErrorCode.updateManagerDoesNotExist.rawValue, message: "Update manager does not exist", details: call.debugDetails)
         }
