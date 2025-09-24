@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     id "com.android.application"
     id "kotlin-android"
@@ -23,7 +25,7 @@ if (flutterVersionName == null) {
 }
 
 android {
-    compileSdk 36
+    compileSdk = 36
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -34,25 +36,26 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_21
-        targetCompatibility JavaVersion.VERSION_21
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
-    kotlinOptions {
-        jvmTarget = '21'
+
+    kotlin {
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_21
+        }
     }
 
     defaultConfig {
         applicationId "no.nordicsemi.android.example.mcumgr_flutter"
-        minSdkVersion flutter.minSdkVersion
-        targetSdk 36
+        minSdk = flutter.minSdkVersion
+        targetSdk = 36
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug
         }
     }
@@ -61,7 +64,4 @@ android {
 
 flutter {
     source '../..'
-}
-
-dependencies {
 }

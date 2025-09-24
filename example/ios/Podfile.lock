@@ -1,110 +1,48 @@
 PODS:
-  - DKImagePickerController/Core (4.3.4):
-    - DKImagePickerController/ImageDataManager
-    - DKImagePickerController/Resource
-  - DKImagePickerController/ImageDataManager (4.3.4)
-  - DKImagePickerController/PhotoGallery (4.3.4):
-    - DKImagePickerController/Core
-    - DKPhotoGallery
-  - DKImagePickerController/Resource (4.3.4)
-  - DKPhotoGallery (0.0.17):
-    - DKPhotoGallery/Core (= 0.0.17)
-    - DKPhotoGallery/Model (= 0.0.17)
-    - DKPhotoGallery/Preview (= 0.0.17)
-    - DKPhotoGallery/Resource (= 0.0.17)
-    - SDWebImage
-    - SwiftyGif
-  - DKPhotoGallery/Core (0.0.17):
-    - DKPhotoGallery/Model
-    - DKPhotoGallery/Preview
-    - SDWebImage
-    - SwiftyGif
-  - DKPhotoGallery/Model (0.0.17):
-    - SDWebImage
-    - SwiftyGif
-  - DKPhotoGallery/Preview (0.0.17):
-    - DKPhotoGallery/Model
-    - DKPhotoGallery/Resource
-    - SDWebImage
-    - SwiftyGif
-  - DKPhotoGallery/Resource (0.0.17):
-    - SDWebImage
-    - SwiftyGif
-  - file_picker (0.0.1):
-    - DKImagePickerController/PhotoGallery
-    - Flutter
   - Flutter (1.0.0)
   - flutter_archive (0.0.1):
     - Flutter
-    - ZIPFoundation (= 0.9.13)
-  - flutter_blue_plus (0.0.1):
+    - ZIPFoundation (= 0.9.19)
+  - iOSMcuManagerLibrary (1.10.1):
+    - SwiftCBOR (= 0.4.7)
+    - ZIPFoundation (= 0.9.19)
+  - mcumgr_flutter (0.0.3):
     - Flutter
-  - iOSMcuManagerLibrary (1.6):
-    - SwiftCBOR (= 0.4.4)
-  - mcumgr_flutter (0.0.2):
-    - Flutter
-    - iOSMcuManagerLibrary (= 1.6)
+    - iOSMcuManagerLibrary (= 1.10.1)
     - SwiftProtobuf
-  - path_provider_foundation (0.0.1):
-    - Flutter
-    - FlutterMacOS
-  - SDWebImage (5.19.0):
-    - SDWebImage/Core (= 5.19.0)
-  - SDWebImage/Core (5.19.0)
-  - SwiftCBOR (0.4.4)
-  - SwiftProtobuf (1.25.2)
-  - SwiftyGif (5.4.4)
-  - ZIPFoundation (0.9.13)
+  - SwiftCBOR (0.4.7)
+  - SwiftProtobuf (1.31.1)
+  - ZIPFoundation (0.9.19)
 
 DEPENDENCIES:
-  - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - Flutter (from `Flutter`)
   - flutter_archive (from `.symlinks/plugins/flutter_archive/ios`)
-  - flutter_blue_plus (from `.symlinks/plugins/flutter_blue_plus/ios`)
   - mcumgr_flutter (from `.symlinks/plugins/mcumgr_flutter/ios`)
-  - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
 
 SPEC REPOS:
   trunk:
-    - DKImagePickerController
-    - DKPhotoGallery
     - iOSMcuManagerLibrary
-    - SDWebImage
     - SwiftCBOR
     - SwiftProtobuf
-    - SwiftyGif
     - ZIPFoundation
 
 EXTERNAL SOURCES:
-  file_picker:
-    :path: ".symlinks/plugins/file_picker/ios"
   Flutter:
     :path: Flutter
   flutter_archive:
     :path: ".symlinks/plugins/flutter_archive/ios"
-  flutter_blue_plus:
-    :path: ".symlinks/plugins/flutter_blue_plus/ios"
   mcumgr_flutter:
     :path: ".symlinks/plugins/mcumgr_flutter/ios"
-  path_provider_foundation:
-    :path: ".symlinks/plugins/path_provider_foundation/darwin"
 
 SPEC CHECKSUMS:
-  DKImagePickerController: b512c28220a2b8ac7419f21c491fc8534b7601ac
-  DKPhotoGallery: fdfad5125a9fdda9cc57df834d49df790dbb4179
-  file_picker: 07c75322ede1d47ec9bb4ac82b27c94d3598251a
-  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  flutter_archive: 6eb3c5273c448b55cd5e87421cc72976de255322
-  flutter_blue_plus: e5808fc4e5ebc58bb911635f8fdaf5e2b4da2754
-  iOSMcuManagerLibrary: 4102a4595be1c69e5286d7f1520a733c82c30b0a
-  mcumgr_flutter: 8c4a598cb1b4d10a9adbc0f13288334297185506
-  path_provider_foundation: 2a68637f8a62df7f6e790a428d1bdf72cb4e2d59
-  SDWebImage: 981fd7e860af070920f249fd092420006014c3eb
-  SwiftCBOR: ce5354ec8b660da2d6fc754462881119dbe1f963
-  SwiftProtobuf: 407a385e97fd206c4fbe880cc84123989167e0d1
-  SwiftyGif: 93a1cc87bf3a51916001cf8f3d63835fb64c819f
-  ZIPFoundation: ae5b4b813d216d3bf0a148773267fff14bd51d37
+  Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
+  flutter_archive: ad8edfd7f7d1bb12058d05424ba93e27d9930efe
+  iOSMcuManagerLibrary: e9555825af11a61744fe369c12e1e66621061b58
+  mcumgr_flutter: 6c113b2c4636849fe474251469daa7d110665cb7
+  SwiftCBOR: 465775bed0e8bac7bfb8160bcf7b95d7f75971e4
+  SwiftProtobuf: e02f51c8c2df5845657aee2d4de9d61bf50ef788
+  ZIPFoundation: b8c29ea7ae353b309bc810586181fd073cb3312c
 
-PODFILE CHECKSUM: c4c93c5f6502fe2754f48404d3594bf779584011
+PODFILE CHECKSUM: 0dbd5a87e0ace00c9610d2037ac22083a01f861d
 
 COCOAPODS: 1.16.2

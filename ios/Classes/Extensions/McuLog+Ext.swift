@@ -34,8 +34,7 @@ extension McuMgrLogCategory {
         case .runTest: return .runTest
         case .stats: return .stats
         case .dfu: return .dfu
-        case .basic:
-            return .`default`
+        case .basic, .shell, .suit: return .`default`
         }
     }
 }

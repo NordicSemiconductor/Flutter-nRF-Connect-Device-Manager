@@ -1,3 +1,10 @@
+## 0.5.0
+Added Settings Manager support:
+- New `McumgrSettings` class for reading and writing device configuration settings
+- Support for CBOR encoding and 4-byte padding options
+- Methods to read all settings, read specific settings, and write settings
+- Full support for different data types (string, numeric, boolean)
+
 ## 0.4.2
 fix(#84): thanks to @hkm5558
 

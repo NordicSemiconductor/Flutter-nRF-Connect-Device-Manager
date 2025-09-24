@@ -9,7 +9,7 @@ import Foundation
 import Flutter
 
 class StreamHandler: NSObject, FlutterStreamHandler {
-    private (set) var sink: FlutterEventSink?
+    private(set) var sink: FlutterEventSink?
     
     func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {
         self.sink = events

@@ -1,6 +1,5 @@
 package no.nordicsemi.android.mcumgr_flutter.manager
 
-import android.util.Log
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import io.flutter.plugin.common.MethodChannel
@@ -10,25 +9,33 @@ import io.runtime.mcumgr.exception.McuMgrException
 import io.runtime.mcumgr.response.McuMgrResponse
 import io.runtime.mcumgr.response.settings.McuMgrSettingsReadResponse
 import io.runtime.mcumgr.util.CBOR
+import java.nio.ByteBuffer
+import java.nio.charset.StandardCharsets
 import io.runtime.mcumgr.managers.SettingsManager as McuMgrSettingsManager
 
-class SettingsManager(transport: McuMgrBleTransport) {
+private const val errorCode = "MCUMGR_ERROR"
+
+class SettingsManager(
+    transport: McuMgrBleTransport,
+    val padTo4Bytes: Boolean = false,
+    val encodeValueToCBOR: Boolean = false,
+) {
     var mcuMgrSettingsManager: McuMgrSettingsManager = McuMgrSettingsManager(transport)
     fun fetchSettings(result: MethodChannel.Result) {
         mcuMgrSettingsManager.load(object : McuMgrCallback<McuMgrResponse> {
             override fun onResponse(response: McuMgrResponse) {
-                result.success(response.toString())
+                result.success(response.bytes)
             }
 
             override fun onError(error: McuMgrException) {
-                Log.e("[FETCH_SETTINGS] error", error.toString())
-                result.error("MCUMGR_ERROR", error.message, null)
+                error.printStackTrace()
+                result.error(errorCode, error.message, null)
             }
         })
     }
 
     fun readSettings(key: String, result: MethodChannel.Result) {
-        val payloadMap = HashMap<String?, Any?>()
+        val payloadMap = HashMap<String, Any>()
         payloadMap.put("name", key)
 
         mcuMgrSettingsManager.send(
@@ -36,17 +43,24 @@ class SettingsManager(transport: McuMgrBleTransport) {
             0,
             payloadMap,
             2500L,
-            McuMgrSettingsTestResponse::class.java,
-            object : McuMgrCallback<McuMgrSettingsTestResponse> {
-                override fun onResponse(response: McuMgrSettingsTestResponse) {
+            McuMgrSettingsUniversalResponse::class.java,
+            object : McuMgrCallback<McuMgrSettingsUniversalResponse> {
+                override fun onResponse(response: McuMgrSettingsUniversalResponse) {
                     try {
-                        Log.e("[READ_SINGLE]", "readSettings: ${response}")
-                        val byteResponse = response.`val`
-                        result.success(byteResponse)
+                        if (response.isSuccess) {
+                            val byteResponse = response.`val`
+                            result.success(byteResponse)
+                        } else {
+                            result.error(
+                                errorCode,
+                                "Error decoding single setting: ${response.returnCode.value()}",
+                                null
+                            )
+                        }
                     } catch (e: Exception) {
-                        Log.e("[READ_SINGLE]", "Error decoding single setting: ${e.message}")
+                        e.printStackTrace()
                         result.error(
-                            "CBOR_ERROR",
+                            errorCode,
                             "Error decoding single setting: ${e.message}",
                             null
                         )
@@ -54,53 +68,63 @@ class SettingsManager(transport: McuMgrBleTransport) {
                 }
 
                 override fun onError(error: McuMgrException) {
-                    Log.e("[READ_SINGLE] error", error.message.toString())
-                    Log.e("READ_SINGLE", "StackTrace: ${Log.getStackTraceString(error)}")
-                    result.error("MCUMGR_ERROR", error.message, null)
+                    error.printStackTrace()
+                    result.error(errorCode, error.message, null)
                 }
             })
     }
 
-
-    fun writeSetting(key: String, value: ByteArray, result: MethodChannel.Result) {
-
-        Log.e("[WRITE_SINGLE]", "writeSettings: key: $key, value: ${value.asList()}")
-
-        val map = HashMap<String, Any?>()
-        map["name"] = key
-        map["val"] = value
-
-        Log.e("[WRITE_SINGLE]", "CBOR: key: ${
-            CBOR.toBytes({
-                map
-            }).toString(Charsets.UTF_8)
-        }")
-
-        mcuMgrSettingsManager.write(key, value, object : McuMgrCallback<McuMgrResponse> {
-            override fun onResponse(response: McuMgrResponse) {
-                try {
-                    result.success(response.bytes)
-                    Log.e("[READ_SINGLE]", "readSettings: ${response}")
-                } catch (e: Exception) {
-                    result.error(
-                        "[WRITE_DECODE]",
-                        "Error decoding write response: ${e.message}",
-                        null
-                    )
+    fun writeSetting(key: String, value: Any, result: MethodChannel.Result) {
+        val value = if (encodeValueToCBOR) CBOR.toBytes(if (value is String && padTo4Bytes) value.padTo4Bytes() else value) else value.toBytes()
+        mcuMgrSettingsManager.write(
+            key,
+            value,
+            object : McuMgrCallback<McuMgrResponse> {
+                override fun onResponse(response: McuMgrResponse) {
+                    try {
+                        if (response.isSuccess) {
+                            result.success(response.bytes)
+                        } else {
+                            result.error(
+                                errorCode,
+                                "Error decoding write response: ${response.returnCode.value()}",
+                                null
+                            )
+                        }
+                    } catch (e: Exception) {
+                        result.error(
+                            errorCode,
+                            "Error decoding write response: ${e.message}",
+                            null
+                        )
+                    }
                 }
-            }
 
-            override fun onError(error: McuMgrException) {
-                Log.e("[WRITE] error", error.message.toString())
-                result.error("MCUMGR_ERROR", error.message, null)
-            }
-        })
+                override fun onError(error: McuMgrException) {
+                    error.printStackTrace()
+                    result.error(errorCode, error.message, null)
+                }
+            })
     }
 
+    private fun String.padTo4Bytes(): String {
+        val bytes = this.toByteArray(StandardCharsets.UTF_8)
+        val paddingNeeded = (4 - (bytes.size % 4)) % 4
+        return if (paddingNeeded == 0) this else this + "\u0000".repeat(paddingNeeded)
+    }
 
+    fun Any.toBytes(): ByteArray = when (this) {
+        is String -> (if (padTo4Bytes) this.padTo4Bytes() else this).toByteArray(StandardCharsets.UTF_8)
+        is Int -> ByteBuffer.allocate(4).putInt(this).array()
+        is Float -> ByteBuffer.allocate(4).putFloat(this).array()
+        is Double -> ByteBuffer.allocate(8).putDouble(this).array()
+        is Boolean -> byteArrayOf(if (this) 1 else 0)
+        is ByteArray -> this
+        else -> throw IllegalArgumentException("Unsupported type: ${this::class}")
+    }
 }
 
-class McuMgrSettingsTestResponse @JsonCreator constructor(
-    @param:JsonProperty("val")
-    var `val`: Object?
+@Suppress("PROPERTY_HIDES_JAVA_FIELD")
+private class McuMgrSettingsUniversalResponse @JsonCreator constructor(
+    @param:JsonProperty("val") var `val`: Object?
 ) : McuMgrSettingsReadResponse()
