@@ -3,16 +3,24 @@ allprojects {
         google()
         mavenCentral()
     }
+    
+    // Force all modules to use the same Android SDK version
+    afterEvaluate { project ->
+        if (project.hasProperty('android')) {
+            android {
+                compileSdkVersion 36
+            }
+        }
+    }
 }
 
-rootProject.buildDir = '../build'
+rootProject.layout.buildDirectory = file('../build')
 subprojects {
-    project.buildDir = "${rootProject.buildDir}/${project.name}"
-}
-subprojects {
+    def directory = "${rootProject.layout.buildDirectory.get().asFile}/${project.name}"
+    project.layout.buildDirectory = file(directory)
     project.evaluationDependsOn(':app')
 }
 
-tasks.register("clean", Delete) {
-    delete rootProject.buildDir
+tasks.register('clean', Delete) {
+    delete rootProject.layout.buildDirectory
 }

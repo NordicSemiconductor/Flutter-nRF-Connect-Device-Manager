@@ -1,4 +1,4 @@
-package no.nordicsemi.android.mcumgr_flutter
+package no.nordicsemi.android.mcumgr_flutter.manager
 
 import android.util.Log
 import android.util.Pair
@@ -131,7 +131,7 @@ class UpdateManager(
 		transport.setLoggingEnabled(true)
 	}
 
-	override fun onStateChanged(prevState: FirmwareUpgradeManager.State?, newState: FirmwareUpgradeManager.State?) {
+	override fun onStateChanged(prevState: State?, newState: State?) {
 		transport.setLoggingEnabled(newState!!.shouldLog())
 		transport.log("State changed: $prevState -> $newState")
 
@@ -178,7 +178,7 @@ class UpdateManager(
 		logStreamHandler.sink?.success(logArg.encode())
 	}
 
-	override fun onUpgradeFailed(state: FirmwareUpgradeManager.State?, error: McuMgrException?) {
+	override fun onUpgradeFailed(state: State?, error: McuMgrException?) {
 		transport.setLoggingEnabled(true)
 		transport.log("Upgrade failed")
 
@@ -196,7 +196,7 @@ class UpdateManager(
 		updateStateStreamHandler.sink?.success(stateChangesArg.encode())
 	}
 
-	override fun onUpgradeCanceled(state: FirmwareUpgradeManager.State?) {
+	override fun onUpgradeCanceled(state: State?) {
 		transport.setLoggingEnabled(true)
 		transport.log("Upgrade canceled")
 
