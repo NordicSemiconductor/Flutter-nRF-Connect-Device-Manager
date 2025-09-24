@@ -10,7 +10,7 @@ import Foundation
 struct Channel {
     private let namespace = "mcumgr_flutter"
     
-    private (set) var rawValue: String
+    private(set) var rawValue: String
     
     private init(name: String) {
         rawValue = namespace + name
