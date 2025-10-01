@@ -109,6 +109,8 @@ abstract class FirmwareUpdateManager {
 
   /// Read current image list from the device.
   Future<List<ImageSlot>?> readImageList();
+
+  Future<void> erase({required String deviceUuid});
 }
 
 abstract class FirmwareUpdateLogger {
