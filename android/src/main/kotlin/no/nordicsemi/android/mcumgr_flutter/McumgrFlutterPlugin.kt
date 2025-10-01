@@ -1,9 +1,9 @@
 package no.nordicsemi.android.mcumgr_flutter
 
-import android.bluetooth.BluetoothAdapter
-import android.content.Context
 import android.os.Handler
 import android.os.Looper
+import android.bluetooth.BluetoothAdapter
+import android.content.Context
 import android.util.Pair
 import androidx.annotation.NonNull
 import com.google.protobuf.kotlin.toByteString
@@ -14,11 +14,12 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.runtime.mcumgr.McuMgrCallback
-import io.runtime.mcumgr.dfu.mcuboot.FirmwareUpgradeManager
+import io.runtime.mcumgr.dfu.FirmwareUpgradeManager
 import io.runtime.mcumgr.exception.McuMgrException
 import io.runtime.mcumgr.response.img.McuMgrImageStateResponse
 import no.nordicsemi.android.mcumgr_flutter.ext.toProto
-import io.runtime.mcumgr.managers.FsManager
+import io.runtime.mcumgr.response.McuMgrResponse
+import io.runtime.mcumgr.response.img.McuMgrImageResponse
 
 import no.nordicsemi.android.mcumgr_flutter.logging.LoggableMcuMgrBleTransport
 import no.nordicsemi.android.mcumgr_flutter.utils.*
@@ -34,8 +35,6 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 	/// when the Flutter Engine is detached from the Activity
 	private lateinit var methodChannel: MethodChannel
 
-	private lateinit var mainHandler: Handler
-
 	private lateinit var updateStateEventChannel: EventChannel
 	private lateinit var updateProgressEventChannel: EventChannel
 	private lateinit var logEventChannel: EventChannel
@@ -47,11 +46,11 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 	private lateinit var context: Context
 
 	private var managers: MutableMap<String, UpdateManager> = mutableMapOf()
-	private lateinit var fsManagerPlugin: FsManagerPlugin
+
+	private val mainHandler = Handler(Looper.getMainLooper())
 
 	override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
 		context = flutterPluginBinding.applicationContext
-		mainHandler = Handler(Looper.getMainLooper())
 
 		methodChannel = MethodChannel(flutterPluginBinding.binaryMessenger, "$namespace/method_channel")
 		methodChannel.setMethodCallHandler(this)
@@ -62,13 +61,6 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 		updateProgressEventChannel.setStreamHandler(updateProgressStreamHandler)
 		logEventChannel = EventChannel(flutterPluginBinding.binaryMessenger, "$namespace/log_event_channel")
 		logEventChannel.setStreamHandler(logStreamHandler)
-
-		fsManagerPlugin = FsManagerPlugin(
-			context,
-			logStreamHandler,
-			flutterPluginBinding.binaryMessenger,
-			mainHandler
-		)
 	}
 
 	override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
@@ -138,6 +130,9 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 
 				FlutterMethod.readImageList -> {
 					imageList(call, result)
+				}
+				FlutterMethod.erase -> {
+					imageErase(call, result)
 				}
 			}
 		} catch (e: FlutterError) {
@@ -305,4 +300,30 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 
 		updateManager.imageManager.list(callback)
 	}
+
+	@Throws(FlutterError::class)
+	private fun imageErase(@NonNull call: MethodCall, result: Result) {
+		val address = (call.arguments as? String) ?: run {
+			result.error("wrong_args", "Device address expected", null)
+			return
+		}
+		val updateManager = managers[address] ?: run {
+			result.error("no_manager", "Update manager does not exist", null)
+			return
+		}
+
+		updateManager.imageManager.erase(object : McuMgrCallback<McuMgrImageResponse> {
+			override fun onResponse(response: McuMgrImageResponse) {
+				mainHandler.post { result.success(null) }
+			}
+
+			override fun onError(exception: io.runtime.mcumgr.exception.McuMgrException) {
+				mainHandler.post {
+					result.error("mcumgr_error", exception.message, null)
+				}
+			}
+		})
+	}
+
+
 }
