@@ -218,4 +218,11 @@ class DeviceUpdateManager extends FirmwareUpdateManager {
       return null;
     }
   }
+
+  Future<void> erase({required String deviceUuid}) async {
+    await methodChannel.invokeMethod(
+      UpdateManagerMethod.erase.rawValue,
+      deviceUuid,
+    );
+  }
 }
