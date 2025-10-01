@@ -42,7 +42,12 @@ class UpdateStepView extends StatelessWidget {
                 if (state.currentState != null)
                   Row(
                     children: [
-                      CircularProgressIndicator(),
+                      SizedBox(width: 3),
+                      CircularProgressIndicator(
+                        constraints: BoxConstraints(minWidth: 17.0, minHeight: 17.0),
+                        strokeWidth: 2.0,
+                      ),
+                      SizedBox(width: 3),
                       _currentState(state),
                     ],
                   ),

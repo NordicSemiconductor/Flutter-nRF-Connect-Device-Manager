@@ -13,7 +13,9 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
     
     private let updateStateEventChannel: FlutterEventChannel
     private let updateProgressEventChannel: FlutterEventChannel
-    
+
+    private let fsManagerPlugin: FsManagerPlugin
+
     // Log channels
     private let logEventChannel: FlutterEventChannel
     
@@ -24,14 +26,22 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
     public init(
         updateStateEventChannel: FlutterEventChannel, 
         updateProgressEventChannel: FlutterEventChannel, 
-        logEventChannel: FlutterEventChannel
+        logEventChannel: FlutterEventChannel,
+        binaryMessenger: FlutterBinaryMessenger
     ) {
+        let centralManager = CBCentralManager()
+        self.centralManager = centralManager
         self.updateStateEventChannel = updateStateEventChannel
         self.updateProgressEventChannel = updateProgressEventChannel
         self.logEventChannel = logEventChannel
-        
+        self.fsManagerPlugin = FsManagerPlugin(
+            centralManager: centralManager,
+            messenger: binaryMessenger
+        )
+
         super.init()
         
+        centralManager.delegate = self
         updateStateEventChannel.setStreamHandler(updateStateStreamHandler)
         updateProgressEventChannel.setStreamHandler(updateProgressStreamHandler)
         logEventChannel.setStreamHandler(logStreamHandler)
@@ -47,7 +57,8 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
         let instance = SwiftMcumgrFlutterPlugin(
             updateStateEventChannel: updateStateEventChannel,
             updateProgressEventChannel: updateProgressEventChannel,
-            logEventChannel: logEventChannel
+            logEventChannel: logEventChannel,
+            binaryMessenger: registrar.messenger()
         )
         registrar.addMethodCallDelegate(instance, channel: channel)
     }
@@ -173,7 +184,7 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
             throw FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can not parse provided arguments", details: call.debugDetails)
         }
         
-        let args = try ProtoUpdateWithImageCallArguments(serializedData: data.data)
+        let args = try ProtoUpdateWithImageCallArguments(serializedBytes: data.data)
         guard let manager = updateManagers[args.deviceUuid] else {
             throw FlutterError(code: ErrorCode.updateManagerDoesNotExist.rawValue, message: "Update manager does not exist", details: call.debugDetails)
         }
@@ -189,7 +200,7 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
             throw FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can not parse provided arguments", details: call.debugDetails)
         }
         
-        let args = try ProtoUpdateCallArgument(serializedData: data.data)
+        let args = try ProtoUpdateCallArgument(serializedBytes: data.data)
         guard let manager = updateManagers[args.deviceUuid] else {
             throw FlutterError(code: ErrorCode.updateManagerDoesNotExist.rawValue, message: "Update manager does not exist", details: call.debugDetails)
         }
@@ -216,7 +227,7 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
             throw FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can not parse provided arguments", details: call.debugDetails)
         }
         
-        let args = try ProtoReadLogCallArguments(serializedData: data.data)
+        let args = try ProtoReadLogCallArguments(serializedBytes: data.data)
         guard let manager = updateManagers[args.uuid] else {
             throw FlutterError(code: ErrorCode.updateManagerDoesNotExist.rawValue, message: "Update manager does not exist", details: call.debugDetails)
         }
@@ -306,8 +317,6 @@ extension SwiftMcumgrFlutterPlugin: CBCentralManagerDelegate {
             result(error)
         }
     }
-    
-    
 }
 
 extension FlutterError {
