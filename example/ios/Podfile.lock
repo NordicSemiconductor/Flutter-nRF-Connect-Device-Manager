@@ -1,103 +1,39 @@
 PODS:
-  - DKImagePickerController/Core (4.3.9):
-    - DKImagePickerController/ImageDataManager
-    - DKImagePickerController/Resource
-  - DKImagePickerController/ImageDataManager (4.3.9)
-  - DKImagePickerController/PhotoGallery (4.3.9):
-    - DKImagePickerController/Core
-    - DKPhotoGallery
-  - DKImagePickerController/Resource (4.3.9)
-  - DKPhotoGallery (0.0.19):
-    - DKPhotoGallery/Core (= 0.0.19)
-    - DKPhotoGallery/Model (= 0.0.19)
-    - DKPhotoGallery/Preview (= 0.0.19)
-    - DKPhotoGallery/Resource (= 0.0.19)
-    - SDWebImage
-    - SwiftyGif
-  - DKPhotoGallery/Core (0.0.19):
-    - DKPhotoGallery/Model
-    - DKPhotoGallery/Preview
-    - SDWebImage
-    - SwiftyGif
-  - DKPhotoGallery/Model (0.0.19):
-    - SDWebImage
-    - SwiftyGif
-  - DKPhotoGallery/Preview (0.0.19):
-    - DKPhotoGallery/Model
-    - DKPhotoGallery/Resource
-    - SDWebImage
-    - SwiftyGif
-  - DKPhotoGallery/Resource (0.0.19):
-    - SDWebImage
-    - SwiftyGif
-  - file_picker (0.0.1):
-    - DKImagePickerController/PhotoGallery
-    - Flutter
   - Flutter (1.0.0)
-  - flutter_blue_plus_darwin (0.0.2):
-    - Flutter
-    - FlutterMacOS
   - iOSMcuManagerLibrary (1.10.1):
     - SwiftCBOR (= 0.4.7)
     - ZIPFoundation (= 0.9.19)
-  - mcumgr_flutter (0.0.2):
+  - mcumgr_flutter (0.7.0):
     - Flutter
     - iOSMcuManagerLibrary (= 1.10.1)
     - SwiftProtobuf
-  - path_provider_foundation (0.0.1):
-    - Flutter
-    - FlutterMacOS
-  - SDWebImage (5.21.2):
-    - SDWebImage/Core (= 5.21.2)
-  - SDWebImage/Core (5.21.2)
   - SwiftCBOR (0.4.7)
   - SwiftProtobuf (1.31.1)
-  - SwiftyGif (5.4.5)
   - ZIPFoundation (0.9.19)
 
 DEPENDENCIES:
-  - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - Flutter (from `Flutter`)
-  - flutter_blue_plus_darwin (from `.symlinks/plugins/flutter_blue_plus_darwin/darwin`)
   - mcumgr_flutter (from `.symlinks/plugins/mcumgr_flutter/ios`)
-  - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
 
 SPEC REPOS:
   trunk:
-    - DKImagePickerController
-    - DKPhotoGallery
     - iOSMcuManagerLibrary
-    - SDWebImage
     - SwiftCBOR
     - SwiftProtobuf
-    - SwiftyGif
     - ZIPFoundation
 
 EXTERNAL SOURCES:
-  file_picker:
-    :path: ".symlinks/plugins/file_picker/ios"
   Flutter:
     :path: Flutter
-  flutter_blue_plus_darwin:
-    :path: ".symlinks/plugins/flutter_blue_plus_darwin/darwin"
   mcumgr_flutter:
     :path: ".symlinks/plugins/mcumgr_flutter/ios"
-  path_provider_foundation:
-    :path: ".symlinks/plugins/path_provider_foundation/darwin"
 
 SPEC CHECKSUMS:
-  DKImagePickerController: 946cec48c7873164274ecc4624d19e3da4c1ef3c
-  DKPhotoGallery: b3834fecb755ee09a593d7c9e389d8b5d6deed60
-  file_picker: b159e0c068aef54932bb15dc9fd1571818edaf49
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
-  flutter_blue_plus_darwin: 904ed52825285a15f60e9d90312337a09f11a785
   iOSMcuManagerLibrary: e9555825af11a61744fe369c12e1e66621061b58
-  mcumgr_flutter: c802cfd94365351bbe849c85d7ad6b719fd4c253
-  path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
-  SDWebImage: 9f177d83116802728e122410fb25ad88f5c7608a
+  mcumgr_flutter: 05750e517a2fb07d7be582b45d5b41535f0cec7f
   SwiftCBOR: 465775bed0e8bac7bfb8160bcf7b95d7f75971e4
   SwiftProtobuf: e02f51c8c2df5845657aee2d4de9d61bf50ef788
-  SwiftyGif: 706c60cf65fa2bc5ee0313beece843c8eb8194d4
   ZIPFoundation: b8c29ea7ae353b309bc810586181fd073cb3312c
 
 PODFILE CHECKSUM: cc1f88378b4bfcf93a6ce00d2c587857c6008d3b
