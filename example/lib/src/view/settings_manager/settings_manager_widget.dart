@@ -166,7 +166,7 @@ class _SettingsManagerWidgetState extends State<SettingsManagerWidget> {
       final address = device.remoteId.str;
       print("Connecting to ${device.advName} $address...");
 
-      await _mcumgrSettings.init(deviceAddress: address, encodeValueToCBOR: true, padTo4Bytes: true);
+      await _mcumgrSettings.init(deviceAddress: address, encodeValueToCBOR: true, padTo4Bytes: true, logEnabled: true);
 
       setState(() {
         _connectedDevice = device;

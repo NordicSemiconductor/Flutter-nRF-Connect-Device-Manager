@@ -19,6 +19,7 @@ class SettingsManager(
     transport: McuMgrBleTransport,
     val padTo4Bytes: Boolean = false,
     val encodeValueToCBOR: Boolean = false,
+    val precisionMode: String = "auto",
 ) {
     var mcuMgrSettingsManager: McuMgrSettingsManager = McuMgrSettingsManager(transport)
     fun fetchSettings(result: MethodChannel.Result) {
@@ -75,10 +76,29 @@ class SettingsManager(
     }
 
     fun writeSetting(key: String, value: Any, result: MethodChannel.Result) {
-        val value = if (encodeValueToCBOR) CBOR.toBytes(if (value is String && padTo4Bytes) value.padTo4Bytes() else value) else value.toBytes()
+        // Apply precision mode for Double values
+        val processedValue = when {
+            value is Double -> {
+                when (precisionMode) {
+                    "forceFloat32" -> value.toFloat()
+                    "forceDouble64" -> value
+                    else -> { // "auto"
+                        val floatValue = value.toFloat()
+                        val canFitInFloat = floatValue.toString() == value.toString() &&
+                                           value >= -Float.MAX_VALUE.toDouble() &&
+                                           value <= Float.MAX_VALUE.toDouble()
+
+                        if (canFitInFloat) floatValue else value
+                    }
+                }
+            }
+            else -> value
+        }
+
+        val valueBytes = if (encodeValueToCBOR) CBOR.toBytes(if (processedValue is String && padTo4Bytes) processedValue.padTo4Bytes() else processedValue) else processedValue.toBytes()
         mcuMgrSettingsManager.write(
             key,
-            value,
+            valueBytes,
             object : McuMgrCallback<McuMgrResponse> {
                 override fun onResponse(response: McuMgrResponse) {
                     try {

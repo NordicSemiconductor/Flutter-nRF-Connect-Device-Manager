@@ -408,11 +408,14 @@ extension SwiftMcumgrFlutterPlugin: CBCentralManagerDelegate {
 
         let padTo4Bytes = args["padTo4Bytes"] as? Bool ?? false
         let encodeValueToCBOR = args["encodeValueToCBOR"] as? Bool ?? false
+        let precisionMode = args["precisionMode"] as? String ?? "auto"
 
         let transport = McuMgrBleTransport(peripheral)
         settingsManager = SettingsManager(transport: transport,
                                           padTo4Bytes: padTo4Bytes,
-                                          encodeValueToCBOR: encodeValueToCBOR)
+                                          encodeValueToCBOR: encodeValueToCBOR,
+                                          precisionMode: precisionMode,
+                                          logStreamHandler: logStreamHandler)
 
         return transport
     }

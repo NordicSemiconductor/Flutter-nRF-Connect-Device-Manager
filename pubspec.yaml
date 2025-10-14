@@ -5,7 +5,7 @@ version: 0.7.0
 homepage: "https://github.com/NordicSemiconductor/Flutter-nRF-Connect-Device-Manager"
 
 environment:
-  sdk: ^3.7.2
+  sdk: ^3.8.0
   flutter: ">=3.7.2"
 
 dependencies:

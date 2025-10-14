@@ -240,12 +240,13 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 
 		val padTo4Bytes = args["padTo4Bytes"] as? Boolean ?: false
 		val encodeValueToCBOR = args["encodeValueToCBOR"] as? Boolean ?: false
+		val precisionMode = args["precisionMode"] as? String ?: "auto"
 
 		val bluetoothManager = context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
 
 		val device = bluetoothManager.adapter.getRemoteDevice(address)
 		val transport = LoggableMcuMgrBleTransport(context, device, logStreamHandler)
-		settingsManager = SettingsManager(transport, padTo4Bytes, encodeValueToCBOR)
+		settingsManager = SettingsManager(transport, padTo4Bytes, encodeValueToCBOR, precisionMode)
 
 		transport.connect(device)
 			.done {
