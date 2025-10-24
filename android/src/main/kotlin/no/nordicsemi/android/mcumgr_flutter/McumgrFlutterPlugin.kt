@@ -324,6 +324,4 @@ class McumgrFlutterPlugin : FlutterPlugin, MethodCallHandler {
 			}
 		})
 	}
-
-
 }
