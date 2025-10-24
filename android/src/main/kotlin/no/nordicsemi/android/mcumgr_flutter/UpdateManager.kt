@@ -7,7 +7,7 @@ import io.runtime.mcumgr.ble.McuMgrBleTransport
 import io.runtime.mcumgr.dfu.model.McuMgrImageSet;
 import io.runtime.mcumgr.dfu.FirmwareUpgradeCallback
 import io.runtime.mcumgr.dfu.FirmwareUpgradeController
-import io.runtime.mcumgr.dfu.FirmwareUpgradeManager
+import io.runtime.mcumgr.dfu.mcuboot.FirmwareUpgradeManager
 import io.runtime.mcumgr.exception.McuMgrException
 import io.runtime.mcumgr.managers.ImageManager
 import io.runtime.mcumgr.response.img.McuMgrImageStateResponse

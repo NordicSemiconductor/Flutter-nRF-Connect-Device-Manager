@@ -14,7 +14,7 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.runtime.mcumgr.McuMgrCallback
-import io.runtime.mcumgr.dfu.FirmwareUpgradeManager
+import io.runtime.mcumgr.dfu.mcuboot.FirmwareUpgradeManager
 import io.runtime.mcumgr.exception.McuMgrException
 import io.runtime.mcumgr.response.img.McuMgrImageStateResponse
 import no.nordicsemi.android.mcumgr_flutter.ext.toProto
