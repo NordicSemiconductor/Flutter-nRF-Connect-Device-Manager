@@ -1,3 +1,6 @@
+## 0.7.0
+Lazy initialize CBCentralManager in FsManager (#110)
+
 ## 0.6.1
 FS Manager added (#101)
 Updated to Flutter >=3.7.2

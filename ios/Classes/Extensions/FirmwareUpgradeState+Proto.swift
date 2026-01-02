@@ -22,6 +22,7 @@ extension FirmwareUpgradeState {
         case .requestMcuMgrParameters: return .requestMcuMgrParameters
         case .eraseAppSettings: return .eraseAppSettings
         case .bootloaderInfo: return .bootloaderInfo
+        case .resetIntoFirmwareLoader: return .resetIntoFirmwareLoader
         }
     }
 }

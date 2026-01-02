@@ -22,7 +22,7 @@ fileprivate struct _GeneratedWithProtocGenSwiftVersion: SwiftProtobuf.ProtobufAP
 }
 
 /// Flutter call arguments
-struct ProtoUpdateCallArgument: @unchecked Sendable {
+struct ProtoUpdateCallArgument: Sendable {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
@@ -69,7 +69,7 @@ struct ProtoError: Sendable {
   init() {}
 }
 
-struct ProtoImage: @unchecked Sendable {
+struct ProtoImage: Sendable {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
@@ -190,6 +190,7 @@ struct ProtoUpdateStateChanges: Sendable {
     case requestMcuMgrParameters // = 7
     case eraseAppSettings // = 8
     case bootloaderInfo // = 9
+    case resetIntoFirmwareLoader // = 10
     case UNRECOGNIZED(Int)
 
     init() {
@@ -208,6 +209,7 @@ struct ProtoUpdateStateChanges: Sendable {
       case 7: self = .requestMcuMgrParameters
       case 8: self = .eraseAppSettings
       case 9: self = .bootloaderInfo
+      case 10: self = .resetIntoFirmwareLoader
       default: self = .UNRECOGNIZED(rawValue)
       }
     }
@@ -224,6 +226,7 @@ struct ProtoUpdateStateChanges: Sendable {
       case .requestMcuMgrParameters: return 7
       case .eraseAppSettings: return 8
       case .bootloaderInfo: return 9
+      case .resetIntoFirmwareLoader: return 10
       case .UNRECOGNIZED(let i): return i
       }
     }
@@ -240,6 +243,7 @@ struct ProtoUpdateStateChanges: Sendable {
       .requestMcuMgrParameters,
       .eraseAppSettings,
       .bootloaderInfo,
+      .resetIntoFirmwareLoader,
     ]
 
   }
@@ -631,7 +635,7 @@ struct ProtoListImagesResponse: Sendable {
   init() {}
 }
 
-struct ProtoImageSlot: @unchecked Sendable {
+struct ProtoImageSlot: Sendable {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
@@ -672,12 +676,7 @@ struct ProtoImageSlot: @unchecked Sendable {
 
 extension ProtoUpdateCallArgument: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = "ProtoUpdateCallArgument"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "device_uuid"),
-    2: .same(proto: "hash"),
-    3: .standard(proto: "firmware_data"),
-    4: .same(proto: "configuration"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}device_uuid\0\u{1}hash\0\u{3}firmware_data\0\u{1}configuration\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -726,9 +725,7 @@ extension ProtoUpdateCallArgument: SwiftProtobuf.Message, SwiftProtobuf._Message
 
 extension ProtoError: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = "ProtoError"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "localizedDescription"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}localizedDescription\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -758,12 +755,7 @@ extension ProtoError: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementatio
 
 extension ProtoImage: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = "ProtoImage"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "image"),
-    2: .same(proto: "slot"),
-    3: .same(proto: "hash"),
-    4: .same(proto: "data"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}image\0\u{1}slot\0\u{1}hash\0\u{1}data\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -812,11 +804,7 @@ extension ProtoImage: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementatio
 
 extension ProtoUpdateWithImageCallArguments: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = "ProtoUpdateWithImageCallArguments"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "device_uuid"),
-    2: .same(proto: "images"),
-    3: .same(proto: "configuration"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{3}device_uuid\0\u{1}images\0\u{1}configuration\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -860,12 +848,7 @@ extension ProtoUpdateWithImageCallArguments: SwiftProtobuf.Message, SwiftProtobu
 
 extension ProtoUpdateStateChangesStreamArg: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = "ProtoUpdateStateChangesStreamArg"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "uuid"),
-    2: .same(proto: "done"),
-    3: .same(proto: "error"),
-    4: .same(proto: "updateStateChanges"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0\u{1}done\0\u{1}error\0\u{1}updateStateChanges\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -914,11 +897,7 @@ extension ProtoUpdateStateChangesStreamArg: SwiftProtobuf.Message, SwiftProtobuf
 
 extension ProtoUpdateStateChanges: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = "ProtoUpdateStateChanges"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "oldState"),
-    2: .same(proto: "newState"),
-    3: .same(proto: "canceled"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}oldState\0\u{1}newState\0\u{1}canceled\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -957,30 +936,12 @@ extension ProtoUpdateStateChanges: SwiftProtobuf.Message, SwiftProtobuf._Message
 }
 
 extension ProtoUpdateStateChanges.FirmwareUpgradeState: SwiftProtobuf._ProtoNameProviding {
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    0: .same(proto: "NONE"),
-    1: .same(proto: "VALIDATE"),
-    2: .same(proto: "UPLOAD"),
-    3: .same(proto: "TEST"),
-    4: .same(proto: "RESET"),
-    5: .same(proto: "CONFIRM"),
-    6: .same(proto: "SUCCESS"),
-    7: .same(proto: "REQUEST_MCU_MGR_PARAMETERS"),
-    8: .same(proto: "ERASE_APP_SETTINGS"),
-    9: .same(proto: "BOOTLOADER_INFO"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{2}\0NONE\0\u{1}VALIDATE\0\u{1}UPLOAD\0\u{1}TEST\0\u{1}RESET\0\u{1}CONFIRM\0\u{1}SUCCESS\0\u{1}REQUEST_MCU_MGR_PARAMETERS\0\u{1}ERASE_APP_SETTINGS\0\u{1}BOOTLOADER_INFO\0\u{1}RESET_INTO_FIRMWARE_LOADER\0")
 }
 
 extension ProtoFirmwareUpgradeConfiguration: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = "ProtoFirmwareUpgradeConfiguration"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "estimatedSwapTimeMs"),
-    2: .same(proto: "eraseAppSettings"),
-    3: .same(proto: "pipelineDepth"),
-    4: .same(proto: "byteAlignment"),
-    5: .same(proto: "reassemblyBufferSize"),
-    6: .same(proto: "firmwareUpgradeMode"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}estimatedSwapTimeMs\0\u{1}eraseAppSettings\0\u{1}pipelineDepth\0\u{1}byteAlignment\0\u{1}reassemblyBufferSize\0\u{1}firmwareUpgradeMode\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -1034,32 +995,16 @@ extension ProtoFirmwareUpgradeConfiguration: SwiftProtobuf.Message, SwiftProtobu
 }
 
 extension ProtoFirmwareUpgradeConfiguration.ImageUploadAlignment: SwiftProtobuf._ProtoNameProviding {
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    0: .same(proto: "DISABLED"),
-    1: .same(proto: "TWO_BYTE"),
-    2: .same(proto: "FOUR_BYTE"),
-    3: .same(proto: "EIGHT_BYTE"),
-    4: .same(proto: "SIXTEEN_BYTE"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{2}\0DISABLED\0\u{1}TWO_BYTE\0\u{1}FOUR_BYTE\0\u{1}EIGHT_BYTE\0\u{1}SIXTEEN_BYTE\0")
 }
 
 extension ProtoFirmwareUpgradeConfiguration.FirmwareUpgradeMode: SwiftProtobuf._ProtoNameProviding {
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    0: .same(proto: "TEST_ONLY"),
-    1: .same(proto: "CONFIRM_ONLY"),
-    2: .same(proto: "TEST_AND_CONFIRM"),
-    3: .same(proto: "UPLOAD_ONLY"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{2}\0TEST_ONLY\0\u{1}CONFIRM_ONLY\0\u{1}TEST_AND_CONFIRM\0\u{1}UPLOAD_ONLY\0")
 }
 
 extension ProtoProgressUpdateStreamArg: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = "ProtoProgressUpdateStreamArg"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "uuid"),
-    2: .same(proto: "done"),
-    3: .same(proto: "error"),
-    4: .same(proto: "progressUpdate"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0\u{1}done\0\u{1}error\0\u{1}progressUpdate\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -1108,11 +1053,7 @@ extension ProtoProgressUpdateStreamArg: SwiftProtobuf.Message, SwiftProtobuf._Me
 
 extension ProtoProgressUpdate: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = "ProtoProgressUpdate"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "bytesSent"),
-    2: .same(proto: "imageSize"),
-    3: .same(proto: "timestamp"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}bytesSent\0\u{1}imageSize\0\u{1}timestamp\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -1152,12 +1093,7 @@ extension ProtoProgressUpdate: SwiftProtobuf.Message, SwiftProtobuf._MessageImpl
 
 extension ProtoLogMessageStreamArg: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = "ProtoLogMessageStreamArg"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "uuid"),
-    2: .same(proto: "done"),
-    3: .same(proto: "error"),
-    4: .same(proto: "protoLogMessage"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0\u{1}done\0\u{1}error\0\u{1}protoLogMessage\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -1206,12 +1142,7 @@ extension ProtoLogMessageStreamArg: SwiftProtobuf.Message, SwiftProtobuf._Messag
 
 extension ProtoLogMessage: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = "ProtoLogMessage"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "message"),
-    2: .same(proto: "logCategory"),
-    3: .same(proto: "logLevel"),
-    4: .same(proto: "logDateTime"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}message\0\u{1}logCategory\0\u{1}logLevel\0\u{1}logDateTime\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -1255,39 +1186,16 @@ extension ProtoLogMessage: SwiftProtobuf.Message, SwiftProtobuf._MessageImplemen
 }
 
 extension ProtoLogMessage.LogCategory: SwiftProtobuf._ProtoNameProviding {
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    0: .same(proto: "TRANSPORT"),
-    1: .same(proto: "CONFIG"),
-    2: .same(proto: "CRASH"),
-    3: .same(proto: "DEFAULT"),
-    4: .same(proto: "FS"),
-    5: .same(proto: "IMAGE"),
-    6: .same(proto: "LOG"),
-    7: .same(proto: "RUN_TEST"),
-    8: .same(proto: "STATS"),
-    9: .same(proto: "DFU"),
-    10: .same(proto: "SHELL"),
-    11: .same(proto: "SUIT"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{2}\0TRANSPORT\0\u{1}CONFIG\0\u{1}CRASH\0\u{1}DEFAULT\0\u{1}FS\0\u{1}IMAGE\0\u{1}LOG\0\u{1}RUN_TEST\0\u{1}STATS\0\u{1}DFU\0\u{1}SHELL\0\u{1}SUIT\0")
 }
 
 extension ProtoLogMessage.LogLevel: SwiftProtobuf._ProtoNameProviding {
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    0: .same(proto: "DEBUG"),
-    1: .same(proto: "VERBOSE"),
-    2: .same(proto: "INFO"),
-    3: .same(proto: "APPLICATION"),
-    4: .same(proto: "WARNING"),
-    5: .same(proto: "ERROR"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{2}\0DEBUG\0\u{1}VERBOSE\0\u{1}INFO\0\u{1}APPLICATION\0\u{1}WARNING\0\u{1}ERROR\0")
 }
 
 extension ProtoReadLogCallArguments: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = "ProtoReadLogCallArguments"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "uuid"),
-    2: .same(proto: "clearLogs"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0\u{1}clearLogs\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -1322,10 +1230,7 @@ extension ProtoReadLogCallArguments: SwiftProtobuf.Message, SwiftProtobuf._Messa
 
 extension ProtoReadMessagesResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = "ProtoReadMessagesResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "uuid"),
-    2: .same(proto: "protoLogMessage"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0\u{1}protoLogMessage\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -1360,11 +1265,7 @@ extension ProtoReadMessagesResponse: SwiftProtobuf.Message, SwiftProtobuf._Messa
 
 extension ProtoListImagesResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = "ProtoListImagesResponse"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "uuid"),
-    2: .same(proto: "existing"),
-    3: .same(proto: "images"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}uuid\0\u{1}existing\0\u{1}images\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
@@ -1404,17 +1305,7 @@ extension ProtoListImagesResponse: SwiftProtobuf.Message, SwiftProtobuf._Message
 
 extension ProtoImageSlot: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = "ProtoImageSlot"
-  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "image"),
-    2: .same(proto: "slot"),
-    3: .same(proto: "version"),
-    4: .same(proto: "hash"),
-    5: .same(proto: "bootable"),
-    6: .same(proto: "pending"),
-    7: .same(proto: "confirmed"),
-    8: .same(proto: "active"),
-    9: .same(proto: "permanent"),
-  ]
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap(bytecode: "\0\u{1}image\0\u{1}slot\0\u{1}version\0\u{1}hash\0\u{1}bootable\0\u{1}pending\0\u{1}confirmed\0\u{1}active\0\u{1}permanent\0")
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
