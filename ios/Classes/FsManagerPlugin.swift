@@ -5,14 +5,14 @@ import CoreBluetooth
 class FsManagerPlugin : FsManagerApi {
     private var managers: [String : FileSystemManager] = [:]
     private var delegates: [String : FileDownloadDelegate] = [:]
-    private let centralManager: CBCentralManager
+    private let centralManagerProvider: () -> CBCentralManager?
     private let streamHandler = DownloadStreamHandler()
 
     init(
-        centralManager: CBCentralManager,
+        centralManagerProvider: @escaping () -> CBCentralManager?,
         messenger: FlutterBinaryMessenger
     ) {
-        self.centralManager = centralManager
+        self.centralManagerProvider = centralManagerProvider
         
         FsManagerApiSetup.setUp(binaryMessenger: messenger, api: self)
         GetFileDownloadEventsStreamHandler.register(with: messenger, streamHandler: streamHandler)
@@ -22,6 +22,9 @@ class FsManagerPlugin : FsManagerApi {
         var mgr = managers[remoteId]
         guard let uuid = UUID(uuidString: remoteId) else {
             throw PigeonError(code: "TODO Code", message: "remoteId not a valid UUID.", details: nil)
+        }
+        guard let centralManager = centralManagerProvider() else {
+            throw PigeonError(code: "TODO Code", message: "CBCentralManager not available", details: nil)
         }
         guard let pheripheral = centralManager.retrievePeripherals(withIdentifiers: [uuid]).first else {
             throw PigeonError(code: "TODO Code", message: "Was not able to retrieve pheripheral for UUID \(uuid)", details: nil)

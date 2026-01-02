@@ -9,12 +9,31 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
     static let namespace = "mcumgr_flutter"
     
     private var updateManagers: [String : UpdateManager] = [:]
-    private var centralManager: CBCentralManager? = nil
+    
+    // Lazy initialization to avoid triggering Bluetooth permission at app startup
+    private var _centralManager: CBCentralManager? = nil
+    private var centralManager: CBCentralManager {
+        if _centralManager == nil {
+            _centralManager = CBCentralManager()
+            _centralManager?.delegate = self
+        }
+        return _centralManager!
+    }
     
     private let updateStateEventChannel: FlutterEventChannel
     private let updateProgressEventChannel: FlutterEventChannel
 
-    private let fsManagerPlugin: FsManagerPlugin
+    private var _fsManagerPlugin: FsManagerPlugin? = nil
+    private let binaryMessenger: FlutterBinaryMessenger
+    private var fsManagerPlugin: FsManagerPlugin {
+        if _fsManagerPlugin == nil {
+            _fsManagerPlugin = FsManagerPlugin(
+                centralManagerProvider: { [weak self] in self?.centralManager },
+                messenger: binaryMessenger
+            )
+        }
+        return _fsManagerPlugin!
+    }
 
     // Log channels
     private let logEventChannel: FlutterEventChannel
@@ -29,22 +48,19 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
         logEventChannel: FlutterEventChannel,
         binaryMessenger: FlutterBinaryMessenger
     ) {
-        let centralManager = CBCentralManager()
-        self.centralManager = centralManager
+        self.binaryMessenger = binaryMessenger
         self.updateStateEventChannel = updateStateEventChannel
         self.updateProgressEventChannel = updateProgressEventChannel
         self.logEventChannel = logEventChannel
-        self.fsManagerPlugin = FsManagerPlugin(
-            centralManager: centralManager,
-            messenger: binaryMessenger
-        )
 
         super.init()
         
-        centralManager.delegate = self
         updateStateEventChannel.setStreamHandler(updateStateStreamHandler)
         updateProgressEventChannel.setStreamHandler(updateProgressStreamHandler)
         logEventChannel.setStreamHandler(logStreamHandler)
+        
+        // Initialize FsManagerPlugin API setup
+        _ = fsManagerPlugin
     }
     
     public static func register(with registrar: FlutterPluginRegistrar) {
@@ -118,17 +134,19 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
             throw FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can not create UUID from provided arguments", details: call.debugDetails)
         }
         
-        if let centralManager {
-            guard let peripheral = centralManager.retrievePeripherals(withIdentifiers: [uuid]).first else {
+        // Access centralManager (this will lazily create it if needed)
+        let manager = centralManager
+        
+        // Check if Bluetooth is ready
+        if manager.state == .poweredOn {
+            guard let peripheral = manager.retrievePeripherals(withIdentifiers: [uuid]).first else {
                 throw FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can't retrieve peripheral with provided UUID", details: call.debugDetails)
             }
             
             try handleUpdateManager(for: peripheral, call: call)
             result(nil)
         } else {
-            centralManager = CBCentralManager()
-            centralManager?.delegate = self
-            
+            // Bluetooth not ready yet, queue the request and wait for delegate callback
             initManagerResultQueue.enqueue((call: call, result: result))
         }
     }
@@ -184,7 +202,7 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
             throw FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can not parse provided arguments", details: call.debugDetails)
         }
         
-        let args = try ProtoUpdateWithImageCallArguments(serializedBytes: data.data)
+        let args = try ProtoUpdateWithImageCallArguments(serializedData: data.data)
         guard let manager = updateManagers[args.deviceUuid] else {
             throw FlutterError(code: ErrorCode.updateManagerDoesNotExist.rawValue, message: "Update manager does not exist", details: call.debugDetails)
         }
@@ -200,7 +218,7 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
             throw FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can not parse provided arguments", details: call.debugDetails)
         }
         
-        let args = try ProtoUpdateCallArgument(serializedBytes: data.data)
+        let args = try ProtoUpdateCallArgument(serializedData: data.data)
         guard let manager = updateManagers[args.deviceUuid] else {
             throw FlutterError(code: ErrorCode.updateManagerDoesNotExist.rawValue, message: "Update manager does not exist", details: call.debugDetails)
         }
@@ -227,7 +245,7 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
             throw FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can not parse provided arguments", details: call.debugDetails)
         }
         
-        let args = try ProtoReadLogCallArguments(serializedBytes: data.data)
+        let args = try ProtoReadLogCallArguments(serializedData: data.data)
         guard let manager = updateManagers[args.uuid] else {
             throw FlutterError(code: ErrorCode.updateManagerDoesNotExist.rawValue, message: "Update manager does not exist", details: call.debugDetails)
         }
