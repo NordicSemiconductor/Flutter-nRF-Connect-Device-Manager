@@ -47,6 +47,7 @@ message ProtoUpdateStateChanges {
         REQUEST_MCU_MGR_PARAMETERS = 7;
         ERASE_APP_SETTINGS = 8;
         BOOTLOADER_INFO = 9;
+        RESET_INTO_FIRMWARE_LOADER = 10;
     }
 
     FirmwareUpgradeState oldState = 1;
