@@ -47,7 +47,9 @@ extension UpdateLogger: McuMgrLogDelegate {
         do {
             let container = ProtoLogMessageStreamArg(uuid: identifier, msg: log)
             let data = try container.serializedData()
-            logStreamHandler.sink?(FlutterStandardTypedData(bytes: data))
+            DispatchQueue.main.async { [weak self] in
+                self?.logStreamHandler.sink?(FlutterStandardTypedData(bytes: data))
+            }
         } catch let e {
             print(e.localizedDescription)
         }
