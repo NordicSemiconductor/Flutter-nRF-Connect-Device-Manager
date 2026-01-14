@@ -119,31 +119,40 @@ private class FileDownloadDelegateImpl : FileDownloadDelegate {
     /// - parameter fileSize:        The overall size of the file being downloaded.
     /// - parameter timestamp:       The time this response packet was received.
     func downloadProgressDidChange(bytesDownloaded: Int, fileSize: Int, timestamp: Date) {
-        streamHandler.onEvent(
-            OnDownloadProgressChangedEvent(
-                current: Int64(bytesDownloaded),
-                total: Int64(fileSize),
-                timestamp: timestamp.asInt64,
-                remoteId: remoteId,
-                path: path
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.streamHandler.onEvent(
+                OnDownloadProgressChangedEvent(
+                    current: Int64(bytesDownloaded),
+                    total: Int64(fileSize),
+                    timestamp: timestamp.asInt64,
+                    remoteId: self.remoteId,
+                    path: self.path
+                )
             )
-        )
+        }
     }
     
     /// Called when an file download has failed.
     ///
     /// - parameter error: The error that caused the download to fail.
     func downloadDidFail(with error: Error) {
-        streamHandler.onEvent(
-            OnDownloadFailedEvent(cause: error.localizedDescription, remoteId: remoteId, path: path)
-        )
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.streamHandler.onEvent(
+                OnDownloadFailedEvent(cause: error.localizedDescription, remoteId: self.remoteId, path: self.path)
+            )
+        }
     }
     
     /// Called when the download has been cancelled.
     func downloadDidCancel() {
-        streamHandler.onEvent(
-            OnDownloadCancelledEvent(remoteId: remoteId, path: path)
-        )
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.streamHandler.onEvent(
+                OnDownloadCancelledEvent(remoteId: self.remoteId, path: self.path)
+            )
+        }
     }
     
     /// Called when the download has finished successfully.
@@ -151,9 +160,12 @@ private class FileDownloadDelegateImpl : FileDownloadDelegate {
     /// - parameter name: The file name.
     /// - parameter data: The file content.
     func download(of name: String, didFinish data: Data) {
-        streamHandler.onEvent(
-            OnDownloadCompletedEvent(remoteId: remoteId, path: path, bytes: FlutterStandardTypedData(bytes: data))
-        )
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.streamHandler.onEvent(
+                OnDownloadCompletedEvent(remoteId: self.remoteId, path: self.path, bytes: FlutterStandardTypedData(bytes: data))
+            )
+        }
     }
 }
 
