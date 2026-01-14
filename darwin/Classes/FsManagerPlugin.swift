@@ -1,4 +1,10 @@
+#if os(iOS)
 import Flutter
+import UIKit
+#elseif os(macOS)
+import FlutterMacOS
+import AppKit
+#endif
 import iOSMcuManagerLibrary
 import CoreBluetooth
 

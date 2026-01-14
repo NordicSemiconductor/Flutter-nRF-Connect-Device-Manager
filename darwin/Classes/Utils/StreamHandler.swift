@@ -5,8 +5,13 @@
 //  Created by Mykola Kibysh on 13/12/2020.
 //
 
-import Foundation
+#if os(iOS)
 import Flutter
+import UIKit
+#elseif os(macOS)
+import FlutterMacOS
+import AppKit
+#endif
 
 class StreamHandler: NSObject, FlutterStreamHandler {
     private (set) var sink: FlutterEventSink?

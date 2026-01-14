@@ -1,17 +1,22 @@
-import Flutter
-import UIKit
+#if os(iOS)
+    import Flutter
+    import UIKit
+#elseif os(macOS)
+    import AppKit
+    import FlutterMacOS
+#endif
 import CoreBluetooth
 import iOSMcuManagerLibrary
 
 public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
     private var initManagerResultQueue = ConcurrentQueue<(call: FlutterMethodCall, result: FlutterResult)>()
-    
+
     static let namespace = "mcumgr_flutter"
-    
-    private var updateManagers: [String : UpdateManager] = [:]
-    
+
+    private var updateManagers: [String: UpdateManager] = [:]
+
     // Lazy initialization to avoid triggering Bluetooth permission at app startup
-    private var _centralManager: CBCentralManager? = nil
+    private var _centralManager: CBCentralManager?
     private var centralManager: CBCentralManager {
         if _centralManager == nil {
             _centralManager = CBCentralManager()
@@ -19,11 +24,11 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
         }
         return _centralManager!
     }
-    
+
     private let updateStateEventChannel: FlutterEventChannel
     private let updateProgressEventChannel: FlutterEventChannel
 
-    private var _fsManagerPlugin: FsManagerPlugin? = nil
+    private var _fsManagerPlugin: FsManagerPlugin?
     private let binaryMessenger: FlutterBinaryMessenger
     private var fsManagerPlugin: FsManagerPlugin {
         if _fsManagerPlugin == nil {
@@ -37,14 +42,14 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
 
     // Log channels
     private let logEventChannel: FlutterEventChannel
-    
+
     private let updateStateStreamHandler = StreamHandler()
     private let updateProgressStreamHandler = StreamHandler()
     private let logStreamHandler = StreamHandler()
-    
+
     public init(
-        updateStateEventChannel: FlutterEventChannel, 
-        updateProgressEventChannel: FlutterEventChannel, 
+        updateStateEventChannel: FlutterEventChannel,
+        updateProgressEventChannel: FlutterEventChannel,
         logEventChannel: FlutterEventChannel,
         binaryMessenger: FlutterBinaryMessenger
     ) {
@@ -54,39 +59,38 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
         self.logEventChannel = logEventChannel
 
         super.init()
-        
+
         updateStateEventChannel.setStreamHandler(updateStateStreamHandler)
         updateProgressEventChannel.setStreamHandler(updateProgressStreamHandler)
         logEventChannel.setStreamHandler(logStreamHandler)
-        
+
         // Initialize FsManagerPlugin API setup
         _ = fsManagerPlugin
     }
-    
+
     public static func register(with registrar: FlutterPluginRegistrar) {
-        let channel = FlutterMethodChannel(name: namespace + "/method_channel", binaryMessenger: registrar.messenger())
-        
-        let updateStateEventChannel = FlutterEventChannel(channel: .updateStateEventChannel, binaryMessenger: registrar.messenger())
-        let updateProgressEventChannel = FlutterEventChannel(channel: .updateProgressEventChannel, binaryMessenger: registrar.messenger())
-        let logEventChannel = FlutterEventChannel(channel: .logEventChannel, binaryMessenger: registrar.messenger())
-       
+        let channel = FlutterMethodChannel(name: namespace + "/method_channel", binaryMessenger: registrar.messenger)
+
+        let updateStateEventChannel = FlutterEventChannel(channel: .updateStateEventChannel, binaryMessenger: registrar.messenger)
+        let updateProgressEventChannel = FlutterEventChannel(channel: .updateProgressEventChannel, binaryMessenger: registrar.messenger)
+        let logEventChannel = FlutterEventChannel(channel: .logEventChannel, binaryMessenger: registrar.messenger)
+
         let instance = SwiftMcumgrFlutterPlugin(
             updateStateEventChannel: updateStateEventChannel,
             updateProgressEventChannel: updateProgressEventChannel,
             logEventChannel: logEventChannel,
-            binaryMessenger: registrar.messenger()
+            binaryMessenger: registrar.messenger
         )
         registrar.addMethodCallDelegate(instance, channel: channel)
     }
-    
+
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-        
         guard let method = FlutterMethod(rawValue: call.method) else {
             let error = FlutterMethodNotImplemented
             result(error)
             return
         }
-        
+
         do {
             switch method {
             case .update:
@@ -126,23 +130,22 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
         } catch {
             result(FlutterError(error: error, call: call))
         }
-        
     }
-    
+
     private func initializeUpdateManager(call: FlutterMethodCall, result: @escaping FlutterResult) throws {
         guard let uuidString = call.arguments as? String, let uuid = UUID(uuidString: uuidString) else {
             throw FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can not create UUID from provided arguments", details: call.debugDetails)
         }
-        
+
         // Access centralManager (this will lazily create it if needed)
         let manager = centralManager
-        
+
         // Check if Bluetooth is ready
         if manager.state == .poweredOn {
             guard let peripheral = manager.retrievePeripherals(withIdentifiers: [uuid]).first else {
                 throw FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can't retrieve peripheral with provided UUID", details: call.debugDetails)
             }
-            
+
             try handleUpdateManager(for: peripheral, call: call)
             result(nil)
         } else {
@@ -150,21 +153,21 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
             initManagerResultQueue.enqueue((call: call, result: result))
         }
     }
-    
+
     private func handleUpdateManager(for peripheral: CBPeripheral, call: FlutterMethodCall) throws {
         guard let uuidString = call.arguments as? String else {
             throw FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can not create UUID from provided arguments", details: call.debugDetails)
         }
-        
+
         guard case .none = updateManagers[uuidString] else {
             throw FlutterError(code: ErrorCode.updateManagerExists.rawValue, message: "Updated manager for provided peripheral already exists", details: call.debugDetails)
         }
-        
+
         let logger = UpdateLogger(identifier: uuidString, streamHandler: logStreamHandler)
         let updateManager = UpdateManager(peripheral: peripheral, progressStreamHandler: updateProgressStreamHandler, stateStreamHandler: updateStateStreamHandler, logStreamHandler: logStreamHandler, updateLogger: logger)
         updateManagers[uuidString] = updateManager
     }
-    
+
     private func retrieveManager(call: FlutterMethodCall) throws -> UpdateManager {
         guard let uuid = call.arguments as? String else {
             throw FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can't retrieve UUID of the device", details: call.debugDetails)
@@ -174,7 +177,7 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
             throw FlutterError(code: ErrorCode.updateManagerDoesNotExist.rawValue, message: "Update manager does not exist", details: call.debugDetails)
         }
 
-        return manager;
+        return manager
     }
 
     private func pause(call: FlutterMethodCall) throws {
@@ -192,37 +195,37 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
     private func isInProgress(call: FlutterMethodCall) throws -> Bool {
         try retrieveManager(call: call).dfuManager.isInProgress()
     }
-    
+
     private func cancel(call: FlutterMethodCall) throws {
         try retrieveManager(call: call).cancel()
     }
-    
+
     private func update(call: FlutterMethodCall) throws {
         guard let data = call.arguments as? FlutterStandardTypedData else {
             throw FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can not parse provided arguments", details: call.debugDetails)
         }
-        
+
         let args = try ProtoUpdateWithImageCallArguments(serializedData: data.data)
         guard let manager = updateManagers[args.deviceUuid] else {
             throw FlutterError(code: ErrorCode.updateManagerDoesNotExist.rawValue, message: "Update manager does not exist", details: call.debugDetails)
         }
-        
+
         let images = args.images.map { ImageManager.Image(proto: $0) }
         let config = args.hasConfiguration ? FirmwareUpgradeConfiguration(proto: args.configuration) : FirmwareUpgradeConfiguration()
-        
+
         try manager.update(images: images, config: config)
     }
-    
+
     private func updateSingleImage(call: FlutterMethodCall) throws {
         guard let data = call.arguments as? FlutterStandardTypedData else {
             throw FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can not parse provided arguments", details: call.debugDetails)
         }
-        
+
         let args = try ProtoUpdateCallArgument(serializedData: data.data)
         guard let manager = updateManagers[args.deviceUuid] else {
             throw FlutterError(code: ErrorCode.updateManagerDoesNotExist.rawValue, message: "Update manager does not exist", details: call.debugDetails)
         }
-        
+
         let config = args.hasConfiguration ? FirmwareUpgradeConfiguration(proto: args.configuration) : FirmwareUpgradeConfiguration()
         let hash: Data
         if args.hasHash {
@@ -230,42 +233,43 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
         } else {
             hash = try McuMgrImage(data: args.firmwareData).hash
         }
-        
+
         try manager.update(hash: hash, data: args.firmwareData, config: config)
     }
-    
+
     private func kill(call: FlutterMethodCall) throws {
         let uuid = try retrieveManager(call: call).peripheral.identifier.uuidString
         updateManagers.removeValue(forKey: uuid)
     }
-    
-    // MARK: Logs 
+
+    // MARK: Logs
+
     private func readLogs(call: FlutterMethodCall) throws -> ProtoReadMessagesResponse {
         guard let data = call.arguments as? FlutterStandardTypedData else {
             throw FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can not parse provided arguments", details: call.debugDetails)
         }
-        
+
         let args = try ProtoReadLogCallArguments(serializedData: data.data)
         guard let manager = updateManagers[args.uuid] else {
             throw FlutterError(code: ErrorCode.updateManagerDoesNotExist.rawValue, message: "Update manager does not exist", details: call.debugDetails)
         }
-        
+
         return manager.updateLogger.readLogs()
     }
-    
+
     private func readImages(call: FlutterMethodCall, result: @escaping FlutterResult) throws {
         guard let uuid = call.arguments as? String else {
             throw FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can't retrieve UUID of the device", details: call.debugDetails)
         }
-        
+
         let manager = try retrieveManager(call: call)
-        
+
         manager.imageManager.list { response, error in
             if let error {
                 result(FlutterError(error: error, call: call))
                 return
             }
-            
+
             var protoResponse = ProtoListImagesResponse()
             if let images = response?.images {
                 protoResponse.images = images.map { $0.toProto() }
@@ -273,9 +277,9 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
             } else {
                 protoResponse.existing = false
             }
-            
+
             protoResponse.uuid = uuid
-            
+
             do {
                 result(try protoResponse.serializedData())
             } catch {
@@ -312,7 +316,7 @@ extension SwiftMcumgrFlutterPlugin: CBCentralManagerDelegate {
             break
         }
     }
-    
+
     private func handlePostponedCall(call: FlutterMethodCall, result: FlutterResult, central: CBCentralManager) {
         guard let uuidString = call.arguments as? String, let uuid = UUID(uuidString: uuidString) else {
             let error = FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can not create UUID from provided arguments", details: call.debugDetails)
