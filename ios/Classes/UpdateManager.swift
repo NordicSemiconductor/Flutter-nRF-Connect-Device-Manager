@@ -77,10 +77,14 @@ extension UpdateManager: FirmwareUpgradeDelegate {
             
             let arg = ProtoUpdateStateChangesStreamArg(updateStateChanges: changes, peripheral: peripheral)
             let data = try arg.serializedData()
-            stateStreamHandler.sink?(FlutterStandardTypedData(bytes: data))
+            DispatchQueue.main.async { [weak self] in
+                self?.stateStreamHandler.sink?(FlutterStandardTypedData(bytes: data))
+            }
         } catch let e {
             let error = FlutterError(error: e, code: ErrorCode.flutterTypeError)
-            stateStreamHandler.sink?(error)
+            DispatchQueue.main.async { [weak self] in
+                self?.stateStreamHandler.sink?(error)
+            }
         }
     }
     
@@ -97,16 +101,19 @@ extension UpdateManager: FirmwareUpgradeDelegate {
         
         do {
             let statusData = try stateChangesArg.serializedData()
-            stateStreamHandler.sink?(FlutterStandardTypedData(bytes: statusData))
-            
             let progressData = try progressArg.serializedData()
-            progressStreamHandler.sink?(FlutterStandardTypedData(bytes: progressData))
-            
             let logData = try logArg.serializedData()
-            logStreamHandler.sink?(FlutterStandardTypedData(bytes: logData))
+            
+            DispatchQueue.main.async { [weak self] in
+                self?.stateStreamHandler.sink?(FlutterStandardTypedData(bytes: statusData))
+                self?.progressStreamHandler.sink?(FlutterStandardTypedData(bytes: progressData))
+                self?.logStreamHandler.sink?(FlutterStandardTypedData(bytes: logData))
+            }
         } catch let e {
             let error = FlutterError(error: e, code: ErrorCode.flutterTypeError)
-            stateStreamHandler.sink?(error)
+            DispatchQueue.main.async { [weak self] in
+                self?.stateStreamHandler.sink?(error)
+            }
         }
     }
     
@@ -127,16 +134,19 @@ extension UpdateManager: FirmwareUpgradeDelegate {
         
         do {
             let data = try arg.serializedData()
-            stateStreamHandler.sink?(FlutterStandardTypedData(bytes: data))
-            
             let progressData = try progressArg.serializedData()
-            progressStreamHandler.sink?(FlutterStandardTypedData(bytes: progressData))
-            
             let logData = try logArg.serializedData()
-            logStreamHandler.sink?(FlutterStandardTypedData(bytes: logData))
+            
+            DispatchQueue.main.async { [weak self] in
+                self?.stateStreamHandler.sink?(FlutterStandardTypedData(bytes: data))
+                self?.progressStreamHandler.sink?(FlutterStandardTypedData(bytes: progressData))
+                self?.logStreamHandler.sink?(FlutterStandardTypedData(bytes: logData))
+            }
         } catch let e {
             let error = FlutterError(error: e, code: ErrorCode.flutterTypeError)
-            stateStreamHandler.sink?(error)
+            DispatchQueue.main.async { [weak self] in
+                self?.stateStreamHandler.sink?(error)
+            }
         }
     }
     
@@ -148,10 +158,15 @@ extension UpdateManager: FirmwareUpgradeDelegate {
             changes.newState = state.toProto()
             
             let arg = ProtoUpdateStateChangesStreamArg(updateStateChanges: changes, peripheral: peripheral)
-            stateStreamHandler.sink?(FlutterStandardTypedData(bytes: try arg.serializedData()))
+            let data = try arg.serializedData()
+            DispatchQueue.main.async { [weak self] in
+                self?.stateStreamHandler.sink?(FlutterStandardTypedData(bytes: data))
+            }
         } catch let e {
             let error = FlutterError(error: e, code: ErrorCode.flutterTypeError)
-            stateStreamHandler.sink?(error)
+            DispatchQueue.main.async { [weak self] in
+                self?.stateStreamHandler.sink?(error)
+            }
         }
     }
     
@@ -165,10 +180,14 @@ extension UpdateManager: FirmwareUpgradeDelegate {
             let arg = ProtoProgressUpdateStreamArg(progressUpdate: progressUpdate, peripheral: peripheral)
             let data = try arg.serializedData()
             let flutterData = FlutterStandardTypedData(bytes: data)
-            progressStreamHandler.sink?(flutterData)
+            DispatchQueue.main.async { [weak self] in
+                self?.progressStreamHandler.sink?(flutterData)
+            }
         } catch let e {
             let error = FlutterError(error: e, code: ErrorCode.flutterTypeError)
-            progressStreamHandler.sink?(error)
+            DispatchQueue.main.async { [weak self] in
+                self?.progressStreamHandler.sink?(error)
+            }
         }
     }
 }
