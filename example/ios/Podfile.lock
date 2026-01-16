@@ -40,7 +40,7 @@ PODS:
   - iOSMcuManagerLibrary (1.12):
     - SwiftCBOR (= 0.5.0)
     - ZIPFoundation (= 0.9.19)
-  - mcumgr_flutter (0.7.0):
+  - mcumgr_flutter (0.7.1):
     - Flutter
     - FlutterMacOS
     - iOSMcuManagerLibrary (= 1.12)
@@ -89,12 +89,12 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   DKImagePickerController: 946cec48c7873164274ecc4624d19e3da4c1ef3c
   DKPhotoGallery: b3834fecb755ee09a593d7c9e389d8b5d6deed60
-  file_picker: a0560bc09d61de87f12d246fc47d2119e6ef37be
+  file_picker: b159e0c068aef54932bb15dc9fd1571818edaf49
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
-  flutter_blue_plus_darwin: 20a08bfeaa0f7804d524858d3d8744bcc1b6dbc3
+  flutter_blue_plus_darwin: 904ed52825285a15f60e9d90312337a09f11a785
   iOSMcuManagerLibrary: f72db849f6dd66b1f26cd7eea776050a22c8591c
-  mcumgr_flutter: c9d8176ee35703ef297fe4405705ed104577df65
-  path_provider_foundation: 080d55be775b7414fd5a5ef3ac137b97b097e564
+  mcumgr_flutter: 9d69d9002f3a5fe593f1c79370183a57968565e7
+  path_provider_foundation: 0b743cbb62d8e47eab856f09262bb8c1ddcfe6ba
   SDWebImage: e9c98383c7572d713c1a0d7dd2783b10599b9838
   SwiftCBOR: aa87349b4ccddd19f861aa544f7c27d43dee5772
   SwiftProtobuf: e1b437c8e31a4c5577b643249a0bb62ed4f02153
