@@ -1,0 +1,62 @@
+PODS:
+  - file_picker (0.0.1):
+    - FlutterMacOS
+  - flutter_blue_plus_darwin (0.0.2):
+    - Flutter
+    - FlutterMacOS
+  - FlutterMacOS (1.0.0)
+  - iOSMcuManagerLibrary (1.12):
+    - SwiftCBOR (= 0.5.0)
+    - ZIPFoundation (= 0.9.19)
+  - mcumgr_flutter (0.7.0):
+    - Flutter
+    - FlutterMacOS
+    - iOSMcuManagerLibrary (= 1.12)
+    - SwiftProtobuf
+  - path_provider_foundation (0.0.1):
+    - Flutter
+    - FlutterMacOS
+  - SwiftCBOR (0.5.0)
+  - SwiftProtobuf (1.33.3)
+  - ZIPFoundation (0.9.19)
+
+DEPENDENCIES:
+  - file_picker (from `Flutter/ephemeral/.symlinks/plugins/file_picker/macos`)
+  - flutter_blue_plus_darwin (from `Flutter/ephemeral/.symlinks/plugins/flutter_blue_plus_darwin/darwin`)
+  - FlutterMacOS (from `Flutter/ephemeral`)
+  - mcumgr_flutter (from `Flutter/ephemeral/.symlinks/plugins/mcumgr_flutter/darwin`)
+  - path_provider_foundation (from `Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/darwin`)
+
+SPEC REPOS:
+  trunk:
+    - iOSMcuManagerLibrary
+    - SwiftCBOR
+    - SwiftProtobuf
+    - ZIPFoundation
+
+EXTERNAL SOURCES:
+  file_picker:
+    :path: Flutter/ephemeral/.symlinks/plugins/file_picker/macos
+  flutter_blue_plus_darwin:
+    :path: Flutter/ephemeral/.symlinks/plugins/flutter_blue_plus_darwin/darwin
+  FlutterMacOS:
+    :path: Flutter/ephemeral
+  mcumgr_flutter:
+    :path: Flutter/ephemeral/.symlinks/plugins/mcumgr_flutter/darwin
+  path_provider_foundation:
+    :path: Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/darwin
+
+SPEC CHECKSUMS:
+  file_picker: 7584aae6fa07a041af2b36a2655122d42f578c1a
+  flutter_blue_plus_darwin: 20a08bfeaa0f7804d524858d3d8744bcc1b6dbc3
+  FlutterMacOS: d0db08ddef1a9af05a5ec4b724367152bb0500b1
+  iOSMcuManagerLibrary: f72db849f6dd66b1f26cd7eea776050a22c8591c
+  mcumgr_flutter: c9d8176ee35703ef297fe4405705ed104577df65
+  path_provider_foundation: 080d55be775b7414fd5a5ef3ac137b97b097e564
+  SwiftCBOR: aa87349b4ccddd19f861aa544f7c27d43dee5772
+  SwiftProtobuf: e1b437c8e31a4c5577b643249a0bb62ed4f02153
+  ZIPFoundation: b8c29ea7ae353b309bc810586181fd073cb3312c
+
+PODFILE CHECKSUM: 54d867c82ac51cbd61b565781b9fada492027009
+
+COCOAPODS: 1.16.2

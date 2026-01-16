@@ -5,8 +5,13 @@
 //  Created by Nick Kibysh on 11/01/2022.
 //
 
-import Foundation
+#if os(iOS)
 import Flutter
+import UIKit
+#elseif os(macOS)
+import FlutterMacOS
+import AppKit
+#endif
 
 extension FlutterEventChannel {
     convenience init(channel: Channel, binaryMessenger: FlutterBinaryMessenger) {

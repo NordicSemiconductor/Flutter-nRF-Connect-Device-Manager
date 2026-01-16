@@ -7,7 +7,13 @@
 
 import Foundation
 import iOSMcuManagerLibrary
+#if os(iOS)
 import Flutter
+import UIKit
+#elseif os(macOS)
+import FlutterMacOS
+import AppKit
+#endif
 
 extension FirmwareUpgradeState {
     func toProto() -> ProtoUpdateStateChanges.FirmwareUpgradeState {

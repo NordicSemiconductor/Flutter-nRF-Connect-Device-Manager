@@ -49,3 +49,6 @@ app.*.map.json
 
 # Exceptions to above rules.
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
+example/ios/Flutter/ephemeral/flutter_lldb_helper.py
+example/ios/Flutter/ephemeral/flutter_lldbinit
+example/android/.kotlin/sessions/**
