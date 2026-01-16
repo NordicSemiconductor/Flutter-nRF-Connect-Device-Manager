@@ -69,17 +69,22 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
     }
 
     public static func register(with registrar: FlutterPluginRegistrar) {
-        let channel = FlutterMethodChannel(name: namespace + "/method_channel", binaryMessenger: registrar.messenger)
+    #if os(iOS)
+        let messenger = registrar.messenger()
+    #else
+        let messenger = registrar.messenger
+    #endif
+        let channel = FlutterMethodChannel(name: namespace + "/method_channel", binaryMessenger: messenger)
 
-        let updateStateEventChannel = FlutterEventChannel(channel: .updateStateEventChannel, binaryMessenger: registrar.messenger)
-        let updateProgressEventChannel = FlutterEventChannel(channel: .updateProgressEventChannel, binaryMessenger: registrar.messenger)
-        let logEventChannel = FlutterEventChannel(channel: .logEventChannel, binaryMessenger: registrar.messenger)
+        let updateStateEventChannel = FlutterEventChannel(channel: .updateStateEventChannel, binaryMessenger: messenger)
+        let updateProgressEventChannel = FlutterEventChannel(channel: .updateProgressEventChannel, binaryMessenger: messenger)
+        let logEventChannel = FlutterEventChannel(channel: .logEventChannel, binaryMessenger: messenger)
 
         let instance = SwiftMcumgrFlutterPlugin(
             updateStateEventChannel: updateStateEventChannel,
             updateProgressEventChannel: updateProgressEventChannel,
             logEventChannel: logEventChannel,
-            binaryMessenger: registrar.messenger
+            binaryMessenger: messenger
         )
         registrar.addMethodCallDelegate(instance, channel: channel)
     }
@@ -205,7 +210,7 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
             throw FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can not parse provided arguments", details: call.debugDetails)
         }
 
-        let args = try ProtoUpdateWithImageCallArguments(serializedData: data.data)
+        let args = try ProtoUpdateWithImageCallArguments(serializedBytes: data.data)
         guard let manager = updateManagers[args.deviceUuid] else {
             throw FlutterError(code: ErrorCode.updateManagerDoesNotExist.rawValue, message: "Update manager does not exist", details: call.debugDetails)
         }
@@ -221,7 +226,7 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
             throw FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can not parse provided arguments", details: call.debugDetails)
         }
 
-        let args = try ProtoUpdateCallArgument(serializedData: data.data)
+        let args = try ProtoUpdateCallArgument(serializedBytes: data.data)
         guard let manager = updateManagers[args.deviceUuid] else {
             throw FlutterError(code: ErrorCode.updateManagerDoesNotExist.rawValue, message: "Update manager does not exist", details: call.debugDetails)
         }
@@ -249,7 +254,7 @@ public class SwiftMcumgrFlutterPlugin: NSObject, FlutterPlugin {
             throw FlutterError(code: ErrorCode.wrongArguments.rawValue, message: "Can not parse provided arguments", details: call.debugDetails)
         }
 
-        let args = try ProtoReadLogCallArguments(serializedData: data.data)
+        let args = try ProtoReadLogCallArguments(serializedBytes: data.data)
         guard let manager = updateManagers[args.uuid] else {
             throw FlutterError(code: ErrorCode.updateManagerDoesNotExist.rawValue, message: "Update manager does not exist", details: call.debugDetails)
         }
