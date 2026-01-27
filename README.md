@@ -13,6 +13,7 @@ ___
 ## Supported Platforms
 - Android: `minSdkVersion 19`
 - iOS: `13.0`
+- MacOS: `10.15`
 
 ## Getting Started
 ### Creating a manager
