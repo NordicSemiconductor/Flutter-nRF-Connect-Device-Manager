@@ -1,3 +1,6 @@
+## 0.8.1
+- Unused dependency to `tuple` removed 
+
 ## 0.8.0
 - Added support for MacOS (#114)
 
