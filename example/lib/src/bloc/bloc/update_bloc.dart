@@ -5,7 +5,6 @@ import 'package:mcumgr_flutter_example/src/handlers/firmware_update_handler.dart
 import 'package:mcumgr_flutter_example/src/model/firmware_update_request.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart' as rx;
-import 'package:tuple/tuple.dart';
 
 part 'update_event.dart';
 part 'update_state.dart';
