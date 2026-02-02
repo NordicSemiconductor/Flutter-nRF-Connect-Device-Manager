@@ -1,11 +1,19 @@
 # nRF Connect Device Manager
 
-nRF Connect Device Manager library is a Flutter plugin based on [Android](https://github.com/NordicSemiconductor/Android-nRF-Connect-Device-Manager) and [iOS](https://github.com/NordicSemiconductor/IOS-nRF-Connect-Device-Manager) nRF Connect Device Manager libraries.
+nRF Connect Device Manager library is a Flutter plugin (aka "wrapper") around the existing [Android](https://github.com/NordicSemiconductor/Android-nRF-Connect-Device-Manager) and [iOS](https://github.com/NordicSemiconductor/IOS-nRF-Connect-Device-Manager) nRF Connect Device Manager libraries. For more concrete documentation, you may also try reaching out into those for specific details.
+
+![Platforms](https://img.shields.io/badge/Platforms-Android%20|%20iOS%20|%20macOS-333333.svg)
+[![License](https://img.shields.io/github/license/NordicSemiconductor/Flutter-nRF-Connect-Device-Manager)](https://github.com/NordicSemiconductor/Flutter-nRF-Connect-Device-Manager/blob/main/LICENSE)
+[![Release](https://img.shields.io/github/release/NordicSemiconductor/Flutter-nRF-Connect-Device-Manager.svg)](https://github.com/NordicSemiconductor/Flutter-nRF-Connect-Device-Manager/releases)
+[![GitHub stars](https://img.shields.io/github/stars/NordicSemiconductor/Flutter-nRF-Connect-Device-Manager)](https://github.com/NordicSemiconductor/Flutter-nRF-Connect-Device-Manager/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/NordicSemiconductor/Flutter-nRF-Connect-Device-Manager)](https://github.com/NordicSemiconductor/Flutter-nRF-Connect-Device-Manager/members)
+[![GitHub contributors](https://img.shields.io/github/contributors/NordicSemiconductor/Flutter-nRF-Connect-Device-Manager)](https://github.com/NordicSemiconductor/Flutter-nRF-Connect-Device-Manager/graphs/contributors)
 
 ___
 ## Supported Platforms
 - Android: `minSdkVersion 19`
 - iOS: `13.0`
+- MacOS: `10.15`
 
 ## Getting Started
 ### Creating a manager

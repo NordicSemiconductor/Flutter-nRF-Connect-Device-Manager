@@ -47,12 +47,12 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/darwin
 
 SPEC CHECKSUMS:
-  file_picker: 7584aae6fa07a041af2b36a2655122d42f578c1a
-  flutter_blue_plus_darwin: 20a08bfeaa0f7804d524858d3d8744bcc1b6dbc3
+  file_picker: e716a70a9fe5fd9e09ebc922d7541464289443af
+  flutter_blue_plus_darwin: 904ed52825285a15f60e9d90312337a09f11a785
   FlutterMacOS: d0db08ddef1a9af05a5ec4b724367152bb0500b1
   iOSMcuManagerLibrary: f72db849f6dd66b1f26cd7eea776050a22c8591c
-  mcumgr_flutter: 663f1adfc6f9d395ccaa3c420e8e3dfebd1db6fb
-  path_provider_foundation: 080d55be775b7414fd5a5ef3ac137b97b097e564
+  mcumgr_flutter: 9d69d9002f3a5fe593f1c79370183a57968565e7
+  path_provider_foundation: 0b743cbb62d8e47eab856f09262bb8c1ddcfe6ba
   SwiftCBOR: aa87349b4ccddd19f861aa544f7c27d43dee5772
   SwiftProtobuf: e1b437c8e31a4c5577b643249a0bb62ed4f02153
   ZIPFoundation: b8c29ea7ae353b309bc810586181fd073cb3312c

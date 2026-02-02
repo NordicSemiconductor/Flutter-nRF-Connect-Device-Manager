@@ -5,7 +5,6 @@ import 'package:mcumgr_flutter_example/src/handlers/firmware_update_handler.dart
 import 'package:mcumgr_flutter_example/src/model/firmware_update_request.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart' as rx;
-import 'package:tuple/tuple.dart';
 
 part 'update_event.dart';
 part 'update_state.dart';
@@ -46,19 +45,19 @@ class UpdateBloc extends Bloc<UpdateEvent, UpdateState> {
       rx.CombineLatestStream.combine2(
           progressStream,
           _firmwareUpdateManager!.updateStateStream!,
-          (a, b) => Tuple2(a, b)).map((event) {
-        if (event.item2 == FirmwareUpgradeState.upload) {
-          return UploadProgress(
-            progress: (event.item1 * 100).toInt(),
-            stage: event.item2.toString(),
-          );
-        } else if (event.item2 == FirmwareUpgradeState.success) {
-          return UploadFinished();
-        } else {
-          print(event.item2.toString());
-          return UploadState(event.item2.toString());
-        }
-      }).listen((event) {
+          (a, b) {
+            if (b == FirmwareUpgradeState.upload) {
+              return UploadProgress(
+                progress: (a * 100).toInt(),
+                stage: b.toString(),
+              );
+            } else if (b == FirmwareUpgradeState.success) {
+              return UploadFinished();
+            } else {
+              print(b.toString());
+              return UploadState(b.toString());
+            }
+          }).listen((event) {
         add(event);
       }, onError: (error) {
         print(error);
