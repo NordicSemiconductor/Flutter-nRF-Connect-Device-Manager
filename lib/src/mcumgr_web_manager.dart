@@ -11,11 +11,7 @@ external McuMgrFlutterJS get mcuMgrFlutter;
 
 @JS()
 extension type McuMgrFlutterJS._(JSObject _) implements JSObject {
-  external JSPromise<JSString> update(
-    JSString deviceId,
-    JSObject images,
-    JSObject config,
-  );
+  external JSPromise<JSString> update(JSString deviceId, JSObject images, JSObject config);
   external void pause(JSString deviceId);
   external void resume(JSString deviceId);
   external void cancel(JSString deviceId);
@@ -26,12 +22,9 @@ class WebUpdateManager extends FirmwareUpdateManager {
 
   WebUpdateManager(this._deviceId);
 
-  final StreamController<ProgressUpdate> _progressStreamController =
-      StreamController.broadcast();
-  final StreamController<FirmwareUpgradeState> _updateStateStreamController =
-      StreamController.broadcast();
-  final StreamController<bool> _updateInProgressStreamController =
-      StreamController.broadcast();
+  final StreamController<ProgressUpdate> _progressStreamController = StreamController.broadcast();
+  final StreamController<FirmwareUpgradeState> _updateStateStreamController = StreamController.broadcast();
+  final StreamController<bool> _updateInProgressStreamController = StreamController.broadcast();
 
   @override
   FirmwareUpdateLogger get logger => _WebLogger();
@@ -40,12 +33,10 @@ class WebUpdateManager extends FirmwareUpdateManager {
   Stream<ProgressUpdate> get progressStream => _progressStreamController.stream;
 
   @override
-  Stream<FirmwareUpgradeState>? get updateStateStream =>
-      _updateStateStreamController.stream;
+  Stream<FirmwareUpgradeState>? get updateStateStream => _updateStateStreamController.stream;
 
   @override
-  Stream<bool>? get updateInProgressStream =>
-      _updateInProgressStreamController.stream;
+  Stream<bool>? get updateInProgressStream => _updateInProgressStreamController.stream;
 
   @override
   Stream<FirmwareUpgradeState> setup() {
@@ -55,8 +46,7 @@ class WebUpdateManager extends FirmwareUpdateManager {
   @override
   Future<void> update(
     List<Image> images, {
-    FirmwareUpgradeConfiguration configuration =
-        const FirmwareUpgradeConfiguration(),
+    FirmwareUpgradeConfiguration configuration = const FirmwareUpgradeConfiguration(),
   }) async {
     // Ensure JS is loaded
     await McuMgrWebLoader.loadJs();
@@ -64,9 +54,7 @@ class WebUpdateManager extends FirmwareUpdateManager {
     _updateInProgressStreamController.add(true);
     _updateStateStreamController.add(FirmwareUpgradeState.upload);
 
-    print(
-      "WebUpdateManager: Starting update for device $_deviceId with ${images.length} images.",
-    );
+    print("WebUpdateManager: Starting update for device $_deviceId with ${images.length} images.");
 
     // Setup Event Listeners
 
@@ -77,9 +65,7 @@ class WebUpdateManager extends FirmwareUpdateManager {
         final detail = event.detail as JSObject;
         final info = detail as McuProgressEventDetail;
         if (info.deviceId.toDart == _deviceId) {
-          _progressStreamController.add(
-            ProgressUpdate(info.progress.toDartInt, 100, DateTime.now()),
-          );
+          _progressStreamController.add(ProgressUpdate(info.progress.toDartInt, 100, DateTime.now()));
         }
       }.toJS,
     );
@@ -97,10 +83,22 @@ class WebUpdateManager extends FirmwareUpdateManager {
             _updateStateStreamController.add(FirmwareUpgradeState.success);
             _updateInProgressStreamController.add(false);
           } else if (state == 'error') {
-            _updateStateStreamController.addError(
-              info.error?.toDart ?? "Unknown Error",
-            );
+            _updateStateStreamController.addError(info.error?.toDart ?? "Unknown Error");
             _updateInProgressStreamController.add(false);
+          } else if (state == 'validate') {
+            _updateStateStreamController.add(FirmwareUpgradeState.validate);
+          } else if (state == 'upload') {
+            _updateStateStreamController.add(FirmwareUpgradeState.upload);
+          } else if (state == 'test') {
+            _updateStateStreamController.add(FirmwareUpgradeState.test);
+          } else if (state == 'confirm') {
+            _updateStateStreamController.add(FirmwareUpgradeState.confirm);
+          } else if (state == 'requestMcuMgrParameters') {
+            _updateStateStreamController.add(FirmwareUpgradeState.requestMcuMgrParameters);
+          } else if (state == 'eraseAppSettings') {
+            _updateStateStreamController.add(FirmwareUpgradeState.eraseAppSettings);
+          } else if (state == 'bootloaderInfo') {
+            _updateStateStreamController.add(FirmwareUpgradeState.bootloaderInfo);
           }
         }
       }.toJS,
