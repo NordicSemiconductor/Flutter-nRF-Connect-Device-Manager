@@ -32,8 +32,7 @@ class FirmwareUpgradeConfiguration {
     this.byteAlignment = ImageUploadAlignment.fourByte,
     this.reassemblyBufferSize = 0,
     this.firmwareUpgradeMode = FirmwareUpgradeMode.confirmOnly,
-  }) : assert(reassemblyBufferSize >= 0,
-            "Reassembly Buffer Size must be a positive number or 0");
+  }) : assert(reassemblyBufferSize >= 0, "Reassembly Buffer Size must be a positive number or 0");
 }
 
 /// Object that handles update process.
@@ -66,9 +65,10 @@ abstract class FirmwareUpdateManager {
   /// This is the full-featured API to start DFU update, including support for Multi-Image uploads.
   ///
   /// [images] is a `List<Tuple2<int, Uint8List>>` where `int` is the image number and `Uint8List` is the image data.
-  Future<void> update(List<Image> images,
-      {FirmwareUpgradeConfiguration configuration =
-          const FirmwareUpgradeConfiguration()});
+  Future<void> update(
+    List<Image> images, {
+    FirmwareUpgradeConfiguration configuration = const FirmwareUpgradeConfiguration(),
+  });
 
   /// Start update process.
   ///
@@ -133,6 +133,9 @@ abstract class UpdateManagerFactory {
 class FirmwareUpdateManagerFactory extends UpdateManagerFactory {
   @override
   Future<FirmwareUpdateManager> getUpdateManager(String deviceId) async {
+    if (kIsWeb) {
+      return WebUpdateManager(deviceId);
+    }
     return await DeviceUpdateManager.getInstance(deviceId);
   }
 }

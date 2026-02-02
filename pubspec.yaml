@@ -15,6 +15,8 @@ dependencies:
   protobuf: ^6.0.0
   rxdart: ^0.28.0
   tuple: ^2.0.1
+  archive: ^4.0.0
+  web: ^1.1.0
 
 dev_dependencies:
   faker: ^2.1.0
@@ -37,3 +39,6 @@ flutter:
 
   assets:
     - assets/mock_logs.txt
+    - lib/src/mcumgr_web/mcumgr_interop.js
+    - lib/src/mcumgr_web/mcumgr.js
+    - lib/src/mcumgr_web/cbor.js

@@ -8,7 +8,7 @@ PODS:
   - iOSMcuManagerLibrary (1.12):
     - SwiftCBOR (= 0.5.0)
     - ZIPFoundation (= 0.9.19)
-  - mcumgr_flutter (0.7.0):
+  - mcumgr_flutter (0.7.1):
     - Flutter
     - FlutterMacOS
     - iOSMcuManagerLibrary (= 1.12)
@@ -51,7 +51,7 @@ SPEC CHECKSUMS:
   flutter_blue_plus_darwin: 20a08bfeaa0f7804d524858d3d8744bcc1b6dbc3
   FlutterMacOS: d0db08ddef1a9af05a5ec4b724367152bb0500b1
   iOSMcuManagerLibrary: f72db849f6dd66b1f26cd7eea776050a22c8591c
-  mcumgr_flutter: c9d8176ee35703ef297fe4405705ed104577df65
+  mcumgr_flutter: 663f1adfc6f9d395ccaa3c420e8e3dfebd1db6fb
   path_provider_foundation: 080d55be775b7414fd5a5ef3ac137b97b097e564
   SwiftCBOR: aa87349b4ccddd19f861aa544f7c27d43dee5772
   SwiftProtobuf: e1b437c8e31a4c5577b643249a0bb62ed4f02153
