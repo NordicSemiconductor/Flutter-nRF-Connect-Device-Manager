@@ -1,16 +1,12 @@
 import 'dart:convert';
-import 'dart:io';
+import 'dart:typed_data';
 
-import 'package:archive/archive_io.dart';
+import 'package:archive/archive.dart';
+import 'package:http/http.dart' as http;
+import 'package:mcumgr_flutter/mcumgr_flutter.dart';
 import 'package:mcumgr_flutter_example/src/model/firmware_update_request.dart';
 import 'package:mcumgr_flutter_example/src/model/manifest.dart';
 import 'package:mcumgr_flutter_example/src/repository/firmware_image_repository.dart';
-
-import 'package:http/http.dart' as http;
-import 'package:path_provider/path_provider.dart' as path_provider;
-import 'package:uuid/uuid.dart';
-
-import 'package:mcumgr_flutter/mcumgr_flutter.dart';
 
 part 'firmware_update_state.dart';
 
@@ -19,7 +15,9 @@ typedef FirmwareUpdateCallback = void Function(FirmwareUpdateState state);
 abstract class FirmwareUpdateHandler {
   FirmwareUpdateHandler? _nextHandler;
   Future<FirmwareUpdateManager> handleFirmwareUpdate(
-      FirmwareUpdateRequest request, FirmwareUpdateCallback? callback);
+    FirmwareUpdateRequest request,
+    FirmwareUpdateCallback? callback,
+  );
 
   Future<void> setNextHandler(FirmwareUpdateHandler handler) async {
     _nextHandler = handler;
@@ -29,7 +27,9 @@ abstract class FirmwareUpdateHandler {
 class FirmwareDownloader extends FirmwareUpdateHandler {
   @override
   Future<FirmwareUpdateManager> handleFirmwareUpdate(
-      FirmwareUpdateRequest request, FirmwareUpdateCallback? callback) async {
+    FirmwareUpdateRequest request,
+    FirmwareUpdateCallback? callback,
+  ) async {
     if (request.firmware is LocalFirmware) {
       if (request is MultiImageFirmwareUpdateRequest) {
         request.zipFile = (request.firmware as LocalFirmware).data;
@@ -47,23 +47,30 @@ class FirmwareDownloader extends FirmwareUpdateHandler {
 
     final remoteFirmware = multiImageRequest.remoteFirmware!;
 
-    final response = await http.get(Uri.parse(
-        '${FirmwareImageRepository.baseUrl}${remoteFirmware.firmware.file}'));
+    final response = await http.get(
+      Uri.parse(
+        '${FirmwareImageRepository.baseUrl}${remoteFirmware.firmware.file}',
+      ),
+    );
     if (response.statusCode == 200) {
       multiImageRequest.zipFile = response.bodyBytes;
     } else {
       throw Exception('Failed to download firmware');
     }
 
-    return await _nextHandler!
-        .handleFirmwareUpdate(multiImageRequest, callback);
+    return await _nextHandler!.handleFirmwareUpdate(
+      multiImageRequest,
+      callback,
+    );
   }
 }
 
 class FirmwareUnpacker extends FirmwareUpdateHandler {
   @override
   Future<FirmwareUpdateManager> handleFirmwareUpdate(
-      FirmwareUpdateRequest request, FirmwareUpdateCallback? callback) async {
+    FirmwareUpdateRequest request,
+    FirmwareUpdateCallback? callback,
+  ) async {
     callback?.call(FirmwareUnpackStarted());
 
     if (request.firmware == null) {
@@ -74,27 +81,17 @@ class FirmwareUnpacker extends FirmwareUpdateHandler {
       return await _nextHandler!.handleFirmwareUpdate(request, callback);
     }
 
-    final prefix = 'firmware_${Uuid().v4()}';
-    final systemTempDir = await path_provider.getTemporaryDirectory();
-
-    final tempDir = Directory('${systemTempDir.path}/$prefix');
-    await tempDir.create();
-
     final firmware = request as MultiImageFirmwareUpdateRequest;
     final firmwareFileData = firmware.zipFile!;
     final archive = ZipDecoder().decodeBytes(firmwareFileData);
 
-    final destinationDir = Directory('${tempDir.path}/firmware');
-    await destinationDir.create();
-    try {
-      await extractArchiveToDisk(archive, '${tempDir.path}/firmware');
-    } catch (e) {
-      throw Exception('Failed to unzip firmware');
+    // read manifest.json
+    final manifestFileEntry = archive.findFile('manifest.json');
+    if (manifestFileEntry == null) {
+      throw Exception('manifest.json not found in zip');
     }
 
-    // read manifest.json
-    final manifestFile = File('${destinationDir.path}/manifest.json');
-    final manifestString = await manifestFile.readAsString();
+    final manifestString = utf8.decode(manifestFileEntry.content as List<int>);
     Map<String, dynamic> manifestJson = json.decode(manifestString);
     Manifest manifest;
 
@@ -106,17 +103,17 @@ class FirmwareUnpacker extends FirmwareUpdateHandler {
 
     firmware.firmwareImages = [];
     for (final file in manifest.files) {
-      final firmwareFile = File('${destinationDir.path}/${file.file}');
-      final firmwareFileData = await firmwareFile.readAsBytes();
+      final firmwareFileEntry = archive.findFile(file.file);
+      if (firmwareFileEntry == null) {
+        throw Exception('File ${file.file} not found in zip');
+      }
+      final firmwareFileData = firmwareFileEntry.content as List<int>;
       final image = Image(
         image: file.image,
-        data: firmwareFileData,
+        data: Uint8List.fromList(firmwareFileData),
       );
       firmware.firmwareImages!.add(image);
     }
-
-    // delete tempDir
-    await tempDir.delete(recursive: true);
 
     return await _nextHandler!.handleFirmwareUpdate(request, callback);
   }
@@ -128,15 +125,18 @@ class FirmwareUpdater extends FirmwareUpdateHandler {
 
   @override
   Future<FirmwareUpdateManager> handleFirmwareUpdate(
-      FirmwareUpdateRequest request, FirmwareUpdateCallback? callback) async {
+    FirmwareUpdateRequest request,
+    FirmwareUpdateCallback? callback,
+  ) async {
     callback?.call(FirmwareUploadStarted());
 
     if (request.peripheral == null) {
       throw Exception('Peripheral is not selected');
     }
 
-    final updateManager = await _updateManagerFactory
-        .getUpdateManager(request.peripheral!.identifier);
+    final updateManager = await _updateManagerFactory.getUpdateManager(
+      request.peripheral!.identifier,
+    );
 
     updateManager.setup();
 

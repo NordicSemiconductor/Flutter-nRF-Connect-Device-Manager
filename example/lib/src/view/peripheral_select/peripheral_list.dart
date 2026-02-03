@@ -15,6 +15,14 @@ class PeripheralList extends StatefulWidget {
 class _PeripheralListState extends State<PeripheralList> {
   final repository = PeripheralRepository();
 
+  late Future<void> _scanFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _scanFuture = repository.startScan();
+  }
+
   @override
   void dispose() {
     repository.stopScan();
@@ -31,27 +39,29 @@ class _PeripheralListState extends State<PeripheralList> {
 
   FutureBuilder<void> _body() {
     return FutureBuilder(
-        future: repository.startScan(),
-        builder: (context, AsyncSnapshot snapshot) {
-          if (snapshot.connectionState == ConnectionState.done &&
-              !snapshot.hasError) {
-            return StreamBuilder(
-                stream: repository.deviceState,
-                builder: (context, AsyncSnapshot snapshot) {
-                  if (snapshot.hasData) {
-                    final state = snapshot.data;
-                    return _bluetoothState(state);
-                  } else if (snapshot.hasError) {
-                    return Text('${snapshot.error}');
-                  }
+      future: _scanFuture,
+      builder: (context, AsyncSnapshot snapshot) {
+        if (snapshot.connectionState == ConnectionState.done &&
+            !snapshot.hasError) {
+          return StreamBuilder(
+            stream: repository.deviceState,
+            builder: (context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                final state = snapshot.data;
+                return _bluetoothState(state);
+              } else if (snapshot.hasError) {
+                return Text('${snapshot.error}');
+              }
 
-                  return const CircularProgressIndicator();
-                });
-          } else if (snapshot.hasError) {
-            return Text('${snapshot.error}');
-          }
-          return const CircularProgressIndicator();
-        });
+              return const CircularProgressIndicator();
+            },
+          );
+        } else if (snapshot.hasError) {
+          return Text('${snapshot.error}');
+        }
+        return const CircularProgressIndicator();
+      },
+    );
   }
 
   Widget _bluetoothState(BluetoothAdapterState state) {
@@ -60,17 +70,18 @@ class _PeripheralListState extends State<PeripheralList> {
         return Text('Bluetooth is turning on');
       case BluetoothAdapterState.on:
         return StreamBuilder(
-            stream: repository.discoveredPeripherals,
-            builder: (context, AsyncSnapshot snapshot) {
-              if (snapshot.hasData) {
-                final peripherals = snapshot.data;
-                return _peripheralList(peripherals);
-              } else if (snapshot.hasError) {
-                return Text('${snapshot.error}');
-              }
+          stream: repository.discoveredPeripherals,
+          builder: (context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              final peripherals = snapshot.data;
+              return _peripheralList(peripherals);
+            } else if (snapshot.hasError) {
+              return Text('${snapshot.error}');
+            }
 
-              return const CircularProgressIndicator();
-            });
+            return const CircularProgressIndicator();
+          },
+        );
       case BluetoothAdapterState.turningOff:
         return Text('Bluetooth is turning off');
       case BluetoothAdapterState.off:
@@ -89,14 +100,24 @@ class _PeripheralListState extends State<PeripheralList> {
       itemCount: peripherals.length,
       itemBuilder: (context, index) {
         return ListTile(
-          title: Text(peripherals[index].device.name),
-          onTap: () {
+          title: Text(
+            peripherals[index].device.name +
+                " " +
+                peripherals[index].device.advName +
+                " " +
+                peripherals[index].device.remoteId.toString(),
+          ),
+          onTap: () async {
             ScanResult p = peripherals[index];
-
             context.read<FirmwareUpdateRequestProvider>().setPeripheral(
-                SelectedPeripheral(
-                    name: p.advertisementData.advName,
-                    identifier: p.device.remoteId.toString()));
+              SelectedPeripheral(
+                name: p.advertisementData.advName,
+                identifier: p.device.remoteId.toString(),
+              ),
+            );
+            print(
+              'Selected peripheral: ${p.device.platformName} - ${p.device.remoteId}',
+            );
             Navigator.pop(context, peripherals[index]);
           },
         );

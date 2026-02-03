@@ -1,15 +1,14 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
 class PeripheralRepository {
   Stream<List<ScanResult>> get discoveredPeripherals =>
       FlutterBluePlus.scanResults.map((scanResult) {
         return scanResult
-            .where((p) =>
-                p.advertisementData.advName.isNotEmpty &&
-                p.advertisementData.connectable)
+            .where((p) => p.advertisementData.connectable)
             .toList();
       });
 
@@ -17,7 +16,7 @@ class PeripheralRepository {
 
   Future<void> startScan() async {
     // enable bluetooth on Android
-    if (Platform.isAndroid) {
+    if (!kIsWeb && Platform.isAndroid) {
       await FlutterBluePlus.turnOn();
     }
 
@@ -33,7 +32,8 @@ class PeripheralRepository {
 
     await FlutterBluePlus.adapterState
         .where(
-            (BluetoothAdapterState state) => state == BluetoothAdapterState.on)
+          (BluetoothAdapterState state) => state == BluetoothAdapterState.on,
+        )
         .first;
 
     await FlutterBluePlus.startScan();
